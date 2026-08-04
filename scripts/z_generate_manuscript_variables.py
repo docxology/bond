@@ -1,52 +1,57 @@
 #!/usr/bin/env python3
-"""Thin orchestrator: generate and inject manuscript variables.
+"""Hydrate bond-manuscript {{TOKEN}}s and resolve the manuscript tree.
 
-Reads experiment config and analysis outputs, writes
-``output/data/manuscript_variables.json``, and substitutes
-``{{TOKEN}}`` markers in manuscript sections into
-``output/manuscript/`` for PDF rendering.
+Thin orchestrator: computes the compendium's token map from live discovery
+(src.bond_manuscript.manuscript_variables) and writes the resolved tree to
+``output/manuscript/`` for the renderer.  Mirrors the fleet's
+z_generate_manuscript_variables.py contract.
 
-All computation lives in ``src/manuscript_variables``;
-all injection lives in
-``infrastructure.rendering.manuscript_injection``.
-
-Exit codes:
-    0   variables written and injected successfully
-    1   unexpected error
+Usage (from this directory):
+    uv run python scripts/z_generate_manuscript_variables.py
 """
 
 from __future__ import annotations
 
-import argparse
 import sys
 from pathlib import Path
 
-_PROJECT_ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(_PROJECT_ROOT))
-sys.path.insert(0, str(_PROJECT_ROOT.parents[2]))
+REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO / "src"))
+
+from bond_manuscript.manuscript_variables import generate_variables  # noqa: E402
 
 
 def main() -> int:
-    """CLI entry point."""
-    parser = argparse.ArgumentParser(description="Generate manuscript variables for bond-manuscript")
-    parser.add_argument(
-        "--allow-draft",
-        action="store_true",
-        help="Allow N/A fallbacks when analysis outputs are missing (non-pipeline draft mode)",
-    )
-    args = parser.parse_args()
+    # Ensure suite deps are importable (path-deps from pyproject handle this in
+    # the venv; this guard also covers a bare/template-root invocation).
+    for _pkg in ("bond-api", "bond-utilities", "bond-coordinator"):
+        _p = REPO.parent / _pkg / "src"
+        if str(_p) not in sys.path:
+            sys.path.insert(0, str(_p))
 
-    from infrastructure.rendering.manuscript_injection import write_resolved_manuscript_tree
-    from src.manuscript_variables import generate_variables, save_variables
+    # The renderer may hydrate with this package's own .venv interpreter, which
+    # lacks ``infrastructure`` (the template's repo package). Locate the template
+    # root (the ancestor holding infrastructure/rendering/) and put it on path.
+    _ancestor = REPO
+    while _ancestor != _ancestor.parent and not (
+        _ancestor / "infrastructure" / "rendering"
+    ).is_dir():
+        _ancestor = _ancestor.parent
+    if (_ancestor / "infrastructure" / "rendering").is_dir() and str(_ancestor) not in sys.path:
+        sys.path.insert(0, str(_ancestor))
 
-    variables = generate_variables(
-        _PROJECT_ROOT,
-        require_analysis_outputs=not args.allow_draft,
-    )
-    out_path = _PROJECT_ROOT / "output" / "data" / "manuscript_variables.json"
-    save_variables(variables, out_path)
-    write_resolved_manuscript_tree(_PROJECT_ROOT, variables)
-    print(str(out_path))
+    bond_root = REPO.parent
+    variables = generate_variables(bond_root=bond_root)
+
+    try:
+        from infrastructure.rendering.manuscript_injection import write_resolved_manuscript_tree
+    except ImportError:  # pragma: no cover - template infra guard
+        print("infrastructure not importable; tokens: " + str(variables), file=sys.stderr)
+        return 2
+
+    root = REPO
+    write_resolved_manuscript_tree(root, variables)
+    print(f"[bond-manuscript] hydrated {len(variables)} tokens -> output/manuscript/")
     return 0
 
 
