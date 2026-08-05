@@ -333,3 +333,67 @@ def test_brief_line_missing_provider_returns_empty(tmp_path) -> None:
     from bond_manuscript import compendium
 
     assert compendium._brief_line(tmp_path / "nope", "nope") == ""
+
+
+def test_latex_to_text_resolves_accents_without_stray_macros() -> None:
+    """Braces cannot be stripped blindly from BibTeX fields.
+
+    `Fran{\\c{c}}ois` with braces deleted becomes `Fran\\ccois`, and `\\cc` is an
+    undefined control sequence that failed the Beamer build for the entire
+    references section. Real fleet entries are pinned here.
+    """
+    from bond_manuscript.compendium import latex_to_text
+
+    assert latex_to_text(r"Verhulst, Pierre-Fran{\c{c}}ois") == "Verhulst, Pierre-François"
+    assert latex_to_text(r"Avi{\v{z}}ienis, Algirdas") == "Avižienis, Algirdas"
+    assert latex_to_text(r"Poincar\'e, Henri") == "Poincaré, Henri"
+    assert latex_to_text(r"Erd{\H o}s, P\'al") == "Erdős, Pál"
+    assert latex_to_text(r"Stra{\ss}e") == "Straße"
+    assert latex_to_text(r"{Mersenne Twister}") == "Mersenne Twister"
+    assert latex_to_text(r"\texttt{market\_attack}") == "market_attack"
+
+
+def test_references_section_emits_no_latex_backslashes() -> None:
+    """The rendered references list must be free of raw LaTeX control sequences."""
+    from bond_manuscript import compendium
+
+    _, refs = build_references_bib(discover_packages(BOND), BOND)
+    section = compendium.build_references_section(refs)
+    assert "\\" not in section, [ln for ln in section.splitlines() if "\\" in ln][:5]
+
+
+def test_variables_found_under_either_convention(tmp_path) -> None:
+    """31 packages write output/data/; bond-cli and bond-ops write output/variables/.
+
+    Reading only the majority path stripped every token from those two abstracts,
+    so the compendium rendered "**** (**)" instead of the package name.
+    """
+    for sub in ("data", "variables"):
+        pkg = tmp_path / f"pkg_{sub}"
+        (pkg / "manuscript").mkdir(parents=True)
+        (pkg / "output" / sub).mkdir(parents=True)
+        (pkg / "manuscript" / "00_abstract.md").write_text("# Abstract\nDocuments **{{NAME}}**.")
+        (pkg / "output" / sub / "manuscript_variables.json").write_text('{"NAME": "bond-ops"}')
+        assert "**bond-ops**" in import_package_abstract(pkg)
+
+
+def test_no_empty_bold_in_any_imported_abstract() -> None:
+    """No real package abstract may import with its tokens stripped to nothing."""
+    offenders = []
+    for pkg in discover_packages(BOND):
+        abstract = import_package_abstract(BOND / pkg.slug)
+        if "****" in abstract or "(**)" in abstract:
+            offenders.append(pkg.slug)
+    assert not offenders, offenders
+
+
+def test_imported_abstracts_carry_no_dangling_crossrefs() -> None:
+    """Package-local section labels must not survive into the wrapper.
+
+    They resolve inside their own manuscript but render as `sec. ??` and `[?]`
+    in the combined compendium PDF.
+    """
+    for pkg in discover_packages(BOND):
+        abstract = import_package_abstract(BOND / pkg.slug)
+        assert "[@" not in abstract, pkg.slug
+        assert "@sec:" not in abstract, pkg.slug

@@ -24,6 +24,7 @@ Deterministic: same package tree in -> byte-identical manuscript out.
 from __future__ import annotations
 
 import re
+import unicodedata
 from collections import OrderedDict
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -149,6 +150,23 @@ def _resolve_tokens(text: str, variables: "dict[str, object]") -> str:
     return _TOKEN.sub(_sub, text)
 
 
+#: Where a package may keep its generated manuscript variables. 31 packages use
+#: ``output/data/``; bond-cli and bond-ops write ``output/variables/``. Reading
+#: only the majority path made those two abstracts import with every token
+#: stripped, so the compendium rendered "**** (**)" instead of the package name
+#: — a silent degradation, since stripping unresolved tokens is a legitimate
+#: fallback and nothing distinguished "no variables" from "variables elsewhere".
+_VARIABLE_PATHS = ("data", "variables")
+
+
+def _find_variables_json(package_dir: Path) -> Path | None:
+    for sub in _VARIABLE_PATHS:
+        candidate = package_dir / "output" / sub / "manuscript_variables.json"
+        if candidate.is_file():
+            return candidate
+    return None
+
+
 def import_package_abstract(package_dir: Path) -> str:
     """Return the package's abstract prose, tokens resolved when possible.
 
@@ -162,8 +180,8 @@ def import_package_abstract(package_dir: Path) -> str:
     if not source.is_file():
         return ""
     text = source.read_text()
-    variables_path = package_dir / "output" / "data" / "manuscript_variables.json"
-    if variables_path.is_file():
+    variables_path = _find_variables_json(package_dir)
+    if variables_path is not None:
         try:
             import json
 
@@ -177,6 +195,37 @@ def import_package_abstract(package_dir: Path) -> str:
     return _clean(_TOKEN.sub("", text))
 
 
+#: pandoc-crossref references, bracketed (``[@sec:results]``) or bare (``@sec:results``).
+_CROSSREF = re.compile(r"\[?@(sec|def|prop|thm|lem|cor|fig|eq|tbl|lst):([\w:-]+)\]?")
+
+
+def _strip_crossrefs(body: str) -> str:
+    """Neutralise cross-references that cannot resolve in the wrapper.
+
+    A package abstract may cite its own sections and theorems. Those labels are
+    real inside that package's manuscript but absent from the compendium, where
+    they render as ``Section sec. ??`` and ``[?]`` in the combined PDF. Section
+    references become plain prose; pointers to definitions, propositions and
+    floats are dropped along with any parenthetical or dash that introduced them.
+    """
+
+    def _sub(match: "re.Match[str]") -> str:
+        kind, name = match.group(1), match.group(2).split(":")[-1]
+        if kind == "sec":
+            return f"the {name.replace('-', ' ').replace('_', ' ')} section"
+        return ""
+
+    body = _CROSSREF.sub(_sub, body)
+    # Tidy the punctuation the removed references leave behind.
+    body = re.sub(r"\(\s*[,;]?\s*\)", "", body)  # ()
+    body = re.sub(r"\s+—\s*\)", ")", body)  # " — )"
+    body = re.sub(r"\bSection\s+the\b", "The", body)
+    body = re.sub(r"\bsection\s+the\b", "the", body)
+    body = re.sub(r"\s+([,.;:])", r"\1", body)
+    body = re.sub(r"([,;])\s*\1+", r"\1", body)
+    return re.sub(r"\s{2,}", " ", body).strip()
+
+
 def _clean(text: str) -> str:
     """Collapse heading/markdown cruft into a single running paragraph."""
     lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
@@ -185,7 +234,7 @@ def _clean(text: str) -> str:
         lines = lines[1:]
     body = " ".join(lines)
     body = re.sub(r"\s+", " ", body).strip()
-    return body
+    return _strip_crossrefs(body)
 
 
 # --------------------------------------------------------------------------- #
@@ -405,6 +454,74 @@ def build_architecture_section(packages: list[PackageInfo], bond_root: Path) -> 
     return "\n".join(lines)
 
 
+#: LaTeX accent commands -> Unicode combining marks, applied to the following
+#: base character. Covers the accents that actually appear in the fleet's
+#: bibliographies (Verhulst, Avižienis, Élements, Poincaré, ...).
+_LATEX_COMBINING = {
+    "`": "\u0300",
+    "'": "\u0301",
+    "^": "\u0302",
+    '"': "\u0308",
+    "~": "\u0303",
+    "=": "\u0304",
+    ".": "\u0307",
+    "u": "\u0306",
+    "v": "\u030c",
+    "H": "\u030b",
+    "c": "\u0327",
+    "k": "\u0328",
+    "r": "\u030a",
+    "b": "\u0331",
+    "d": "\u0323",
+}
+#: Standalone LaTeX symbol commands with no argument.
+_LATEX_SYMBOLS = {
+    r"\ss": "ß",
+    r"\o": "ø",
+    r"\O": "Ø",
+    r"\aa": "å",
+    r"\AA": "Å",
+    r"\ae": "æ",
+    r"\AE": "Æ",
+    r"\oe": "œ",
+    r"\OE": "Œ",
+    r"\l": "ł",
+    r"\L": "Ł",
+    r"\i": "ı",
+    r"\j": "ȷ",
+    r"\&": "&",
+    r"\%": "%",
+    r"\_": "_",
+    r"\#": "#",
+    r"\$": "$",
+}
+
+_ACCENT_BRACED = re.compile(r"\\([`'^\"~=.uvHckrbd])\s*\{(\w)\}")
+_ACCENT_BARE = re.compile(r"\\([`'^\"~=.uvHckrbd])\s*(\w)")
+_TEXTTT = re.compile(r"\\(?:texttt|textit|textbf|emph|mbox)\s*\{([^{}]*)\}")
+
+
+def latex_to_text(value: str) -> str:
+    """Render a BibTeX field as readable plain text.
+
+    Braces cannot simply be deleted. ``Fran{\\c{c}}ois`` stripped of braces
+    becomes ``Fran\\ccois`` — and ``\\cc`` is an undefined control sequence that
+    fails the Beamer build for the whole references section. Accent commands are
+    therefore resolved to real Unicode first, and only the leftover grouping
+    braces (BibTeX capitalisation protection) are removed.
+    """
+    text = value
+    for _ in range(3):  # resolve nesting such as {{\v{z}}}
+        text = _ACCENT_BRACED.sub(lambda m: m.group(2) + _LATEX_COMBINING[m.group(1)], text)
+        text = _ACCENT_BARE.sub(lambda m: m.group(2) + _LATEX_COMBINING[m.group(1)], text)
+        text = _TEXTTT.sub(r"\1", text)
+    for cmd, char in sorted(_LATEX_SYMBOLS.items(), key=lambda kv: -len(kv[0])):
+        text = text.replace(cmd + "{}", char).replace(cmd + " ", char + " ").replace(cmd, char)
+    text = text.replace("{", "").replace("}", "").replace("\\", "")
+    text = unicodedata.normalize("NFC", text)
+    return " ".join(text.split())
+
+
 def build_references_section(references: list[Reference]) -> str:
     """99_references.md listing of the unified bibliography (by source package)."""
     lines = ["# References", ""]
@@ -418,9 +535,9 @@ def build_references_section(references: list[Reference]) -> str:
             lines.append(f"## `{current}`")
             lines.append("")
         m = re.search(r"title\s*=\s*\{(.+?)\}", ref.bibtex, re.S)
-        title = m.group(1).replace("{", "").replace("}", "") if m else ""
+        title = latex_to_text(m.group(1)) if m else ""
         am = re.search(r"author\s*=\s*\{(.+?)\}", ref.bibtex, re.S)
-        author = am.group(1).replace("{", "").replace("}", "") if am else ""
+        author = latex_to_text(am.group(1)) if am else ""
         lines.append(f"- **{ref.key}** — {author}. *{title}*.")
         lines.append("")
     return "\n".join(lines)

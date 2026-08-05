@@ -1,6 +1,6 @@
 # Die Another Day (2002) — ICARUS
 
-*film package · mission codename ICARUS*.
+*film package · mission codename ICARUS*. Mission **ICARUS**: detect gene-therapy-grade identity replacement; plan ice-palace cold-environment operations; verify orbital-mirror (ICARUS) targeting geometry.
 
 ## Concepts
 

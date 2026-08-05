@@ -23,29 +23,21 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **hubbell1995tables** — Hubbell, J. H. and Seltzer, S. M.. *Tables of X*.
 
-- **nistxcom** — Berger, M. J. and Hubbell, J. H. and Seltzer, S. M. and
-                  Chang, J. and Coursey, J. S. and Sukumar, R. and
-                  Zucker, D. S. and Olsen, K.. *XCOM*.
+- **nistxcom** — Berger, M. J. and Hubbell, J. H. and Seltzer, S. M. and Chang, J. and Coursey, J. S. and Sukumar, R. and Zucker, D. S. and Olsen, K.. *XCOM*.
 
 - **icrp119compendium** — International Commission on Radiological Protection. *Compendium of Dose Coefficients based on ICRP*.
 
-- **icrp72** — International Commission on Radiological Protection. *Age-dependent Doses to Members of the Public from Intake of
-                  Radionuclides: Part 5, Compilation of Ingestion and Inhalation
-                  Dose Coefficients*.
+- **icrp72** — International Commission on Radiological Protection. *Age-dependent Doses to Members of the Public from Intake of Radionuclides: Part 5, Compilation of Ingestion and Inhalation Dose Coefficients*.
 
-- **smith2012exposure** — Smith, Daniel S. and Stabin, Michael G.. *Exposure Rate Constants and Lead Shielding Values for over 1,100
-             Radionuclides*.
+- **smith2012exposure** — Smith, Daniel S. and Stabin, Michael G.. *Exposure Rate Constants and Lead Shielding Values for over 1,100 Radionuclides*.
 
 - **pasquill1961estimation** — Pasquill, F.. *The Estimation of the Dispersion of Windborne Material*.
 
-- **gifford1961use** — Gifford, Franklin A.. *Use of Routine Meteorological Observations for Estimating
-             Atmospheric Dispersion*.
+- **gifford1961use** — Gifford, Franklin A.. *Use of Routine Meteorological Observations for Estimating Atmospheric Dispersion*.
 
-- **martin1976comment** — Martin, D. O.. *Comment on ``The Change of Concentration Standard Deviations with
-             Distance''*.
+- **martin1976comment** — Martin, D. O.. *Comment on ``The Change of Concentration Standard Deviations with Distance''*.
 
-- **turner1994workbook** — Turner, D. Bruce. *Workbook of Atmospheric Dispersion Estimates: An Introduction to
-               Dispersion Modeling*.
+- **turner1994workbook** — Turner, D. Bruce. *Workbook of Atmospheric Dispersion Estimates: An Introduction to Dispersion Modeling*.
 
 ## `bond-api`
 
@@ -69,10 +61,9 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **bellman1957dynamic** — Bellman, Richard. *Dynamic Programming*.
 
-- **kleinberg2005algorithm** — Kleinberg, Jon and Tardos, \'E. *Algorithm Design*.
+- **kleinberg2005algorithm** — Kleinberg, Jon and Tardos, 'E. *Algorithm Design*.
 
-- **garey1979computers** — Garey, Michael R. and Johnson, David S.. *Computers and Intractability: A Guide to the Theory of
-               NP-Completeness*.
+- **garey1979computers** — Garey, Michael R. and Johnson, David S.. *Computers and Intractability: A Guide to the Theory of NP-Completeness*.
 
 - **proakis2008digital** — Proakis, John G. and Salehi, Masoud. *Digital Communications*.
 
@@ -90,7 +81,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 ## `goldfinger`
 
-- **walras1874elements** — Walras, L\'e. *\'E*.
+- **walras1874elements** — Walras, Lé. *É*.
 
 - **hicks1946value** — Hicks, John R.. *Value and Capital: An Inquiry into Some Fundamental Principles of Economic Theory*.
 
@@ -232,7 +223,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **airy1835** — Airy, George Biddell. *On the Diffraction of an Object-glass with Circular Aperture*.
 
-- **beer1852** — Beer, August. *Bestimmung der Absorption des rothen Lichts in farbigen Fl\"ussigkeiten*.
+- **beer1852** — Beer, August. *Bestimmung der Absorption des rothen Lichts in farbigen Flüssigkeiten*.
 
 ## `live_and_let_die`
 
@@ -258,11 +249,9 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **spencer** — Spencer, J. W.. *Fourier series representation of the position of the sun*.
 
-- **michalsky** — Michalsky, Joseph J.. *The Astronomical Almanac's algorithm for approximate solar position
-           (1950--2050)*.
+- **michalsky** — Michalsky, Joseph J.. *The Astronomical Almanac's algorithm for approximate solar position (1950--2050)*.
 
-- **cormen** — Cormen, Thomas H. and Leiserson, Charles E. and Rivest, Ronald L.
-            and Stein, Clifford. *Introduction to Algorithms*.
+- **cormen** — Cormen, Thomas H. and Leiserson, Charles E. and Rivest, Ronald L. and Stein, Clifford. *Introduction to Algorithms*.
 
 ## `the_world_is_not_enough`
 
@@ -276,7 +265,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **hopcroft_tarjan** — Hopcroft, John and Tarjan, Robert. *Algorithm 447: efficient algorithms for graph manipulation*.
 
-- **kleinberg_tardos** — Kleinberg, Jon and Tardos, \'E. *Algorithm Design*.
+- **kleinberg_tardos** — Kleinberg, Jon and Tardos, É. *Algorithm Design*.
 
 - **tarjan_unionfind** — Tarjan, Robert Endre. *Efficiency of a good but not linear set union algorithm*.
 
@@ -338,7 +327,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **berlekamp1968algebraic** — Berlekamp, Elwyn R.. *Algebraic Coding Theory*.
 
-- **buhlmann1984decompression** — B\"u. *Decompression--Decompression Sickness*.
+- **buhlmann1984decompression** — Bü. *Decompression--Decompression Sickness*.
 
 ## `octopussy`
 
@@ -346,7 +335,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **keshava2002spectral** — Keshava, Nirmal and Mustard, John F.. *Spectral Unmixing*.
 
-- **delarie1982fluorescence** — de la Rie, E. Ren\'e. *Fluorescence of Paint and Varnish Layers (Part I)*.
+- **delarie1982fluorescence** — de la Rie, E. René. *Fluorescence of Paint and Varnish Layers (Part I)*.
 
 - **feller1994accelerated** — Feller, Robert L.. *Accelerated Aging: Photochemical and Thermal Aspects*.
 
@@ -404,7 +393,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **duckworth1996counter** — Duckworth, Gregory L. and Gilbert, David C. and Barger, James E.. *Acoustic counter-sniper system*.
 
-- **astmg173** — ASTM International. *ASTM G173-03(2020): Standard Tables for Reference Solar Spectral Irradiances: Direct Normal and Hemispherical on 37$^\circ$ Tilted Surface*.
+- **astmg173** — ASTM International. *ASTM G173-03(2020): Standard Tables for Reference Solar Spectral Irradiances: Direct Normal and Hemispherical on 37$^i̧rc$ Tilted Surface*.
 
 - **vantrees1968** — Van Trees, Harry L.. *Detection, Estimation, and Modulation Theory, Part I*.
 
@@ -412,12 +401,9 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **kinsler2000** — Kinsler, Lawrence E. and Frey, Austin R. and Coppens, Alan B. and Sanders, James V.. *Fundamentals of Acoustics*.
 
-- **ledeczi2005countersniper** — Ledeczi, Akos and Nadas, Andras and Volgyesi, Peter and Balogh, Gyorgy
-             and Kusy, Branislav and Sallai, Janos and Pap, Gyula and Dora, Sebestyen
-             and Molnar, Karoly and Maroti, Miklos and Simon, Gyorgy. *Countersniper system for urban warfare*.
+- **ledeczi2005countersniper** — Ledeczi, Akos and Nadas, Andras and Volgyesi, Peter and Balogh, Gyorgy and Kusy, Branislav and Sallai, Janos and Pap, Gyula and Dora, Sebestyen and Molnar, Karoly and Maroti, Miklos and Simon, Gyorgy. *Countersniper system for urban warfare*.
 
-- **mccoy1999** — McCoy, Robert L.. *Modern Exterior Ballistics: The Launch and Flight Dynamics of
-               Symmetric Projectiles*.
+- **mccoy1999** — McCoy, Robert L.. *Modern Exterior Ballistics: The Launch and Flight Dynamics of Symmetric Projectiles*.
 
 - **bresenham1965** — Bresenham, Jack E.. *Algorithm for computer control of a digital plotter*.
 
@@ -431,7 +417,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **licence1989** — Maibaum, Richard and Wilson, Michael G.. *Licence to Kill*.
 
-- **fatf2020** — Financial Action Task Force. *International Standards on Combating Money Laundering and the Financing of Terrorism \& Proliferation (the FATF Recommendations)*.
+- **fatf2020** — Financial Action Task Force. *International Standards on Combating Money Laundering and the Financing of Terrorism & Proliferation (the FATF Recommendations)*.
 
 - **kellerer2004** — Kellerer, Hans and Pferschy, Ulrich and Pisinger, David. *Knapsack Problems*.
 
@@ -479,7 +465,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **swerling1960probability** — Swerling, P.. *Probability of detection for fluctuating targets*.
 
-- **kempe2003maximizing** — Kempe, David and Kleinberg, Jon and Tardos, \'E. *Maximizing the spread of influence through a social network*.
+- **kempe2003maximizing** — Kempe, David and Kleinberg, Jon and Tardos, É. *Maximizing the spread of influence through a social network*.
 
 - **misra2006gps** — Misra, Pratap and Enge, Per. *Global Positioning System: Signals, Measurements, and Performance*.
 
@@ -529,13 +515,13 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **golden2002** — Golden, Frank and Tipton, Michael J.. *Essentials of Sea Survival*.
 
-- **newton1701** — Newton, Isaac. *Scala Graduum Caloris: Calorum Descriptiones \& Signa*.
+- **newton1701** — Newton, Isaac. *Scala Graduum Caloris: Calorum Descriptiones & Signa*.
 
 - **battin1999** — Battin, Richard H.. *An Introduction to the Mathematics and Methods of Astrodynamics*.
 
 - **glaser1968** — Glaser, Peter E.. *Power from the Sun: Its Future*.
 
-- **ondov2016** — Ondov, Brian D. and Treangen, Todd J. and Melsted, P\'a. *Mash: fast genome and metagenome distance estimation using MinHash*.
+- **ondov2016** — Ondov, Brian D. and Treangen, Todd J. and Melsted, Pá. *Mash: fast genome and metagenome distance estimation using MinHash*.
 
 ## `casino_royale_2006`
 
@@ -555,7 +541,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **page1999pagerank** — Page, Lawrence and Brin, Sergey and Motwani, Rajeev and Winograd, Terry. *The PageRank*.
 
-- **raghavan2007labelprop** — Raghavan, Usha Nandini and Albert, R\'e. *Near Linear Time Algorithm to Detect Community Structures in Large-Scale Networks*.
+- **raghavan2007labelprop** — Raghavan, Usha Nandini and Albert, Ré. *Near Linear Time Algorithm to Detect Community Structures in Large-Scale Networks*.
 
 - **brandes2001** — Brandes, Ulrik. *A Faster Algorithm for Betweenness Centrality*.
 
@@ -629,7 +615,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **Johnson1974** — David S. Johnson. *Approximation algorithms for combinatorial problems*.
 
-- **Feige1998** — Uriel Feige. *A threshold of $\ln n$ for approximating set cover*.
+- **Feige1998** — Uriel Feige. *A threshold of $łn n$ for approximating set cover*.
 
 - **Newman2002** — Mark E. J. Newman. *Spread of epidemic disease on networks*.
 
@@ -637,13 +623,13 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **Latora2001** — Vito Latora and Massimo Marchiori. *Efficient behavior of small-world networks*.
 
-- **Albert2000** — R\'e. *Error and attack tolerance of complex networks*.
+- **Albert2000** — Ré. *Error and attack tolerance of complex networks*.
 
 - **Borgatti2006** — Stephen P. Borgatti. *Identifying sets of key players in a social network*.
 
 - **Hirschman1964** — Albert O. Hirschman. *The paternity of an index*.
 
-- **Kempe2003** — David Kempe and Jon Kleinberg and \'E. *Maximizing the spread of influence through a social network*.
+- **Kempe2003** — David Kempe and Jon Kleinberg and É. *Maximizing the spread of influence through a social network*.
 
 - **Leskovec2007** — Jure Leskovec and Andreas Krause and Carlos Guestrin and Christos Faloutsos and Jeanne VanBriesen and Natalie Glance. *Cost-effective outbreak detection in networks*.
 
@@ -701,9 +687,9 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **ross2019probability** — Ross, Sheldon M.. *Introduction to Probability Models*.
 
-- **verhulst1838notice** — Verhulst, Pierre-Fran\cc. *Notice sur la loi que la population suit dans son accroissement*.
+- **verhulst1838notice** — Verhulst, Pierre-Francc. *Notice sur la loi que la population suit dans son accroissement*.
 
-- **unicode2023uax15** — The Unicode Consortium. *Unicode Standard Annex \#15: Unicode Normalization Forms*.
+- **unicode2023uax15** — The Unicode Consortium. *Unicode Standard Annex #15: Unicode Normalization Forms*.
 
 ## `bond-utilities`
 
@@ -723,11 +709,11 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 ## `bond-api`
 
-- **pep544** — Levkivskyi, Ivan and Lehtosalo, Jukka and Langa, \L. *PEP 544 -- Protocols: Structural subtyping (static duck typing)*.
+- **pep544** — Levkivskyi, Ivan and Lehtosalo, Jukka and Langa, Ł. *PEP 544 -- Protocols: Structural subtyping (static duck typing)*.
 
 - **pep557** — Smith, Eric V.. *PEP 557 -- Data Classes*.
 
-- **pep484** — van Rossum, Guido and Lehtosalo, Jukka and Langa, \L. *PEP 484 -- Type Hints*.
+- **pep484** — van Rossum, Guido and Lehtosalo, Jukka and Langa, Ł. *PEP 484 -- Type Hints*.
 
 ## `bond-cli`
 
@@ -763,7 +749,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **kwok1999static** — Kwok, Yu-Kwong and Ahmad, Ishfaq. *Static Scheduling Algorithms for Allocating Directed Task Graphs to Multiprocessors*.
 
-- **avizienis2004basic** — Avi\vz. *Basic Concepts and Taxonomy of Dependable and Secure Computing*.
+- **avizienis2004basic** — Avivz. *Basic Concepts and Taxonomy of Dependable and Secure Computing*.
 
 - **gamma1994design** — Gamma, Erich and Helm, Richard and Johnson, Ralph and Vlissides, John. *Design Patterns: Elements of Reusable Object-Oriented Software*.
 
@@ -775,8 +761,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **pythonargparse** — Python Software Foundation. *argparse — Parser for command-line options, arguments and sub-commands*.
 
-- **posix2018** — . *The Open Group Base Specifications Issue 7, 2018 edition
-                  (IEEE Std 1003.1-2017), Chapter 12: Utility Conventions*.
+- **posix2018** — . *The Open Group Base Specifications Issue 7, 2018 edition (IEEE Std 1003.1-2017), Chapter 12: Utility Conventions*.
 
 - **raymond2003unix** — Raymond, Eric S.. *The Art of Unix Programming*.
 
