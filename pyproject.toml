@@ -74,3 +74,21 @@ exclude_lines = [
 
 [tool.uv]
 # Inherits workspace settings from root pyproject.toml
+
+[tool.mypy]
+# `scripts/` inject `src/` onto sys.path at runtime; mypy needs the same hint so
+# `uv run mypy src/ scripts/` type-checks the thin orchestrators too.
+mypy_path = "src"
+warn_unused_ignores = false
+warn_redundant_casts = true
+warn_unused_configs = true
+
+# This package is the compendium wrapper: unlike the 33 standalone packages, its
+# orchestrators run inside the template monorepo pipeline and import
+# `infrastructure.*` from it. Those modules are genuinely absent from a
+# standalone checkout, so a local mypy run cannot resolve them and reported 18
+# import errors that no code change in this package could fix. The monorepo's own
+# mypy run is what type-checks that surface.
+[[tool.mypy.overrides]]
+module = ["infrastructure.*", "src.*", "yaml"]
+ignore_missing_imports = true

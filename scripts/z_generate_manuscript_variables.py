@@ -33,9 +33,7 @@ def main() -> int:
     # lacks ``infrastructure`` (the template's repo package). Locate the template
     # root (the ancestor holding infrastructure/rendering/) and put it on path.
     _ancestor = REPO
-    while _ancestor != _ancestor.parent and not (
-        _ancestor / "infrastructure" / "rendering"
-    ).is_dir():
+    while _ancestor != _ancestor.parent and not (_ancestor / "infrastructure" / "rendering").is_dir():
         _ancestor = _ancestor.parent
     if (_ancestor / "infrastructure" / "rendering").is_dir() and str(_ancestor) not in sys.path:
         sys.path.insert(0, str(_ancestor))
