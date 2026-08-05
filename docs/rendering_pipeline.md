@@ -91,9 +91,9 @@ uv run python scripts/pipeline/stage_03_render.py --project templates/bond-manus
 
 **Inputs**: `output/manuscript/*.md` (substituted) + `manuscript/config.yaml` + `manuscript/preamble.md` + `manuscript/references.bib`
 
-When `publication.transmission_bookends.enabled: true`, the combined PDF also includes generated `00_00_transmission_begin.md` and `99_zz_transmission_end.md` (compact metadata, dual-row integrity strip, `transmission_manifest.json`, prior releases capped at three rows on the end page). Verify single-page fit: `uv run python -m infrastructure.publishing.transmission_page_check projects/working/bond/bond-manuscript/output/pdf/template_code_project_combined.pdf`. After render, run `uv run python -m infrastructure.orchestration secure --steganography-only --project templates/bond-manuscript --deterministic` for the hardened `*_steganography.pdf` and `.hashes.json` manifest; the Python `secure` subcommand owns `--deterministic`. See [`docs/guides/publishing-guide.md`](../../../../docs/guides/publishing-guide.md#transmission-bookends-optional).
+When `publication.transmission_bookends.enabled: true`, the combined PDF also includes generated `00_00_transmission_begin.md` and `99_zz_transmission_end.md` (compact metadata, dual-row integrity strip, `transmission_manifest.json`, prior releases capped at three rows on the end page). Verify single-page fit: `uv run python -m infrastructure.publishing.transmission_page_check projects/working/bond/bond-manuscript/output/pdf/bond-manuscript_combined.pdf`. After render, run `uv run python -m infrastructure.orchestration secure --steganography-only --project templates/bond-manuscript --deterministic` for the hardened `*_steganography.pdf` and `.hashes.json` manifest; the Python `secure` subcommand owns `--deterministic`. See [`docs/guides/publishing-guide.md`](../../../../docs/guides/publishing-guide.md#transmission-bookends-optional).
 
-Zenodo and GitHub uploads use a metadata-driven basename from `publication.deposit_filename` (e.g. `Author_2026_Convergence_b591a0ce.pdf`); the local working file remains `template_code_project_combined.pdf`. See [Deposit upload filename](../../../../docs/guides/publishing-guide.md#deposit-upload-filename).
+Zenodo and GitHub uploads use a metadata-driven basename from `publication.deposit_filename` (e.g. `Author_2026_Convergence_b591a0ce.pdf`); the local working file remains `bond-manuscript_combined.pdf`. See [Deposit upload filename](../../../../docs/guides/publishing-guide.md#deposit-upload-filename).
 
 **Infrastructure modules involved**:
 
@@ -105,8 +105,8 @@ Zenodo and GitHub uploads use a metadata-driven basename from `publication.depos
 | `infrastructure/core/config/loader.py` | Reads `manuscript/config.yaml` for title, authors, metadata |
 
 **Outputs**:
-- `projects/working/bond/bond-manuscript/output/pdf/template_code_project_combined.pdf` — working publication PDF
-- `output/templates/bond-manuscript/pdf/template_code_project_combined.pdf` — copied final publication PDF after Stage 07
+- `projects/working/bond/bond-manuscript/output/pdf/bond-manuscript_combined.pdf` — working publication PDF
+- `output/templates/bond-manuscript/pdf/bond-manuscript_combined.pdf` — copied final publication PDF after Stage 07
 - `projects/working/bond/bond-manuscript/output/pdf/_combined_manuscript.*` — LaTeX intermediates (`.tex`, `.aux`, `.log`)
 - `projects/working/bond/bond-manuscript/output/slides/` — per-section Beamer slide PDFs (one per manuscript section)
 - `projects/working/bond/bond-manuscript/output/web/` — HTML versions of each section

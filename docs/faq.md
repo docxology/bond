@@ -87,12 +87,12 @@ See [`troubleshooting.md`](troubleshooting.md#literal-token_name-appears-in-the-
 
 Working copy:
 ```
-projects/working/bond/bond-manuscript/output/pdf/template_code_project_combined.pdf
+projects/working/bond/bond-manuscript/output/pdf/bond-manuscript_combined.pdf
 ```
 
 Promoted copy (used by CI for artifact upload):
 ```
-output/templates/bond-manuscript/template_code_project_combined.pdf
+output/templates/bond-manuscript/bond-manuscript_combined.pdf
 ```
 
 ## Common pitfalls

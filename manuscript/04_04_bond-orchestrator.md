@@ -12,5 +12,5 @@ Multi-package mission DAG runner + real-film binding
 
 ## Sources
 
-@kahn1962topological; @cormen2009introduction; @elnozahy2002survey; @bondorchestrator2026
+@kahn1962topological; @cormen2009introduction; @elnozahy2002survey; @chandy1985distributed; @kwok1999static; @bondorchestrator2026
 

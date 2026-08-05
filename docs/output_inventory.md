@@ -28,7 +28,7 @@ Paths in the table are relative to `projects/working/bond/bond-manuscript/`.
 | `output/reports/validation_report.json` | Pipeline validation summary | `infrastructure.validation.verify_output_integrity` | 6 — Validate Output |
 | `output/manuscript/*.md` | Token-substituted manuscript sections (renderer input) | `infrastructure.rendering.manuscript_injection.write_resolved_manuscript_tree` called from `scripts/z_generate_manuscript_variables.py` | 4 — Run Analysis (post-stage) |
 | `output/citations/*.{bib,apa,mla}` | Citation metadata in 3 formats | `generate_citations_from_metadata()` in `src/analysis/` | 4 — Run Analysis |
-| `output/pdf/template_code_project_combined.pdf` | Working combined publication PDF | `infrastructure/rendering/pdf_renderer.py` via `scripts/pipeline/stage_03_render.py` | 5 — Render PDF |
+| `output/pdf/bond-manuscript_combined.pdf` | Working combined publication PDF | `infrastructure/rendering/pdf_renderer.py` via `scripts/pipeline/stage_03_render.py` | 5 — Render PDF |
 | `output/slides/<section>.pdf` | Per-section Beamer slides (no Mermaid → no Chrome required) | `infrastructure/rendering/pdf_renderer.py` | 5 — Render PDF |
 | `output/web/*.html` | HTML version of each section | `infrastructure/rendering` | 5 — Render PDF |
 | `output/pdf/_combined_manuscript.{tex,aux,log}` | LaTeX intermediates | `xelatex` via Pandoc | 5 — Render PDF |

@@ -55,11 +55,11 @@ Convert the manuscript to a PDF with LaTeX:
 uv run python scripts/pipeline/stage_03_render.py --project templates/bond-manuscript
 ```
 
-Final PDF: `projects/working/bond/bond-manuscript/output/pdf/template_code_project_combined.pdf`
+Final PDF: `projects/working/bond/bond-manuscript/output/pdf/bond-manuscript_combined.pdf`
 
 ## View Results
 
-- **PDF manuscript**: open `projects/working/bond/bond-manuscript/output/pdf/template_code_project_combined.pdf`
+- **PDF manuscript**: open `projects/working/bond/bond-manuscript/output/pdf/bond-manuscript_combined.pdf`
 - **HTML dashboard**: open `projects/working/bond/bond-manuscript/output/web/dashboard.html` (via `scripts/build_dashboard.py`)
 - **Figures**: browse `projects/working/bond/bond-manuscript/output/figures/`
 - **Data**: `cat projects/working/bond/bond-manuscript/output/data/optimization_results.csv`

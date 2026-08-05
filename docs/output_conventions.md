@@ -32,7 +32,7 @@ flowchart TB
     FIG --> FIG_F[convergence_plot · step_size_sensitivity ·<br/>convergence_rate_comparison · algorithm_complexity ·<br/>performance_benchmark · stability_analysis]
     DATA --> DATA_F[optimization_results.csv ·<br/>manuscript_variables.json · ...]
     REP --> REP_F[stability_analysis.json · performance_benchmark.json ·<br/>output_statistics.json · validation_report.json · telemetry.json]
-    PDF --> PDF_F[template_code_project_combined.pdf]
+    PDF --> PDF_F[bond-manuscript_combined.pdf]
     WEB --> WEB_F[dashboard.html · index.html · section pages...]
 
     classDef d fill:#0f172a,stroke:#0f172a,color:#fff
@@ -104,7 +104,7 @@ To add a new figure or data product:
 | output/figures/convergence_plot.png | Gradient descent trajectories | generate_convergence_plot() | 1 |
 | output/data/optimization_results.csv | Per-step-size results table | save_optimization_results() | 1 |
 | output/manuscript/03_results.md | Resolved results section | z_generate_manuscript_variables.py | 2 |
-| output/pdf/template_code_project_combined.pdf | Final publication PDF | scripts/pipeline/stage_03_render.py | 3 |
+| output/pdf/bond-manuscript_combined.pdf | Final publication PDF | scripts/pipeline/stage_03_render.py | 3 |
 ```
 
 ## Troubleshooting

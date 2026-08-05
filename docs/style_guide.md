@@ -134,7 +134,7 @@ When AI agents or humans refer to files in logs, documentation, comments, or imp
 | variable hydration (runner) | `projects/working/bond/bond-manuscript/scripts/z_generate_manuscript_variables.py` |
 | config | `projects/working/bond/bond-manuscript/manuscript/config.yaml` |
 | results CSV | `projects/working/bond/bond-manuscript/output/data/optimization_results.csv` |
-| final PDF | `output/templates/bond-manuscript/template_code_project_combined.pdf` |
+| final PDF | `output/templates/bond-manuscript/bond-manuscript_combined.pdf` |
 
 **Forbidden (relative / ambiguous)**:
 ```

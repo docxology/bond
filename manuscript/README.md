@@ -56,7 +56,7 @@ graph TD
     Reporting -->|Formats| Manuscript
     Manuscript -->|Compiled with| Config
     Config -->|Sent to| Rendering
-    Rendering -->|Produces| PDF["output/templates/bond-manuscript/pdf/template_code_project_combined.pdf"]:::project
+    Rendering -->|Produces| PDF["output/templates/bond-manuscript/pdf/bond-manuscript_combined.pdf"]:::project
 ```
 
 ## Quick Start
@@ -69,7 +69,7 @@ uv run python projects/working/bond/bond-manuscript/scripts/optimization_analysi
 
 uv run python scripts/pipeline/stage_03_render.py --project templates/bond-manuscript
 
-open output/templates/bond-manuscript/pdf/template_code_project_combined.pdf
+open output/templates/bond-manuscript/pdf/bond-manuscript_combined.pdf
 ```
 
 ## AI Agent Directives

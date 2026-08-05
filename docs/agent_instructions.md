@@ -86,7 +86,7 @@ The infrastructure renders the manuscript to PDF automatically.
 **GOOD** (concrete):
 ```markdown
 `infrastructure/rendering/pdf_renderer.py` orchestrates Pandoc → XeLaTeX to produce
-`output/templates/bond-manuscript/pdf/template_code_project_combined.pdf` from substituted markdown in `projects/working/bond/bond-manuscript/output/manuscript/`.
+`output/templates/bond-manuscript/pdf/bond-manuscript_combined.pdf` from substituted markdown in `projects/working/bond/bond-manuscript/output/manuscript/`.
 ```
 
 ---
@@ -124,7 +124,7 @@ The entire `projects/working/bond/bond-manuscript/output/` tree is written by th
 If you need to change what a generated file contains, change the **generator**:
 - To change `output/data/optimization_results.csv` → modify `src/analysis/` (re-run via `scripts/optimization_analysis.py`)
 - To change `output/manuscript/03_results.md` → modify `manuscript/03_results.md` (the template) and/or `scripts/z_generate_manuscript_variables.py` (the variable definitions)
-- To change `output/pdf/template_code_project_combined.pdf` → modify the manuscript source files, then re-render
+- To change `output/pdf/bond-manuscript_combined.pdf` → modify the manuscript source files, then re-render
 
 See [`output_conventions.md`](output_conventions.md) for the complete regeneration sequence.
 

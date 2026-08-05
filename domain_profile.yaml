@@ -30,7 +30,7 @@ artifact_expectations:
   - output/data/optimization_results.csv
   - output/figures/convergence_plot.png
   - output/reports/validation_report.json
-  - output/pdf/template_code_project_combined.pdf
+  - output/pdf/bond-manuscript_combined.pdf
 benchmark_rubric:
   name: code-research-readiness
   dimensions:
