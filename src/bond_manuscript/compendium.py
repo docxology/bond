@@ -131,10 +131,20 @@ def discover_packages(bond_root: Path) -> list[PackageInfo]:
 # --------------------------------------------------------------------------- #
 
 
-def _resolve_tokens(text: str, variables: dict[str, str]) -> str:
+def _resolve_tokens(text: str, variables: "dict[str, object]") -> str:
+    """Substitute ``{TOKEN}`` spans from a package's manuscript variables.
+
+    Values are coerced to ``str``. ``manuscript_variables.json`` carries real
+    JSON types, so a tokenized metric arrives as an int or float, not a string;
+    returning one straight from ``re.sub`` raises "expected str instance, int
+    found" and takes the whole compendium build down with it. The annotation
+    said ``dict[str, str]``, which is what made the wrong assumption look safe.
+    """
+
     def _sub(match: "re.Match[str]") -> str:
         name = match.group(0).strip("{}").strip()
-        return variables.get(name, "")
+        value = variables.get(name, "")
+        return "" if value is None else str(value)
 
     return _TOKEN.sub(_sub, text)
 

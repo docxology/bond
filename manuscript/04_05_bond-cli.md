@@ -8,9 +8,9 @@ Unified terminal front door (bond list/brief/…/run/status/gadgets)
 
 ## Abstract (imported from the package manuscript)
 
-(codename ) is the Layer-4 terminal front door of the suite — a fleet of film packages plus shared mission infrastructure, each package implementing the frozen `MissionProvider` protocol. As the front door, is a thin dispatch layer: it routes the fleet's verb-first commands — — to the built sibling layers (bond-api protocol, bond-coordinator registry/status, bond-orchestrator mission runner, bond-utilities Q-branch) and maps their outcomes to deterministic exit codes. It owns no mission logic; every command either loads a real film provider through the `bond-api` discovery contract or delegates to the coordinator's registry and the orchestrator's runner. Machine-readable `--json` output and color-safe aligned tables round out the surface.
+(version , codename ) is the Layer-4 terminal front door of the suite — a fleet of film packages plus shared mission infrastructure, each film package implementing the frozen `MissionProvider` protocol. As the front door, is a thin dispatch layer: it routes verb-first commands — — to the built sibling layers () and maps their outcomes to deterministic exit codes. It implements no mission logic and ships no `MissionProvider` of its own; every command either loads a real film provider through the frozen `bond-api` discovery contract or delegates to the coordinator's registry and the orchestrator's runner. The deepened surface adds machine-readable `--json` output on commands (), a JSON roster export, color-safe aligned tables that never emit ANSI, and reconciliation of the fleet's measured gate manifest onto the registry so that reported status and coverage are measurements rather than intentions.
 
 ## Sources
 
-@argparse; @rfc8259
+@bethard2009argparse; @pythonargparse; @rfc8259; @posix2018; @raymond2003unix; @semver2
 

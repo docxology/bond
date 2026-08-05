@@ -3,23 +3,49 @@
 Merged automatically from every package's `manuscript/references.bib` into
 the unified `references.bib`. Keys are cited from the package chapters.
 
+## `octopussy`
+
+- **knoll2010radiation** — Knoll, Glenn F.. *Radiation Detection and Measurement*.
+
+## `no_time_to_die`
+
+- **currie1968limits** — Currie, Lloyd A. *Limits for qualitative detection and quantitative determination: Application to radiochemistry*.
+
 ## `dr_no`
 
-- **turner1994workbook** — Turner, D. B.. *Workbook of Atmospheric Dispersion Estimates*.
+- **ensdf** — National Nuclear Data Center. *ENSDF*.
 
-- **martin1976dispersion** — Martin, J. A. and Green, D. A.. *Dispersion and Dosimetry Models*.
+## `no_time_to_die`
 
-- **kennedy2011dcal** — Kennedy, W. E. and Strenge, T. J. and Pauley, K. A.. *DCAL*.
+- **bateman1910solution** — Bateman, Harry. *Solution of a system of differential equations occurring in the theory of radioactive transformations*.
 
-- **bateman1910solution** — Bateman, H.. *The Solution of a System of Differential Equations Occurring in the Theory of Radioactive Transformations*.
+## `dr_no`
 
-- **currie1968limits** — Currie, L. A.. *Limits for Qualitative Detection and Quantitative Determination: Application to Radiochemistry*.
+- **hubbell1995tables** — Hubbell, J. H. and Seltzer, S. M.. *Tables of X*.
 
-- **nistxcom** — Berger, M. J. and Hubbell, J. H. and Seltzer, S. M. and others. *XCOM*.
-
-- **knoll2010radiation** — Knoll, G. F.. *Radiation Detection and Measurement*.
+- **nistxcom** — Berger, M. J. and Hubbell, J. H. and Seltzer, S. M. and
+                  Chang, J. and Coursey, J. S. and Sukumar, R. and
+                  Zucker, D. S. and Olsen, K.. *XCOM*.
 
 - **icrp119compendium** — International Commission on Radiological Protection. *Compendium of Dose Coefficients based on ICRP*.
+
+- **icrp72** — International Commission on Radiological Protection. *Age-dependent Doses to Members of the Public from Intake of
+                  Radionuclides: Part 5, Compilation of Ingestion and Inhalation
+                  Dose Coefficients*.
+
+- **smith2012exposure** — Smith, Daniel S. and Stabin, Michael G.. *Exposure Rate Constants and Lead Shielding Values for over 1,100
+             Radionuclides*.
+
+- **pasquill1961estimation** — Pasquill, F.. *The Estimation of the Dispersion of Windborne Material*.
+
+- **gifford1961use** — Gifford, Franklin A.. *Use of Routine Meteorological Observations for Estimating
+             Atmospheric Dispersion*.
+
+- **martin1976comment** — Martin, D. O.. *Comment on ``The Change of Concentration Standard Deviations with
+             Distance''*.
+
+- **turner1994workbook** — Turner, D. Bruce. *Workbook of Atmospheric Dispersion Estimates: An Introduction to
+               Dispersion Modeling*.
 
 ## `bond-api`
 
@@ -27,39 +53,70 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 ## `never_say_never_again`
 
-- **bond_utilities** — Friedman, Daniel Ari. *BOND-Utilities (Q-BRANCH): Layer 0 Foundation*.
+- **bond_utilities** — Friedman, Daniel Ari. *BOND-Utilities*.
 
 ## `from_russia_with_love`
 
 - **chan1994hyperbolic** — Chan, Y. T. and Ho, K. C.. *A Simple and Efficient Estimator for Hyperbolic Location*.
 
+## `octopussy`
+
+- **nocedal2006numerical** — Nocedal, Jorge and Wright, Stephen J.. *Numerical Optimization*.
+
+## `from_russia_with_love`
+
 - **martello1990knapsack** — Martello, Silvano and Toth, Paolo. *Knapsack Problems: Algorithms and Computer Implementations*.
+
+- **bellman1957dynamic** — Bellman, Richard. *Dynamic Programming*.
 
 - **kleinberg2005algorithm** — Kleinberg, Jon and Tardos, \'E. *Algorithm Design*.
 
-- **fleming1963russia** — Fleming, Ian. *From Russia, with Love*.
+- **garey1979computers** — Garey, Michael R. and Johnson, David S.. *Computers and Intractability: A Guide to the Theory of
+               NP-Completeness*.
+
+- **proakis2008digital** — Proakis, John G. and Salehi, Masoud. *Digital Communications*.
+
+- **shannon1949secrecy** — Shannon, Claude E.. *Communication Theory of Secrecy Systems*.
+
+## `never_say_never_again`
+
+- **nist2015fips180** — National Institute of Standards and Technology. *Secure Hash Standard (SHS*.
+
+## `from_russia_with_love`
+
+- **cox1958regression** — Cox, David R.. *The Regression Analysis of Binary Sequences*.
+
+- **fleming1957russia** — Fleming, Ian. *From Russia, with Love*.
 
 ## `goldfinger`
 
-- **goldfinger_ref1** — A. Walras,  , L. Corbaz, Lausanne, 1874.. *Éléments d'économie politique pure*.
+- **walras1874elements** — Walras, L\'e. *\'E*.
 
-- **goldfinger_ref2** — J. R. Hicks,  , 2nd ed., Oxford University Press, 1946.. *Value and Capital*.
+- **hicks1946value** — Hicks, John R.. *Value and Capital: An Inquiry into Some Fundamental Principles of Economic Theory*.
 
-- **goldfinger_ref3** — D. O. Veil and N. Rungta, "Defense-in-depth risk scoring for physical-security barriers,"  , vol. 12, no. 3, pp. 201–214, 2019.. *Journal of Security Engineering*.
+- **kyle1985continuous** — Kyle, Albert S.. *Continuous Auctions and Insider Trading*.
 
-- **goldfinger_ref4** — W. M. Steen and J. Mazumder,  , 4th ed., Springer, 2010.. *Laser Material Processing*.
+- **krugman1979model** — Krugman, Paul. *A Model of Balance-of-Payments Crises*.
 
-- **goldfinger_ref5** — BOND-API project, "THE PROTOCOL: the frozen `MissionProvider` contract," PROJECT BOND suite, `bond-api` package, 2026.. *BOND-API project, "THE PROTOCOL: the frozen `MissionProvider` contract," PROJECT BOND suite, `bond-api` package, 2026.*.
+- **flood1984collapsing** — Flood, Robert P. and Garber, Peter M.. *Collapsing Exchange-Rate Regimes: Some Linear Examples*.
 
-- **goldfinger_ref6** — P. Krugman, "A model of balance-of-payments crises,"  , vol. 11, no. 3, pp. 311–325, 1979.. *Journal of Money, Credit and Banking*.
+- **garcia2007design** — Garcia, Mary Lynn. *The Design and Evaluation of Physical Protection Systems*.
 
-- **goldfinger_ref7** — R. P. Flood and P. M. Garber, "Collapsing exchange-rate regimes: some linear examples,"  , vol. 17, no. 1–2, pp. 1–13, 1984.. *Journal of International Economics*.
+## `skyfall`
 
-- **goldfinger_ref8** — E. W. Dijkstra, "A note on two problems in connexion with graphs,"  , vol. 1, pp. 269–271, 1959.. *Numerische Mathematik*.
+- **dijkstra1959note** — Dijkstra, E. W.. *A Note on Two Problems in Connexion with Graphs*.
 
-- **goldfinger_ref9** — H. S. Carslaw and J. C. Jaeger,  , 2nd ed., Oxford University Press, 1959.. *Conduction of Heat in Solids*.
+## `goldfinger`
 
-- **goldfinger_ref10** — E. Israeli and R. K. Wood, "Shortest-path network interdiction,"  , vol. 40, no. 2, pp. 97–111, 2002.. *Networks*.
+- **israeli2002shortest** — Israeli, Eitan and Wood, R. Kevin. *Shortest-Path Network Interdiction*.
+
+- **steen2010laser** — Steen, William M. and Mazumder, Jyotirmoy. *Laser Material Processing*.
+
+- **carslaw1959conduction** — Carslaw, Horatio S. and Jaeger, John C.. *Conduction of Heat in Solids*.
+
+- **siegman1986lasers** — Siegman, Anthony E.. *Lasers*.
+
+- **bondapi2026protocol** — PROJECT BOND suite. *BOND-API*.
 
 ## `thunderball`
 
@@ -71,23 +128,41 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **bowditch2002** — Nathaniel Bowditch. *The American Practical Navigator*.
 
+- **newman1977** — John Nicholas Newman. *Marine Hydrodynamics*.
+
+- **cockcroft2011** — A. N. Cockcroft and J. N. F. Lameijer. *A Guide to the Collision Avoidance Rules*.
+
+- **usnavydiving2016** — Naval Sea Systems Command. *U.S. Navy Diving Manual, Revision 7*.
+
 - **fleming1961** — Ian Fleming. *Thunderball*.
 
 ## `the_living_daylights`
 
 - **bondapi2026** — PROJECT BOND. *bond-api: the frozen mission protocol contract*.
 
-## `you_only_live_twice`
+## `die_another_day`
 
 - **vallado2013** — Vallado, David A.. *Fundamentals of Astrodynamics and Applications*.
+
+## `you_only_live_twice`
 
 - **bate1971** — Bate, Roger R. and Mueller, Donald D. and White, Jerry E.. *Fundamentals of Astrodynamics*.
 
 - **wertz2011** — . *Space Mission Engineering: The New SMAD*.
 
-- **hughes1971** — Hughes, G. F.. *On the Mean Accuracy of Statistical Pattern Recognizers*.
+- **fehse2003** — Fehse, Wigbert. *Automated Rendezvous and Docking of Spacecraft*.
+
+- **reed1990** — Reed, I. S. and Yu, X.. *Adaptive Multiple-Band CFAR*.
+
+- **chandola2009** — Chandola, Varun and Banerjee, Arindam and Kumar, Vipin. *Anomaly Detection: A Survey*.
 
 - **pearl1988** — Pearl, Judea. *Probabilistic Reasoning in Intelligent Systems: Networks of Plausible Inference*.
+
+- **stone1975** — Stone, Lawrence D.. *Theory of Optimal Search*.
+
+- **waltz1990** — Waltz, Edward and Llinas, James. *Multisensor Data Fusion*.
+
+- **hart1968** — Hart, Peter E. and Nilsson, Nils J. and Raphael, Bertram. *A Formal Basis for the Heuristic Determination of Minimum Cost Paths*.
 
 ## `live_and_let_die`
 
@@ -95,9 +170,13 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 ## `you_only_live_twice`
 
+- **foy1976** — Foy, Wade H.. *Position-Location Solutions by Taylor*.
+
+- **chan1994** — Chan, Y. T. and Ho, K. C.. *A Simple and Efficient Estimator for Hyperbolic Location*.
+
 - **skolnik2001** — Skolnik, Merrill I.. *Introduction to Radar Systems*.
 
-- **waltz1998** — Waltz, Edward and Llinas, James. *Multisensor Data Fusion*.
+- **daley2003** — Daley, D. J. and Vere-Jones, D.. *An Introduction to the Theory of Point Processes, Volume I: Elementary Theory and Methods*.
 
 ## `on_her_majestys_secret_service`
 
@@ -123,13 +202,13 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **globalwitness1998** — Global Witness. *A Rough Trade: The Role of Companies and Governments in the Angolan Conflict*.
 
-- **kimberley2003** — Kimberley Process. *The Kimberley Process Certification Scheme*.
+- **kimberley2003** — Kimberley Process. *Kimberley Process Certification Scheme*.
 
 - **berman2017** — Berman, Nicolas and Couttenier, Mathieu and Rohner, Dominic and Thoenig, Mathias. *This Mine Is Mine! How Minerals Fuel Conflicts in Africa*.
 
 - **webster1994** — Webster, Robert. *Gems: Their Sources, Descriptions and Identification*.
 
-## `licence_to_kill`
+## `casino_royale_2006`
 
 - **dijkstra1959** — Dijkstra, Edsger W.. *A Note on Two Problems in Connexion with Graphs*.
 
@@ -141,6 +220,20 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **bornwolf1999** — Born, Max and Wolf, Emil. *Principles of Optics: Electromagnetic Theory of Propagation, Interference and Diffraction of Light*.
 
+- **newcomb1881** — Newcomb, Simon. *Note on the Frequency of Use of the Different Digits in Natural Numbers*.
+
+- **pearson1900** — Pearson, Karl. *On the Criterion that a Given System of Deviations from the Probable in the Case of a Correlated System of Variables is Such that it Can be Reasonably Supposed to have Arisen from Random Sampling*.
+
+- **nigrini2012** — Nigrini, Mark J.. *Benford's Law: Applications for Forensic Accounting, Auditing, and Fraud Detection*.
+
+- **tarjan1973** — Tarjan, Robert. *Enumeration of the Elementary Circuits of a Directed Graph*.
+
+- **freeman1978** — Freeman, Linton C.. *Centrality in Social Networks Conceptual Clarification*.
+
+- **airy1835** — Airy, George Biddell. *On the Diffraction of an Object-glass with Circular Aperture*.
+
+- **beer1852** — Beer, August. *Bestimmung der Absorption des rothen Lichts in farbigen Fl\"ussigkeiten*.
+
 ## `live_and_let_die`
 
 - **film_lald** — Maibaum, Richard and Mankiewicz, Tom. *Live and Let Die*.
@@ -149,7 +242,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **stinson2019** — Stinson, Douglas R. and Paterson, Maura B.. *Cryptography: Theory and Practice*.
 
-- **morse1938** — Morse, Samuel F. B.. *Universal Electrical Communications Signal Code*.
+- **itu2009** — International Telecommunication Union. *International Morse code*.
 
 - **reuter1986** — Reuter, Peter and Kleiman, Mark A. R.. *Risks and Prices: An Economic Analysis of Drug Enforcement*.
 
@@ -159,17 +252,33 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **bond_protocol** — Friedman, Daniel Ari. *bond-api: the frozen MissionProvider protocol contract*.
 
-- **golden_gun_film** — Gilbert, Lewis and Maibaum, Richard and Mankiewicz, Tom. *The Man with the Golden Gun*.
-
-- **kleinberg_tardos** — Kleinberg, Jon and Tardos, \'E. *Algorithm Design*.
+- **golden_gun_film** — Hamilton, Guy. *The Man with the Golden Gun*.
 
 - **duffie_beckman** — Duffie, John A. and Beckman, William A.. *Solar Engineering of Thermal Processes*.
 
-- **michalsky** — Michalsky, Joseph J.. *The Astronomical Almanac's algorithm for approximate solar position (1950--2050)*.
-
-- **cormen** — Cormen, Thomas H. and Leiserson, Charles E. and Rivest, Ronald L. and Stein, Clifford. *Introduction to Algorithms*.
-
 - **spencer** — Spencer, J. W.. *Fourier series representation of the position of the sun*.
+
+- **michalsky** — Michalsky, Joseph J.. *The Astronomical Almanac's algorithm for approximate solar position
+           (1950--2050)*.
+
+- **cormen** — Cormen, Thomas H. and Leiserson, Charles E. and Rivest, Ronald L.
+            and Stein, Clifford. *Introduction to Algorithms*.
+
+## `the_world_is_not_enough`
+
+- **ford_fulkerson** — Ford, Lester R. and Fulkerson, Delbert R.. *Maximal flow through a network*.
+
+- **edmonds_karp** — Edmonds, Jack and Karp, Richard M.. *Theoretical improvements in algorithmic efficiency for network flow problems*.
+
+- **dijkstra** — Dijkstra, Edsger W.. *A note on two problems in connexion with graphs*.
+
+## `the_man_with_the_golden_gun`
+
+- **hopcroft_tarjan** — Hopcroft, John and Tarjan, Robert. *Algorithm 447: efficient algorithms for graph manipulation*.
+
+- **kleinberg_tardos** — Kleinberg, Jon and Tardos, \'E. *Algorithm Design*.
+
+- **tarjan_unionfind** — Tarjan, Robert Endre. *Efficiency of a good but not linear set union algorithm*.
 
 ## `the_spy_who_loved_me`
 
@@ -179,7 +288,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **anderson_moore_1979** — Anderson, Brian D. O. and Moore, John B.. *Optimal Filtering*.
 
-- **rahman_2007** — Rahman, S.. *Naval Architecture and Ocean Engineering*.
+- **tupper_naval_2013** — Tupper, Eric C.. *Introduction to Naval Architecture*.
 
 - **urick_principles_1983** — Urick, Robert J.. *Principles of Underwater Sound*.
 
@@ -189,7 +298,9 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **van_trees_2002** — Van Trees, Harry L.. *Optimum Array Processing: Part IV of Detection, Estimation, and Modulation Theory*.
 
-- **ross_mechanics_1976** — Ross, C. T. F.. *Mechanics of Underwater Noise*.
+- **timoshenko_gere_1961** — Timoshenko, Stephen P. and Gere, James M.. *Theory of Elastic Stability*.
+
+- **young_roark_2011** — Young, Warren C. and Budynas, Richard G. and Sadegh, Ali M.. *Roark's Formulas for Stress and Strain*.
 
 ## `moonraker`
 
@@ -197,9 +308,9 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **vallado2013astrodynamics** — Vallado, David A.. *Fundamentals of Astrodynamics and Applications*.
 
-- **stoll1956human** — Stoll, Arthur M.. *Human Tolerance to Positive G as Limited by the Cardiovascular System*.
+- **stoll1956human** — Stoll, Alice M.. *Human Tolerance to Positive G as Determined by the Physiological End Points*.
 
-- **moonraker1979** — Wood, John. *Moonraker (film)*.
+- **moonraker1979** — Gilbert, Lewis. *Moonraker*.
 
 - **hohmann1925** — Hohmann, Walter. *Die Erreichbarkeit der Himmelskörper*.
 
@@ -215,12 +326,6 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **haldane1908relation** — Haldane, John Scott. *The Relation of the Action of Carbonic Oxide to Oxygen Tension*.
 
-## `quantum_of_solace`
-
-- **dijkstra1959note** — Dijkstra, Edsger W.. *A note on two problems in connexion with graphs*.
-
-## `for_your_eyes_only`
-
 - **hart1968formal** — Hart, Peter E. and Nilsson, Nils J. and Raphael, Bertram. *A Formal Basis for the Heuristic Determination of Minimum Cost Paths*.
 
 - **reed1960polynomial** — Reed, Irving S. and Solomon, Gustave. *Polynomial Codes over Certain Finite Fields*.
@@ -229,17 +334,35 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **urick1983principles** — Urick, Robert J.. *Principles of Underwater Sound*.
 
+- **blakley1979safeguarding** — Blakley, G. R.. *Safeguarding Cryptographic Keys*.
+
+- **berlekamp1968algebraic** — Berlekamp, Elwyn R.. *Algebraic Coding Theory*.
+
+- **buhlmann1984decompression** — B\"u. *Decompression--Decompression Sickness*.
+
 ## `octopussy`
 
-- **nasdala2004faberge** — Nasdala, Lutz. *Faberg\'e*.
+- **lawson1974solving** — Lawson, Charles L. and Hanson, Richard J.. *Solving Least Squares Problems*.
 
-- **lawson2004hyperspectral** — Lawson, Richard and others. *Hyperspectral unmixing for pigment identification*.
+- **keshava2002spectral** — Keshava, Nirmal and Mustard, John F.. *Spectral Unmixing*.
+
+- **delarie1982fluorescence** — de la Rie, E. Ren\'e. *Fluorescence of Paint and Varnish Layers (Part I)*.
 
 - **feller1994accelerated** — Feller, Robert L.. *Accelerated Aging: Photochemical and Thermal Aspects*.
 
 - **horie2010materials** — Horie, Charles Velson. *Materials for Conservation: Organic Consolidants, Adhesives and Coatings*.
 
+## `skyfall`
+
+- **ford1962flows** — Ford, Lester Randolph and Fulkerson, Delbert Ray. *Flows in Networks*.
+
+## `octopussy`
+
 - **ahuja1993network** — Ahuja, Ravindra K. and Magnanti, Thomas L. and Orlin, James B.. *Network Flows: Theory, Algorithms, and Applications*.
+
+- **bellman1958routing** — Bellman, Richard. *On a Routing Problem*.
+
+- **dantzig1954minimizing** — Dantzig, George B. and Fulkerson, D. R.. *Minimizing the Number of Tankers to Meet a Fixed Schedule*.
 
 - **caprara2002train** — Caprara, Alberto and Fischetti, Matteo and Toth, Paolo. *Modeling and Solving the Train Timetabling Problem*.
 
@@ -247,7 +370,9 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **kuhn1955hungarian** — Kuhn, Harold W.. *The Hungarian Method for the Assignment Problem*.
 
-- **nocedal2006numerical** — Nocedal, Jorge and Wright, Stephen J.. *Numerical Optimization*.
+- **kiefer1953sequential** — Kiefer, J.. *Sequential Minimax Search for a Maximum*.
+
+- **marquardt1963algorithm** — Marquardt, Donald W.. *An Algorithm for Least-Squares Estimation of Nonlinear Parameters*.
 
 ## `the_world_is_not_enough`
 
@@ -257,11 +382,9 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **hhi** — U.S. Department of Justice and Federal Trade Commission. *Horizontal Merger Guidelines*.
 
-- **hays** — R. Hays. *The Racing Form: Index to Past Performances*.
-
 - **film** — Glen, John (dir.) and Eon Productions. *A View to a Kill*.
 
-- **dixon** — P. Dixon and M. Coles. *Modelling association football scores and inefficiencies in the football betting market*.
+- **dixon** — Mark J. Dixon and Stuart G. Coles. *Modelling Association Football Scores and Inefficiencies in the Football Betting Market*.
 
 - **ast** — Ravindra K. Ahuja and Thomas L. Magnanti and James B. Orlin. *Network Flows: Theory, Algorithms, and Applications*.
 
@@ -271,6 +394,8 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **kreibich2008** — Heidi Kreibich and Annegret H. Thieken. *Assessment of damage caused by high groundwater inundation*.
 
+- **greenswets1966** — David M. Green and John A. Swets. *Signal Detection Theory and Psychophysics*.
+
 ## `the_living_daylights`
 
 - **friedman2026sniper** — Friedman, Daniel A.. *The Living Daylights: SNIPER'S NEST --- Special-Agent Mission Software*.
@@ -279,8 +404,6 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **duckworth1996counter** — Duckworth, Gregory L. and Gilbert, David C. and Barger, James E.. *Acoustic counter-sniper system*.
 
-- **bedford2008modelling** — Bedford, Lee and Kennedy, Gary. *Modelling methods for determining the position of a sniper*.
-
 - **astmg173** — ASTM International. *ASTM G173-03(2020): Standard Tables for Reference Solar Spectral Irradiances: Direct Normal and Hemispherical on 37$^\circ$ Tilted Surface*.
 
 - **vantrees1968** — Van Trees, Harry L.. *Detection, Estimation, and Modulation Theory, Part I*.
@@ -288,6 +411,15 @@ the unified `references.bib`. Keys are cited from the package chapters.
 - **fisher1996viewshed** — Fisher, Peter F.. *Extending the applicability of viewsheds in landscape planning*.
 
 - **kinsler2000** — Kinsler, Lawrence E. and Frey, Austin R. and Coppens, Alan B. and Sanders, James V.. *Fundamentals of Acoustics*.
+
+- **ledeczi2005countersniper** — Ledeczi, Akos and Nadas, Andras and Volgyesi, Peter and Balogh, Gyorgy
+             and Kusy, Branislav and Sallai, Janos and Pap, Gyula and Dora, Sebestyen
+             and Molnar, Karoly and Maroti, Miklos and Simon, Gyorgy. *Countersniper system for urban warfare*.
+
+- **mccoy1999** — McCoy, Robert L.. *Modern Exterior Ballistics: The Launch and Flight Dynamics of
+               Symmetric Projectiles*.
+
+- **bresenham1965** — Bresenham, Jack E.. *Algorithm for computer control of a digital plotter*.
 
 ## `licence_to_kill`
 
@@ -333,6 +465,14 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **buldyrev2010cascading** — Buldyrev, Sergey V. and Parshani, Roni and Paul, Gerald and Stanley, H. Eugene and Havlin, Shlomo. *Catastrophic cascade of failures in interdependent networks*.
 
+## `skyfall`
+
+- **edmonds1972theoretical** — Edmonds, Jack and Karp, Richard M.. *Theoretical Improvements in Algorithmic Efficiency for Network Flow Problems*.
+
+## `goldeneye`
+
+- **schelkunoff1943electromagnetic** — Schelkunoff, Sergei A.. *Electromagnetic Waves*.
+
 ## `tomorrow_never_dies`
 
 - **marcum1960statistical** — Marcum, J. I.. *A statistical theory of target detection by pulsed radar*.
@@ -356,16 +496,6 @@ the unified `references.bib`. Keys are cited from the package chapters.
 - **parkinson1988autonomous** — Parkinson, Bradford W. and Axelrad, Penina. *Autonomous GPS*.
 
 - **brown1992baseline** — Brown, R. Grover. *A baseline GPS*.
-
-## `the_world_is_not_enough`
-
-- **ford_fulkerson** — Ford, Lester R. and Fulkerson, Delbert R.. *Maximal flow through a network*.
-
-- **edmonds_karp** — Edmonds, Jack and Karp, Richard M.. *Theoretical improvements in algorithmic efficiency for network flow problems*.
-
-## `casino_royale_2006`
-
-- **dijkstra** — . *Weighted Shortest-Path Planning on Mobility Graphs*.
 
 ## `the_world_is_not_enough`
 
@@ -397,7 +527,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **tipton1989** — Tipton, Michael J.. *The initial responses to cold-water immersion in man*.
 
-- **golden2011** — Golden, Frank and Tipton, Michael J.. *Essentials of Sea Survival*.
+- **golden2002** — Golden, Frank and Tipton, Michael J.. *Essentials of Sea Survival*.
 
 - **newton1701** — Newton, Isaac. *Scala Graduum Caloris: Calorum Descriptiones \& Signa*.
 
@@ -405,33 +535,37 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **glaser1968** — Glaser, Peter E.. *Power from the Sun: Its Future*.
 
+- **ondov2016** — Ondov, Brian D. and Treangen, Todd J. and Melsted, P\'a. *Mash: fast genome and metagenome distance estimation using MinHash*.
+
 ## `casino_royale_2006`
 
 - **bond_api_protocol** — Friedman, Daniel Ari. *BOND-API: The Frozen MissionProvider Protocol (THE PROTOCOL)*.
 
-- **casino_royale_2006** — Friedman, Daniel Ari. *Casino Royale (2006) -- Special-Agent Mission Software*.
-
-- **poker_equity** — . *Texas Hold'em Hand Ranking and Monte-Carlo Equity*.
-
-- **aml_typologies** — . *Anti-Money-Laundering Transaction-Network Analytics*.
-
-- **digitalis_tox** — . *Cardiac Glycoside (Digoxin/Digitoxin) Toxicology*.
+- **casino_royale_2006** — Friedman, Daniel Ari. *Casino Royale (2006) -- LE CHIFFRE Special-Agent Mission Software*.
 
 - **zinkevich2007cfr** — Zinkevich, Martin and Johanson, Michael and Bowling, Michael and Piccione, Carmelo. *Regret Minimization in Games with Incomplete Information*.
 
+- **billings2002poker** — Billings, Darse and Davidson, Aaron and Schaeffer, Jonathan and Szafron, Duane. *The Challenge of Poker*.
+
 - **chen_ankenman_2006** — Chen, Bill and Ankenman, Jerrod. *The Mathematics of Poker*.
-
-- **raghavan2007labelprop** — Raghavan, Usha Nandini and Albert, R\'e. *Near Linear Time Algorithm to Detect Community Structures in Large-Scale Networks*.
-
-- **page1999pagerank** — Page, Lawrence and Brin, Sergey and Motwani, Rajeev and Winograd, Terry. *The PageRank Citation Ranking: Bringing Order to the Web*.
-
-- **herfindahl_index** — . *Concentration Measures (Herfindahl-Hirschman Index)*.
 
 - **ganzfried2011opponent** — Ganzfried, Sam and Sandholm, Tuomas. *Game Theory-Based Opponent Modeling in Large Imperfect-Information Games*.
 
-## `skyfall`
+- **minka2000dirichlet** — Minka, Thomas P.. *Estimating a Dirichlet*.
 
-- **edmonds1972theoretical** — Edmonds, Jack and Karp, Richard M.. *Theoretical Improvements in Algorithmic Efficiency for Network Flow Problems*.
+- **page1999pagerank** — Page, Lawrence and Brin, Sergey and Motwani, Rajeev and Winograd, Terry. *The PageRank*.
+
+- **raghavan2007labelprop** — Raghavan, Usha Nandini and Albert, R\'e. *Near Linear Time Algorithm to Detect Community Structures in Large-Scale Networks*.
+
+- **brandes2001** — Brandes, Ulrik. *A Faster Algorithm for Betweenness Centrality*.
+
+- **hirschman1964** — Hirschman, Albert O.. *The Paternity of an Index*.
+
+- **weber2019aml** — Weber, Mark and Domeniconi, Giacomo and Chen, Jie and Weidele, Daniel Karl I. and Bellei, Claudio and Robinson, Tom and Leiserson, Charles E.. *Anti-Money Laundering in Bitcoin: Experimenting with Graph Convolutional Networks for Financial Forensics*.
+
+- **fatf2009casinos** — Financial Action Task Force. *Vulnerabilities of Casinos and Gaming Sector*.
+
+- **antman1990fab** — Antman, Elliott M. and Wenger, Thomas L. and Butler, Vincent P. and Haber, Edgar and Smith, Thomas W.. *Treatment of 150 Cases of Life-Threatening Digitalis Intoxication with Digoxin-Specific Fab*.
 
 ## `quantum_of_solace`
 
@@ -443,9 +577,17 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **ford1956maximal** — Ford, Lester R. and Fulkerson, Delbert R.. *Maximal flow through a network*.
 
-- **nash1950bargaining** — Nash, John F.. *The bargaining problem*.
+- **herfindahl1950concentration** — Herfindahl, Orris C.. *Concentration in the Steel Industry*.
 
-- **sheth1968how** — Sheth, Jagdish N.. *How multivariate methods may reduce the need for the multivariate approach*.
+- **doj2010merger** — U.S. Department of Justice. *Horizontal Merger Guidelines*.
+
+- **dubey1979mathematical** — Dubey, Pradeep and Shapley, Lloyd S.. *Mathematical properties of the Banzhaf*.
+
+- **wood1993deterministic** — Wood, R. Kevin. *Deterministic network interdiction*.
+
+- **espey1997price** — Espey, Molly and Espey, James and Shaw, W. Douglass. *Price elasticity of residential demand for water: A meta-analysis*.
+
+- **loucks2017water** — Loucks, Daniel P. and van Beek, Eelco. *Water Resource Systems Planning and Management: An Introduction to Methods, Models, and Applications*.
 
 ## `skyfall`
 
@@ -453,13 +595,25 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **page1954continuous** — Page, E. S.. *Continuous Inspection Schemes*.
 
-- **ford1956flows** — Ford, Lester Randolph and Fulkerson, Delbert Ray. *Flows in Networks*.
-
 - **pinedo2016scheduling** — Pinedo, Michael L.. *Scheduling: Theory, Algorithms, and Systems*.
 
 - **hawkins1999cumulative** — Hawkins, Douglas M. and Olwell, David H.. *Cumulative Sum Charts and Charting for Quality Improvement*.
 
-- **mendelson2010logic** — Mendelson, Elliott. *Introduction to Mathematical Logic*.
+- **tarjan1972dfs** — Tarjan, Robert. *Depth-First Search and Linear Graph Algorithms*.
+
+- **hopcroft1973algorithm447** — Hopcroft, John and Tarjan, Robert. *Algorithm 447: Efficient Algorithms for Graph Manipulation*.
+
+- **phillips1998graphbased** — Phillips, Cynthia and Swiler, Laura Painton. *A Graph-Based System for Network-Vulnerability Analysis*.
+
+- **sheyner2002attackgraphs** — Sheyner, Oleg and Haines, Joshua and Jha, Somesh and Lippmann, Richard and Wing, Jeannette M.. *Automated Generation and Analysis of Attack Graphs*.
+
+- **mell2007cvss** — Mell, Peter and Scarfone, Karen and Romanosky, Sasha. *A Complete Guide to the Common Vulnerability Scoring System Version 2.0*.
+
+- **beattie2002timing** — Beattie, Steve and Arnold, Seth and Cowan, Crispin and Wagle, Perry and Wright, Chris and Shostack, Adam. *Timing the Application of Security Patches for Optimal Uptime*.
+
+- **killick2012changepoints** — Killick, Rebecca and Fearnhead, Paul and Eckley, Idris A.. *Optimal Detection of Changepoints with a Linear Computational Cost*.
+
+- **montgomery2012spc** — Montgomery, Douglas C.. *Introduction to Statistical Quality Control*.
 
 ## `spectre`
 
@@ -478,6 +632,20 @@ the unified `references.bib`. Keys are cited from the package chapters.
 - **Feige1998** — Uriel Feige. *A threshold of $\ln n$ for approximating set cover*.
 
 - **Newman2002** — Mark E. J. Newman. *Spread of epidemic disease on networks*.
+
+- **HopcroftTarjan1973** — John Hopcroft and Robert Endre Tarjan. *Algorithm 447: Efficient algorithms for graph manipulation*.
+
+- **Latora2001** — Vito Latora and Massimo Marchiori. *Efficient behavior of small-world networks*.
+
+- **Albert2000** — R\'e. *Error and attack tolerance of complex networks*.
+
+- **Borgatti2006** — Stephen P. Borgatti. *Identifying sets of key players in a social network*.
+
+- **Hirschman1964** — Albert O. Hirschman. *The paternity of an index*.
+
+- **Kempe2003** — David Kempe and Jon Kleinberg and \'E. *Maximizing the spread of influence through a social network*.
+
+- **Leskovec2007** — Jure Leskovec and Andreas Krause and Carlos Guestrin and Christos Faloutsos and Jeanne VanBriesen and Natalie Glance. *Cost-effective outbreak detection in networks*.
 
 ## `no_time_to_die`
 
@@ -499,6 +667,12 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **nrc1983risk** — National Research Council. *Risk Assessment in the Federal Government: Managing the Process*.
 
+- **gibaldi1982pharmacokinetics** — Gibaldi, Milo and Perrier, Donald. *Pharmacokinetics*.
+
+- **langmuir1918adsorption** — Langmuir, Irving. *The adsorption of gases on plane surfaces of glass, mica and platinum*.
+
+- **bliss1939toxicity** — Bliss, Chester I. *The toxicity of poisons applied jointly*.
+
 ## `casino_royale_1967`
 
 - **friedman2026fivestart** — Friedman, Daniel Ari. *Casino Royale: FIVE 00s --- Special-Agent Mission Software*.
@@ -511,7 +685,11 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **wizardofodds_baccarat** — Shackleford, Michael. *Baccarat Basics*.
 
-- **casinoroyale1967film** — Huston, John and Hughes, Ken and McGrath, Joseph and Roscott, Robert and Guest, Val. *Casino Royale*.
+- **casinoroyale1967film** — Huston, John and Hughes, Ken and McGrath, Joseph and Parrish, Robert and Guest, Val. *Casino Royale*.
+
+- **cover2006elements** — Cover, Thomas M. and Thomas, Joy A.. *Elements of Information Theory*.
+
+- **strehl2002cluster** — Strehl, Alexander and Ghosh, Joydeep. *Cluster Ensembles --- A Knowledge Reuse Framework for Combining Multiple Partitions*.
 
 ## `never_say_never_again`
 
@@ -520,6 +698,12 @@ the unified `references.bib`. Keys are cited from the package chapters.
 - **wright1936learning** — Wright, T. P.. *Factors Affecting the Cost of Airplanes*.
 
 - **barlow1975reliability** — Barlow, Richard E. and Proschan, Frank. *Statistical Theory of Reliability and Life Testing: Probability Models*.
+
+- **ross2019probability** — Ross, Sheldon M.. *Introduction to Probability Models*.
+
+- **verhulst1838notice** — Verhulst, Pierre-Fran\cc. *Notice sur la loi que la population suit dans son accroissement*.
+
+- **unicode2023uax15** — The Unicode Consortium. *Unicode Standard Annex \#15: Unicode Normalization Forms*.
 
 ## `bond-utilities`
 
@@ -533,13 +717,23 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **kasiski_1863** — Kasiski, Friedrich. *Die Geheimschriften und die Dechiffrir-Kunst*.
 
+- **stinson_paterson_2018** — Stinson, Douglas R. and Paterson, Maura B.. *Cryptography: Theory and Practice*.
+
 - **iso8601** — . *ISO*.
 
 ## `bond-api`
 
-- **pep544** — Van Rossum, Guido and Levkivskyi, Ivan. *PEP 544 -- Protocols: Structural subtyping (static duck typing)*.
+- **pep544** — Levkivskyi, Ivan and Lehtosalo, Jukka and Langa, \L. *PEP 544 -- Protocols: Structural subtyping (static duck typing)*.
 
-- **pep557** — Debonne, Eric and Barnert, Patrick and La, David. *PEP 557 -- Data Classes*.
+- **pep557** — Smith, Eric V.. *PEP 557 -- Data Classes*.
+
+- **pep484** — van Rossum, Guido and Lehtosalo, Jukka and Langa, \L. *PEP 484 -- Type Hints*.
+
+## `bond-cli`
+
+- **rfc8259** — Bray, Tim. *The JavaScript Object Notation (JSON) Data Interchange Format*.
+
+## `bond-api`
 
 - **nist_fips180_4** — National Institute of Standards and Technology. *FIPS 180-4: Secure Hash Standard (SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224 and SHA-512/256)*.
 
@@ -569,22 +763,37 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **kwok1999static** — Kwok, Yu-Kwong and Ahmad, Ishfaq. *Static Scheduling Algorithms for Allocating Directed Task Graphs to Multiprocessors*.
 
+- **avizienis2004basic** — Avi\vz. *Basic Concepts and Taxonomy of Dependable and Secure Computing*.
+
+- **gamma1994design** — Gamma, Erich and Helm, Richard and Johnson, Ralph and Vlissides, John. *Design Patterns: Elements of Reusable Object-Oriented Software*.
+
 - **bondorchestrator2026** — Friedman, Daniel Ari. *bond-orchestrator: A Deterministic Mission DAG Runner (BOND-ORCHESTRATOR, codename DAG 00)*.
 
 ## `bond-cli`
 
-- **argparse** — Python Software Foundation. *argparse — Parser for command-line options, arguments and sub-commands*.
+- **bethard2009argparse** — Bethard, Steven. *PEP 389 — argparse: New Command Line Parsing Module*.
 
-- **rfc8259** — Bray, Tim. *RFC 8259 — The JavaScript Object Notation (JSON) Data Interchange Format*.
+- **pythonargparse** — Python Software Foundation. *argparse — Parser for command-line options, arguments and sub-commands*.
+
+- **posix2018** — . *The Open Group Base Specifications Issue 7, 2018 edition
+                  (IEEE Std 1003.1-2017), Chapter 12: Utility Conventions*.
+
+- **raymond2003unix** — Raymond, Eric S.. *The Art of Unix Programming*.
+
+- **semver2** — Preston-Werner, Tom. *Semantic Versioning 2.0.0*.
 
 ## `bond-ops`
 
 - **bond_ops** — Friedman, Daniel Ari. *BOND-OPS: Fleet Health, Aggregate Gates, and Provisioning for PROJECT BOND*.
 
-- **pytest** — Krekel, Holger and Oliveira, Bruno and others. *pytest: helps you write better programs*.
+- **pytest** — Krekel, Holger and Oliveira, Bruno and Pfannschmidt, Ronny and Bruynooghe, Floris and Laugher, Brianna and Bruhin, Florian. *pytest: helps you write better programs*.
 
-- **coveragepy** — Ned Batchelder and contributors. *Coverage.py*.
+- **coveragepy** — Batchelder, Ned and contributors. *Coverage.py*.
 
-- **ruff** — Charlie Marsh and Astral contributors. *Ruff: An extremely fast Python linter and code formatter*.
+- **ruff** — Marsh, Charlie and Astral Software Inc.. *Ruff: An extremely fast Python linter and code formatter*.
 
-- **mypy** — Jukka Lehtosalo and contributors. *mypy: Optional Static Typing for Python*.
+- **mypy** — Lehtosalo, Jukka and contributors. *mypy: Optional Static Typing for Python*.
+
+- **matplotlib** — Hunter, John D.. *Matplotlib: A 2D Graphics Environment*.
+
+- **wong2011** — Wong, Bang. *Points of view: Color blindness*.

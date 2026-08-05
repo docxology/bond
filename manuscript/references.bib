@@ -1,60 +1,126 @@
 @comment{ Unified references.bib merged from all PROJECT BOND package manuscripts. }
 
-@misc{turner1994workbook,
-  author = {Turner, D. B.},
-  title = {Workbook of Atmospheric Dispersion Estimates},
-  edition = {2nd},
-  publisher = {Lewis Publishers},
-  year = {1994}
-}
-@misc{martin1976dispersion,
-  author = {Martin, J. A. and Green, D. A.},
-  title = {Dispersion and Dosimetry Models},
-  howpublished = {EPA dispersion-parameter guidance},
-  year = {1976}
-}
-@misc{kennedy2011dcal,
-  author = {Kennedy, W. E. and Strenge, T. J. and Pauley, K. A.},
-  title = {{DCAL} and the {RADTRAN} Family of Codes},
-  year = {2011}
-}
-@article{bateman1910solution,
-  author = {Bateman, H.},
-  title = {The Solution of a System of Differential Equations Occurring in the Theory of Radioactive Transformations},
-  journal = {Proceedings of the Cambridge Philosophical Society},
-  volume = {15},
-  pages = {423--427},
-  year = {1910}
+@book{knoll2010radiation,
+  author    = {Knoll, Glenn F.},
+  title     = {Radiation Detection and Measurement},
+  publisher = {Wiley},
+  address   = {Hoboken, NJ},
+  edition   = {4th},
+  year      = {2010}
 }
 @article{currie1968limits,
-  author = {Currie, L. A.},
-  title = {Limits for Qualitative Detection and Quantitative Determination: Application to Radiochemistry},
+  title   = {Limits for qualitative detection and quantitative determination: Application to radiochemistry},
+  author  = {Currie, Lloyd A},
   journal = {Analytical Chemistry},
-  volume = {40},
-  number = {3},
-  pages = {586--593},
-  year = {1968},
-  doi = {10.1021/ac60259a007}
+  volume  = {40},
+  number  = {3},
+  pages   = {586--593},
+  year    = {1968},
+}
+@misc{ensdf,
+  author       = {{National Nuclear Data Center}},
+  title        = {{ENSDF}: Evaluated Nuclear Structure Data File},
+  howpublished = {Brookhaven National Laboratory},
+  note         = {Gamma-ray energies, emission intensities, and half-lives
+                  underlying the isotope library and decay-chain table}
+}
+@article{bateman1910solution,
+  title   = {Solution of a system of differential equations occurring in the theory of radioactive transformations},
+  author  = {Bateman, Harry},
+  journal = {Proceedings of the Cambridge Philosophical Society},
+  volume  = {15},
+  pages   = {423--427},
+  year    = {1910},
+}
+@techreport{hubbell1995tables,
+  author      = {Hubbell, J. H. and Seltzer, S. M.},
+  title       = {Tables of {X}-Ray Mass Attenuation Coefficients and Mass
+                 Energy-Absorption Coefficients from 1 {keV} to 20 {MeV} for
+                 Elements {Z} = 1 to 92 and 48 Additional Substances of
+                 Dosimetric Interest},
+  institution = {National Institute of Standards and Technology},
+  number      = {NISTIR 5632},
+  year        = {1995},
+  note        = {Source of the mu/rho values in MASS_ATTENUATION_CM2_G}
 }
 @misc{nistxcom,
-  author = {Berger, M. J. and Hubbell, J. H. and Seltzer, S. M. and others},
-  title = {{XCOM}: Photon Cross Sections Database},
+  author       = {Berger, M. J. and Hubbell, J. H. and Seltzer, S. M. and
+                  Chang, J. and Coursey, J. S. and Sukumar, R. and
+                  Zucker, D. S. and Olsen, K.},
+  title        = {{XCOM}: Photon Cross Sections Database},
   howpublished = {NIST Standard Reference Database 8 (XGAM)},
-  year = {2010},
-  note = {Mass attenuation coefficients mu/rho for common shielding materials}
-}
-@book{knoll2010radiation,
-  author = {Knoll, G. F.},
-  title = {Radiation Detection and Measurement},
-  edition = {4th},
-  publisher = {John Wiley \& Sons},
-  year = {2010}
+  year         = {2010},
+  note         = {Photon cross sections cross-checking the shielding tables}
 }
 @misc{icrp119compendium,
-  author = {{International Commission on Radiological Protection}},
-  title = {Compendium of Dose Coefficients based on {ICRP} Publication 60},
+  author       = {{International Commission on Radiological Protection}},
+  title        = {Compendium of Dose Coefficients based on {ICRP} Publication 60},
   howpublished = {ICRP Publication 119, Annals of the ICRP 41 (Suppl.)},
-  year = {2012}
+  year         = {2012},
+  note         = {Committed effective dose coefficients behind INHALATION_DCF_SV_BQ}
+}
+@misc{icrp72,
+  author       = {{International Commission on Radiological Protection}},
+  title        = {Age-dependent Doses to Members of the Public from Intake of
+                  Radionuclides: Part 5, Compilation of Ingestion and Inhalation
+                  Dose Coefficients},
+  howpublished = {ICRP Publication 72, Annals of the ICRP 26(1)},
+  year         = {1996}
+}
+@article{smith2012exposure,
+  author  = {Smith, Daniel S. and Stabin, Michael G.},
+  title   = {Exposure Rate Constants and Lead Shielding Values for over 1,100
+             Radionuclides},
+  journal = {Health Physics},
+  volume  = {102},
+  number  = {3},
+  pages   = {271--291},
+  year    = {2012},
+  note    = {Specific gamma-ray constants behind GAMMA_CONSTANT_MSV_M2_H_GBQ}
+}
+@article{pasquill1961estimation,
+  author  = {Pasquill, F.},
+  title   = {The Estimation of the Dispersion of Windborne Material},
+  journal = {The Meteorological Magazine},
+  volume  = {90},
+  number  = {1063},
+  pages   = {33--49},
+  year    = {1961},
+  note    = {Origin of the A--F atmospheric stability classification}
+}
+@article{gifford1961use,
+  author  = {Gifford, Franklin A.},
+  title   = {Use of Routine Meteorological Observations for Estimating
+             Atmospheric Dispersion},
+  journal = {Nuclear Safety},
+  volume  = {2},
+  number  = {4},
+  pages   = {47--51},
+  year    = {1961},
+  note    = {The dispersion curves paired with Pasquill's stability classes}
+}
+@article{martin1976comment,
+  author  = {Martin, D. O.},
+  title   = {Comment on ``The Change of Concentration Standard Deviations with
+             Distance''},
+  journal = {Journal of the Air Pollution Control Association},
+  volume  = {26},
+  number  = {2},
+  pages   = {145--147},
+  year    = {1976},
+  note    = {Power-law fits to the Pasquill-Gifford curves; the a/b/c/d/f
+             coefficient form used in plume_model.STABILITY_TABLE}
+}
+@book{turner1994workbook,
+  author    = {Turner, D. Bruce},
+  title     = {Workbook of Atmospheric Dispersion Estimates: An Introduction to
+               Dispersion Modeling},
+  edition   = {2nd},
+  publisher = {Lewis Publishers / CRC Press},
+  address   = {Boca Raton, FL},
+  year      = {1994},
+  isbn      = {978-1-56670-023-6},
+  note      = {Standard treatment of the Gaussian plume with ground reflection}
 }
 @misc{bond_api,
   title = {BOND-API: The Frozen Mission Protocol Contract for the BOND Film Suite},
@@ -63,12 +129,12 @@
   howpublished = {Software repository},
   url = {https://github.com/docxology/bond-api}
 }
-@article{bond_utilities,
-  author  = {Friedman, Daniel Ari},
-  title   = {BOND-Utilities (Q-BRANCH): Layer 0 Foundation},
-  journal = {BOND Suite Technical Series},
-  year    = {2026},
-  note    = {Local working tree, no remote},
+@misc{bond_utilities,
+  author       = {Friedman, Daniel Ari},
+  title        = {{BOND-Utilities} ({Q-BRANCH}): Layer 0 Foundation},
+  year         = {2026},
+  howpublished = {Unpublished software, {PROJECT} {BOND} local working tree},
+  note         = {No remote and no DOI; named as a declared, not-yet-bound integration point},
 }
 @article{chan1994hyperbolic,
   author  = {Chan, Y. T. and Ho, K. C.},
@@ -79,94 +145,204 @@
   number  = {8},
   pages   = {1905--1915},
 }
+@book{nocedal2006numerical,
+  author    = {Nocedal, Jorge and Wright, Stephen J.},
+  title     = {Numerical Optimization},
+  publisher = {Springer},
+  address   = {New York},
+  edition   = {2nd},
+  year      = {2006}
+}
 @book{martello1990knapsack,
   author    = {Martello, Silvano and Toth, Paolo},
   title     = {Knapsack Problems: Algorithms and Computer Implementations},
   publisher = {John Wiley \& Sons},
   year      = {1990},
 }
+@book{bellman1957dynamic,
+  author    = {Bellman, Richard},
+  title     = {Dynamic Programming},
+  publisher = {Princeton University Press},
+  year      = {1957},
+}
 @book{kleinberg2005algorithm,
   author    = {Kleinberg, Jon and Tardos, \'{E}va},
   title     = {Algorithm Design},
   publisher = {Addison-Wesley},
   year      = {2005},
+  note      = {Chapter 4: greedy interval scheduling},
 }
-@misc{fleming1963russia,
-  title        = {From Russia, with Love},
-  author       = {Fleming, Ian},
-  year         = {1957},
-  publisher    = {Jonathan Cape},
+@book{garey1979computers,
+  author    = {Garey, Michael R. and Johnson, David S.},
+  title     = {Computers and Intractability: A Guide to the Theory of
+               NP-Completeness},
+  publisher = {W. H. Freeman},
+  year      = {1979},
+  note      = {Problem [SS1], sequencing with release times and deadlines:
+               NP-complete in the strong sense},
 }
-@misc{goldfinger_ref1,
-  author  = {A. Walras,  , L. Corbaz, Lausanne, 1874.}
-  title   = {Éléments d'économie politique pure}
-  year    = {1874}
-  note    = {Classical tatonnement / price-adjustment framework underlying the market-cornering model.}
+@book{proakis2008digital,
+  author    = {Proakis, John G. and Salehi, Masoud},
+  title     = {Digital Communications},
+  edition   = {5},
+  publisher = {McGraw-Hill},
+  year      = {2008},
+  note      = {Additive white Gaussian noise channel; symbol decision},
 }
-
-@misc{goldfinger_ref2,
-  author  = {J. R. Hicks,  , 2nd ed., Oxford University Press, 1946.}
-  title   = {Value and Capital}
-  year    = {1946}
-  note    = {Constant-elasticity demand and market equilibrium.}
+@article{shannon1949secrecy,
+  author  = {Shannon, Claude E.},
+  title   = {Communication Theory of Secrecy Systems},
+  journal = {Bell System Technical Journal},
+  year    = {1949},
+  volume  = {28},
+  number  = {4},
+  pages   = {656--715},
 }
-
-@misc{goldfinger_ref3,
-  author  = {D. O. Veil and N. Rungta, "Defense-in-depth risk scoring for physical-security barriers,"  , vol. 12, no. 3, pp. 201–214, 2019.}
-  title   = {Journal of Security Engineering}
-  year    = {2019}
-  note    = {Layered security scoring and sequential penetration probability.}
+@techreport{nist2015fips180,
+  author      = {{National Institute of Standards and Technology}},
+  title       = {Secure Hash Standard ({SHS})},
+  institution = {U.S. Department of Commerce},
+  type        = {Federal Information Processing Standards Publication},
+  number      = {FIPS PUB 180-4},
+  year        = {2015},
+  doi         = {10.6028/NIST.FIPS.180-4},
 }
-
-@misc{goldfinger_ref4,
-  author  = {W. M. Steen and J. Mazumder,  , 4th ed., Springer, 2010.}
-  title   = {Laser Material Processing}
-  year    = {2010}
-  note    = {Continuous-wave laser energy-balance and cutting models.}
+@article{cox1958regression,
+  author  = {Cox, David R.},
+  title   = {The Regression Analysis of Binary Sequences},
+  journal = {Journal of the Royal Statistical Society, Series B},
+  year    = {1958},
+  volume  = {20},
+  number  = {2},
+  pages   = {215--242},
 }
-
-@misc{goldfinger_ref5,
-  author  = {BOND-API project, "THE PROTOCOL: the frozen `MissionProvider` contract," PROJECT BOND suite, `bond-api` package, 2026.}
-  title   = {BOND-API project, "THE PROTOCOL: the frozen `MissionProvider` contract," PROJECT BOND suite, `bond-api` package, 2026.}
-  year    = {2026}
-  note    = {Protocol this film package implements.}
+@book{fleming1957russia,
+  author    = {Fleming, Ian},
+  title     = {From Russia, with Love},
+  publisher = {Jonathan Cape},
+  address   = {London},
+  year      = {1957},
+  note      = {The 1963 Eon film is an adaptation of this 1957 novel},
 }
-
-@misc{goldfinger_ref6,
-  author  = {P. Krugman, "A model of balance-of-payments crises,"  , vol. 11, no. 3, pp. 311–325, 1979.}
-  title   = {Journal of Money, Credit and Banking}
-  year    = {1979}
-  note    = {The first-generation speculative-attack setup underlying the reserve-attack model.}
+@book{walras1874elements,
+  author    = {Walras, L{\'e}on},
+  title     = {{\'E}l{\'e}ments d'{\'e}conomie politique pure, ou th{\'e}orie de la richesse sociale},
+  publisher = {L. Corbaz \& Cie},
+  address   = {Lausanne},
+  year      = {1874},
+  note      = {Origin of the t{\^a}tonnement price-adjustment process used by
+               \texttt{market\_attack.simulate\_corner}.}
 }
-
-@misc{goldfinger_ref7,
-  author  = {R. P. Flood and P. M. Garber, "Collapsing exchange-rate regimes: some linear examples,"  , vol. 17, no. 1–2, pp. 1–13, 1984.}
-  title   = {Journal of International Economics}
-  year    = {1984}
-  note    = {The shadow-exchange-rate / attack-time closed form used in `reserve_attack.py`.}
+@book{hicks1946value,
+  author    = {Hicks, John R.},
+  title     = {Value and Capital: An Inquiry into Some Fundamental Principles of Economic Theory},
+  edition   = {2},
+  publisher = {Oxford University Press},
+  address   = {Oxford},
+  year      = {1946},
+  note      = {Constant-elasticity demand and market clearing behind the
+               shocked-equilibrium price.}
 }
-
-@misc{goldfinger_ref8,
-  author  = {E. W. Dijkstra, "A note on two problems in connexion with graphs,"  , vol. 1, pp. 269–271, 1959.}
-  title   = {Numerische Mathematik}
-  year    = {1959}
-  note    = {The shortest-path algorithm used for minimum-effort vault penetration.}
+@article{kyle1985continuous,
+  author  = {Kyle, Albert S.},
+  title   = {Continuous Auctions and Insider Trading},
+  journal = {Econometrica},
+  volume  = {53},
+  number  = {6},
+  pages   = {1315--1335},
+  year    = {1985},
+  note    = {Canonical treatment of the price impact of a strategic trader —
+             the microstructure counterpart to the corner's supply shock.}
 }
-
-@misc{goldfinger_ref9,
-  author  = {H. S. Carslaw and J. C. Jaeger,  , 2nd ed., Oxford University Press, 1959.}
-  title   = {Conduction of Heat in Solids}
-  year    = {1959}
-  note    = {The constant-surface-flux temperature solution used by `laser_thermal.py`.}
+@article{krugman1979model,
+  author  = {Krugman, Paul},
+  title   = {A Model of Balance-of-Payments Crises},
+  journal = {Journal of Money, Credit and Banking},
+  volume  = {11},
+  number  = {3},
+  pages   = {311--325},
+  year    = {1979},
+  note    = {The first-generation speculative-attack setup underlying
+             \texttt{reserve\_attack}.}
 }
-
-@misc{goldfinger_ref10,
-  author  = {E. Israeli and R. K. Wood, "Shortest-path network interdiction,"  , vol. 40, no. 2, pp. 97–111, 2002.}
-  title   = {Networks}
-  year    = {2002}
-  note    = {The shortest-path interdiction / network-hardening problem implemented greedily in `vault_threat_network.py`.}
+@article{flood1984collapsing,
+  author  = {Flood, Robert P. and Garber, Peter M.},
+  title   = {Collapsing Exchange-Rate Regimes: Some Linear Examples},
+  journal = {Journal of International Economics},
+  volume  = {17},
+  number  = {1--2},
+  pages   = {1--13},
+  year    = {1984},
+  note    = {The linear shadow-exchange-rate and attack-time closed forms
+             implemented in \texttt{reserve\_attack.attack\_time}.}
 }
-
+@book{garcia2007design,
+  author    = {Garcia, Mary Lynn},
+  title     = {The Design and Evaluation of Physical Protection Systems},
+  edition   = {2},
+  publisher = {Butterworth-Heinemann},
+  address   = {Burlington, MA},
+  year      = {2007},
+  note      = {Layered physical protection, adversary sequence diagrams, and
+               detection/delay path analysis — the standard reference behind
+               both \texttt{vault\_security} and \texttt{vault\_threat\_network}.}
+}
+@article{dijkstra1959note,
+  author = {Dijkstra, E. W.},
+  title = {A Note on Two Problems in Connexion with Graphs},
+  journal = {Numerische Mathematik},
+  volume = {1},
+  pages = {269--271},
+  year = {1959}
+}
+@article{israeli2002shortest,
+  author  = {Israeli, Eitan and Wood, R. Kevin},
+  title   = {Shortest-Path Network Interdiction},
+  journal = {Networks},
+  volume  = {40},
+  number  = {2},
+  pages   = {97--111},
+  year    = {2002},
+  note    = {The shortest-path interdiction / improvement problem the greedy
+             hardening allocation in \texttt{harden\_network} approximates.}
+}
+@book{steen2010laser,
+  author    = {Steen, William M. and Mazumder, Jyotirmoy},
+  title     = {Laser Material Processing},
+  edition   = {4},
+  publisher = {Springer},
+  address   = {London},
+  year      = {2010},
+  note      = {Continuous-wave laser energy-balance and cutting models behind
+               \texttt{laser\_physics.burn\_through\_time}.}
+}
+@book{carslaw1959conduction,
+  author    = {Carslaw, Horatio S. and Jaeger, John C.},
+  title     = {Conduction of Heat in Solids},
+  edition   = {2},
+  publisher = {Oxford University Press},
+  address   = {Oxford},
+  year      = {1959},
+  note      = {The constant-surface-flux temperature solution used by
+               \texttt{laser\_thermal.surface\_melt\_time}.}
+}
+@book{siegman1986lasers,
+  author    = {Siegman, Anthony E.},
+  title     = {Lasers},
+  publisher = {University Science Books},
+  address   = {Mill Valley, CA},
+  year      = {1986},
+  note      = {Gaussian-beam propagation, waist, and Rayleigh range used by
+               \texttt{laser\_thermal.spot\_radius\_at\_distance}.}
+}
+@misc{bondapi2026protocol,
+  author       = {{PROJECT BOND suite}},
+  title        = {{BOND-API}: the frozen {MissionProvider} protocol},
+  howpublished = {\texttt{bond-api} package, local-only working tree},
+  year         = {2026},
+  note         = {The mission contract this film package implements
+                  (brief / recon / plan / execute / debrief).}
+}
 @book{buehlmann1984,
   author    = {Albert A. Buehlmann},
   title     = {Decompression--Decompression Sickness},
@@ -199,7 +375,30 @@
   address   = {Bethesda, MD},
   year      = {2002}
 }
-@misc{fleming1961,
+@book{newman1977,
+  author    = {John Nicholas Newman},
+  title     = {Marine Hydrodynamics},
+  publisher = {MIT Press},
+  address   = {Cambridge, MA},
+  year      = {1977}
+}
+@book{cockcroft2011,
+  author    = {A. N. Cockcroft and J. N. F. Lameijer},
+  title     = {A Guide to the Collision Avoidance Rules},
+  edition   = {7th},
+  publisher = {Butterworth-Heinemann},
+  address   = {Oxford},
+  year      = {2011}
+}
+@manual{usnavydiving2016,
+  author       = {{Naval Sea Systems Command}},
+  title        = {U.S. Navy Diving Manual, Revision 7},
+  organization = {Naval Sea Systems Command},
+  address      = {Washington, DC},
+  note         = {SS521-AG-PRO-010},
+  year         = {2016}
+}
+@book{fleming1961,
   author    = {Ian Fleming},
   title     = {Thunderball},
   publisher = {Jonathan Cape},
@@ -214,39 +413,81 @@
   note         = {Phase 1 reference; films implement its MissionProvider}
 }
 @book{vallado2013,
-  author = {Vallado, David A.},
-  title = {Fundamentals of Astrodynamics and Applications},
-  edition = {4th},
+  author    = {Vallado, David A.},
+  title     = {Fundamentals of Astrodynamics and Applications},
+  edition   = {4},
   publisher = {Microcosm Press},
-  address = {Hawthorne, CA},
-  year = {2013}
+  address   = {Hawthorne, CA},
+  year      = {2013}
 }
 @book{bate1971,
-  author = {Bate, Roger R. and Mueller, Donald D. and White, Jerry E.},
-  title = {Fundamentals of Astrodynamics},
+  author    = {Bate, Roger R. and Mueller, Donald D. and White, Jerry E.},
+  title     = {Fundamentals of Astrodynamics},
   publisher = {Dover Publications},
-  year = {1971}
+  address   = {New York},
+  year      = {1971}
 }
 @book{wertz2011,
-  editor = {Wertz, James R. and Everett, David F. and Puschell, Jeffery J.},
-  title = {Space Mission Engineering: The New SMAD},
+  editor    = {Wertz, James R. and Everett, David F. and Puschell, Jeffery J.},
+  title     = {Space Mission Engineering: The New SMAD},
   publisher = {Microcosm Press},
-  year = {2011}
+  address   = {Hawthorne, CA},
+  year      = {2011}
 }
-@article{hughes1971,
-  author = {Hughes, G. F.},
-  title = {On the Mean Accuracy of Statistical Pattern Recognizers},
-  journal = {IEEE Transactions on Information Theory},
-  volume = {14},
-  number = {1},
-  pages = {55--63},
-  year = {1968}
+@book{fehse2003,
+  author    = {Fehse, Wigbert},
+  title     = {Automated Rendezvous and Docking of Spacecraft},
+  publisher = {Cambridge University Press},
+  address   = {Cambridge},
+  year      = {2003}
+}
+@article{reed1990,
+  author  = {Reed, I. S. and Yu, X.},
+  title   = {Adaptive Multiple-Band {CFAR} Detection of an Optical Pattern with Unknown Spectral Distribution},
+  journal = {IEEE Transactions on Acoustics, Speech, and Signal Processing},
+  volume  = {38},
+  number  = {10},
+  pages   = {1760--1770},
+  year    = {1990}
+}
+@article{chandola2009,
+  author  = {Chandola, Varun and Banerjee, Arindam and Kumar, Vipin},
+  title   = {Anomaly Detection: A Survey},
+  journal = {ACM Computing Surveys},
+  volume  = {41},
+  number  = {3},
+  pages   = {1--58},
+  year    = {2009}
 }
 @book{pearl1988,
-  author = {Pearl, Judea},
-  title = {Probabilistic Reasoning in Intelligent Systems: Networks of Plausible Inference},
+  author    = {Pearl, Judea},
+  title     = {Probabilistic Reasoning in Intelligent Systems: Networks of Plausible Inference},
   publisher = {Morgan Kaufmann},
-  year = {1988}
+  address   = {San Mateo, CA},
+  year      = {1988}
+}
+@book{stone1975,
+  author    = {Stone, Lawrence D.},
+  title     = {Theory of Optimal Search},
+  publisher = {Academic Press},
+  address   = {New York},
+  year      = {1975}
+}
+@book{waltz1990,
+  author    = {Waltz, Edward and Llinas, James},
+  title     = {Multisensor Data Fusion},
+  publisher = {Artech House},
+  address   = {Boston, MA},
+  year      = {1990}
+}
+@article{hart1968,
+  author  = {Hart, Peter E. and Nilsson, Nils J. and Raphael, Bertram},
+  title   = {A Formal Basis for the Heuristic Determination of Minimum Cost Paths},
+  journal = {IEEE Transactions on Systems Science and Cybernetics},
+  volume  = {4},
+  number  = {2},
+  pages   = {100--107},
+  year    = {1968}
 }
 @book{cormen2009,
   title     = {Introduction to Algorithms},
@@ -256,18 +497,39 @@
   year      = {2009},
   note      = {Dijkstra, Edmonds-Karp max-flow, residual min-cut theorem}
 }
-@book{skolnik2001,
-  author = {Skolnik, Merrill I.},
-  title = {Introduction to Radar Systems},
-  edition = {3rd},
-  publisher = {McGraw-Hill},
-  year = {2001}
+@article{foy1976,
+  author  = {Foy, Wade H.},
+  title   = {Position-Location Solutions by {Taylor}-Series Estimation},
+  journal = {IEEE Transactions on Aerospace and Electronic Systems},
+  volume  = {AES-12},
+  number  = {2},
+  pages   = {187--194},
+  year    = {1976}
 }
-@book{waltz1998,
-  author = {Waltz, Edward and Llinas, James},
-  title = {Multisensor Data Fusion},
-  publisher = {Artech House},
-  year = {1990}
+@article{chan1994,
+  author  = {Chan, Y. T. and Ho, K. C.},
+  title   = {A Simple and Efficient Estimator for Hyperbolic Location},
+  journal = {IEEE Transactions on Signal Processing},
+  volume  = {42},
+  number  = {8},
+  pages   = {1905--1915},
+  year    = {1994}
+}
+@book{skolnik2001,
+  author    = {Skolnik, Merrill I.},
+  title     = {Introduction to Radar Systems},
+  edition   = {3rd},
+  publisher = {McGraw-Hill},
+  address   = {New York},
+  year      = {2001}
+}
+@book{daley2003,
+  author    = {Daley, D. J. and Vere-Jones, D.},
+  title     = {An Introduction to the Theory of Point Processes, Volume I: Elementary Theory and Methods},
+  edition   = {2nd},
+  publisher = {Springer},
+  address   = {New York},
+  year      = {2003}
 }
 @book{arya1999dispersion,
   author    = {Arya, S. Pal},
@@ -331,12 +593,12 @@
   journal = {Global Witness Report},
   note    = {Foundational documentation of conflict-diamond trade routes}
 }
-@article{kimberley2003,
-  title   = {The Kimberley Process Certification Scheme},
-  author  = {{Kimberley Process}},
-  year    = {2003},
-  journal = {Interlaken Declaration},
-  note    = {Supply-chain provenance standard for conflict-diamond traceability}
+@misc{kimberley2003,
+  title        = {Kimberley Process Certification Scheme},
+  author       = {{Kimberley Process}},
+  year         = {2003},
+  howpublished = {Certification scheme launched January 2003; adopted by the Interlaken Declaration of 5 November 2002},
+  note         = {Supply-chain provenance standard for conflict-diamond traceability}
 }
 @article{berman2017,
   title   = {This Mine Is Mine! How Minerals Fuel Conflicts in Africa},
@@ -351,9 +613,11 @@
 @book{webster1994,
   title     = {Gems: Their Sources, Descriptions and Identification},
   author    = {Webster, Robert},
+  editor    = {Read, Peter G.},
   year      = {1994},
-  edition   = {6th},
+  edition   = {5th},
   publisher = {Butterworth-Heinemann},
+  address   = {Oxford},
   note      = {Gemological identification practice; basis of the density forensic test}
 }
 @article{dijkstra1959,
@@ -364,7 +628,7 @@
   number  = {1},
   pages   = {269--271},
   year    = {1959},
-  doi     = {10.1007/BF01386390}
+  note    = {Single-source shortest paths; run over feasibility-filtered parkour edges in urban_routes.py.}
 }
 @article{levi2006,
   title   = {Money Laundering},
@@ -394,6 +658,73 @@
   publisher = {Cambridge University Press},
   note      = {Diffraction limits and atmospheric propagation used in the beam physics}
 }
+@article{newcomb1881,
+  title   = {Note on the Frequency of Use of the Different Digits in Natural Numbers},
+  author  = {Newcomb, Simon},
+  year    = {1881},
+  journal = {American Journal of Mathematics},
+  volume  = {4},
+  number  = {1},
+  pages   = {39-40},
+  note    = {The first published observation of the leading-digit law later named for Benford}
+}
+@article{pearson1900,
+  title   = {On the Criterion that a Given System of Deviations from the Probable in the Case of a Correlated System of Variables is Such that it Can be Reasonably Supposed to have Arisen from Random Sampling},
+  author  = {Pearson, Karl},
+  year    = {1900},
+  journal = {The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science},
+  volume  = {50},
+  number  = {302},
+  pages   = {157-175},
+  note    = {The chi-square goodness-of-fit statistic used to score the ledger against Benford}
+}
+@book{nigrini2012,
+  title     = {Benford's Law: Applications for Forensic Accounting, Auditing, and Fraud Detection},
+  author    = {Nigrini, Mark J.},
+  year      = {2012},
+  publisher = {John Wiley \& Sons},
+  address   = {Hoboken, NJ},
+  note      = {Applied digit analysis in forensic accounting; the practice this ledger audit models}
+}
+@article{tarjan1973,
+  title   = {Enumeration of the Elementary Circuits of a Directed Graph},
+  author  = {Tarjan, Robert},
+  year    = {1973},
+  journal = {SIAM Journal on Computing},
+  volume  = {2},
+  number  = {3},
+  pages   = {211-216},
+  note    = {Directed-circuit enumeration; the classical statement of the money-cycle problem}
+}
+@article{freeman1978,
+  title   = {Centrality in Social Networks Conceptual Clarification},
+  author  = {Freeman, Linton C.},
+  year    = {1978},
+  journal = {Social Networks},
+  volume  = {1},
+  number  = {3},
+  pages   = {215-239},
+  note    = {Degree-style centrality; the sense in which the gross-flow hub is a network hub}
+}
+@article{airy1835,
+  title   = {On the Diffraction of an Object-glass with Circular Aperture},
+  author  = {Airy, George Biddell},
+  year    = {1835},
+  journal = {Transactions of the Cambridge Philosophical Society},
+  volume  = {5},
+  pages   = {283-291},
+  note    = {The Airy pattern; source of the 1.22 first-null constant in the spot-radius model}
+}
+@article{beer1852,
+  title   = {Bestimmung der Absorption des rothen Lichts in farbigen Fl\"ussigkeiten},
+  author  = {Beer, August},
+  year    = {1852},
+  journal = {Annalen der Physik und Chemie},
+  volume  = {162},
+  number  = {5},
+  pages   = {78-88},
+  note    = {Exponential absorption law used for the atmospheric transmittance term}
+}
 @misc{film_lald,
   title        = {Live and Let Die},
   author       = {Maibaum, Richard and Mankiewicz, Tom},
@@ -419,11 +750,14 @@
   year      = {2019},
   note      = {Monoalphabetic substitution ciphers and frequency analysis}
 }
-@book{morse1938,
-  title     = {Universal Electrical Communications Signal Code},
-  author    = {Morse, Samuel F. B.},
-  year      = {1938},
-  note      = {International Morse code timing (dot/dash and gap conventions)}
+@techreport{itu2009,
+  title       = {International Morse code},
+  author      = {{International Telecommunication Union}},
+  institution = {ITU Radiocommunication Sector (ITU-R)},
+  type        = {Recommendation},
+  number      = {ITU-R M.1677-1},
+  year        = {2009},
+  note        = {Normative dot/dash durations and intra-letter, inter-letter and inter-word gap ratios used by the drum codec}
 }
 @article{reuter1986,
   title     = {Risks and Prices: An Economic Analysis of Drug Enforcement},
@@ -452,17 +786,12 @@
 }
 @misc{golden_gun_film,
   title = {The Man with the Golden Gun},
-  author = {Gilbert, Lewis and Maibaum, Richard and Mankiewicz, Tom},
+  author = {Hamilton, Guy},
   year = {1974},
   howpublished = {Eon Productions / United Artists},
-  note = {Film; solex solar-array narrative reference.},
-}
-@book{kleinberg_tardos,
-  title = {Algorithm Design},
-  author = {Kleinberg, Jon and Tardos, {\'E}va},
-  year = {2006},
-  publisher = {Pearson / Addison-Wesley},
-  note = {Weighted interval scheduling (ch. 6); scheduling with deadlines (ch. 4).},
+  note = {Film. Directed by Guy Hamilton; screenplay by Richard Maibaum and
+          Tom Mankiewicz. Narrative source for the Solex agitator, the
+          funhouse lair, and the assassin's contract book.},
 }
 @book{duffie_beckman,
   title = {Solar Engineering of Thermal Processes},
@@ -470,26 +799,10 @@
   year = {2013},
   edition = {4th},
   publisher = {John Wiley \& Sons},
-  note = {Solar position algorithms and the daily-insolation closed form (ch. 1).},
-}
-@article{michalsky,
-  title = {The Astronomical Almanac's algorithm for approximate solar position (1950--2050)},
-  author = {Michalsky, Joseph J.},
-  journal = {Solar Energy},
-  volume = {40},
-  number = {3},
-  pages = {227--235},
-  year = {1988},
-  publisher = {Pergamon},
-  note = {Approximate solar position algorithm.},
-}
-@book{cormen,
-  title = {Introduction to Algorithms},
-  author = {Cormen, Thomas H. and Leiserson, Charles E. and Rivest, Ronald L. and Stein, Clifford},
-  year = {2009},
-  edition = {3rd},
-  publisher = {MIT Press},
-  note = {Maximum flow and min-cut (ch. 26); Dijkstra (ch. 24); scheduling with deadlines (ch. 16).},
+  address = {Hoboken, NJ},
+  note = {Ch. 1: solar position, the sunrise hour angle, and the closed-form
+          daily extraterrestrial irradiation on a horizontal plane implemented
+          in solar_tracking.daily_extraterrestrial_insolation_kwh_m2.},
 }
 @article{spencer,
   title = {Fourier series representation of the position of the sun},
@@ -499,7 +812,95 @@
   number = {5},
   pages = {172},
   year = {1971},
-  note = {Fourier-series solar declination and equation of time.},
+  note = {The declination and equation-of-time Fourier series implemented in
+          solar_tracking.solar_declination_deg and equation_of_time_min.},
+}
+@article{michalsky,
+  title = {The Astronomical Almanac's algorithm for approximate solar position
+           (1950--2050)},
+  author = {Michalsky, Joseph J.},
+  journal = {Solar Energy},
+  volume = {40},
+  number = {3},
+  pages = {227--235},
+  year = {1988},
+  publisher = {Pergamon},
+  note = {Higher-accuracy alternative to the Spencer series; cited in the scope
+          section as the upgrade path, deliberately not implemented here.},
+}
+@book{cormen,
+  title = {Introduction to Algorithms},
+  author = {Cormen, Thomas H. and Leiserson, Charles E. and Rivest, Ronald L.
+            and Stein, Clifford},
+  year = {2009},
+  edition = {3rd},
+  publisher = {MIT Press},
+  address = {Cambridge, MA},
+  note = {Ch. 24 Dijkstra; ch. 26 maximum flow, Edmonds--Karp and max-flow
+          min-cut; sec. 16.5 unit-time task scheduling with deadlines as a
+          matroid, which is the exactness argument for deadline_scheduler.},
+}
+@article{ford_fulkerson,
+  author  = {Ford, Lester R. and Fulkerson, Delbert R.},
+  title   = {Maximal flow through a network},
+  journal = {Canadian Journal of Mathematics},
+  volume  = {8},
+  pages   = {399--404},
+  year    = {1956},
+  doi     = {10.4153/CJM-1956-045-5}
+}
+@article{edmonds_karp,
+  author  = {Edmonds, Jack and Karp, Richard M.},
+  title   = {Theoretical improvements in algorithmic efficiency for network flow problems},
+  journal = {Journal of the ACM},
+  volume  = {19},
+  number  = {2},
+  pages   = {248--264},
+  year    = {1972},
+  doi     = {10.1145/321694.321699}
+}
+@article{dijkstra,
+  author  = {Dijkstra, Edsger W.},
+  title   = {A note on two problems in connexion with graphs},
+  journal = {Numerische Mathematik},
+  volume  = {1},
+  pages   = {269--271},
+  year    = {1959},
+  doi     = {10.1007/BF01386390}
+}
+@article{hopcroft_tarjan,
+  title = {Algorithm 447: efficient algorithms for graph manipulation},
+  author = {Hopcroft, John and Tarjan, Robert},
+  journal = {Communications of the ACM},
+  volume = {16},
+  number = {6},
+  pages = {372--378},
+  year = {1973},
+  note = {Linear-time biconnected-components / cut-vertex algorithm
+          implemented in lair_topology.articulation_points.},
+}
+@book{kleinberg_tardos,
+  title = {Algorithm Design},
+  author = {Kleinberg, Jon and Tardos, {\'E}va},
+  year = {2006},
+  publisher = {Pearson / Addison-Wesley},
+  address = {Boston, MA},
+  note = {Sec. 6.1: weighted interval scheduling by dynamic programming with
+          the p(j) predecessor table, implemented in
+          duel_scheduler.max_bounty_schedule; sec. 4.1: the earliest-finish
+          greedy for interval scheduling, implemented in
+          duel_scheduler.earliest_finish_schedule.},
+}
+@article{tarjan_unionfind,
+  title = {Efficiency of a good but not linear set union algorithm},
+  author = {Tarjan, Robert Endre},
+  journal = {Journal of the ACM},
+  volume = {22},
+  number = {2},
+  pages = {215--225},
+  year = {1975},
+  note = {Path-compressed disjoint-set analysis; the structure used for the
+          "latest free slot" query in deadline_scheduler._SlotUnionFind.},
 }
 @book{kay_detection_1998,
   author    = {Kay, Steven M.},
@@ -523,11 +924,12 @@
   publisher = {Prentice Hall},
   year      = {1979}
 }
-@book{rahman_2007,
-  author    = {Rahman, S.},
-  title     = {Naval Architecture and Ocean Engineering},
-  publisher = {Springer},
-  year      = {2007}
+@book{tupper_naval_2013,
+  author    = {Tupper, Eric C.},
+  title     = {Introduction to Naval Architecture},
+  edition   = {5th},
+  publisher = {Butterworth-Heinemann},
+  year      = {2013}
 }
 @book{urick_principles_1983,
   author    = {Urick, Robert J.},
@@ -560,11 +962,19 @@
   publisher = {Wiley-Interscience},
   year      = {2002}
 }
-@book{ross_mechanics_1976,
-  author    = {Ross, C. T. F.},
-  title     = {Mechanics of Underwater Noise},
-  publisher = {Pergamon Press},
-  year      = {1976}
+@book{timoshenko_gere_1961,
+  author    = {Timoshenko, Stephen P. and Gere, James M.},
+  title     = {Theory of Elastic Stability},
+  edition   = {2nd},
+  publisher = {McGraw-Hill},
+  year      = {1961}
+}
+@book{young_roark_2011,
+  author    = {Young, Warren C. and Budynas, Richard G. and Sadegh, Ali M.},
+  title     = {Roark's Formulas for Stress and Strain},
+  edition   = {8th},
+  publisher = {McGraw-Hill},
+  year      = {2011}
 }
 @article{kelley1959critical,
   author = {Kelley, James E. and Walker, Morgan R.},
@@ -581,20 +991,20 @@
   year = {2013}
 }
 @article{stoll1956human,
-  author = {Stoll, Arthur M.},
-  title = {Human Tolerance to Positive G as Limited by the Cardiovascular System},
-  journal = {Aerospace Medicine},
+  author = {Stoll, Alice M.},
+  title = {Human Tolerance to Positive G as Determined by the Physiological End Points},
+  journal = {Journal of Aviation Medicine},
   volume = {27},
   number = {4},
   year = {1956},
-  pages = {356--362}
+  pages = {356--367}
 }
 @misc{moonraker1979,
-  author = {Wood, John},
-  title = {Moonraker (film)},
-  howpublished = {Eon Productions / United Artists},
+  author = {Gilbert, Lewis},
+  title = {Moonraker},
+  howpublished = {Motion picture. Eon Productions / United Artists},
   year = {1979},
-  note = {Source concept for the DRAX mission}
+  note = {Directed by Lewis Gilbert; screenplay by Christopher Wood; source concept for the DRAX mission}
 }
 @book{hohmann1925,
   author = {Hohmann, Walter},
@@ -643,14 +1053,6 @@
   volume = {37},
   pages = {355}
 }
-@article{dijkstra1959note,
-  author  = {Dijkstra, Edsger W.},
-  title   = {A note on two problems in connexion with graphs},
-  journal = {Numerische Mathematik},
-  year    = {1959},
-  volume  = {1},
-  pages   = {269--271}
-}
 @article{hart1968formal,
   author = {Hart, Peter E. and Nilsson, Nils J. and Raphael, Bertram},
   title = {A Formal Basis for the Heuristic Determination of Minimum Cost Paths},
@@ -685,22 +1087,52 @@
   edition = {3rd},
   year = {1983}
 }
-@article{nasdala2004faberge,
-  author  = {Nasdala, Lutz},
-  title   = {Faberg{\'e}: workshop of the imperial jeweler},
-  journal = {Gems \& Gemology},
-  year    = {2004},
-  volume  = {40},
-  number  = {4},
-  pages   = {328--329}
+@inproceedings{blakley1979safeguarding,
+  author    = {Blakley, G. R.},
+  title     = {Safeguarding Cryptographic Keys},
+  booktitle = {Proceedings of the 1979 AFIPS National Computer Conference},
+  volume    = {48},
+  pages     = {313--317},
+  publisher = {AFIPS Press},
+  year      = {1979}
 }
-@article{lawson2004hyperspectral,
-  author  = {Lawson, Richard and others},
-  title   = {Hyperspectral unmixing for pigment identification},
+@book{berlekamp1968algebraic,
+  author    = {Berlekamp, Elwyn R.},
+  title     = {Algebraic Coding Theory},
+  publisher = {McGraw-Hill},
+  year      = {1968}
+}
+@book{buhlmann1984decompression,
+  author    = {B{\"u}hlmann, Albert A.},
+  title     = {Decompression--Decompression Sickness},
+  publisher = {Springer-Verlag},
+  address   = {Berlin},
+  year      = {1984}
+}
+@book{lawson1974solving,
+  author    = {Lawson, Charles L. and Hanson, Richard J.},
+  title     = {Solving Least Squares Problems},
+  publisher = {Prentice-Hall},
+  address   = {Englewood Cliffs, NJ},
+  year      = {1974}
+}
+@article{keshava2002spectral,
+  author  = {Keshava, Nirmal and Mustard, John F.},
+  title   = {Spectral Unmixing},
+  journal = {IEEE Signal Processing Magazine},
+  year    = {2002},
+  volume  = {19},
+  number  = {1},
+  pages   = {44--57}
+}
+@article{delarie1982fluorescence,
+  author  = {de la Rie, E. Ren{\'e}},
+  title   = {Fluorescence of Paint and Varnish Layers (Part I)},
   journal = {Studies in Conservation},
-  year    = {2004},
-  volume  = {49},
-  pages   = {345--350}
+  year    = {1982},
+  volume  = {27},
+  number  = {1},
+  pages   = {1--7}
 }
 @book{feller1994accelerated,
   author    = {Feller, Robert L.},
@@ -717,12 +1149,36 @@
   edition   = {2nd},
   year      = {2010}
 }
+@book{ford1962flows,
+  author = {Ford, Lester Randolph and Fulkerson, Delbert Ray},
+  title = {Flows in Networks},
+  publisher = {Princeton University Press},
+  year = {1962}
+}
 @book{ahuja1993network,
   author    = {Ahuja, Ravindra K. and Magnanti, Thomas L. and Orlin, James B.},
   title     = {Network Flows: Theory, Algorithms, and Applications},
   publisher = {Prentice Hall},
   address   = {Upper Saddle River, NJ},
   year      = {1993}
+}
+@article{bellman1958routing,
+  author  = {Bellman, Richard},
+  title   = {On a Routing Problem},
+  journal = {Quarterly of Applied Mathematics},
+  year    = {1958},
+  volume  = {16},
+  number  = {1},
+  pages   = {87--90}
+}
+@article{dantzig1954minimizing,
+  author  = {Dantzig, George B. and Fulkerson, D. R.},
+  title   = {Minimizing the Number of Tankers to Meet a Fixed Schedule},
+  journal = {Naval Research Logistics Quarterly},
+  year    = {1954},
+  volume  = {1},
+  number  = {3},
+  pages   = {217--222}
 }
 @article{caprara2002train,
   author  = {Caprara, Alberto and Fischetti, Matteo and Toth, Paolo},
@@ -751,13 +1207,23 @@
   number  = {1--2},
   pages   = {83--97}
 }
-@book{nocedal2006numerical,
-  author    = {Nocedal, Jorge and Wright, Stephen J.},
-  title     = {Numerical Optimization},
-  publisher = {Springer},
-  address   = {New York},
-  edition   = {2nd},
-  year      = {2006}
+@article{kiefer1953sequential,
+  author  = {Kiefer, J.},
+  title   = {Sequential Minimax Search for a Maximum},
+  journal = {Proceedings of the American Mathematical Society},
+  year    = {1953},
+  volume  = {4},
+  number  = {3},
+  pages   = {502--506}
+}
+@article{marquardt1963algorithm,
+  author  = {Marquardt, Donald W.},
+  title   = {An Algorithm for Least-Squares Estimation of Nonlinear Parameters},
+  journal = {Journal of the Society for Industrial and Applied Mathematics},
+  year    = {1963},
+  volume  = {11},
+  number  = {2},
+  pages   = {431--441}
 }
 @article{brandes,
   author  = {Brandes, Ulrik},
@@ -775,12 +1241,6 @@
   year         = {2010},
   howpublished = {\url{https://www.justice.gov/atr/horizontal-merger-guidelines-08192010}}
 }
-@book{hays,
-  author    = {R. Hays},
-  title     = {The Racing Form: Index to Past Performances},
-  publisher = {Daily Racing Form Press},
-  year      = {1989}
-}
 @misc{film,
   title        = {A View to a Kill},
   author       = {Glen, John (dir.) and {Eon Productions}},
@@ -788,12 +1248,12 @@
   howpublished = {Feature film; mission codename ZORIN}
 }
 @article{dixon,
-  author  = {P. Dixon and M. Coles},
-  title   = {Modelling association football scores and inefficiencies in the football betting market},
-  journal = {Applied Statistics},
+  author  = {Mark J. Dixon and Stuart G. Coles},
+  title   = {Modelling Association Football Scores and Inefficiencies in the Football Betting Market},
+  journal = {Journal of the Royal Statistical Society: Series C (Applied Statistics)},
   year    = {1997},
   volume  = {46},
-  number  = {4},
+  number  = {2},
   pages   = {265--280}
 }
 @book{ast,
@@ -829,6 +1289,13 @@
   number  = {9},
   pages   = {W09409}
 }
+@book{greenswets1966,
+  author    = {David M. Green and John A. Swets},
+  title     = {Signal Detection Theory and Psychophysics},
+  publisher = {John Wiley and Sons},
+  address   = {New York},
+  year      = {1966}
+}
 @misc{friedman2026sniper,
   author       = {Friedman, Daniel A.},
   title        = {The Living Daylights: SNIPER'S NEST --- Special-Agent Mission Software},
@@ -854,15 +1321,6 @@
   pages     = {262--275},
   publisher = {SPIE},
   doi       = {10.1117/12.266767}
-}
-@article{bedford2008modelling,
-  author  = {Bedford, Lee and Kennedy, Gary},
-  title   = {Modelling methods for determining the position of a sniper},
-  journal = {Acoustics Australia},
-  year    = {2008},
-  volume  = {36},
-  number  = {2},
-  pages   = {56--61}
 }
 @misc{astmg173,
   author       = {{ASTM International}},
@@ -895,6 +1353,37 @@
   year      = {2000},
   publisher = {John Wiley \& Sons},
   address   = {New York}
+}
+@article{ledeczi2005countersniper,
+  author  = {Ledeczi, Akos and Nadas, Andras and Volgyesi, Peter and Balogh, Gyorgy
+             and Kusy, Branislav and Sallai, Janos and Pap, Gyula and Dora, Sebestyen
+             and Molnar, Karoly and Maroti, Miklos and Simon, Gyorgy},
+  title   = {Countersniper system for urban warfare},
+  journal = {ACM Transactions on Sensor Networks},
+  year    = {2005},
+  volume  = {1},
+  number  = {2},
+  pages   = {153--177},
+  doi     = {10.1145/1105688.1105689}
+}
+@book{mccoy1999,
+  author    = {McCoy, Robert L.},
+  title     = {Modern Exterior Ballistics: The Launch and Flight Dynamics of
+               Symmetric Projectiles},
+  year      = {1999},
+  publisher = {Schiffer Publishing},
+  address   = {Atglen, PA},
+  isbn      = {9780764307201}
+}
+@article{bresenham1965,
+  author  = {Bresenham, Jack E.},
+  title   = {Algorithm for computer control of a digital plotter},
+  journal = {IBM Systems Journal},
+  year    = {1965},
+  volume  = {4},
+  number  = {1},
+  pages   = {25--30},
+  doi     = {10.1147/sj.41.0025}
 }
 @article{tarjan1972,
   author  = {Tarjan, Robert Endre},
@@ -1046,6 +1535,22 @@
   pages = {1025--1028},
   year = {2010}
 }
+@article{edmonds1972theoretical,
+  author = {Edmonds, Jack and Karp, Richard M.},
+  title = {Theoretical Improvements in Algorithmic Efficiency for Network Flow Problems},
+  journal = {Journal of the ACM},
+  volume = {19},
+  number = {2},
+  pages = {248--264},
+  year = {1972},
+  publisher = {ACM}
+}
+@book{schelkunoff1943electromagnetic,
+  title = {Electromagnetic Waves},
+  author = {Schelkunoff, Sergei A.},
+  year = {1943},
+  publisher = {D. Van Nostrand, New York}
+}
 @article{marcum1960statistical,
   author  = {Marcum, J. I.},
   title   = {A statistical theory of target detection by pulsed radar},
@@ -1135,29 +1640,6 @@
   volume  = {39},
   number  = {3},
   pages   = {301--316}
-}
-@article{ford_fulkerson,
-  author  = {Ford, Lester R. and Fulkerson, Delbert R.},
-  title   = {Maximal flow through a network},
-  journal = {Canadian Journal of Mathematics},
-  volume  = {8},
-  pages   = {399--404},
-  year    = {1956},
-  doi     = {10.4153/CJM-1956-045-5}
-}
-@article{edmonds_karp,
-  author  = {Edmonds, Jack and Karp, Richard M.},
-  title   = {Theoretical improvements in algorithmic efficiency for network flow problems},
-  journal = {Journal of the ACM},
-  volume  = {19},
-  number  = {2},
-  pages   = {248--264},
-  year    = {1972},
-  doi     = {10.1145/321694.321699}
-}
-@misc{dijkstra,
-  title   = {Weighted Shortest-Path Planning on Mobility Graphs},
-  note    = {Dijkstra's algorithm over feasibility-constrained directed edges.}
 }
 @book{urick,
   author    = {Urick, Robert J.},
@@ -1274,7 +1756,7 @@
   number  = {6},
   pages   = {581--588}
 }
-@book{golden2011,
+@book{golden2002,
   author    = {Golden, Frank and Tipton, Michael J.},
   title     = {Essentials of Sea Survival},
   publisher = {Human Kinetics},
@@ -1305,43 +1787,74 @@
   number  = {3856},
   pages   = {857--861}
 }
-@misc{bond_api_protocol,
-  title   = {BOND-API: The Frozen MissionProvider Protocol (THE PROTOCOL)},
-  author  = {Friedman, Daniel Ari},
-  year    = {2026},
-  note    = {Frozen contract every film package implements; discovery, registry, serialization, manuscript variables.}
+@article{ondov2016,
+  author  = {Ondov, Brian D. and Treangen, Todd J. and Melsted, P{\'a}ll and Mallonee, Adam B. and Bergman, Nicholas H. and Koren, Sergey and Phillippy, Adam M.},
+  title   = {Mash: fast genome and metagenome distance estimation using MinHash},
+  journal = {Genome Biology},
+  year    = {2016},
+  volume  = {17},
+  pages   = {132},
+  doi     = {10.1186/s13059-016-0997-x}
 }
-@misc{casino_royale_2006,
-  title   = {Casino Royale (2006) -- Special-Agent Mission Software},
-  author  = {Friedman, Daniel Ari},
-  year    = {2026},
-  note    = {poker game-theory engine, chip-flow laundering detection, parkour mobility routing, digitalis poison detection.}
+@software{bond_api_protocol,
+  title  = {BOND-API: The Frozen MissionProvider Protocol (THE PROTOCOL)},
+  author = {Friedman, Daniel Ari},
+  year   = {2026},
+  note   = {Frozen contract every BOND film package implements: protocol dataclasses, discovery, gadget registry. This package's only non-stdlib suite dependency.}
 }
-@misc{poker_equity,
-  title   = {Texas Hold'em Hand Ranking and Monte-Carlo Equity},
-  note    = {Standard combinatorial enumeration of five-of-seven-card hands; exact turn/river enumerator.}
-}
-@misc{aml_typologies,
-  title   = {Anti-Money-Laundering Transaction-Network Analytics},
-  note    = {Structuring (smurfing) bands, round-tripping, velocity, and betweenness centrality of collection hubs.}
-}
-@misc{digitalis_tox,
-  title   = {Cardiac Glycoside (Digoxin/Digitoxin) Toxicology},
-  note    = {Narrow therapeutic index; bradycardia, hyperkalemia, PR prolongation; digoxin-specific Fab antibody fragments (Digibind) as definitive therapy for severe toxicity.}
+@software{casino_royale_2006,
+  title  = {Casino Royale (2006) -- LE CHIFFRE Special-Agent Mission Software},
+  author = {Friedman, Daniel Ari},
+  year   = {2026},
+  note   = {This package: hold'em game theory, CFR, ICM, Bayesian opponent inference, chip-flow and network-level laundering detection, parkour mobility routing, digitalis poison triage.}
 }
 @inproceedings{zinkevich2007cfr,
   author    = {Zinkevich, Martin and Johanson, Michael and Bowling, Michael and Piccione, Carmelo},
   title     = {Regret Minimization in Games with Incomplete Information},
-  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  booktitle = {Advances in Neural Information Processing Systems 20 (NIPS)},
+  pages     = {1729--1736},
   year      = {2007},
-  note      = {Counterfactual regret minimization: iteratively reduce counterfactual regret to approximate a Nash equilibrium of an imperfect-information game.}
+  note      = {Counterfactual regret minimization; the algorithm implemented in poker_cfr.py.}
+}
+@article{billings2002poker,
+  author  = {Billings, Darse and Davidson, Aaron and Schaeffer, Jonathan and Szafron, Duane},
+  title   = {The Challenge of Poker},
+  journal = {Artificial Intelligence},
+  volume  = {134},
+  number  = {1--2},
+  pages   = {201--240},
+  year    = {2002},
+  note    = {Survey of hand evaluation, simulation-based equity, and opponent modelling in computer poker.}
 }
 @book{chen_ankenman_2006,
   author    = {Chen, Bill and Ankenman, Jerrod},
   title     = {The Mathematics of Poker},
   publisher = {ConJelCo},
   year      = {2006},
-  note      = {The Independent Chip Model (ICM): converting chip stacks to tournament prize equity under the random-tournament model; bubble decisions.}
+  note      = {Pot odds, equity, and the Independent Chip Model: chip stacks to tournament prize equity; the basis for icm.py.}
+}
+@inproceedings{ganzfried2011opponent,
+  author    = {Ganzfried, Sam and Sandholm, Tuomas},
+  title     = {Game Theory-Based Opponent Modeling in Large Imperfect-Information Games},
+  booktitle = {Proceedings of the 10th International Conference on Autonomous Agents and Multiagent Systems (AAMAS)},
+  pages     = {533--540},
+  year      = {2011},
+  note      = {Bayesian/game-theoretic opponent modelling; the motivation for the Dirichlet-multinomial archetype posterior in opponent_bayes.py.}
+}
+@techreport{minka2000dirichlet,
+  author      = {Minka, Thomas P.},
+  title       = {Estimating a {Dirichlet} Distribution},
+  institution = {Massachusetts Institute of Technology},
+  year        = {2000},
+  note        = {Dirichlet and Dirichlet-multinomial machinery; the closed-form log-space likelihood used in opponent_bayes.py.}
+}
+@techreport{page1999pagerank,
+  author      = {Page, Lawrence and Brin, Sergey and Motwani, Rajeev and Winograd, Terry},
+  title       = {The {PageRank} Citation Ranking: Bringing Order to the Web},
+  institution = {Stanford InfoLab},
+  number      = {1999-66},
+  year        = {1999},
+  note        = {PageRank; used in laundering_network.py to rank the collection account that centrally-placed senders feed.}
 }
 @article{raghavan2007labelprop,
   author  = {Raghavan, Usha Nandini and Albert, R{\'e}ka and Kumara, Soundar},
@@ -1351,36 +1864,51 @@
   number  = {3},
   pages   = {036106},
   year    = {2007},
-  note    = {Label-propagation community detection used by the chip-flow network layer.}
+  note    = {Label-propagation community detection; implemented deterministically in laundering_network.py.}
 }
-@techreport{page1999pagerank,
-  author      = {Page, Lawrence and Brin, Sergey and Motwani, Rajeev and Winograd, Terry},
-  title       = {The PageRank Citation Ranking: Bringing Order to the Web},
-  institution = {Stanford InfoLab},
-  number      = {1999-66},
-  year        = {1999},
-  note        = {PageRank used to rank the collection account that centrally-placed senders feed.}
+@article{brandes2001,
+  author  = {Brandes, Ulrik},
+  title   = {A Faster Algorithm for Betweenness Centrality},
+  journal = {Journal of Mathematical Sociology},
+  volume  = {25},
+  number  = {2},
+  pages   = {163--177},
+  year    = {2001},
+  note    = {The betweenness algorithm implemented in laundering_detect.py to find smurf collection hubs.}
 }
-@misc{herfindahl_index,
-  title = {Concentration Measures (Herfindahl-Hirschman Index)},
-  note  = {The HHI: sum of squared market/flow shares, used to quantify one-counterparty laundering concentration.}
+@article{hirschman1964,
+  author  = {Hirschman, Albert O.},
+  title   = {The Paternity of an Index},
+  journal = {The American Economic Review},
+  volume  = {54},
+  number  = {5},
+  pages   = {761--762},
+  year    = {1964},
+  note    = {The Herfindahl-Hirschman concentration index; applied to counterparty flow shares in laundering_network.py.}
 }
-@inproceedings{ganzfried2011opponent,
-  author    = {Ganzfried, Sam and Sandholm, Tuomas},
-  title     = {Game Theory-Based Opponent Modeling in Large Imperfect-Information Games},
-  booktitle = {Proc. 10th International Conference on Autonomous Agents and Multiagent Systems (AAMAS)},
-  year      = {2011},
-  note      = {Bayesian/game-theoretic opponent modeling; the motivation for the Dirichlet-multinomial archetype posterior.}
+@inproceedings{weber2019aml,
+  author    = {Weber, Mark and Domeniconi, Giacomo and Chen, Jie and Weidele, Daniel Karl I. and Bellei, Claudio and Robinson, Tom and Leiserson, Charles E.},
+  title     = {Anti-Money Laundering in Bitcoin: Experimenting with Graph Convolutional Networks for Financial Forensics},
+  booktitle = {KDD Workshop on Anomaly Detection in Finance},
+  year      = {2019},
+  note      = {Graph-based AML over transaction networks; the framing this package's structural layer follows.}
 }
-@article{edmonds1972theoretical,
-  author = {Edmonds, Jack and Karp, Richard M.},
-  title = {Theoretical Improvements in Algorithmic Efficiency for Network Flow Problems},
-  journal = {Journal of the ACM},
-  volume = {19},
-  number = {2},
-  pages = {248--264},
-  year = {1972},
-  publisher = {ACM}
+@techreport{fatf2009casinos,
+  author      = {{Financial Action Task Force}},
+  title       = {Vulnerabilities of Casinos and Gaming Sector},
+  institution = {FATF/OECD, Paris},
+  year        = {2009},
+  note        = {Casino-sector money-laundering typologies: chip purchase and redemption, structuring, and minimal-play cash-out - the behaviours laundering_detect.py scores.}
+}
+@article{antman1990fab,
+  author  = {Antman, Elliott M. and Wenger, Thomas L. and Butler, Vincent P. and Haber, Edgar and Smith, Thomas W.},
+  title   = {Treatment of 150 Cases of Life-Threatening Digitalis Intoxication with Digoxin-Specific {Fab} Antibody Fragments: Final Report of a Multicenter Study},
+  journal = {Circulation},
+  volume  = {81},
+  number  = {6},
+  pages   = {1744--1752},
+  year    = {1990},
+  note    = {Digoxin-specific Fab fragments as definitive therapy for life-threatening digitalis toxicity; the severe-grade intervention in poison_detect.antidote_plan.}
 }
 @book{hirschman1945national,
   author    = {Hirschman, Albert O.},
@@ -1416,22 +1944,56 @@
   pages   = {399--404},
   doi     = {10.4153/CJM-1956-045-5}
 }
-@incollection{nash1950bargaining,
-  author    = {Nash, John F.},
-  title     = {The bargaining problem},
-  booktitle = {Essential Readings in Game Theory},
-  publisher = {Economic Journal},
-  year      = {1950},
-  volume    = {60},
-  pages     = {155--162}
+@phdthesis{herfindahl1950concentration,
+  author = {Herfindahl, Orris C.},
+  title  = {Concentration in the Steel Industry},
+  school = {Columbia University},
+  year   = {1950},
+  type   = {PhD dissertation}
 }
-@article{sheth1968how,
-  author  = {Sheth, Jagdish N.},
-  title   = {How multivariate methods may reduce the need for the multivariate approach},
-  journal = {Journal of Marketing Research},
-  year    = {1968},
-  volume  = {5},
-  pages   = {401--405}
+@techreport{doj2010merger,
+  author      = {{U.S. Department of Justice} and {Federal Trade Commission}},
+  title       = {Horizontal Merger Guidelines},
+  institution = {U.S. Department of Justice and Federal Trade Commission},
+  year        = {2010},
+  note        = {Section 5.3 defines the unconcentrated / moderately concentrated / highly concentrated HHI bands}
+}
+@article{dubey1979mathematical,
+  author  = {Dubey, Pradeep and Shapley, Lloyd S.},
+  title   = {Mathematical properties of the {Banzhaf} power index},
+  journal = {Mathematics of Operations Research},
+  year    = {1979},
+  volume  = {4},
+  number  = {2},
+  pages   = {99--131},
+  doi     = {10.1287/moor.4.2.99}
+}
+@article{wood1993deterministic,
+  author  = {Wood, R. Kevin},
+  title   = {Deterministic network interdiction},
+  journal = {Mathematical and Computer Modelling},
+  year    = {1993},
+  volume  = {17},
+  number  = {2},
+  pages   = {1--18},
+  doi     = {10.1016/0895-7177(93)90236-R}
+}
+@article{espey1997price,
+  author  = {Espey, Molly and Espey, James and Shaw, W. Douglass},
+  title   = {Price elasticity of residential demand for water: A meta-analysis},
+  journal = {Water Resources Research},
+  year    = {1997},
+  volume  = {33},
+  number  = {6},
+  pages   = {1369--1374},
+  doi     = {10.1029/97WR00571}
+}
+@book{loucks2017water,
+  author    = {Loucks, Daniel P. and van Beek, Eelco},
+  title     = {Water Resource Systems Planning and Management: An Introduction to Methods, Models, and Applications},
+  publisher = {Springer},
+  year      = {2017},
+  doi       = {10.1007/978-3-319-44234-1}
 }
 @book{even2011graph,
   author = {Even, Shimon},
@@ -1450,12 +2012,6 @@
   year = {1954},
   publisher = {Oxford University Press}
 }
-@book{ford1956flows,
-  author = {Ford, Lester Randolph and Fulkerson, Delbert Ray},
-  title = {Flows in Networks},
-  publisher = {Princeton University Press},
-  year = {1962}
-}
 @book{pinedo2016scheduling,
   author = {Pinedo, Michael L.},
   title = {Scheduling: Theory, Algorithms, and Systems},
@@ -1467,14 +2023,74 @@
   author = {Hawkins, Douglas M. and Olwell, David H.},
   title = {Cumulative Sum Charts and Charting for Quality Improvement},
   publisher = {Springer},
-  year = {1999}
+  year = {1998},
+  address = {New York}
 }
-@book{mendelson2010logic,
-  author = {Mendelson, Elliott},
-  title = {Introduction to Mathematical Logic},
-  edition = {5},
-  publisher = {Chapman \& Hall/CRC},
-  year = {2010}
+@article{tarjan1972dfs,
+  author = {Tarjan, Robert},
+  title = {Depth-First Search and Linear Graph Algorithms},
+  journal = {SIAM Journal on Computing},
+  volume = {1},
+  number = {2},
+  pages = {146--160},
+  year = {1972}
+}
+@article{hopcroft1973algorithm447,
+  author = {Hopcroft, John and Tarjan, Robert},
+  title = {Algorithm 447: Efficient Algorithms for Graph Manipulation},
+  journal = {Communications of the ACM},
+  volume = {16},
+  number = {6},
+  pages = {372--378},
+  year = {1973},
+  publisher = {ACM}
+}
+@inproceedings{phillips1998graphbased,
+  author = {Phillips, Cynthia and Swiler, Laura Painton},
+  title = {A Graph-Based System for Network-Vulnerability Analysis},
+  booktitle = {Proceedings of the 1998 Workshop on New Security Paradigms (NSPW '98)},
+  pages = {71--79},
+  year = {1998},
+  publisher = {ACM}
+}
+@inproceedings{sheyner2002attackgraphs,
+  author = {Sheyner, Oleg and Haines, Joshua and Jha, Somesh and Lippmann, Richard and Wing, Jeannette M.},
+  title = {Automated Generation and Analysis of Attack Graphs},
+  booktitle = {Proceedings of the 2002 IEEE Symposium on Security and Privacy},
+  pages = {273--284},
+  year = {2002},
+  publisher = {IEEE}
+}
+@techreport{mell2007cvss,
+  author = {Mell, Peter and Scarfone, Karen and Romanosky, Sasha},
+  title = {A Complete Guide to the Common Vulnerability Scoring System Version 2.0},
+  institution = {Forum of Incident Response and Security Teams (FIRST)},
+  year = {2007}
+}
+@inproceedings{beattie2002timing,
+  author = {Beattie, Steve and Arnold, Seth and Cowan, Crispin and Wagle, Perry and Wright, Chris and Shostack, Adam},
+  title = {Timing the Application of Security Patches for Optimal Uptime},
+  booktitle = {Proceedings of the 16th USENIX Conference on System Administration (LISA '02)},
+  pages = {233--242},
+  year = {2002},
+  publisher = {USENIX Association}
+}
+@article{killick2012changepoints,
+  author = {Killick, Rebecca and Fearnhead, Paul and Eckley, Idris A.},
+  title = {Optimal Detection of Changepoints with a Linear Computational Cost},
+  journal = {Journal of the American Statistical Association},
+  volume = {107},
+  number = {500},
+  pages = {1590--1598},
+  year = {2012}
+}
+@book{montgomery2012spc,
+  author = {Montgomery, Douglas C.},
+  title = {Introduction to Statistical Quality Control},
+  edition = {7},
+  publisher = {Wiley},
+  year = {2012},
+  address = {Hoboken, NJ}
 }
 @article{Freeman1979,
   author  = {Linton C. Freeman},
@@ -1552,6 +2168,70 @@
   year    = {2002},
   doi     = {10.1103/PhysRevE.66.016128}
 }
+@article{HopcroftTarjan1973,
+  author  = {John Hopcroft and Robert Endre Tarjan},
+  title   = {Algorithm 447: Efficient algorithms for graph manipulation},
+  journal = {Communications of the ACM},
+  volume  = {16},
+  number  = {6},
+  pages   = {372--378},
+  year    = {1973},
+  doi     = {10.1145/362248.362272}
+}
+@article{Latora2001,
+  author  = {Vito Latora and Massimo Marchiori},
+  title   = {Efficient behavior of small-world networks},
+  journal = {Physical Review Letters},
+  volume  = {87},
+  number  = {19},
+  pages   = {198701},
+  year    = {2001},
+  doi     = {10.1103/PhysRevLett.87.198701}
+}
+@article{Albert2000,
+  author  = {R{\'e}ka Albert and Hawoong Jeong and Albert-L{\'a}szl{\'o} Barab{\'a}si},
+  title   = {Error and attack tolerance of complex networks},
+  journal = {Nature},
+  volume  = {406},
+  number  = {6794},
+  pages   = {378--382},
+  year    = {2000},
+  doi     = {10.1038/35019019}
+}
+@article{Borgatti2006,
+  author  = {Stephen P. Borgatti},
+  title   = {Identifying sets of key players in a social network},
+  journal = {Computational and Mathematical Organization Theory},
+  volume  = {12},
+  number  = {1},
+  pages   = {21--34},
+  year    = {2006}
+}
+@article{Hirschman1964,
+  author  = {Albert O. Hirschman},
+  title   = {The paternity of an index},
+  journal = {The American Economic Review},
+  volume  = {54},
+  number  = {5},
+  pages   = {761--762},
+  year    = {1964}
+}
+@inproceedings{Kempe2003,
+  author    = {David Kempe and Jon Kleinberg and {\'E}va Tardos},
+  title     = {Maximizing the spread of influence through a social network},
+  booktitle = {Proceedings of the 9th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD '03)},
+  pages     = {137--146},
+  year      = {2003},
+  doi       = {10.1145/956750.956769}
+}
+@inproceedings{Leskovec2007,
+  author    = {Jure Leskovec and Andreas Krause and Carlos Guestrin and Christos Faloutsos and Jeanne VanBriesen and Natalie Glance},
+  title     = {Cost-effective outbreak detection in networks},
+  booktitle = {Proceedings of the 13th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD '07)},
+  pages     = {420--429},
+  year      = {2007},
+  doi       = {10.1145/1281192.1281239}
+}
 @misc{bond_api_2026,
   title        = {bond-api: the frozen mission contract for the BOND film suite},
   author       = {PROJECT BOND},
@@ -1618,6 +2298,32 @@
   address   = {Washington, DC},
   year      = {1983},
 }
+@book{gibaldi1982pharmacokinetics,
+  title     = {Pharmacokinetics},
+  author    = {Gibaldi, Milo and Perrier, Donald},
+  edition   = {2nd},
+  publisher = {Marcel Dekker},
+  address   = {New York},
+  year      = {1982},
+}
+@article{langmuir1918adsorption,
+  title   = {The adsorption of gases on plane surfaces of glass, mica and platinum},
+  author  = {Langmuir, Irving},
+  journal = {Journal of the American Chemical Society},
+  volume  = {40},
+  number  = {9},
+  pages   = {1361--1403},
+  year    = {1918},
+}
+@article{bliss1939toxicity,
+  title   = {The toxicity of poisons applied jointly},
+  author  = {Bliss, Chester I},
+  journal = {Annals of Applied Biology},
+  volume  = {26},
+  number  = {3},
+  pages   = {585--615},
+  year    = {1939},
+}
 @misc{friedman2026fivestart,
   title={Casino Royale: FIVE 00s --- Special-Agent Mission Software},
   author={Friedman, Daniel Ari},
@@ -1658,10 +2364,28 @@
 }
 @misc{casinoroyale1967film,
   title={Casino Royale},
-  author={Huston, John and Hughes, Ken and McGrath, Joseph and Roscott, Robert and Guest, Val},
+  author={Huston, John and Hughes, Ken and McGrath, Joseph and Parrish, Robert and Guest, Val},
   year={1967},
   publisher={Columbia Pictures},
-  note={Satirical source of the five-Bond premise}
+  note={Satirical source of the five-Bond premise; five credited directors}
+}
+@book{cover2006elements,
+  author    = {Cover, Thomas M. and Thomas, Joy A.},
+  title     = {Elements of Information Theory},
+  edition   = {2},
+  publisher = {Wiley-Interscience},
+  address   = {Hoboken, NJ},
+  year      = {2006},
+  note      = {Entropy, conditional entropy and mutual information as used by the identity-confusion model}
+}
+@article{strehl2002cluster,
+  author  = {Strehl, Alexander and Ghosh, Joydeep},
+  title   = {Cluster Ensembles --- A Knowledge Reuse Framework for Combining Multiple Partitions},
+  journal = {Journal of Machine Learning Research},
+  volume  = {3},
+  pages   = {583--617},
+  year    = {2002},
+  note    = {Normalized mutual information; the normalization convention used for the routing NMI}
 }
 @article{nemhauser1978submodular,
   author  = {Nemhauser, George L. and Wolsey, Laurence A. and Fisher, Marshall L.},
@@ -1687,7 +2411,29 @@
   author    = {Barlow, Richard E. and Proschan, Frank},
   title     = {Statistical Theory of Reliability and Life Testing: Probability Models},
   publisher = {Holt, Rinehart and Winston},
+  address   = {New York},
   year      = {1975},
+}
+@book{ross2019probability,
+  author    = {Ross, Sheldon M.},
+  title     = {Introduction to Probability Models},
+  edition   = {12},
+  publisher = {Academic Press},
+  year      = {2019},
+}
+@article{verhulst1838notice,
+  author  = {Verhulst, Pierre-Fran{\c{c}}ois},
+  title   = {Notice sur la loi que la population suit dans son accroissement},
+  journal = {Correspondance Math{\'e}matique et Physique},
+  volume  = {10},
+  pages   = {113--121},
+  year    = {1838},
+}
+@misc{unicode2023uax15,
+  author       = {{The Unicode Consortium}},
+  title        = {Unicode Standard Annex \#15: Unicode Normalization Forms},
+  year         = {2023},
+  howpublished = {\url{https://www.unicode.org/reports/tr15/}},
 }
 @book{kahn_codebreakers,
   author    = {Kahn, David},
@@ -1730,6 +2476,13 @@
   address   = {Berlin},
   year      = {1863}
 }
+@book{stinson_paterson_2018,
+  author    = {Stinson, Douglas R. and Paterson, Maura B.},
+  title     = {Cryptography: Theory and Practice},
+  publisher = {CRC Press},
+  year      = {2018},
+  edition   = {Fourth}
+}
 @misc{iso8601,
   title        = {{ISO} 8601-1:2019 — Date and Time — Representations for Information Interchange},
   howpublished = {International Organization for Standardization},
@@ -1737,17 +2490,39 @@
 }
 @misc{pep544,
   title = {PEP 544 -- Protocols: Structural subtyping (static duck typing)},
-  author = {Van Rossum, Guido and Levkivskyi, Ivan},
-  year = {2018},
+  author = {Levkivskyi, Ivan and Lehtosalo, Jukka and Langa, {\L}ukasz},
+  year = {2017},
   howpublished = {Python Enhancement Proposal},
   url = {https://peps.python.org/pep-0544/}
 }
 @misc{pep557,
   title = {PEP 557 -- Data Classes},
-  author = {Debonne, Eric and Barnert, Patrick and La, David},
-  year = {2016},
+  author = {Smith, Eric V.},
+  year = {2017},
   howpublished = {Python Enhancement Proposal},
   url = {https://peps.python.org/pep-0557/}
+}
+@misc{pep484,
+  title = {PEP 484 -- Type Hints},
+  author = {van Rossum, Guido and Lehtosalo, Jukka and Langa, {\L}ukasz},
+  year = {2014},
+  howpublished = {Python Enhancement Proposal},
+  url = {https://peps.python.org/pep-0484/}
+}
+@techreport{rfc8259,
+  title       = {The JavaScript Object Notation (JSON) Data Interchange Format},
+  author      = {Bray, Tim},
+  editor      = {Bray, Tim},
+  institution = {Internet Engineering Task Force},
+  type        = {Request for Comments},
+  number      = {8259},
+  series      = {STD},
+  year        = {2017},
+  month       = dec,
+  doi         = {10.17487/RFC8259},
+  url         = {https://www.rfc-editor.org/rfc/rfc8259},
+  note        = {Internet Standard 90. The interchange format emitted by
+                 \texttt{--json} and \texttt{roster-export}.},
 }
 @misc{nist_fips180_4,
   title = {FIPS 180-4: Secure Hash Standard (SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224 and SHA-512/256)},
@@ -1863,6 +2638,25 @@
   publisher={ACM},
   doi={10.1145/344588.344618}
 }
+@article{avizienis2004basic,
+  title={Basic Concepts and Taxonomy of Dependable and Secure Computing},
+  author={Avi{\v{z}}ienis, Algirdas and Laprie, Jean-Claude and Randell, Brian and Landwehr, Carl},
+  journal={IEEE Transactions on Dependable and Secure Computing},
+  volume={1},
+  number={1},
+  pages={11--33},
+  year={2004},
+  publisher={IEEE},
+  doi={10.1109/TDSC.2004.2}
+}
+@book{gamma1994design,
+  title={Design Patterns: Elements of Reusable Object-Oriented Software},
+  author={Gamma, Erich and Helm, Richard and Johnson, Ralph and Vlissides, John},
+  year={1994},
+  publisher={Addison-Wesley},
+  address={Reading, MA, USA},
+  isbn={978-0-201-63361-0}
+}
 @misc{bondorchestrator2026,
   title={bond-orchestrator: A Deterministic Mission DAG Runner (BOND-ORCHESTRATOR, codename DAG 00)},
   author={Friedman, Daniel Ari},
@@ -1871,50 +2665,100 @@
   note={Repository: \url{https://github.com/docxology/bond-orchestrator}},
   doi={10.5281/zenodo.20417136}
 }
-@misc{argparse,
-  title        = {argparse — Parser for command-line options, arguments and sub-commands},
-  author       = {Python Software Foundation},
-  year         = {2026},
-  howpublished = {\url{https://docs.python.org/3/library/argparse.html}},
+@misc{bethard2009argparse,
+  title        = {PEP 389 — argparse: New Command Line Parsing Module},
+  author       = {Bethard, Steven},
+  year         = {2009},
+  howpublished = {Python Enhancement Proposal 389},
+  url          = {https://peps.python.org/pep-0389/},
+  note         = {The proposal that added argparse to the Python standard
+                  library, including the sub-command (sub-parser) model this
+                  CLI's verb-first grammar uses.},
 }
-@misc{rfc8259,
-  title        = {RFC 8259 — The JavaScript Object Notation (JSON) Data Interchange Format},
-  author       = {Bray, Tim},
-  year         = {2017},
-  howpublished = {\url{https://www.rfc-editor.org/rfc/rfc8259}},
+@misc{pythonargparse,
+  title        = {argparse — Parser for command-line options, arguments and sub-commands},
+  author       = {{Python Software Foundation}},
+  howpublished = {The Python Standard Library documentation},
+  url          = {https://docs.python.org/3/library/argparse.html},
+  note         = {Reference documentation for the parser API used by
+                  \texttt{bond\_cli.dispatch.build\_parser}, including the
+                  exit status 2 on usage error.},
+}
+@manual{posix2018,
+  title        = {The Open Group Base Specifications Issue 7, 2018 edition
+                  (IEEE Std 1003.1-2017), Chapter 12: Utility Conventions},
+  organization = {IEEE and The Open Group},
+  year         = {2018},
+  url          = {https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html},
+  note         = {The utility argument and exit-status conventions the
+                  front door's option handling and 0/1/2 exit codes follow.},
+}
+@book{raymond2003unix,
+  title     = {The Art of Unix Programming},
+  author    = {Raymond, Eric S.},
+  publisher = {Addison-Wesley},
+  year      = {2003},
+  isbn      = {978-0131429017},
+  note      = {Source of the composition and transparency rules behind the
+               plain, pipeable, ANSI-free output this CLI commits to.},
+}
+@misc{semver2,
+  title        = {Semantic Versioning 2.0.0},
+  author       = {Preston-Werner, Tom},
+  url          = {https://semver.org/spec/v2.0.0.html},
+  note         = {The versioning scheme used by this package's
+                  \texttt{pyproject.toml} and \texttt{manuscript/config.yaml}.},
 }
 @misc{bond_ops,
   title        = {BOND-OPS: Fleet Health, Aggregate Gates, and Provisioning for PROJECT BOND},
   author       = {Friedman, Daniel Ari},
   year         = {2026},
-  note         = {PROJECT BOND suite, Layer 4 (codename QUARTERMASTER), local-only working tree},
-  howpublished = {https://github.com/activeinference/institute (internal, unpublished)}
+  note         = {PROJECT BOND suite, Layer 4 (codename QUARTERMASTER). Local-only working tree with no remote; unpublished software record}
 }
 @misc{pytest,
   title        = {pytest: helps you write better programs},
-  author       = {Krekel, Holger and Oliveira, Bruno and others},
-  year         = {2026},
-  howpublished = {https://docs.pytest.org},
-  note         = {test framework used by every fleet package gate}
+  author       = {Krekel, Holger and Oliveira, Bruno and Pfannschmidt, Ronny and Bruynooghe, Floris and Laugher, Brianna and Bruhin, Florian},
+  howpublished = {\url{https://docs.pytest.org}},
+  note         = {Software; version pinned by this package's uv.lock. Test framework used by every fleet package gate}
 }
 @misc{coveragepy,
   title        = {Coverage.py},
-  author       = {Ned Batchelder and contributors},
-  year         = {2026},
-  howpublished = {https://coverage.readthedocs.io},
-  note         = {line+branch coverage measurement enforced at the gate floor}
+  author       = {Batchelder, Ned and {contributors}},
+  howpublished = {\url{https://coverage.readthedocs.io}},
+  note         = {Software; version pinned by this package's uv.lock. Line and branch coverage measurement enforced at the gate floor}
 }
 @misc{ruff,
   title        = {Ruff: An extremely fast Python linter and code formatter},
-  author       = {Charlie Marsh and Astral contributors},
-  year         = {2026},
-  howpublished = {https://docs.astral.sh/ruff},
-  note         = {lint and format checks run per package in the aggregate gate}
+  author       = {Marsh, Charlie and {Astral Software Inc.}},
+  howpublished = {\url{https://docs.astral.sh/ruff}},
+  note         = {Software; version pinned by this package's uv.lock. Lint and format checks run per package in the aggregate gate}
 }
 @misc{mypy,
   title        = {mypy: Optional Static Typing for Python},
-  author       = {Jukka Lehtosalo and contributors},
-  year         = {2026},
-  howpublished = {https://mypy.readthedocs.io},
-  note         = {static type check run per package in the aggregate gate}
+  author       = {Lehtosalo, Jukka and {contributors}},
+  howpublished = {\url{https://mypy.readthedocs.io}},
+  note         = {Software; version pinned by this package's uv.lock. Static type check run per package in the aggregate gate}
+}
+@article{matplotlib,
+  title     = {Matplotlib: A 2D Graphics Environment},
+  author    = {Hunter, John D.},
+  journal   = {Computing in Science \& Engineering},
+  volume    = {9},
+  number    = {3},
+  pages     = {90--95},
+  year      = {2007},
+  publisher = {IEEE Computer Society},
+  doi       = {10.1109/MCSE.2007.55},
+  note      = {plotting library used by the deterministic Agg figure renderers}
+}
+@article{wong2011,
+  title   = {Points of view: Color blindness},
+  author  = {Wong, Bang},
+  journal = {Nature Methods},
+  volume  = {8},
+  number  = {6},
+  pages   = {441},
+  year    = {2011},
+  doi     = {10.1038/nmeth.1618},
+  note    = {source of the colourblind-safe palette used by the figures}
 }

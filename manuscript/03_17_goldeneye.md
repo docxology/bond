@@ -12,5 +12,5 @@ orbital EMP, infrastructure resilience
 
 ## Sources
 
-@glasstone1977effects; @iec6100029; @milstD188125; @froehlich1995peak; @ritter1892fortpflanzung; @stoker1957water; @bate1971fundamentals; @ott2009electromagnetic; @vance1975coupling; @froehlich2008breach; @buldyrev2010cascading
+@glasstone1977effects; @iec6100029; @milstD188125; @froehlich1995peak; @ritter1892fortpflanzung; @stoker1957water; @bate1971fundamentals; @ott2009electromagnetic; @vance1975coupling; @froehlich2008breach; @buldyrev2010cascading; @dijkstra1959note; @edmonds1972theoretical; @schelkunoff1943electromagnetic
 

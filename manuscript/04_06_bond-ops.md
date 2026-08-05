@@ -12,5 +12,5 @@ PROJECT BOND is a ****-package research suite: **** infrastructure packages and 
 
 ## Sources
 
-@bond_ops; @pytest; @coveragepy; @ruff; @mypy
+@bond_ops; @pytest; @coveragepy; @ruff; @mypy; @matplotlib; @wong2011
 
