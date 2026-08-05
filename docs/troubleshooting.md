@@ -1,253 +1,172 @@
 # Troubleshooting
 
-Symptom-driven recipes for the most common breakage modes when running this project.
+Symptom-driven fixes for the failures this package actually produces.
 
-## Literal `{{TOKEN_NAME}}` appears in the rendered PDF
+## `generate_compendium.py` exits 1 with "could not load MissionProvider"
 
-**Cause.** A placeholder in `manuscript/*.md` was not substituted because
-`scripts/z_generate_manuscript_variables.py` was not (re)run after the
-analysis stage, or the token is not defined in `src/manuscript_variables.py::generate_variables()`.
+```
+ERROR: could not load MissionProvider for:
+  die_another_day: ModuleNotFoundError: No module named 'scipy'
+These chapters lost their mission brief line.
+```
+
+**Cause.** The compendium loads every film's provider to build its chapter brief
+line. A package whose provider imports a dependency this environment lacks fails
+to load, and that chapter renders without its `Mission **CODENAME**: …` line.
+
+**Fix.** Add the dependency to this package's `pyproject.toml` and re-sync:
+
+```bash
+cd projects/working/bond/bond-manuscript
+uv sync --all-extras
+uv run python scripts/generate_compendium.py
+```
+
+`scipy` is already declared for exactly this reason. Do not ship the shorter
+build — the non-zero exit is deliberate. `test_every_film_chapter_has_a_mission_brief_line`
+fails if you do.
+
+## A chapter shows `**** (**)` instead of the package name
+
+**Cause.** The package's abstract was imported with its `{{TOKEN}}`s stripped
+rather than resolved, so the bold spans came out empty.
+
+**Fix.** Check where that package writes its variables. Most write
+`output/data/manuscript_variables.json`; `bond-cli` and `bond-ops` write
+`output/variables/`. `_VARIABLE_PATHS` in `compendium.py` covers both — a third
+convention would need adding there. Then confirm the file parses:
+
+```bash
+python3 -c "import json,sys; json.load(open(sys.argv[1]))" \
+  ../bond-ops/output/variables/manuscript_variables.json
+```
+
+An unparseable file falls back to stripping tokens, by design, so a corrupt JSON
+looks identical to a missing one from the chapter's point of view.
+`test_no_empty_bold_in_any_imported_abstract` catches this across the whole fleet.
+
+## `Section sec. ??` or `[?]` in the rendered PDF
+
+**Cause.** A package-local pandoc-crossref label survived into the wrapper. Those
+labels resolve inside their own package's manuscript and do not exist here.
+
+**Fix.** `_strip_crossrefs()` handles `sec`, `def`, `prop`, `thm`, `lem`, `cor`,
+`fig`, `eq`, `tbl`, and `lst`. If a package introduced a new prefix, add it to
+`_CROSSREF` in `compendium.py`. Verify with:
+
+```bash
+uv run pytest tests/ -k crossref -v
+```
+
+## The LaTeX build dies in the references section
+
+**Symptom.** XeLaTeX reports an undefined control sequence such as `\cc`,
+somewhere in the bibliography.
+
+**Cause.** A BibTeX field with an accent command (`Fran{\c{c}}ois`) had its braces
+removed without the accent being resolved first.
+
+**Fix.** `latex_to_text()` resolves accents to Unicode before stripping braces.
+If a macro it does not know reaches a field, add it to `_LATEX_COMBINING` or
+`_LATEX_SYMBOLS`. Find the failing line:
+
+```bash
+grep -nE "Undefined control sequence|^! " output/pdf/_latex_stdout.log | head
+```
+
+## Tokens render literally as `{{N_PACKAGES}}` in the PDF
+
+**Cause.** Hydration did not run, or ran after the render.
 
 **Fix.**
 
-1. Run the variable-hydration stage:
-   ```bash
-   uv run python projects/working/bond/bond-manuscript/scripts/z_generate_manuscript_variables.py
-   ```
-2. Inspect the resolved values:
-   ```bash
-   cat projects/working/bond/bond-manuscript/output/data/manuscript_variables.json | jq .
-   ```
-3. Re-render:
-   ```bash
-   uv run python scripts/pipeline/stage_03_render.py --project templates/bond-manuscript
-   ```
-4. If the token is still literal, add it to `generate_variables()` in
-   `src/manuscript_variables.py`.
+```bash
+uv run python scripts/z_generate_manuscript_variables.py
+grep -r "{{" output/manuscript/ && echo "STILL UNRESOLVED" || echo "All tokens resolved"
+```
 
-## `FileNotFoundError`: missing `optimization_results.csv` during variable hydration
+If a token is still literal, it is not in `generate_variables()` — add it there,
+not to the manuscript.
 
-**Cause.** `scripts/z_generate_manuscript_variables.py` runs in strict mode by default (`require_analysis_outputs=True`) and requires `output/data/optimization_results.csv` from the analysis stage.
+## `z_generate_manuscript_variables.py` returns 2
+
+**Symptom.** It prints the token map and exits 2 instead of writing
+`output/manuscript/`.
+
+**Cause.** `infrastructure` could not be imported. The script walks up from its
+own location looking for an ancestor holding `infrastructure/rendering/`; if this
+package has been moved outside the template repository, there is none.
+
+**Fix.** Run it from inside the template checkout, or from the repository root
+with the monorepo interpreter.
+
+## `uv` fails to initialise its cache
+
+```
+error: Failed to initialize cache at `/Users/…/.cache/uv`
+  Caused by: … Operation not permitted (os error 1)
+```
+
+**Cause.** The command is running in a sandbox that cannot write the `uv` cache.
+
+**Fix.** Re-run the same command with the sandbox disabled. This is an
+environment restriction, not a project defect.
+
+## pytest reports success but collected 0 tests
+
+**Cause.** `pytest` resolved to an interpreter without this package's
+dependencies. A bare `uv sync` prunes the `dev` group, so `uv run pytest` then
+picks a different environment, collects nothing, and exits 0.
 
 **Fix.**
 
-1. Run analysis first:
-   ```bash
-   uv run python projects/working/bond/bond-manuscript/scripts/optimization_analysis.py
-   ```
-2. Re-run variable hydration:
-   ```bash
-   uv run python projects/working/bond/bond-manuscript/scripts/z_generate_manuscript_variables.py
-   ```
-3. For intentional early drafts only (tokens may fall back to `"N/A"`):
-   ```bash
-   uv run python projects/working/bond/bond-manuscript/scripts/z_generate_manuscript_variables.py --allow-draft
-   ```
+```bash
+cd projects/working/bond/bond-manuscript
+uv sync --all-extras
+uv run pytest tests/ --cov=src --cov-fail-under=90
+```
 
-## Edited `manuscript/config.yaml` but the figures or PDF didn't change
+Confirm the header shows Python 3.14.6 with the `cov` plugin and a non-zero
+collected count. **A green exit with zero collected tests is not a pass.**
 
-**Cause.** Stages 4-5 (analysis → render) were skipped or only the render
-stage ran (it does not re-execute `optimization_analysis.py`).
+## Two tests silently skip
 
-**Fix.** Run the analysis stage first, then variables, then render:
+`test_script_smoke_regen` and `test_regeneration_is_deterministic` are skipped
+when `../output/aggregate/gate_manifest.json` is absent. When they skip, nothing
+is exercising the generator CLI or byte-stable regeneration. Regenerate the
+fleet's aggregate gate, or run the generator manually and diff.
+
+## `ModuleNotFoundError` from a script in `scripts/`
+
+Four scripts (`04_benchmark_stage.py`, `build_dashboard.py`,
+`generate_api_docs.py`, `optimization_analysis.py`) came from the source exemplar
+and import modules this package never had. Four more (`00_preflight.py`,
+`08_connector_search.py`, `09_provenance_record.py`, `10_research_workflow.py`)
+compute the template root by fixed directory depth and land on `projects/` from
+this package's deeper path. None of the eight participates in the compendium
+build — see [`../scripts/README.md`](../scripts/README.md). The two that matter
+are `generate_compendium.py` and `z_generate_manuscript_variables.py`.
+
+## `mmdc` cannot find Chrome during the combined PDF
+
+**Symptom.** Per-section slides render, the combined PDF fails with
+`Could not find Chrome (ver. …)`.
+
+**Cause.** A rendered section embeds a ```mermaid``` block; the combined-PDF
+render shells out to `mmdc`, which needs a pinned `chrome-headless-shell` in the
+Puppeteer cache. Slides do not invoke `mmdc`, which is why the asymmetry is the
+tell. No section of this manuscript currently embeds one — this bites the first
+time somebody adds a diagram.
+
+**Fix (one-time per machine).**
 
 ```bash
-uv run python projects/working/bond/bond-manuscript/scripts/optimization_analysis.py
-uv run python projects/working/bond/bond-manuscript/scripts/z_generate_manuscript_variables.py
-uv run python scripts/pipeline/stage_03_render.py --project templates/bond-manuscript
-```
-
-Or just re-run the full pipeline:
-
-```bash
-uv run python scripts/runner/execute_pipeline.py --project templates/bond-manuscript --core-only
-```
-
-## `Figure ???` in the rendered PDF
-
-**Cause.** The Pandoc-crossref `[@fig:label]` reference does not match
-any `{#fig:label}` anchor, or the figure inclusion was not resolved
-before compilation.
-
-**Fix.**
-
-1. Verify `manuscript/03_results.md` contains the image with the
-   correct anchor:
-   ```markdown
-   ![Caption.](../output/figures/convergence_plot.png){#fig:convergence}
-   ```
-2. Verify the prose reference uses the same label:
-   ```markdown
-   See [@fig:convergence] for the trajectories.
-   ```
-3. Re-run the analysis and render stages.
-
-## BibTeX / citation errors during PDF rendering
-
-**Symptom.** `xelatex` reports `Citation 'foo' on page X undefined` or
-`bibtex` flags a malformed entry.
-
-**Fix.**
-
-1. Look at the LaTeX log for the exact line:
-   ```bash
-   grep -nE "Citation|undefined|Error" \
-     projects/working/bond/bond-manuscript/output/pdf/_combined_manuscript.log
-   ```
-2. Check the entry exists in `manuscript/references.bib` and is well-formed.
-3. Ensure all required BibTeX fields are present (`author`, `title`,
-   `year`, plus type-specific fields).
-
-## Analysis script aborts with a Python error
-
-**Fix.**
-
-1. Re-run with the full traceback visible:
-   ```bash
-   uv run python projects/working/bond/bond-manuscript/scripts/optimization_analysis.py 2>&1 | tee /tmp/analysis.log
-   ```
-2. Check the output directory exists and is writable.
-3. Validate `manuscript/config.yaml`:
-   ```bash
-   uv run python -c "import yaml; yaml.safe_load(open('projects/working/bond/bond-manuscript/manuscript/config.yaml'))"
-   ```
-
-## `uv` command not found
-
-**Fix.** Install `uv` via the canonical installer (the repo invariant — see root `CLAUDE.md` — is `uv`-only; never bootstrap `uv` through `pip`):
-
-```bash
-# macOS / Linux
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Homebrew (macOS)
-brew install uv
-```
-
-Make sure `~/.local/bin` (or the install location) is on your `PATH`.
-
-## Coverage gate fails (under 90%)
-
-**Fix.**
-
-1. Find which lines are uncovered:
-   ```bash
-   uv run pytest projects/working/bond/bond-manuscript/tests/ \
-       --cov=projects/working/bond/bond-manuscript/src \
-       --cov-report=term-missing -v
-   ```
-2. Add tests covering the missing branches.
-3. Re-run until coverage ≥ 90% and all tests pass.
-
-## `optimization_analysis.py` fails to import `optimizer`
-
-**Symptom.** `ModuleNotFoundError: No module named 'optimizer'`.
-
-**Fix.** Run from the repository root and let the workspace handle paths:
-
-```bash
-uv run python projects/working/bond/bond-manuscript/scripts/optimization_analysis.py
-```
-
-## Sluggish test execution
-
-**Cause.** Performance benchmarks use real timing with multiple
-repetitions; on a slow machine they can dominate the suite.
-
-**Fix.** Skip them for fast iteration:
-
-```bash
-uv run pytest projects/working/bond/bond-manuscript/tests/ -k "not Performance"
-```
-
-Or run the suite in parallel:
-
-```bash
-uv run pytest projects/working/bond/bond-manuscript/tests/ -n auto
-```
-
-## YAML parse error in `manuscript/config.yaml`
-
-**Common mistakes.**
-
-- Indentation uses tabs instead of spaces.
-- Trailing commas (JSON style) are invalid in YAML.
-- Unclosed quotes or brackets.
-
-**Fix.** Validate the file before running:
-
-```bash
-uv run python -c "import yaml; yaml.safe_load(open('projects/working/bond/bond-manuscript/manuscript/config.yaml'))"
-```
-
-## PDF Rendering fails: `mmdc` could not find Chrome
-
-**Symptom:** the pipeline reaches **PDF Rendering** and fails (authoritative
-`output/reports/pipeline_report.json` shows `"PDF Rendering" -> failed`)
-even though tests, analysis, and per-section slide PDFs passed. The error
-contains:
-
-```
-❌ Rendering error generating combined PDF: mmdc failed for
-inline_mermaid_0001_...: Error: Could not find Chrome (ver. 131.0.6778.204).
-```
-
-**Cause:** a manuscript section embeds a ```mermaid``` block (this project's
-convention is Mermaid-for-all-diagrams). The combined-PDF render shells out
-to `mmdc`, which needs a **pinned** `chrome-headless-shell` in the Puppeteer
-cache. Slide PDFs do not invoke `mmdc`, so they still succeed — that
-asymmetry is the tell.
-
-**Fix:** install the pinned headless Chrome once (reversible; lands in
-`~/.cache/puppeteer/`):
-
-```bash
-npx --yes puppeteer browsers install chrome-headless-shell@131.0.6778.204
-# or the line mmdc/puppeteer resolves by default:
 npx --yes puppeteer browsers install chrome-headless-shell
-uv run python scripts/pipeline/stage_03_render.py --project templates/bond-manuscript   # re-verify
 ```
-
-Environment provisioning, not a manuscript defect — CI provisions it; a
-fresh clone does not. See
-[rendering_pipeline.md](rendering_pipeline.md#prerequisite-mermaid-diagrams-need-chrome-headless-shell).
-
-## Tests report PASSED but ran 0 tests / 0.0% coverage
-
-**Symptom:** `scripts/pipeline/stage_01_test.py --project templates/bond-manuscript` prints
-`Project: ✓ PASSED (0/0 tests, 0.0% coverage)` and exits 0, while the
-documented direct command runs the current project suite with the measured
-coverage shown in the repo canonical facts.
-
-**Cause:** the aggregate runner resolves the interpreter from
-`projects/working/bond/bond-manuscript/.venv`. A `.venv` made by `uv venv` without
-`uv sync` lacks `pytest`, so pytest collects nothing. **A green exit with
-zero collected tests is not a pass.**
-
-**Fixes:**
-
-1. Run the **canonical per-project gate** directly (authoritative; what CI
-   enforces project-by-project):
-   ```bash
-   uv run pytest projects/working/bond/bond-manuscript/tests/ \
-     --cov=projects/working/bond/bond-manuscript/src --cov-fail-under=90
-   ```
-2. Or `uv sync` so the per-project `.venv` has the test deps.
-3. Always confirm **collected > 0 AND coverage ≥ 90%** — never exit code
-   alone. (The runner now falls back to the workspace interpreter and
-   hard-fails a 0-collected or below-threshold run.)
-
-**Coverage-config note:** the project's `pyproject.toml` `[tool.coverage]`
-`source`/`omit` are *project-relative* and do not resolve when pytest runs
-from the repo root; the canonical command and the runner both measure
-against the **repo-root** `pyproject.toml` config — that is the number the
-90% gate enforces (≈99% for this exemplar; `src/analysis/` and
-`src/dashboard.py` are intentionally omitted there).
 
 ## See also
 
-- [`output_conventions.md`](output_conventions.md) — output directory layout and regeneration rules.
-- [`rendering_pipeline.md`](rendering_pipeline.md) — the four phases and their config controls.
-- [`syntax_guide.md`](syntax_guide.md) — manuscript token and cross-reference syntax.
-- [`quickstart.md`](quickstart.md) — basic run commands.
-- [`faq.md`](faq.md) — frequently asked questions.
+- [`rendering_pipeline.md`](rendering_pipeline.md) — the three build steps
+- [`testing_philosophy.md`](testing_philosophy.md) — running the gate honestly
+- [`output_conventions.md`](output_conventions.md) — regeneration
+- [`faq.md`](faq.md) — questions rather than symptoms

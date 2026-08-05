@@ -1,144 +1,109 @@
-# Script Conventions
+# Script conventions
 
-Orchestration rules and integration patterns for `scripts/` in the `bond-manuscript` exemplar.
+Rules for orchestrators in `scripts/`. The two live examples are
+`generate_compendium.py` and `z_generate_manuscript_variables.py`.
 
-## Thin Orchestrator Rules
-
-Scripts **coordinate** — they never **compute**:
+## Coordinate, never compute
 
 ```python
-# ✅ CORRECT: Script imports and orchestrates
-from src.optimizer import gradient_descent, quadratic_function, compute_gradient
-from infrastructure.core.logging.utils import get_logger
+# CORRECT — the script decides where output goes; src/ decides what it says
+from bond_manuscript import build_architecture_section, discover_packages
 
-logger = get_logger(__name__)
-
-result = gradient_descent(
-    initial_point=np.array([5.0]),
-    objective_func=quadratic_function,
-    gradient_func=compute_gradient,
-    step_size=0.1,
+packages = discover_packages(bond_root)
+(manuscript / "02_suite_architecture.md").write_text(
+    build_architecture_section(packages, bond_root) + "\n"
 )
-logger.info(f"Converged in {result.iterations} iterations")
 ```
 
 ```python
-# ❌ WRONG: Script implements math directly
-def my_gradient_descent(x, lr):
-    for i in range(1000):
-        grad = 2 * x  # Math belongs in src/
-        x = x - lr * grad
-    return x
+# WRONG — fleet logic in a script cannot be unit-tested
+rows = []
+for slug in sorted(os.listdir(bond_root)):
+    if (Path(bond_root) / slug / "manuscript").is_dir():
+        rows.append(f"| {slug} |")
 ```
 
-If you find yourself writing math in `scripts/`, move it to `src/` first.
+If you are parsing a package, resolving a token, or assembling a chapter inside a
+script, move it into `src/bond_manuscript/compendium.py` and write a test for it.
 
-## Import Patterns
+## Resolve paths from the file, not the cwd
 
 ```python
-import sys
-from pathlib import Path
-
-# 1. Standard library imports
-import logging
-import json
-
-# 2. Third-party imports
-import numpy as np
-import matplotlib.pyplot as plt
-
-# 3. Project source imports (via pythonpath)
-from src.optimizer import gradient_descent, OptimizationResult
-
-# 4. Infrastructure imports (graceful fallback)
-try:
-    from infrastructure.core.logging.utils import get_logger
-    logger = get_logger(__name__)
-except ImportError:
-    logger = logging.getLogger(__name__)
+REPO = Path(__file__).resolve().parents[1]   # -> bond-manuscript/
 ```
 
-- Always handle missing infrastructure gracefully with `try/except ImportError`
-- Use explicit imports (not `from module import *`)
-
-## Output Directory Structure
-
-Scripts must write to the standard output layout:
-
-```mermaid
-flowchart LR
-    OUT[output/]
-    OUT --> FIG[figures/<br/>Generated plots · PNG · 300 DPI]
-    OUT --> DAT[data/<br/>Numerical results · CSV · NPZ]
-    OUT --> REP[reports/<br/>Analysis reports · JSON · HTML]
-    OUT --> CIT[citations/<br/>Generated citations · BibTeX · APA · MLA]
-    OUT --> LOG[logs/<br/>Pipeline logs]
-    OUT --> DOC[docs/<br/>Generated API documentation]
-
-    classDef d fill:#0f172a,stroke:#0f172a,color:#fff
-    class OUT,FIG,DAT,REP,CIT,LOG,DOC d
-```
+Both active scripts are runnable from any working directory because of this. Do
+not reach into the monorepo by fixed depth (`parents[4]` and friends); that
+assumption is exactly what left four inherited stage scripts unable to import
+`infrastructure` after this package moved one level deeper. When you need the
+template root, walk up until you find a marker:
 
 ```python
-# Standard output path setup
-project_dir = Path(__file__).parent.parent
-output_dir = project_dir / "output"
-
-figures_dir = output_dir / "figures"
-data_dir = output_dir / "data"
-reports_dir = output_dir / "reports"
-
-for d in [figures_dir, data_dir, reports_dir]:
-    d.mkdir(parents=True, exist_ok=True)
+ancestor = REPO
+while ancestor != ancestor.parent and not (ancestor / "infrastructure" / "rendering").is_dir():
+    ancestor = ancestor.parent
 ```
 
-## Error Handling with Recovery
+## Make suite imports work from a bare interpreter
+
+The renderer may run a script with this package's own `.venv` python. Prepend the
+sibling `src/` directories before importing them:
 
 ```python
-try:
-    results = run_analysis()
-except Exception as e:
-    logger.error(f"Analysis failed: {e}")
-    logger.info("Recovery: try running with --verbose for diagnostics")
-    sys.exit(1)
+for _dir in (REPO / "src", REPO.parent / "bond-api" / "src",
+             REPO.parent / "bond-utilities" / "src",
+             REPO.parent / "bond-coordinator" / "src"):
+    sys.path.insert(0, str(_dir))
+
+from bond_manuscript import discover_packages  # noqa: E402
 ```
 
-- Log errors with `logger.error()`, never `print()`
-- Provide actionable recovery suggestions
-- Use `sys.exit(1)` for fatal errors, not bare `raise`
+The `# noqa: E402` on post-`sys.path` imports is intentional; keep it.
 
-## Progress Tracking
+## Own your outputs by explicit pattern
+
+A generator that clears its previous run must match exactly what it writes:
 
 ```python
-from infrastructure.core.progress import ProgressBar
-
-step_sizes = [0.01, 0.1, 0.5, 1.0]
-
-progress = ProgressBar(total=len(step_sizes), task="Experiments")
-for step_size in step_sizes:
-    result = run_experiment(step_size)
-    progress.update(1)
-progress.finish()
+_GENERATED_02 = re.compile(r"^02_suite_architecture\.md$")
+_GENERATED_PKG = re.compile(r"^(0[34])_\d{2}_.+\.md$")
+_GENERATED_99 = re.compile(r"^99_references\.md$")
 ```
 
-- Use `ProgressBar` for any loop with >3 iterations
-- Set a descriptive `task=` label
+Never `for f in manuscript.glob("*.md"): f.unlink()`. The hand-authored abstract,
+introduction, and closing live in the same directory.
 
-## Infrastructure Integration Checklist
+## Report failures; do not absorb them
 
-Before submitting a new or modified script, verify:
+```python
+if BRIEF_FAILURES:
+    print("\nERROR: could not load MissionProvider for:", file=sys.stderr)
+    for slug, err in sorted(BRIEF_FAILURES.items()):
+        print(f"  {slug}: {err}", file=sys.stderr)
+    return 1
+```
 
-- [ ] All math lives in `src/`, not in the script
-- [ ] Uses `get_logger(__name__)` (not `print()`)
-- [ ] Handles missing infrastructure with `try/except ImportError`
-- [ ] Writes output to standard `output/` subdirectories
-- [ ] Uses `Path` objects (not string concatenation) for file paths
-- [ ] Has progress tracking for long-running loops
-- [ ] Includes error handling with recovery suggestions
-- [ ] Registers generated figures with the manuscript system
+Diagnostics go to stderr, the summary line to stdout, and a build that lost
+content returns non-zero. Wrap `main()` as `raise SystemExit(main())` so the exit
+code actually reaches the shell.
 
-## See Also
+## Determinism
 
-- [AGENTS.md](AGENTS.md) — Full API reference for all script functions
-- [../src/STYLE.md](../src/STYLE.md) — Style guide for the code scripts import
-- [../docs/architecture.md](../docs/architecture.md) — Thin orchestrator flow diagram
+Scripts must produce byte-identical output for an unchanged package tree. No
+timestamps, no run IDs, no `set` iteration in anything that reaches a file.
+`tests/test_compendium.py::test_regeneration_is_deterministic` enforces this by
+re-running the generator and comparing bytes.
+
+## Checklist
+
+- [ ] No fleet parsing or chapter assembly in the script
+- [ ] Paths resolved from `Path(__file__).resolve()`, no fixed-depth monorepo reach
+- [ ] Output patterns explicit; hand-authored files untouched
+- [ ] Failures on stderr and a non-zero exit
+- [ ] Output byte-stable across two runs
+
+## See also
+
+- [`AGENTS.md`](AGENTS.md) — what each script writes
+- [`../src/STYLE.md`](../src/STYLE.md) — style for the code scripts call
+- [`../docs/architecture.md`](../docs/architecture.md) — layer boundaries

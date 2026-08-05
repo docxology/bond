@@ -1,6 +1,7 @@
 # bond-manuscript skill — AGENTS.md
 
-Project-scoped skill bundle for the `bond-manuscript` exemplar.
+Project-scoped skill bundle for `bond-manuscript`, the PROJECT BOND compendium
+generator.
 
 | File | Purpose |
 | --- | --- |
@@ -12,8 +13,9 @@ Project-scoped skill bundle for the `bond-manuscript` exemplar.
 
 Agents that need to:
 
-- Drive the in-repo exemplar end-to-end.
-- Fork this exemplar as a starting scaffold.
+- Regenerate the compendium after a package's manuscript or provider changed.
+- Change how chapters, the architecture section, or the merged bibliography are
+  assembled.
 - Verify layer boundaries and thin-orchestrator contracts.
 
 ## Cross-refs

@@ -1,83 +1,51 @@
-# `bond-manuscript` - The Repository Exemplar
+# manuscript/ — the PROJECT BOND compendium
 
-This is the stable code exemplar for the Research Project Template: a tested numerical optimization implementation routed through the shared infrastructure, project test suite, and manuscript renderer.
+The wrapper manuscript for the 33-package BOND suite: three hand-authored
+sections framing 32 generated chapters and a unified bibliography.
 
-It demonstrates the complete research pipeline from algorithm implementation through strict validation to multi-format result visualization.
+## Structure
 
-## Template Architecture
+| Section | Origin |
+| --- | --- |
+| `00_abstract.md` | hand-authored — what the suite is, with injected counts |
+| `01_introduction.md` | hand-authored — the two layers, the quality bar, the reader's guide |
+| `02_suite_architecture.md` | generated — layer table, roster, measured gate |
+| `03_01_…` … `03_27_…` | generated — one chapter per Bond film, in canon order |
+| `04_01_…` … `04_06_…` | generated — one chapter per infrastructure package |
+| `90_closing.md` | hand-authored — synthesis across the fleet |
+| `99_references.md` | generated — the unified bibliography, by source package |
 
-This project is explicitly designed to showcase the repository's three foundational pillars:
+Each generated package chapter carries the package's title and mission codename,
+its concepts, its abstract imported from its own manuscript, and its citation
+keys against the merged `references.bib`.
 
-1. **`infrastructure/` Layer**: The code delegates tracking, performance benchmarking, stability validation, and PDF rendering to the shared infrastructure packages at the repository root. Current package counts live in [`docs/_generated/COUNTS.md`](../../../../docs/_generated/COUNTS.md).
-2. **`tests/` Integrity**: A zero-mock suite ([`projects/working/bond/bond-manuscript/tests/`](../tests/)) with **≥90%** coverage on `projects/working/bond/bond-manuscript/src/`. Live test count and measured coverage: [`docs/_generated/COUNTS.md`](../../../../docs/_generated/COUNTS.md).
-3. **`docs/` Orchestration**: Project documentation under `projects/working/bond/bond-manuscript/docs/` records the operational patterns and is checked by the repository documentation lint gates.
+Support files: `references.bib` (generated), `config.yaml` (paper metadata),
+`preamble.md` (LaTeX), `config.yaml.example`, `layer_contract.yaml`.
 
-## Manuscript Structure
-
-The `manuscript/` directory contains the raw markdown files that the renderer (`infrastructure/rendering/pdf_renderer.py`) transforms into the final academic PDF. These files are designed as a meta-narrative to demonstrate exactly how the repository executes:
-
-- `00_abstract.md`: Abstract; build variables and CSV-backed prose via `scripts/z_generate_manuscript_variables.py`.
-- `01_introduction.md`: Introduction of the infrastructure pillars bridging to CI/CD files.
-- `02_methodology.md`: Mathematical methods mapping to specific python script execution lines.
-- `03_results.md`: Convergence analysis built via `infrastructure.reporting`, pointing back at itself.
-- `04_conclusion.md`: Summary of the template automation and publication outputs.
-
-## Architecture
-
-The project acts as a bridge between custom mathematical logic and the repository's core:
-
-```mermaid
-graph TD
-    classDef infra fill:#f5f5f5,stroke:#333,stroke-width:2px;
-    classDef project fill:#e1f5fe,stroke:#0277bd,stroke-width:2px;
-    classDef docs fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px;
-
-    subgraph "Project Space (`projects/working/bond/bond-manuscript/`)"
-        Script["scripts/optimization_analysis.py"]:::project
-        Manuscript["manuscript/*.md"]:::project
-    end
-
-    subgraph "Template Ecosystem"
-        Tests["tests/ (see canonical facts)"]:::docs
-        Config["config.yaml & preamble.md"]:::docs
-
-        subgraph "`infrastructure/`"
-            Validation["infrastructure.validation"]:::infra
-            Scientific["infrastructure.scientific"]:::infra
-            Reporting["infrastructure.reporting"]:::infra
-            Rendering["infrastructure.rendering"]:::infra
-        end
-    end
-
-    Script -->|Delegates precision checks| Scientific
-    Script -->|Tested strictly by| Tests
-    Tests -->|Protected by| Validation
-    Script -->|Generates data for| Reporting
-    Reporting -->|Formats| Manuscript
-    Manuscript -->|Compiled with| Config
-    Config -->|Sent to| Rendering
-    Rendering -->|Produces| PDF["output/templates/bond-manuscript/pdf/bond-manuscript_combined.pdf"]:::project
-```
-
-## Quick Start
-
-Experience the automated pipeline directly:
+## Build
 
 ```bash
-# From repository root
-uv run python projects/working/bond/bond-manuscript/scripts/optimization_analysis.py
+cd projects/working/bond/bond-manuscript
+uv run python scripts/generate_compendium.py                # chapters + unified bib
+uv run python scripts/z_generate_manuscript_variables.py    # tokens -> output/manuscript/
 
-uv run python scripts/pipeline/stage_03_render.py --project templates/bond-manuscript
-
-open output/templates/bond-manuscript/pdf/bond-manuscript_combined.pdf
+# from the template repository root
+uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-manuscript
 ```
 
-## AI Agent Directives
+Output: `output/pdf/bond-manuscript_combined.pdf`, per-section HTML under
+`output/web/`, per-section Beamer decks under `output/slides/`.
 
-If you are an AI agent operating in this repository, you **MUST** read [`AGENTS.md`](AGENTS.md) before executing any code modifications. It defines the zero-mock testing constraints and infrastructure coupling rules.
+## Before you edit
+
+The 32 generated sections and `references.bib` are rewritten on every build. A
+correction to a film belongs in that film's package, not here.
+[`AGENTS.md`](AGENTS.md) has the full table of what is editable and where each
+kind of fix belongs; [`SYNTAX.md`](SYNTAX.md) covers tokens, citations, and the
+cross-reference constraint.
 
 ## See also
 
-- [`SYNTAX.md`](SYNTAX.md) — Pandoc citation / cross-reference conventions for this manuscript.
-- [`../../../docs/guides/manuscript-semantics.md`](../../../../docs/guides/manuscript-semantics.md) — Repository-wide manuscript semantics.
-- [`../../../AGENTS.md`](../../../AGENTS.md#permanent-canonical-exemplars) — public exemplar roster.
+- [`../README.md`](../README.md) — what the compendium is
+- [`../docs/rendering_pipeline.md`](../docs/rendering_pipeline.md) — the three build steps
+- [repository manuscript semantics](../../../../../docs/guides/manuscript-semantics.md) — repository-wide semantics

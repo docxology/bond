@@ -1,204 +1,118 @@
-# Source Code Style Guide
+# Source style guide
 
-Code style and design conventions for `src/` modules in the `bond-manuscript` exemplar.
+Conventions for `src/bond_manuscript/`. Each rule reflects how the existing code
+is written; follow the neighbouring code before following a rule in the abstract.
 
-## Pure Function Design
+## Read-only core
 
-All functions in `src/` must be **side-effect-free**:
-
-```python
-# ✅ CORRECT: Pure function — takes input, returns output
-def quadratic_function(x: np.ndarray, A: np.ndarray, b: np.ndarray) -> float:
-    return 0.5 * x @ A @ x - b @ x
-
-# ❌ WRONG: Side-effect function — writes files, prints, logs
-def quadratic_function(x, A, b):
-    print(f"Computing f({x})")     # Side effect: I/O
-    result = 0.5 * x @ A @ x - b @ x
-    Path("result.txt").write_text(str(result))  # Side effect: file write
-    return result
-```
-
-File I/O, logging, and visualisation belong in `scripts/`, not `src/`.
-
-## Type Hints
-
-Every public function must have complete type annotations:
+`compendium.py` reads files and returns strings. It never writes, never creates
+directories, and never prints. Writing is `scripts/generate_compendium.py`'s job.
 
 ```python
-from typing import Optional, Callable
-import numpy as np
-
-def gradient_descent(
-    initial_point: np.ndarray,
-    objective_func: Callable[[np.ndarray], float],
-    gradient_func: Callable[[np.ndarray], np.ndarray],
-    max_iterations: int = 1000,
-    tolerance: float = 1e-6,
-    step_size: float = 0.01,
-    verbose: bool = False,
-) -> OptimizationResult:
+# CORRECT — return the text, let the caller decide where it goes
+def build_references_section(references: list[Reference]) -> str:
+    ...
+    return "\n".join(lines)
 ```
 
-- Use `np.ndarray` for array types (not `list` or `array`)
-- Use `Optional[T]` when `None` is a valid value
-- Use `Callable[[ArgsType], ReturnType]` for function parameters
-- Use `@dataclass` for structured return types
+If a change needs a new output file, add the write in the orchestrator and keep
+the builder returning a string. That is what makes the whole generator testable
+without a filesystem fixture.
 
-## Docstring Format
+## Lazy suite imports
 
-Google-style docstrings with Args/Returns/Raises:
+Sibling packages are imported inside the function that needs them, with an
+explanatory comment:
 
 ```python
-def compute_gradient(
-    x: np.ndarray,
-    A: Optional[np.ndarray] = None,
-    b: Optional[np.ndarray] = None,
-) -> np.ndarray:
-    """Compute analytical gradient ∇f(x) = Ax - b.
-
-    Args:
-        x: Input point (n-dimensional vector).
-        A: Positive definite matrix (n×n). Defaults to identity.
-        b: Linear term (n-dimensional). Defaults to ones.
-
-    Returns:
-        Gradient vector at x.
-
-    Raises:
-        ValueError: If dimensions of A, b, and x are incompatible.
-    """
+def discover_packages(bond_root: Path) -> list[PackageInfo]:
+    from bond_coordinator.registry import ROSTER  # lazy: suite layer 2
 ```
 
-## Naming Conventions
+A module-scope `import bond_coordinator` makes `bond_manuscript` unimportable
+whenever a sibling package is mid-edit, which breaks the test suite for reasons
+that have nothing to do with the compendium.
 
-| Element | Convention | Example |
-|---------|-----------|---------|
-| Functions | `snake_case` | `compute_gradient` |
-| Classes | `PascalCase` | `OptimizationResult` |
-| Constants | `UPPER_SNAKE` | `MAX_ITERATIONS` |
-| Private | `_leading_underscore` | `_validate_dimensions` |
-| Parameters | descriptive `snake_case` | `initial_point`, `step_size` |
+## No infrastructure imports
 
-## NumPy Idioms
+`src/` must not import `infrastructure.*`. The template's rendering and provenance
+helpers are reached from `scripts/` only. Verify with:
+
+```bash
+grep -rn "^\(from\|import\) infrastructure" src/ || echo "Clean"
+```
+
+## Frozen dataclasses for data, module constants for tables
+
+`PackageInfo` and `Reference` are `@dataclass(frozen=True)`. Lookup tables that
+never change at runtime are module-level constants in `UPPER_SNAKE`, next to the
+code that uses them (`FILM_NUMBER`, `_VARIABLE_PATHS`, `_LATEX_COMBINING`,
+`_LATEX_SYMBOLS`).
+
+Regular expressions are compiled once at module scope with a leading underscore
+(`_TOKEN`, `_CROSSREF`, `_ACCENT_BRACED`), not inside the function body.
+
+## Type hints and docstrings
+
+Every public function is annotated and carries a short docstring saying what it
+returns, not how it works. Use Python 3.10+ union syntax (`Path | None`), and
+quote forward-referencing generics that appear in signatures of nested helpers
+(`"re.Match[str]"`, `"OrderedDict[str, Reference]"`) as the existing code does.
+
+## Comments explain why, and only where a reader would get it wrong
+
+The comments in `compendium.py` are not narration — each one records a failure
+that the code now prevents:
 
 ```python
-# ✅ Use vectorized operations
-result = A @ x - b
-
-# ❌ Avoid loops over array elements
-result = np.zeros_like(b)
-for i in range(len(x)):
-    result[i] = sum(A[i, j] * x[j] for j in range(len(x))) - b[i]
+#: Where a package may keep its generated manuscript variables. 31 packages use
+#: ``output/data/``; bond-cli and bond-ops write ``output/variables/``. Reading
+#: only the majority path made those two abstracts import with every token
+#: stripped, so the compendium rendered "**** (**)" instead of the package name.
+_VARIABLE_PATHS = ("data", "variables")
 ```
 
-- Prefer `@` operator over `np.dot()` for matrix multiplication
-- Use `np.linalg.norm()` for norm computations
-- Use `np.allclose()` for floating-point comparisons in validation
+Write that kind of comment or none. Do not add comments restating the next line.
 
-## Error Handling
+## Never swallow a failure that costs content
+
+A blanket `except Exception: return ""` once let a chapter lose its mission brief
+line silently. The current shape records the failure so a caller can report it:
 
 ```python
-def quadratic_function(x: np.ndarray, A: np.ndarray, b: np.ndarray) -> float:
-    if A.shape[0] != A.shape[1]:
-        raise ValueError(f"A must be square, got shape {A.shape}")
-    if A.shape[0] != len(x):
-        raise ValueError(
-            f"Dimension mismatch: A is {A.shape[0]}×{A.shape[1]} "
-            f"but x has length {len(x)}"
-        )
-    return 0.5 * x @ A @ x - b @ x
+except Exception as exc:  # noqa: BLE001 — recorded, then reported by the caller
+    BRIEF_FAILURES[slug] = f"{type(exc).__name__}: {exc}"
+    return ""
 ```
 
-- Validate inputs at function entry
-- Use `ValueError` for dimension/type mismatches
-- Include actual values in error messages for debuggability
-- Never catch and silently swallow exceptions
+An empty return is only acceptable for a genuine absence — a package with no
+`mission.py`, a package with no `references.bib`. Anything else must leave a trace.
 
-## Dual-Import Shim (`src.X` vs bare `X`)
-
-`src/optimizer.py` and `src/invariants.py` both contain a small pattern that
-new contributors should not delete:
+Narrow the caught exception where the failure mode is known, as
+`import_package_abstract` does for unparseable variable JSON:
 
 ```python
-try:
-    from .optimizer import OptimizationResult     # invoked as `python -m src.optimizer`
-except ImportError:                                # noqa: E402
-    from optimizer import OptimizationResult      # invoked as a bare script from inside src/
+except (OSError, ValueError):
+    variables = {}
 ```
 
-The shim exists because the test suite, the analysis script, and humans
-running `python src/optimizer.py` all reach the module through three
-different import paths:
+## Determinism
 
-| Caller | Resolution path |
-|---|---|
-| `tests/conftest.py` adds `src/` to `sys.path`, tests do `from optimizer import …` | Bare-module form (no `src.` prefix) |
-| Pipeline scripts do `from src.optimizer import …` | Package form |
-| `python -m src.invariants` invocation | Package form |
-
-The `try/except ImportError` covers both code paths. Deleting it breaks
-the bare-module form silently — the test suite still passes (it uses the
-bare path) but anything running `from src.optimizer import …` fails on
-the very first import. Do not "clean up" this pattern without re-thinking
-the conftest path setup first.
-
-## Module Exports
-
-`src/__init__.py` re-exports the public API. The actual export set (kept
-in sync with `__init__.py` — drift is caught by
-`scripts/audit/check_template_drift.py`'s `__all___doc_drift` rule):
+Ordering must come from the roster or from an `OrderedDict`, never from a `set`
+or from `Path.glob` order. De-duplication keeps insertion order:
 
 ```python
-"""bond-manuscript — gradient descent optimization research exemplar."""
-
-from .optimizer import (
-    OptimizationResult,
-    compute_gradient,
-    gradient_descent,
-    make_quadratic_problem,
-    quadratic_function,
-    simulate_trajectory,
-)
-from .invariants import (
-    InvariantResult,
-    OptimizerSweepConfig,
-    all_invariants,
-    convergence_invariants,
-    gradient_consistency_invariants,
-    trajectory_invariants,
-)
-
-__all__ = [
-    # Optimizer (pure mathematics)
-    "OptimizationResult",
-    "compute_gradient",
-    "gradient_descent",
-    "make_quadratic_problem",
-    "quadratic_function",
-    "simulate_trajectory",
-    # Invariants (dashboard panels)
-    "InvariantResult",
-    "OptimizerSweepConfig",
-    "all_invariants",
-    "convergence_invariants",
-    "gradient_consistency_invariants",
-    "trajectory_invariants",
-]
+merged: "OrderedDict[str, Reference]" = OrderedDict()
+for pkg in packages:
+    for ref in parse_references(bond_root / pkg.slug, pkg.slug):
+        merged[ref.key] = ref
 ```
 
-`src/analysis/`, `src/dashboard.py`, `src/figures/`,
-`src/experiment_config.py`, and `src/manuscript_variables.py`
-expose their public callables directly via deep imports
-(`from src.analysis import generate_convergence_plot`,
-`from src.experiment_config import load_experiment_config`, etc.); they are part of
-the orchestration layer, not the pure-math API, so they are
-intentionally NOT in `__init__.py.__all__`. `experiment_config.py` is the
-config single source of truth shared by analysis, figures, dashboard, and
-manuscript_variables.
+`tests/test_compendium.py::test_regeneration_is_deterministic` regenerates the
+manuscript and asserts byte-equality, so a non-deterministic change fails there.
 
-## See Also
+## See also
 
-- [AGENTS.md](AGENTS.md) — Full API reference and infrastructure integration
-- [../tests/PATTERNS.md](../tests/PATTERNS.md) — How to test code written here
-- [../scripts/CONVENTIONS.md](../scripts/CONVENTIONS.md) — How scripts use this code
+- [`AGENTS.md`](AGENTS.md) — API reference and invariants
+- [`../tests/PATTERNS.md`](../tests/PATTERNS.md) — how to test code written here
+- [`../scripts/CONVENTIONS.md`](../scripts/CONVENTIONS.md) — how the orchestrators use it

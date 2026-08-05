@@ -1,82 +1,49 @@
-# src/ - Project Logic
+# src/ — compendium generator
 
-Core optimization algorithms, shared experiment configuration, analysis builders, figure generators, dashboard payloads, and manuscript-variable extraction for the code exemplar. Mathematical primitives stay pure; generated-output workflows live in importable modules so scripts remain thin wrappers.
+Two modules build the PROJECT BOND compendium from the fleet's own manuscripts.
 
-## Quick Start
+| Module | Role |
+| --- | --- |
+| `bond_manuscript/compendium.py` | Package discovery, abstract import, bibliography merge, chapter builders |
+| `bond_manuscript/manuscript_variables.py` | The compendium's `{{TOKEN}}` map, computed from live discovery |
 
-```python
-import logging
-
-import numpy as np
-from optimizer import gradient_descent, quadratic_function
-
-logger = logging.getLogger(__name__)
-
-# Simple optimization example
-result = gradient_descent(
-    initial_point=np.array([0.0]),
-    objective_func=lambda x: quadratic_function(x),
-    gradient_func=lambda x: x - 1,  # Gradient of f(x) = 0.5*x^2 - x
-    step_size=0.1
-)
-
-logger.info(f"Optimal solution: {result.solution}")
-```
-
-## Key Features
-
-- **Gradient descent** optimization algorithm
-- **Quadratic function** evaluation, gradients, and analytical optimum (`quadratic_optimum`)
-- **Shared experiment config** in `experiment_config.py` (single loader for `manuscript/config.yaml`)
-- **Importable analysis pipeline** in `analysis/`
-- **Matplotlib figures** in `figures/`
-- **Plotly dashboard builder** in `dashboard.py`
-- **Manuscript `{{TOKEN}}` map** in `manuscript_variables.py`
-- **API reference builder** in `documentation.py` (invoked by `scripts/generate_api_docs.py`)
-- **Reproducible results** with deterministic behavior
-- **Type-safe** with type hints
-
-## Common Commands
-
-### Import and Use
+## Quick start
 
 ```python
-from experiment_config import load_experiment_config
-from optimizer import (
-    gradient_descent,
-    quadratic_function,
-    compute_gradient,
-    quadratic_optimum,
-    OptimizationResult,
+from pathlib import Path
+
+from bond_manuscript import (
+    build_architecture_section,
+    build_references_bib,
+    discover_packages,
+    import_package_abstract,
 )
 
-cfg = load_experiment_config()
-x_star, f_star = quadratic_optimum(cfg.A_array(), cfg.b_array())
+bond_root = Path("..").resolve()                 # the PROJECT BOND workspace root
+
+packages = discover_packages(bond_root)          # 27 films + 6 infrastructure
+print(len(packages), packages[0].title)          # 33  Dr. No (1962)
+
+print(import_package_abstract(bond_root / "goldfinger")[:120])
+
+bibtex, references = build_references_bib(packages, bond_root)
+print(len(references), "merged bibliography entries")
+
+print(build_architecture_section(packages, bond_root).splitlines()[0])
 ```
 
-### Run Tests
+Discovery reads the canon-ordered roster from `bond_coordinator.registry.ROSTER`,
+so the suite path dependencies (`bond-api`, `bond-coordinator`, `bond-utilities`)
+must be installed — `uv sync --all-extras` from this directory handles that.
+
+## Run the tests
 
 ```bash
 cd projects/working/bond/bond-manuscript
 uv run pytest tests/ --cov=src --cov-fail-under=90
 ```
 
-## Architecture
+## More
 
-```mermaid
-graph TD
-    YAML[manuscript/config.yaml] --> CFG[experiment_config.py]
-    CFG --> ANA[analysis/]
-    CFG --> FIG[figures/]
-    CFG --> DASH[dashboard.py]
-    CFG --> VARS[manuscript_variables.py]
-
-    ANA --> OPT[optimizer.py]
-    FIG --> OPT
-    DASH --> OPT
-    VARS --> OPT
-```
-
-## More Information
-
-See [AGENTS.md](AGENTS.md) for technical documentation.
+[`AGENTS.md`](AGENTS.md) has the full API table, the invariants, and the gotchas
+these modules encode. [`STYLE.md`](STYLE.md) covers how to write code here.

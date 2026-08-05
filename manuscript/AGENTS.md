@@ -1,128 +1,111 @@
 ---
 title: "Manuscript directory: bond-manuscript"
 type: "manuscript_guide"
-version: "2.5.2"
 ---
 
-# Manuscript (`projects/working/bond/bond-manuscript/manuscript/`)
+# manuscript/ — the compendium
 
-Repository-wide agent rules for this exemplar live in [`../docs/agent_instructions.md`](../docs/agent_instructions.md). This file covers **manuscript-specific** editing: file roles, `{{VARIABLE}}` token protocol, figure protocol, and the section modification workflow.
+38 section files plus support files. Six of the sections are hand-authored; the
+other 32 are build output.
 
-## File Inventory
+Project-wide rules are in [`../docs/agent_instructions.md`](../docs/agent_instructions.md).
+This file covers the manuscript directory specifically.
 
-| File / Pattern | Role | `{{VARIABLE}}` Tokens | Figure References |
-|---|---|---|---|
-| `00_abstract.md` | Abstract; introduces template features and results summary | `CONFIG_KEYWORDS`, `CONFIG_MAX_ITERATIONS`, `CONFIG_MAX_STEP_SIZE`, `CONFIG_MIN_STEP_SIZE`, `CONFIG_NUM_STEP_SIZES`, `RESULT_NUM_CONVERGED`, `RESULT_OPTIMUM_F`, `RESULT_OPTIMUM_X` | None |
-| `01_introduction.md` | Infrastructure pillars, algorithm overview, reader's guide | None | None |
-| `02_methodology.md` | Mathematical methods, gradient descent algorithm, step-size theory | `CONFIG_STEP_SIZES_BULLETS` | None |
-| `03_results.md` | All results; ALL figures; ALL numeric result tokens | `CONFIG_BENCHMARK_DIMS`, `CONFIG_CONVERGENCE_TOL`, `CONFIG_MAX_ITERATIONS`, `CONFIG_MAX_STEP_SIZE`, `CONFIG_MIN_STEP_SIZE`, `CONFIG_NUM_STABILITY_STARTS`, `CONFIG_NUM_STABILITY_STEPS`, `CONFIG_NUM_STEP_SIZES`, `CONFIG_STABILITY_CELLS`, `CONFIG_STABILITY_MAX_STEP`, `CONFIG_STABILITY_MIN_STEP`, `CONFIG_STEP_SIZES_CSV`, `CONFIG_TOLERANCE`, `RESULT_AVG_ITERATIONS`, `RESULT_BEST_STEP_SIZE`, `RESULT_CONVERGENCE_FACTORS`, `RESULT_MAX_ITERATIONS`, `RESULT_MIN_ITERATIONS`, `RESULT_NUM_CONVERGED`, `RESULT_OPTIMUM_F`, `RESULT_OPTIMUM_X`, `RESULT_TABLE_ROWS`, `STABILITY_SCORE`` | All 6 figures |
-| `04_conclusion.md` | Summary of pipeline automation and template guarantees | None | None |
-| `05_experimental_setup.md` | Configuration parameters, software environment | `CONFIG_BENCHMARK_DIMS`, `CONFIG_BENCHMARK_MAX_DIM`, `CONFIG_BENCHMARK_MIN_DIM`, `CONFIG_CONVERGENCE_TOL`, `CONFIG_INITIAL_POINT`, `CONFIG_MAX_ITERATIONS`, `CONFIG_NUM_STABILITY_STARTS`, `CONFIG_NUM_STABILITY_STEPS`, `CONFIG_NUM_STEP_SIZES`, `CONFIG_QUADRATIC_A`, `CONFIG_QUADRATIC_B`, `CONFIG_STABILITY_CELLS`, `CONFIG_STEP_SIZES_BULLETS`, `GENERATION_TIMESTAMP`, `NUMPY_VERSION`, `PLATFORM`, `PYTHON_VERSION`, `RESULT_OPTIMUM_F`, `RESULT_OPTIMUM_X`, `STABILITY_FUNCTION`` | None |
-| `06_reproducibility.md` | Config hash, artifact inventory, test results | `ARTIFACT_DATA_FILES`, `ARTIFACT_FIGURES`, `ARTIFACT_REPORTS`, `ARTIFACT_TOTAL`, `CONFIG_FIRST_AUTHOR`, `CONFIG_HASH`, `CONFIG_KEYWORDS`, `CONFIG_NUM_STABILITY_STARTS`, `CONFIG_NUM_STABILITY_STEPS`, `CONFIG_NUM_STEP_SIZES`, `CONFIG_STABILITY_CELLS`, `CONFIG_VERSION`, `RESULT_ALL_CONVERGED`, `RESULT_AVG_ITERATIONS`, `RESULT_BEST_STEP_SIZE`, `RESULT_CONVERGED_STEP_SIZES`, `RESULT_DIVERGED_STEP_SIZES`, `RESULT_MAX_ITERATIONS`, `RESULT_MIN_ITERATIONS`, `RESULT_NUM_CONVERGED`, `RESULT_WORST_STEP_SIZE`, `STABILITY_SCORE`` | None |
-| `07_scope_and_related_work.md` | Scope limitations, related literature | None | None |
-| `config.yaml` | Paper metadata, experiment parameters, `publication.transmission_bookends`, `publication.deposit_filename`, `steganography` profile | — | — |
-| `config.yaml.example` | Reference copy for new projects; shows all configurable fields | — | — |
-| `preamble.md` | LaTeX injections shared by PDF output | — | — |
-| `references.bib` | BibTeX bibliography | — | — |
-| `SYNTAX.md` | Citation, figure, and cross-reference syntax reference | — | — |
-| `README.md` | Human quick-reference for this directory | — | — |
-| `AGENTS.md` | This file — agent technical directives | — | — |
+## What is hand-authored, and what is not
 
-## {{VARIABLE}} Protocol
+| File | Origin | Editable |
+| --- | --- | --- |
+| `00_abstract.md` | hand-authored; uses `{{N_PACKAGES}}`, `{{N_FILMS}}`, `{{N_INFRA}}` | yes |
+| `01_introduction.md` | hand-authored | yes |
+| `02_suite_architecture.md` | generated — layer table, roster, measured gate | **no** |
+| `03_01_…` … `03_27_…` | generated — one chapter per film, canon order | **no** |
+| `04_01_…` … `04_06_…` | generated — one chapter per infrastructure package | **no** |
+| `90_closing.md` | hand-authored; uses `{{N_PACKAGES}}`, `{{N_FILMS}}`, `{{N_INFRA}}`, `{{N_GATE_MEASURED}}` | yes |
+| `99_references.md` | generated — bibliography listing by source package | **no** |
+| `references.bib` | generated — unified merge from all 33 packages | **no** |
+| `preamble.md` | LaTeX packages injected at compile time | yes |
+| `config.yaml` | paper metadata (title, authors, keywords, license) | yes |
+| `config.yaml.example` | reference copy of the config shape | yes |
+| `layer_contract.yaml` | declares which files may import `infrastructure.*` | yes |
+| `SYNTAX.md`, `README.md`, `AGENTS.md` | documentation; never read by the renderer | yes |
 
-Numeric values that come from analysis outputs **must** use `{{VARIABLE_NAME}}` syntax. Hardcoding a number that will change when `config.yaml` is edited or the analysis is re-run is the primary cause of inaccurate manuscripts.
+`scripts/generate_compendium.py` deletes and rewrites the generated files by
+explicit filename pattern (`02_suite_architecture.md`, `^(0[34])_\d{2}_.+\.md$`,
+`99_references.md`) on every run. An edit to any of them survives until the next
+build and is then gone.
 
-**The token pipeline**:
-1. `scripts/z_generate_manuscript_variables.py` calls `src/manuscript_variables.py::generate_variables()` to compute all token values
-2. `generate_variables()` reads experiment parameters via `src/experiment_config.py::load_experiment_config()` (same loader as analysis, figures, and dashboard)
-3. The script writes the full `{TOKEN: value}` mapping to `output/data/manuscript_variables.json`
-4. It calls `infrastructure.rendering.manuscript_injection.write_resolved_manuscript_tree()` which copies each `manuscript/*.md` template to `output/manuscript/*.md`, substituting every `{{TOKEN}}` with its resolved value
-5. `scripts/pipeline/stage_03_render.py` renders the **substituted** copies (from `output/manuscript/`), not the originals
+## Where a fix belongs
 
-**Adding a new token**:
-1. Add a key/value pair to the `variables` dict in `src/manuscript_variables.py::generate_variables()`
-2. Add a corresponding assertion in `tests/test_manuscript_variables.py` (the live cross-reference test `test_all_manuscript_tokens_are_generated` will fail automatically if a manuscript token is missing)
-3. Verify: `python -c "import json; d=json.load(open('projects/working/bond/bond-manuscript/output/data/manuscript_variables.json')); print(d['MY_TOKEN'])"`
-4. Reference in a manuscript file as `{{MY_TOKEN}}`
+| You want to change | Edit |
+| --- | --- |
+| A film's abstract text | that package's `manuscript/00_abstract.md` |
+| A film's codename or objectives | that package's `src/<slug>/mission.py` |
+| A citation in a chapter | that package's `manuscript/references.bib` |
+| The shape of every chapter | `build_package_section()` in `src/bond_manuscript/compendium.py` |
+| The architecture chapter | `build_architecture_section()` |
+| The wrapper's own framing | `00_abstract.md`, `01_introduction.md`, `90_closing.md` |
 
-**Detecting unresolved tokens** (run before rendering):
+## Token protocol
+
+Six tokens exist, all from
+`src/bond_manuscript/manuscript_variables.py::generate_variables()`:
+`SUITE_TITLE`, `SUITE_TITLE_SHORT`, `N_PACKAGES`, `N_FILMS`, `N_INFRA`,
+`N_GATE_MEASURED`. Every one is derived from live discovery, so a count in the
+prose cannot drift from the fleet.
+
+The pipeline:
+
+1. `scripts/z_generate_manuscript_variables.py` calls `generate_variables()`.
+2. It passes the map to
+   `infrastructure.rendering.manuscript_injection.write_resolved_manuscript_tree`.
+3. That copies `manuscript/` to `output/manuscript/` with every `{{TOKEN}}`
+   substituted.
+4. The renderer reads `output/manuscript/`, never this directory directly.
+
+Adding a token: add the key in `generate_variables()`, assert it in
+`tests/test_compendium.py`, re-run hydration, then reference it. Check before
+rendering:
+
 ```bash
-grep -r "{{" projects/working/bond/bond-manuscript/output/manuscript/ 2>/dev/null \
-  && echo "UNRESOLVED TOKENS — re-run z_generate_manuscript_variables.py" \
-  || echo "All tokens resolved"
+grep -r "{{" output/manuscript/ && echo "UNRESOLVED" || echo "All tokens resolved"
 ```
 
-See [`../docs/syntax_guide.md`](../docs/syntax_guide.md) for an illustrative token reference table — it is a subset that may lag behind the code, per that file's own disclaimer. The authoritative source of truth is the return value of `src/manuscript_variables.py::generate_variables()`; the live cross-reference test `tests/test_manuscript_variables.py::test_all_manuscript_tokens_are_generated` is what actually gates completeness.
+Generated chapters carry no tokens — a package's abstract is imported with its
+own tokens already resolved from that package's `manuscript_variables.json`.
 
-## Figure Protocol
+## Section ordering
 
-All six figures must be referenced via Pandoc-crossref `[@fig:label]`, never with hardcoded numbers or raw `\ref{}`:
+Files are assembled in lexicographic filename order. That is the entire ordering
+mechanism, which is why `FILM_NUMBER = "03"` and `INFRA_NUMBER = "04"` exist in
+`compendium.py`. Never renumber a chapter by hand.
 
-| Label | PNG Filename | Generator in `src/figures/` (orchestrated via `src/analysis/` / `scripts/optimization_analysis.py`) |
-|---|---|---|
-| `{#fig:convergence}` | `output/figures/convergence_plot.png` | `generate_convergence_plot()` |
-| `{#fig:step_sensitivity}` | `output/figures/step_size_sensitivity.png` | `generate_step_size_sensitivity_plot()` |
-| `{#fig:convergence_rate}` | `output/figures/convergence_rate_comparison.png` | `generate_convergence_rate_plot()` |
-| `{#fig:complexity}` | `output/figures/algorithm_complexity.png` | `generate_complexity_visualization()` |
-| `{#fig:benchmark}` | `output/figures/performance_benchmark.png` | `generate_benchmark_visualization()` |
-| `{#fig:stability}` | `output/figures/stability_analysis.png` | `generate_stability_visualization()` |
+## No figures
 
-**To add a new figure**:
-1. Add a generator function to `src/figures/` and wire it through `src/analysis/` (script entry: `scripts/optimization_analysis.py`).
-2. In the appropriate manuscript section, add a Pandoc image line (alt, relative path under `../output/figures/`, and `{#fig:…}`) by copying the structure of any figure in `03_results.md` and updating the path to match the file your generator writes.
-3. Reference in prose: `[@fig:new_label]` (parenthetical) or `@fig:new_label` (narrative)
-4. Document in [`../docs/output_inventory.md`](../docs/output_inventory.md) regeneration table
+No section embeds an image, and `output/` has no `figures/` directory. The
+architecture chapter is tables only. If you add a diagram, note that a
+```mermaid``` block in a rendered section makes the combined PDF depend on `mmdc`
+and a pinned `chrome-headless-shell` — see
+[`../docs/troubleshooting.md`](../docs/troubleshooting.md).
 
-## Infrastructure Coupling (`scripts/`, not `src/`)
+## Workflow
 
-Orchestrators under `projects/working/bond/bond-manuscript/scripts/` should use `infrastructure.core.logging.utils.get_logger(__name__)` (same pattern as `optimization_analysis.py`). Scientific checks should go through `infrastructure.scientific` helpers where applicable. `src/optimizer.py` must remain infrastructure-free.
+```bash
+cd projects/working/bond/bond-manuscript
 
-## Section Modification Protocol
+uv run python scripts/generate_compendium.py                # chapters + unified bib
+uv run python scripts/z_generate_manuscript_variables.py    # tokens -> output/manuscript/
+grep -r "{{" output/manuscript/ || echo "All tokens resolved"
 
-Follow these steps in order whenever you change behavior and need to update the manuscript:
+# from the template repository root
+uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-manuscript
+```
 
-1. **Update mathematical or experimental description** in `02_methodology.md` / `05_experimental_setup.md` as needed.
-2. **Add or extend tests** — pure math in `tests/test_optimizer.py`; orchestration and error paths in `tests/test_analysis_integration.py` and `tests/test_analysis_coverage.py`.
-3. **Regenerate analysis outputs**:
-   ```bash
-   uv run python projects/working/bond/bond-manuscript/scripts/optimization_analysis.py
-   ```
-4. **Hydrate manuscript variables** (substitute `{{VARIABLE}}` tokens):
-   ```bash
-   uv run python projects/working/bond/bond-manuscript/scripts/z_generate_manuscript_variables.py
-   ```
-5. **Verify all tokens resolved**:
-   ```bash
-   grep -r "{{" projects/working/bond/bond-manuscript/output/manuscript/ || echo "All resolved"
-   ```
-6. **Render PDF** from the repository root:
-   ```bash
-   uv run python scripts/pipeline/stage_03_render.py --project templates/bond-manuscript
-   ```
-7. **Verify figures and table appear** in the rendered PDF; check `output/tex/*.log` for LaTeX errors.
-
-> **Mermaid prerequisite.** The project convention is that every diagram is
-> Mermaid (`docs/AGENTS.md`). If a manuscript section embeds a ```mermaid```
-> block, the combined-PDF render shells out to `mmdc`, which needs a pinned
-> `chrome-headless-shell` in the Puppeteer cache. Install it once
-> (`npx --yes puppeteer browsers install chrome-headless-shell`) or the
-> **PDF Rendering** stage fails while per-section slides still render. Full
-> detail: [`../docs/rendering_pipeline.md`](../docs/rendering_pipeline.md#prerequisite-mermaid-diagrams-need-chrome-headless-shell).
-
-Final deliverables appear under `output/templates/bond-manuscript/` after `scripts/pipeline/stage_05_copy.py` runs (working files remain under `projects/working/bond/bond-manuscript/output/` during the run).
-
-## RASP Conventions
-
-1. Avoid boilerplate closers such as "In summary" / "In conclusion" at the end of sections unless the section genuinely needs them.
-2. Figures and numbers in `03_results.md` must match what `scripts/optimization_analysis.py` writes (paths under `projects/working/bond/bond-manuscript/output/figures/` and related CSV/JSON).
-3. When referencing template code, prefer concrete paths or URLs (e.g. [core utilities in the template repository](https://github.com/docxology/template/tree/main/infrastructure/core)) over vague module dotted paths alone.
+A non-zero exit from step 1 means a film's `MissionProvider` failed to import and
+its chapter lost the mission brief line. Fix it before rendering.
 
 ## See also
 
-- [`README.md`](README.md) — Quick orientation
-- [`SYNTAX.md`](SYNTAX.md) — Pandoc syntax reference for this manuscript
-- [`../../../docs/guides/manuscript-semantics.md`](../../../../docs/guides/manuscript-semantics.md) — Repository-wide canonical manuscript semantics shared by the permanent exemplars
-- [`../docs/rendering_pipeline.md`](../docs/rendering_pipeline.md) — Manuscript → PDF flow (4 phases)
-- [`../docs/syntax_guide.md`](../docs/syntax_guide.md) — Complete `{{VARIABLE}}` token reference
-- [`../src/manuscript_variables.py`](../src/manuscript_variables.py) — Variable computation logic (`generate_variables()`)
-- [`../scripts/z_generate_manuscript_variables.py`](../scripts/z_generate_manuscript_variables.py) — Thin orchestrator that runs the above and writes output files
+- [`README.md`](README.md) — orientation
+- [`SYNTAX.md`](SYNTAX.md) — citation, token, and cross-reference syntax
+- [`../docs/rendering_pipeline.md`](../docs/rendering_pipeline.md) — the three build steps
+- [`../src/AGENTS.md`](../src/AGENTS.md) — the builders behind the generated sections

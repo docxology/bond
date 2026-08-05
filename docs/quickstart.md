@@ -1,89 +1,97 @@
-# Quick Start Guide
+# Quickstart
 
-Get up and running with the `bond-manuscript` exemplar in 5 minutes.
+From a checkout of the PROJECT BOND workspace to a rendered compendium PDF.
 
 ## Prerequisites
 
-- Python 3.10 or higher
-- [`uv`](https://github.com/astral-sh/uv) package manager (repo invariant — see the root `CLAUDE.md`)
-- Git
+- Python 3.10+ and [`uv`](https://github.com/astral-sh/uv)
+- The sibling bond packages present under `projects/working/bond/` —
+  `bond-manuscript` reads all 33 of them and declares `bond-api`,
+  `bond-coordinator`, and `bond-utilities` as local path dependencies
+- Pandoc and XeLaTeX for the PDF step (rendering only)
 
-## Setup (One-Time)
-
-```bash
-# 1. Clone the template repository (if you haven't already)
-git clone https://github.com/docxology/template.git
-cd template
-
-# 2. Install dependencies at the repository root
-uv sync
-
-# 3. Verify installation
-uv run python --version
-```
-
-## Run the Test Suite
-
-Validate the environment and check that the project test suite passes with the ≥90% coverage gate:
+## Install
 
 ```bash
-uv run pytest projects/working/bond/bond-manuscript/tests/ -v --tb=short
+cd projects/working/bond/bond-manuscript
+uv sync --all-extras
 ```
 
-Expected: passing tests and coverage above the 90% gate. Live collection counts are tracked in [`../../../docs/_generated/COUNTS.md`](../../../../docs/_generated/COUNTS.md).
+Use `--all-extras`. A bare `uv sync` prunes the `dev` group, and `uv run pytest`
+then resolves a different interpreter that silently collects zero tests.
 
-## Execute the Analysis Pipeline
-
-Generate figures, data, reports, and the analysis dashboard:
+## Run the tests
 
 ```bash
-uv run python projects/working/bond/bond-manuscript/scripts/optimization_analysis.py
+uv run pytest tests/ --cov=src --cov-fail-under=90
 ```
 
-**Outputs created under `projects/working/bond/bond-manuscript/output/`:**
-- `figures/` — 6 PNG plots (convergence, stability, benchmarks)
-- `data/` — CSV and JSON results
-- `reports/` — HTML dashboard and validation JSON
-- `manuscript/` — token-substituted markdown sections
-- `citations/` — APA/BibTeX/MLA citations
+Check the header names Python 3.14.6 with the `cov` plugin, and that the
+collected count is greater than zero. Exit code 0 alone proves nothing.
 
-## Render the Publication PDF
-
-Convert the manuscript to a PDF with LaTeX:
+## Build the compendium
 
 ```bash
-uv run python scripts/pipeline/stage_03_render.py --project templates/bond-manuscript
+uv run python scripts/generate_compendium.py
 ```
 
-Final PDF: `projects/working/bond/bond-manuscript/output/pdf/bond-manuscript_combined.pdf`
+Writes into `manuscript/`: the unified `references.bib`, the architecture chapter,
+27 film chapters, 6 infrastructure chapters, and the references chapter. It
+prints a one-line summary — package count, reference count, chapter counts.
 
-## View Results
+Exit code 1 means one or more films' `MissionProvider` could not be imported;
+those chapters lost their mission brief line. The failing slugs and the exception
+text are on stderr. Install the missing dependency into this package's
+environment and re-run rather than shipping the shorter build.
 
-- **PDF manuscript**: open `projects/working/bond/bond-manuscript/output/pdf/bond-manuscript_combined.pdf`
-- **HTML dashboard**: open `projects/working/bond/bond-manuscript/output/web/dashboard.html` (via `scripts/build_dashboard.py`)
-- **Figures**: browse `projects/working/bond/bond-manuscript/output/figures/`
-- **Data**: `cat projects/working/bond/bond-manuscript/output/data/optimization_results.csv`
+## Hydrate tokens
 
-## Common Next Steps
+```bash
+uv run python scripts/z_generate_manuscript_variables.py
+```
 
-- **Change step sizes**: edit `projects/working/bond/bond-manuscript/manuscript/config.yaml` → `experiment.step_sizes`, then re-run steps 2–4.
-- **Add a new algorithm**: extend `src/optimizer.py`, add tests in `tests/test_optimizer.py`, and call it from the analysis script (see `docs/architecture.md`).
-- **Modify the manuscript**: edit markdown files under `projects/working/bond/bond-manuscript/manuscript/`, then hydrate variables and re-render (steps 3–4).
+Resolves `{{SUITE_TITLE}}`, `{{N_PACKAGES}}`, `{{N_FILMS}}`, `{{N_INFRA}}`,
+`{{N_GATE_MEASURED}}` and writes the resolved tree to `output/manuscript/`. The
+renderer reads those copies, never `manuscript/` directly.
 
-## Getting Help
+## Render
 
-- **Full documentation**: [`docs/README.md`](README.md) — navigation hub
-- **Agent rules**: [`docs/agent_instructions.md`](agent_instructions.md) — critical constraints before modifying code
-- **Troubleshooting**: [`docs/troubleshooting.md`](troubleshooting.md) — common issues and fixes
-- **FAQ**: [`docs/faq.md`](faq.md)
+From the **template repository root**, not from here:
 
-## Quick Command Reference
+```bash
+uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-manuscript
+```
 
-| Task | Command |
-|---|---|
-| Run tests | `uv run pytest projects/working/bond/bond-manuscript/tests/ -v` |
-| Run analysis | `uv run python projects/working/bond/bond-manuscript/scripts/optimization_analysis.py` |
-| Hydrate manuscript variables | `uv run python projects/working/bond/bond-manuscript/scripts/z_generate_manuscript_variables.py` (strict; requires analysis CSV; add `--allow-draft` for early drafts) |
-| Render PDF | `uv run python scripts/pipeline/stage_03_render.py --project templates/bond-manuscript` |
-| Copy final deliverables | `uv run python scripts/pipeline/stage_05_copy.py --project templates/bond-manuscript` |
-| Clean outputs | `rm -rf projects/working/bond/bond-manuscript/output/` |
+Produces:
+
+- `output/pdf/bond-manuscript_combined.pdf` — the compendium
+- `output/web/` — `index.html` plus one page per section
+- `output/slides/` — one Beamer PDF per section
+
+## Verify
+
+```bash
+# every token resolved
+grep -r "{{" output/manuscript/ && echo "UNRESOLVED" || echo "All tokens resolved"
+
+# regeneration is byte-stable
+uv run python scripts/generate_compendium.py && git diff --stat manuscript/
+```
+
+## Command reference
+
+| Task | Command (from `bond-manuscript/`) |
+| --- | --- |
+| Install | `uv sync --all-extras` |
+| Tests + coverage gate | `uv run pytest tests/ --cov=src --cov-fail-under=90` |
+| Build the compendium | `uv run python scripts/generate_compendium.py` |
+| Hydrate tokens | `uv run python scripts/z_generate_manuscript_variables.py` |
+| Render (from template root) | `uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-manuscript` |
+| Clean outputs | `rm -rf output/` |
+| Fleet docs gate (from `../`) | `python3 _phase_docs_gate.py` |
+
+## Next
+
+- [`agent_instructions.md`](agent_instructions.md) — the rules before you change anything
+- [`troubleshooting.md`](troubleshooting.md) — when a step above fails
+- [`architecture.md`](architecture.md) — how the pieces fit

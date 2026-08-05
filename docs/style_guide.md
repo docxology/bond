@@ -1,190 +1,114 @@
-# Style Guide
+# Style guide
 
-This document defines the coding and communication style for the `bond-manuscript` exemplar. Every rule here has a concrete consequence for test correctness, reproducibility, or manuscript accuracy.
+Conventions for code, tests, and prose in `bond-manuscript`. Each rule has a
+consequence this package has already paid for at least once.
 
----
+## 1. Import the fact; never retype it
 
-## 1. Zero-Mock Policy
+The compendium's whole value is that a film's codename, objectives, abstract, and
+citations have exactly one home — that film's package. A chapter that states a
+fact the generator could have imported will drift the first time the package
+changes, and nothing will notice.
 
-The most critical style rule is the absolute prohibition of mocking. The following are **forbidden** anywhere inside `projects/working/bond/bond-manuscript/tests/`:
+- **BAD**: adding `Mission GRAND SLAM: corner the gold market.` to a chapter.
+- **GOOD**: `_brief_line()` loading goldfinger's `MissionProvider` and asking it.
 
-- `import unittest.mock`
-- `from unittest.mock import MagicMock, patch, create_autospec, Mock, AsyncMock`
-- `@patch(...)` decorators
-- `monkeypatch.setattr(...)` when used to substitute a real function with a fake callable (or fake return values)
+## 2. Zero mocks
 
-**Allowed for orchestration modules only:** `pytest.MonkeyPatch` on module attributes (`project_root`, `INFRASTRUCTURE_AVAILABLE`, I/O boundaries) and subprocess import isolation — real code paths run; see [`../tests/PATTERNS.md`](../tests/PATTERNS.md).
+No `unittest.mock`, `MagicMock`, `AsyncMock`, `create_autospec`, `@patch`, or
+`mocker.patch` anywhere in `tests/`. The generator is pure functions over files;
+tests use the real fleet, or a real package tree built under `tmp_path`.
 
-**Why**: `src/optimizer.py` contains pure functions. You can always test them with real numpy arrays and real mathematical results. A test that requires a mock is a test for the wrong thing — it tests that one function calls another (call-count assertion), not that the algorithm is correct.
-
-**Forbidden pattern**:
 ```python
-# BAD — tests call behavior, not correctness
-from unittest.mock import MagicMock
-mock_grad = MagicMock(return_value=np.array([0.0]))
-result = gradient_descent(x0, obj_func, mock_grad, step_size=0.1)
-assert mock_grad.call_count > 0
+# BAD — asserts the loader was called, which is the bug we had
+provider = MagicMock()
+provider.brief.return_value = Brief(codename="X", objectives=[])
+
+# GOOD — loads the real provider and asserts what it returned
+line = compendium._brief_line(BOND / "goldfinger", "goldfinger")
+assert "GRAND SLAM" in line
 ```
 
-**Correct pattern** (from `tests/test_optimizer.py`):
+## 3. Compute in `src/`, write in `scripts/`
+
+`compendium.py` returns strings; orchestrators decide where they land. A helper
+that both builds and writes cannot be tested without a filesystem fixture, and
+will not be tested.
+
+## 4. Failures that cost content must be visible
+
 ```python
-# GOOD — tests real mathematical output
-obj, grad = make_quadratic_problem(A=np.array([[2.0]]), b=np.array([4.0]))
-result = gradient_descent(np.array([0.0]), obj, grad, step_size=0.1)
-assert result.converged
-assert abs(result.solution[0] - 2.0) < 1e-4  # x* = A^-1 b = 2.0
+# BAD — the chapter renders one line shorter and nothing is reported
+except Exception:
+    return ""
+
+# GOOD — the caller can see what went missing
+except Exception as exc:  # noqa: BLE001 — recorded, then reported by the caller
+    BRIEF_FAILURES[slug] = f"{type(exc).__name__}: {exc}"
+    return ""
 ```
 
-**Verify cleanliness**:
+An empty return means genuine absence — no `mission.py`, no `references.bib` —
+and nothing else.
+
+## 5. Deterministic by construction
+
+Roster order and `OrderedDict`, never `set` iteration or `glob` order. No
+timestamps or run identifiers in anything written to a file. A change that breaks
+this fails `test_regeneration_is_deterministic`, which regenerates and compares
+bytes.
+
+## 6. Comments record failures, not narration
+
+```python
+# BAD
+# Loop over the packages and parse their references.
+
+# GOOD
+#: 31 packages use ``output/data/``; bond-cli and bond-ops write
+#: ``output/variables/``. Reading only the majority path made those two
+#: abstracts import with every token stripped.
+```
+
+If a comment would not stop someone from making a specific mistake, delete it.
+
+## 7. Error messages carry the value
+
+```python
+# BAD
+raise ValueError("bad package")
+
+# GOOD
+BRIEF_FAILURES[slug] = f"{type(exc).__name__}: {exc}"
+```
+
+Whoever reads the message should not have to open the source to know what went
+wrong or which package it was.
+
+## 8. Type hints and docstrings
+
+Complete annotations on every public function; Python 3.10+ union syntax
+(`Path | None`); Google-style docstrings that say what comes back rather than how.
+Frozen dataclasses for data, module-level `UPPER_SNAKE` for lookup tables,
+module-level compiled regexes with a leading underscore.
+
+## 9. Documentation names only things that exist
+
+Before writing a module path, a function name, or a command into any document in
+this package, open the file or run the command. This documentation set was
+previously 23 files describing a different project's modules, and every gate in
+the repository passed while it was wrong. The fleet docs gate now checks it:
+
 ```bash
-grep -r "unittest.mock\|MagicMock\|@patch" projects/working/bond/bond-manuscript/tests/ || echo "Clean"
+cd projects/working/bond && python3 _phase_docs_gate.py
 ```
 
----
+Do not hardcode a test count or a coverage percentage in prose. Name the command
+that measures it.
 
-## 2. Infrastructure Delegation
+## See also
 
-Project code must delegate cross-cutting concerns to `infrastructure/`. The delegation table is:
-
-| File | May Import | Must NOT Import |
-|---|---|---|
-| `src/optimizer.py` | `numpy`, `dataclasses`, `logging` (stdlib), `typing` | **Anything from `infrastructure.*`** |
-| `scripts/optimization_analysis.py` | `src/optimizer`, `infrastructure.core.logging.utils`, `infrastructure.scientific.*`, `infrastructure.reporting.*`, `infrastructure.validation.*`, `infrastructure.core.progress` | Business logic (math, gradient update rules) |
-| `scripts/generate_api_docs.py` | `src/optimizer`, `infrastructure.core.logging.utils` | Math |
-| `scripts/z_generate_manuscript_variables.py` | `src/manuscript_variables`, `infrastructure.rendering.manuscript_injection` | Business logic; direct infrastructure I/O (delegated via src) |
-| `tests/test_optimizer.py` | `src/optimizer`, `scripts/optimization_analysis` (via `INFRASTRUCTURE_AVAILABLE` guard) | `unittest.mock.*`, `infrastructure.*` directly |
-
-**Verify `src/` is clean**:
-```bash
-grep -r "from infrastructure\|import infrastructure" projects/working/bond/bond-manuscript/src/ || echo "Clean"
-```
-
----
-
-## 3. The Thin Orchestrator Pattern
-
-Files in `scripts/` must be "thin orchestrators": they may run experiment loops and generate plots, but must not re-implement algorithms that belong in `src/`.
-
-**Forbidden** — gradient update rule re-implemented in `scripts/`:
-```python
-# BAD — math belongs in src/optimizer.py, not in optimization_analysis.py
-def run_experiment(alpha, x0):
-    x = x0
-    for i in range(1000):
-        grad = x - 1.0   # BAD: hardcoded math
-        x = x - alpha * grad
-    return x
-```
-
-**Correct** — `scripts/` calls `src/` for the math:
-```python
-# GOOD — import and call the tested function
-# (matches real usage: tests/test_optimizer.py, scripts/optimization_analysis.py;
-# enabled by conftest.py adding the project root to sys.path)
-from src.optimizer import gradient_descent, make_quadratic_problem
-
-def run_experiment(alpha, A, b, x0):
-    obj, grad = make_quadratic_problem(A=A, b=b)
-    return gradient_descent(x0, obj, grad, step_size=alpha)
-```
-
-**Decision rule**: If a line of code in `scripts/` contains a mathematical operation that determines the algorithm's output (not just its visualization), move that line to `src/` and write a test for it.
-
----
-
-## 4. Manuscript "Show, Not Tell"
-
-When editing manuscript markdown (e.g., `02_methodology.md`), use explicit, verifiable file paths instead of vague descriptions. Reviewers and future agents must be able to find the referenced code.
-
-**Forbidden (vague)**:
-```markdown
-Our testing framework verifies gradient calculations using standard numerical methods.
-The infrastructure handles PDF rendering automatically.
-```
-
-**Correct (concrete, from `01_introduction.md`)**:
-```markdown
-The test suite in `projects/working/bond/bond-manuscript/tests/test_optimizer.py` verifies gradient
-calculations without mocks, using `numpy` arrays with known analytical solutions.
-PDF rendering is handled by `infrastructure/rendering/pdf_renderer.py` via Pandoc and LaTeX.
-```
-
-Two additional BAD/GOOD pairs:
-
-| BAD (vague) | GOOD (concrete) |
-|---|---|
-| "The optimizer converges for most step sizes." | "For $\alpha \in \{0.01, 0.1, 0.5, 1.0\}$, `gradient_descent()` in `src/optimizer.py` meets the gradient tolerance $\|\nabla f\| < 10^{-8}$ within `max_iterations=1000`." |
-| "We validated numerical stability." | "`check_numerical_stability()` from `infrastructure.scientific.stability` was called with {{CONFIG_NUM_STABILITY_STARTS}} starting points and {{CONFIG_NUM_STABILITY_STEPS}} step sizes, producing {{CONFIG_STABILITY_CELLS}} total evaluations." |
-
----
-
-## 5. Explicit Absolute File Paths
-
-When AI agents or humans refer to files in logs, documentation, comments, or implementation plans, always use the path relative to the **repository root** (`template/`). This prevents ambiguity when the same filename appears in multiple directories.
-
-**Repository-root anchors** for this project:
-
-| Short Name | Absolute Path (from repo root) |
-|---|---|
-| optimizer | `projects/working/bond/bond-manuscript/src/optimizer.py` |
-| test suite | `projects/working/bond/bond-manuscript/tests/test_optimizer.py` |
-| conftest | `projects/working/bond/bond-manuscript/tests/conftest.py` |
-| analysis script | `projects/working/bond/bond-manuscript/scripts/optimization_analysis.py` |
-| variable hydration (logic) | `projects/working/bond/bond-manuscript/src/manuscript_variables.py` |
-| variable hydration (runner) | `projects/working/bond/bond-manuscript/scripts/z_generate_manuscript_variables.py` |
-| config | `projects/working/bond/bond-manuscript/manuscript/config.yaml` |
-| results CSV | `projects/working/bond/bond-manuscript/output/data/optimization_results.csv` |
-| final PDF | `output/templates/bond-manuscript/bond-manuscript_combined.pdf` |
-
-**Forbidden (relative / ambiguous)**:
-```
-optimizer.py       # Which optimizer? Which project?
-output/figures/    # Relative to what?
-../src/optimizer   # Only valid from one directory
-```
-
-**Correct (absolute from repo root)**:
-```
-projects/working/bond/bond-manuscript/src/optimizer.py
-projects/working/bond/bond-manuscript/output/figures/convergence_plot.png
-```
-
----
-
-## 6. Dataclass and Type Hint Standards
-
-Follow the patterns established in `src/optimizer.py`:
-
-- Use Python 3.10+ union syntax: `list[float] | None`, not `Optional[List[float]]`
-- Use `np.ndarray` for array type hints, not `npt.NDArray[np.float64]` (consistency with existing code)
-- All public functions must have complete type annotations on all parameters and return values
-- `@dataclass` fields use the same union syntax: `trajectory: list[np.ndarray] | None = None`
-
-**Example** (following `OptimizationResult` in `src/optimizer.py`):
-```python
-@dataclass
-class NewResult:
-    converged: bool
-    iterations: int
-    history: list[float] | None = None
-    metadata: dict[str, float] | None = None
-```
-
----
-
-## 7. Error Message Format
-
-All `ValueError` and `TypeError` raises must include the actual problematic value so that users can diagnose the issue without reading source code.
-
-**Forbidden (no diagnostic value)**:
-```python
-raise ValueError("Dimension mismatch")
-raise ValueError("Invalid step size")
-```
-
-**Correct** (following the pattern in `src/optimizer.py`):
-```python
-raise ValueError(f"A must be {n}x{n}, got {A.shape}")
-raise ValueError(f"step_size must be positive, got {step_size}")
-raise ValueError(f"initial_point must be 1D array of length {n}, got shape {x0.shape}")
-```
+- [`../src/STYLE.md`](../src/STYLE.md) — source conventions in detail
+- [`../scripts/CONVENTIONS.md`](../scripts/CONVENTIONS.md) — orchestrator conventions
+- [`../tests/PATTERNS.md`](../tests/PATTERNS.md) — test patterns
+- [`syntax_guide.md`](syntax_guide.md) — manuscript markup

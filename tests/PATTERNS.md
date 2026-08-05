@@ -1,165 +1,127 @@
-# Test Patterns Reference
+# Test patterns
 
-Testing conventions and patterns for the `bond-manuscript` exemplar's zero-mock test suite.
+How `tests/test_compendium.py` gets full coverage of the compendium generator
+without a single mock.
 
-## Zero-Mock Enforcement
+## Forbidden
 
-The following are **strictly forbidden** anywhere in the `bond-manuscript` exemplar:
+- `unittest.mock`, `MagicMock`, `AsyncMock`, `create_autospec`, `@patch`,
+  `mocker.patch`
+- Hand-built objects that satisfy a type shape without the real function having
+  produced them
+- Stubbing a builder so the test asserts against text the test itself wrote
 
-- `unittest.mock`, `MagicMock`, `create_autospec`, `@patch`, or other mock factories
-- Synthetic result objects created solely to satisfy a type shape without executing the algorithm
-- Replacing algorithm bodies with stubs so tests never run real math
+The fleet-wide docs gate (`_phase_docs_gate.py`, run from the bond root) parses
+every test file with `ast` and fails on a real mock import.
 
-Every test must exercise real algorithms with real data.
+## Pattern 1 — real fleet data as the fixture
 
-### Orchestration boundary testing (allowed)
-
-For **`src/analysis/`**, **`src/dashboard.py`**, **`src/figures/`**, and **`src/manuscript_variables.py`** only:
-
-- **`pytest.MonkeyPatch`** on module attributes (`project_root`, `verify_output_integrity`, `_get_logger`, etc.) — real functions run; I/O boundaries are redirected, not faked
-- **Subprocess import isolation** — block `infrastructure.*` at import time to exercise fallback paths (see `TestImportFallback` in `test_analysis_coverage.py` and `test_manuscript_variables.py`)
-
-Canonical orchestration-branch examples: [`test_analysis_coverage.py`](test_analysis_coverage.py), [`test_dashboard_config.py`](test_dashboard_config.py).
-
-Pure-math modules (`optimizer.py`, `invariants.py`, `experiment_config.py`) should not need monkeypatch.
-
-## Fixture Patterns
-
-### Shared fixtures live in `conftest.py`
+The 33 sibling packages are the fixture. `BOND` is resolved once at module scope
+and every real-data test reads from it:
 
 ```python
-# conftest.py
-import pytest
-import numpy as np
+BOND = Path(__file__).resolve().parents[2]
+MANUSCRIPT = BOND / "bond-manuscript" / "manuscript"
 
-@pytest.fixture
-def simple_problem():
-    """Standard 1D quadratic test problem."""
-    return {
-        "A": np.array([[2.0]]),
-        "b": np.array([1.0]),
-        "x0": np.array([5.0]),
-        "solution": np.array([0.5]),
-    }
+def test_brief_line_real_provider() -> None:
+    line = compendium._brief_line(BOND / "goldfinger", "goldfinger")
+    assert "GRAND SLAM" in line
+    assert "corner the gold market" in line
 ```
 
-### Use fixtures for reusable problem definitions, not for mocking infrastructure
+This loads goldfinger's actual `MissionProvider` through `bond_api.discovery`.
+If that package's provider breaks, this test tells you.
 
-## Tolerance Constants
+## Pattern 2 — `tmp_path` packages for what the fleet cannot show
+
+Some branches have no real-world exerciser: a package with no bibliography, a
+corrupt variables JSON, a provider that fails to import. Build a minimal package
+tree on disk instead of faking the reader:
 
 ```python
-# Standard tolerances for floating-point comparisons
-ATOL = 1e-4   # Absolute tolerance
-RTOL = 1e-6   # Relative tolerance
-
-# Use in assertions
-np.testing.assert_allclose(result.solution, expected, atol=ATOL)
+def test_import_abstract_survives_corrupt_variables(tmp_path) -> None:
+    pkg = tmp_path / "corrupt"
+    (pkg / "manuscript").mkdir(parents=True)
+    (pkg / "output" / "data").mkdir(parents=True)
+    (pkg / "manuscript" / "00_abstract.md").write_text("# Abstract\nValue {{X}} here.")
+    (pkg / "output" / "data" / "manuscript_variables.json").write_text("{not json")
+    abstract = import_package_abstract(pkg)
+    assert "{{" not in abstract and "Value" in abstract
 ```
 
-- **ATOL=1e-4**: Acceptable for optimization convergence checks
-- **RTOL=1e-6**: Acceptable for gradient accuracy checks
-- Use `np.testing.assert_allclose` over `pytest.approx` for NumPy arrays
+Real files, real parse failure, real fallback. The helper `_plain_bib(tmp_path, body)`
+does the same for plain-text `[n] …` reference lists — a format still supported
+on input even though every package now ships genuine BibTeX.
 
-## Test Class Organisation
+## Pattern 3 — subprocess for the CLI and for determinism
+
+The generator is exercised by running it, not by importing `main()`:
 
 ```python
-class TestQuadraticFunction:
-    """Tests for quadratic_function()."""
-
-    def test_simple_evaluation(self):
-        """Test basic function evaluation with identity matrix."""
-
-    def test_multidimensional(self):
-        """Test N-dimensional quadratic with custom A, b."""
-
-    def test_default_parameters(self):
-        """Test fallback when A=None, b=None."""
-
-    def test_dimension_mismatch(self):
-        """Test ValueError on incompatible dimensions."""
+result = subprocess.run(
+    [sys.executable, str(BOND / "bond-manuscript" / "scripts" / "generate_compendium.py")],
+    capture_output=True, text=True,
+    cwd=str(BOND / "bond-manuscript"), check=False,
+)
+assert result.returncode == 0, result.stderr
 ```
 
-- One test class per public function or class
-- Class name: `Test{FunctionOrClassName}`
-- Method names: `test_{what_is_being_tested}`
-- Each test method must have a docstring
+Determinism is then checked by reading bytes before, re-running, and asserting
+byte-equality of a chapter and of `references.bib`.
 
-## Parametrize Usage
+## Pattern 4 — assert structure, never a placeholder
+
+`test_parse_references_plain_and_bibtex` once asserted a `goldfinger_ref*` key
+prefix. Those keys were placeholders from before the packages carried real
+citations; when the citations became genuine the test failed — and it would have
+passed forever had the real references never arrived. It now asserts properties
+that hold either way:
 
 ```python
-@pytest.mark.parametrize("step_size,expected_converged", [
-    (0.01, True),
-    (0.1,  True),
-    (1.0,  True),   # |1 - 1.0| = 0.0 → single-step convergence for unit Hessian
-    (2.5,  False),  # |1 - 2.5| = 1.5 > 1 → diverges for unit Hessian
-])
-def test_convergence_by_step_size(self, step_size, expected_converged):
-    """Test convergence across different step sizes.
-
-    For f(x) = (1/2)x^T A x - b^T x with unit Hessian (A = I), the
-    contraction factor is |1 - α|. Stability requires |1 - α| < 1, i.e.
-    0 < α < 2. Step sizes ≥ 2 cause divergence.
-    """
-    obj_func, grad_func = make_quadratic_problem(
-        np.array([[1.0]]), np.array([1.0])
-    )
-    result = gradient_descent(
-        initial_point=np.array([0.5]),
-        objective_func=obj_func,
-        gradient_func=grad_func,
-        step_size=step_size,
-        max_iterations=200,
-        tolerance=1e-6,
-    )
-    assert result.converged == expected_converged
+assert all(r.key and r.bibtex.startswith("@") for r in gold)
+assert {r.source_package for r in gold} == {"goldfinger"}
 ```
 
-Use `parametrize` when testing the same behaviour across multiple inputs. Don't use it for fundamentally different test scenarios.
+Pin the invariant, not the current data.
 
-## Error-Path Testing
+## Pattern 5 — exhaustive sweeps over the fleet
+
+Where a property must hold for every package, loop over `discover_packages(BOND)`
+and collect offenders so the failure message names them:
 
 ```python
-def test_dimension_mismatch_A(self):
-    """Test that mismatched A dimensions raise ValueError."""
-    x = np.array([1.0, 2.0])
-    A = np.array([[1.0]])  # 1×1, but x is 2D
-    with pytest.raises(ValueError, match="A must be 2x2"):
-        quadratic_function(x, A=A)
+offenders = []
+for pkg in discover_packages(BOND):
+    abstract = import_package_abstract(BOND / pkg.slug)
+    if "****" in abstract or "(**)" in abstract:
+        offenders.append(pkg.slug)
+assert not offenders, offenders
 ```
 
-- Always use `match=` to verify the error message content
-- The actual message format is `f"A must be {n}x{n}, got {A.shape}"` (see `src/optimizer.py::_validate_quadratic_inputs`)
-- Test every documented `Raises` clause in the docstring
+## Module-level state
 
-## Coverage Verification
+`compendium.BRIEF_FAILURES` persists across tests. A test that populates it must
+clear its own key on both sides:
+
+```python
+compendium.BRIEF_FAILURES.pop("brokenpkg", None)
+assert compendium._brief_line(pkg, "brokenpkg") == ""
+assert "brokenpkg" in compendium.BRIEF_FAILURES
+compendium.BRIEF_FAILURES.pop("brokenpkg", None)
+```
+
+## Coverage
 
 ```bash
-# Run with coverage (gate is 90% enforced by pyproject.toml)
-uv run pytest projects/working/bond/bond-manuscript/tests/ \
-    --cov=projects/working/bond/bond-manuscript/src \
-    --cov-report=term-missing \
-    --cov-fail-under=90
-
-# Generate HTML report
-uv run pytest projects/working/bond/bond-manuscript/tests/ \
-    --cov=projects/working/bond/bond-manuscript/src \
-    --cov-report=html
+cd projects/working/bond/bond-manuscript
+uv run pytest tests/ --cov=src --cov-report=term-missing --cov-fail-under=90
 ```
 
-The `pyproject.toml` enforces `fail_under = 90` as the CI gate. Live achieved coverage is tracked in [`docs/_generated/COUNTS.md`](../../../../docs/_generated/COUNTS.md). Do not delete tests to make a coverage number work — fix the gap.
+`pyproject.toml` sets `branch = true` and `fail_under = 90` over `src`. Do not
+delete a test to make a number work — cover the branch.
 
-## Determinism
+## See also
 
-- **Fixed inputs preferred** — algorithms are deterministic; use explicit arrays
-- **RNG acceptable only for timing tests** — `np.random.randn` is acceptable in `TestPerformanceBenchmarks` because those tests assert timing bounds, not exact mathematical values
-- **No time-dependent mathematical assertions** — test correctness properties, not wall-clock values
-
-## See Also
-
-- [AGENTS.md](AGENTS.md) — Test class listing and run commands
-- [../src/STYLE.md](../src/STYLE.md) — How source code should be structured
-- [../src/invariants.py](../src/invariants.py) — Numerical invariant builders covered by `test_invariants.py`
-- [../scripts/build_dashboard.py](../scripts/build_dashboard.py) — Dashboard CLI covered by `test_invariants_and_dashboard.py`
-- [../scripts/generate_api_docs.py](../scripts/generate_api_docs.py) — Auxiliary smoke in `test_scripts_smoke.py`
-- [../scripts/00_preflight.py](../scripts/00_preflight.py) — Auxiliary smoke in `test_scripts_smoke.py` (exit 0 or 1)
-- [../docs/testing_philosophy.md](../docs/testing_philosophy.md) — Zero-mock rationale
+- [`AGENTS.md`](AGENTS.md) — coverage map and how to add a test
+- [`../src/STYLE.md`](../src/STYLE.md) — how the code under test is written
+- [`../docs/testing_philosophy.md`](../docs/testing_philosophy.md) — the rationale

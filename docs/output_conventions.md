@@ -1,121 +1,74 @@
-# Output Directory Conventions
+# Output conventions
 
-The project-relative `output/` directory (`projects/working/bond/bond-manuscript/output/`) holds all generated artifacts from the analysis pipeline. This document describes its structure, regeneration process, and version-control policy.
+`output/` is disposable and fully regeneratable. Nothing in it is hand-edited;
+`.gitignore` excludes the whole tree.
 
-## Directory Purpose
+## Layout
 
-`output/` is **disposable but regeneratable**. Every file in this directory is produced by a deterministic pipeline script; none should be edited manually. If any file is missing or corrupted, re-run the appropriate pipeline stage to recreate it.
-
-**Key principle:** The source of truth for all outputs is the combination of:
-- `src/optimizer.py` (pure mathematical logic)
-- `manuscript/config.yaml` (experiment parameters)
-- `scripts/optimization_analysis.py` (orchestration)
-- `scripts/z_generate_manuscript_variables.py` (token substitution)
-
-## Directory Structure
-
-```mermaid
-flowchart TB
-    OUT[output/]
-    OUT --> FIG[figures/<br/>Publication-quality PNG plots · 300 DPI]
-    OUT --> DATA[data/<br/>Numerical results · CSV/JSON]
-    OUT --> REP[reports/<br/>Analysis summaries · dashboards]
-    OUT --> PDF[pdf/<br/>Final compiled PDF · Pandoc + LaTeX]
-    OUT --> WEB[web/<br/>HTML version of the manuscript]
-    OUT --> SLIDES[slides/<br/>Beamer slide PDFs per section]
-    OUT --> CIT[citations/<br/>Generated citations · APA/BibTeX/MLA]
-    OUT --> LOG[logs/<br/>Pipeline execution logs]
-    OUT --> MAN[manuscript/<br/>Token-substituted markdown · renderer input]
-    OUT --> SIM[simulations/<br/>Optional simulation data]
-    OUT --> LLM[llm/<br/>LLM-generated content · if used]
-
-    FIG --> FIG_F[convergence_plot · step_size_sensitivity ·<br/>convergence_rate_comparison · algorithm_complexity ·<br/>performance_benchmark · stability_analysis]
-    DATA --> DATA_F[optimization_results.csv ·<br/>manuscript_variables.json · ...]
-    REP --> REP_F[stability_analysis.json · performance_benchmark.json ·<br/>output_statistics.json · validation_report.json · telemetry.json]
-    PDF --> PDF_F[bond-manuscript_combined.pdf]
-    WEB --> WEB_F[dashboard.html · index.html · section pages...]
-
-    classDef d fill:#0f172a,stroke:#0f172a,color:#fff
-    classDef f fill:#0f766e,stroke:#0f172a,color:#fff
-    class OUT,FIG,DATA,REP,PDF,WEB,SLIDES,CIT,LOG,MAN,SIM,LLM d
-    class FIG_F,DATA_F,REP_F,PDF_F,WEB_F f
+```
+output/
+    manuscript/   token-resolved copies of manuscript/ — the renderer's input
+    pdf/          bond-manuscript_combined.pdf + Pandoc/LaTeX intermediates
+    web/          index.html + one HTML page per section
+    slides/       one Beamer PDF per section + its LaTeX intermediates
+    reports/      manuscript_composition.json (ordered inputs, content hashes)
+    provenance/   dag.json (provenance record for the run)
 ```
 
-## Regeneration Sequence
+There is no `figures/` and no `data/`. The compendium generates no plots and runs
+no experiment; its numbers are counts derived from live discovery.
 
-If any artifact becomes corrupted or you change the analysis, follow this sequence:
+## Two kinds of generated file
 
-1. **Clean (optional)**: Delete the entire `output/` directory to start fresh.
-   ```bash
-   rm -rf projects/working/bond/bond-manuscript/output/
-   ```
+The distinction that matters here is not source-versus-output — it is
+**generated inside `manuscript/`** versus **generated inside `output/`**.
 
-2. **Run analysis pipeline** — generates figures, data, reports, dashboard, and registers figures.
-   ```bash
-   uv run python projects/working/bond/bond-manuscript/scripts/optimization_analysis.py
-   ```
-   **Outputs**: `figures/`, `data/`, `reports/`, `citations/`, `manuscript/`
+| | Location | Written by | Tracked |
+| --- | --- | --- | --- |
+| Generated manuscript sections | `manuscript/02_suite_architecture.md`, `03_*`, `04_*`, `99_references.md`, `references.bib` | `scripts/generate_compendium.py` | yes — they are the manuscript |
+| Hand-authored sections | `manuscript/00_abstract.md`, `01_introduction.md`, `90_closing.md` | a human | yes |
+| Render artifacts | everything under `output/` | hydration + the template render stage | no |
 
-3. **Hydrate manuscript variables** — substitutes `{{VARIABLE}}` tokens in all manuscript templates (strict: requires analysis CSV unless `--allow-draft`).
-   ```bash
-   uv run python projects/working/bond/bond-manuscript/scripts/z_generate_manuscript_variables.py
-   ```
-   **Outputs**: updates `output/manuscript/*.md` (resolved copies) and writes `output/data/manuscript_variables.json`
+Editing a generated manuscript section is a no-op that survives until the next
+build. Editing anything in `output/` is a no-op that survives until the next
+render.
 
-4. **Render PDF** — converts substituted markdown to PDF via Pandoc/LaTeX.
-   ```bash
-   uv run python scripts/pipeline/stage_03_render.py --project templates/bond-manuscript
-   ```
-   **Outputs**: `pdf/`, `slides/`, `web/`
+## Sources of truth
 
-5. **Copy final deliverables** — copies PDF and figures to `output/templates/bond-manuscript/` (used by CI).
-   ```bash
-   uv run python scripts/pipeline/stage_05_copy.py --project templates/bond-manuscript
-   ```
-   **Outputs**: final deliverables at repository-level `output/templates/bond-manuscript/`
+Everything under `output/` derives from exactly four inputs:
 
-## Version-Control Policy
+1. The 33 sibling package manuscripts, variables, bibliographies, and providers
+2. `bond_coordinator.registry.ROSTER` — canon film order and metadata
+3. `manuscript/` — the hand-authored boundaries plus the generated sections
+4. `manuscript/config.yaml` — paper metadata
 
-- **Project `output/` is tracked for this public exemplar** when files stay below the 50 MB public output ceiling. Curated public deliverables are also copied to the repo-level `output/templates/bond-manuscript/` tree by `scripts/pipeline/stage_05_copy.py`.
+## Regenerating
 
-- **Do not edit files in `output/` manually** — changes will be overwritten on the next pipeline run.
+```bash
+cd projects/working/bond/bond-manuscript
 
-- **When adding a new output file** (e.g., a new figure or data product):
-  1. Document it in `docs/output_inventory.md` (this directory's agent guide) with its generator function and path.
-  2. Include it in the appropriate pipeline stage (usually `optimization_analysis.py`).
-  3. Add a regeneration step to the sequence above if needed.
+rm -rf output/                                              # optional clean slate
+uv run python scripts/generate_compendium.py                # manuscript sections + bib
+uv run python scripts/z_generate_manuscript_variables.py    # output/manuscript/
 
-## Adding a New Output File
-
-To add a new figure or data product:
-
-1. **Add the generator** in `src/figures/` and wire it through `src/analysis/` (script entry: `scripts/optimization_analysis.py`) — write to `output/figures/` or `output/data/` with a fixed, predictable filename.
-2. **Update `docs/output_inventory.md`** — add an entry to the file inventory table (see below).
-3. **Update manuscript references** — reference the new file via `\\ref{fig:label}` or data table as appropriate.
-4. **Re-run the pipeline** (steps 2–5 above).
-
-## File Inventory Template (for `docs/output_inventory.md`)
-
-```markdown
-# output/ — Generated Artifacts
-
-| File | Role | Generated By | Phase |
-|------|------|--------------|-------|
-| output/figures/convergence_plot.png | Gradient descent trajectories | generate_convergence_plot() | 1 |
-| output/data/optimization_results.csv | Per-step-size results table | save_optimization_results() | 1 |
-| output/manuscript/03_results.md | Resolved results section | z_generate_manuscript_variables.py | 2 |
-| output/pdf/bond-manuscript_combined.pdf | Final publication PDF | scripts/pipeline/stage_03_render.py | 3 |
+# from the template repository root
+uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-manuscript
 ```
 
-## Troubleshooting
+Step 1 is byte-stable: an unchanged package tree produces identical bytes, which
+`tests/test_compendium.py::test_regeneration_is_deterministic` enforces.
 
-- **Missing file**: Identify which phase should generate it and re-run that phase.
-- **Stale file**: Delete `output/` and run full pipeline (steps 2–5).
-- **Out-of-sync tokens**: If `{{VARIABLE}}` appears in the rendered PDF, re-run phase 2 (variable hydration) and verify `output/data/manuscript_variables.json` contains all required keys.
-- **Figure not appearing in PDF**: Verify the PNG exists in `output/figures/` and that `03_results.md` references it with correct relative path (`../output/figures/filename.png`).
+## Adding an output artifact
 
-## See Also
+1. Build it in `src/bond_manuscript/` as a function returning a string, covered
+   by a test.
+2. Write it from `scripts/generate_compendium.py`, and add its filename to the
+   `_GENERATED_*` patterns so the next run replaces rather than duplicates it.
+3. Add a row to [`output_inventory.md`](output_inventory.md).
+4. Run the generator twice and confirm the output is unchanged the second time.
 
-- [`manuscript/AGENTS.md`](../manuscript/AGENTS.md) — Manuscript modification protocol and token system
-- [`rendering_pipeline.md`](rendering_pipeline.md) — Full 4-phase pipeline description
-- [`syntax_guide.md`](syntax_guide.md) — Figure references and `{{VARIABLE}}` syntax
+## See also
+
+- [`output_inventory.md`](output_inventory.md) — the artifact table
+- [`rendering_pipeline.md`](rendering_pipeline.md) — what each step writes
+- [`troubleshooting.md`](troubleshooting.md) — missing or stale artifacts

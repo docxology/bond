@@ -1,53 +1,71 @@
 ---
 name: bond-manuscript
-description: Code-centric optimization research exemplar — gradient descent, convergence analysis, automated figures, dashboard, and publication-quality PDF.
-version: 0.1.0
+description: PROJECT BOND compendium generator — discovers the 33-package fleet, imports one chapter per package, merges every package's bibliography into one, and renders the wrapper manuscript.
+version: 0.2.0
 author: docxology
 license: MIT
-tags: [exemplar, code, optimization, thin-orchestrator]
+tags: [compendium, manuscript, generator, thin-orchestrator]
 ---
 
 # bond-manuscript
 
-Project-scoped skill for the in-repo exemplar at
-`projects/working/bond/bond-manuscript/`. Load this when working inside the project.
+Project-scoped skill for `projects/working/bond/bond-manuscript/`, the wrapper
+manuscript for the PROJECT BOND suite. Load this when working inside the package.
 
-## When to Use
+## What it does
 
-- Working inside the `bond-manuscript` exemplar — running scripts, editing source,
-  or regenerating outputs.
-- Forking this exemplar as the starting scaffold for a new research project.
-- Validating that the exemplar's contracts (thin-orchestrator, layer boundaries,
-  no-mocks testing) still hold after changes.
+Discovers 27 film packages from `bond_coordinator.registry.ROSTER` plus 6
+infrastructure packages, imports each package's abstract (resolving that
+package's `{{TOKEN}}`s), reads each film's live `MissionProvider` for its mission
+brief, merges every package's `references.bib` into one bibliography, and writes
+the architecture chapter, 33 package chapters, and the references chapter.
 
-## Quick Reference
+The implementation is two modules: `src/bond_manuscript/compendium.py` and
+`src/bond_manuscript/manuscript_variables.py`.
+
+## When to use
+
+- Regenerating the compendium after a package's manuscript, bibliography, or
+  mission provider changed.
+- Changing how chapters, the architecture section, or the merged bibliography are
+  assembled.
+- Diagnosing a chapter that lost content — a stripped abstract, a missing mission
+  brief line, an unresolved cross-reference.
+
+## Quick reference
 
 ```bash
-# From the repository root
-uv run pytest projects/working/bond/bond-manuscript/tests --cov=projects/working/bond/bond-manuscript/src --cov-fail-under=90
-uv run python scripts/pipeline/stage_02_analysis.py --project templates/bond-manuscript
-uv run python scripts/pipeline/stage_03_render.py --project templates/bond-manuscript
-uv run python scripts/pipeline/stage_04_validate.py --project templates/bond-manuscript
-uv run python scripts/pipeline/stage_05_copy.py --project templates/bond-manuscript
+cd projects/working/bond/bond-manuscript
+
+uv sync --all-extras
+uv run pytest tests/ --cov=src --cov-fail-under=90
+uv run python scripts/generate_compendium.py                # exit 1 = a provider failed to load
+uv run python scripts/z_generate_manuscript_variables.py
+
+# from the template repository root
+uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-manuscript
 ```
 
 ## Pitfalls
 
-- **Keep scripts thin.** Business logic belongs in `src/` or shared
-  `infrastructure/`, not in `scripts/`.
-- **No mocks.** All tests must use real data, real files, and real
-  computation.
-- **Outputs are disposable.** Never hand-edit `output/` — regenerate from
-  source and config.
-- **Keep tracked benchmarks deterministic.** Serialize reproducible inputs,
-  objective values, and checks; keep wall-clock timing as a runtime-only
-  diagnostic.
-- **Run from the repo root.** Commands assume the template monorepo root
-  as working directory unless the child `AGENTS.md` states otherwise.
+- **Generated sections are build output.** `02_suite_architecture.md`, `03_*`,
+  `04_*`, `99_references.md`, and `references.bib` are rewritten every run. Fix
+  the source package or the builder, never the output.
+- **Import, never duplicate.** A film's facts live in that film's package.
+- **Keep `src/` pure.** No writes, no `infrastructure.*` imports, suite packages
+  imported lazily inside the functions that need them.
+- **Never swallow a content failure.** A provider that stops importing must be
+  recorded and reported; the build exits non-zero.
+- **Determinism is tested.** Roster order and `OrderedDict`, no timestamps.
+- **`uv sync --all-extras`.** A bare `uv sync` prunes pytest and the suite then
+  collects zero tests while exiting 0.
+- **Most of `scripts/` is dead scaffold.** Only `generate_compendium.py` and
+  `z_generate_manuscript_variables.py` are part of the build.
 
 ## Cross-refs
 
 - Project contract: [`AGENTS.md`](../../../AGENTS.md)
 - README: [`README.md`](../../../README.md)
 - TODO: [`TODO.md`](../../../TODO.md)
-- Exemplar roster: [`projects/AGENTS.md`](../../../../../AGENTS.md)
+- Generator API: [`src/AGENTS.md`](../../../src/AGENTS.md)
+- Docs index: [`docs/AGENTS.md`](../../../docs/AGENTS.md)

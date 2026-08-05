@@ -1,125 +1,98 @@
-# Forking Guide — bond-manuscript
+# Forking guide
 
-> A 5-minute walkthrough for copying this exemplar into a new
-> research-project directory. The point of the guide is to make every
-> decision explicit so a forker doesn't have to read every other doc to
-> find out *what's required vs aesthetic, what's enforced vs convention,
-> and what they'll hit friction on*.
+How to reuse this generator to build a compendium over a different package suite,
+and what to expect from the fork.
 
-## TL;DR
+## What is actually transferable
+
+The Bond-specific parts of `compendium.py` are small: the infrastructure package
+table, the `bond_coordinator.registry.ROSTER` import, and the chapter numbering
+constants. Everything else is generic machinery for the same problem — a suite of
+independently-authored package manuscripts that has to render as one document:
+
+| Piece | Transferable? |
+| --- | --- |
+| `discover_packages()` | Structure yes; the roster source and the infra table are yours to replace |
+| `import_package_abstract()` + `_resolve_tokens()` | Directly — it handles both `output/data/` and `output/variables/` conventions and coerces non-string JSON values |
+| `parse_references()` + `build_references_bib()` | Directly — both real BibTeX and plain `[n] …` lists, de-duplicated by key |
+| `latex_to_text()` | Directly |
+| `_strip_crossrefs()` | Directly, once you list your own label prefixes |
+| `_brief_line()` + `BRIEF_FAILURES` | Only if your suite has a comparable per-package protocol |
+| `build_*_section()` | Rewrite — these encode Bond's chapter shape |
+
+## Steps
+
+1. **Copy `src/`, `scripts/`, and `tests/`.** Rename the package
+   (`src/<your_pkg>/`) and update `[project]` and `[tool.setuptools.packages.find]`
+   in `pyproject.toml`.
+
+2. **Replace discovery.** `discover_packages()` needs your suite's ordered
+   roster. If you have no registry package, read the list from a YAML file in
+   this package rather than from directory order — ordering must be stable or
+   regeneration stops being byte-identical.
+
+3. **Replace the chapter builders.** `build_package_section()` and
+   `build_architecture_section()` are where your suite's shape lives. Keep them
+   pure: take data, return a string.
+
+4. **Adjust `manuscript_variables.py`.** Its tokens should be counts and titles
+   derived from discovery, never typed into prose.
+
+5. **Point the generator at your patterns.** In
+   `scripts/generate_compendium.py`, update `_GENERATED_02`, `_GENERATED_PKG`, and
+   `_GENERATED_99` to match exactly what you write. This is the guard that stops
+   the generator deleting hand-authored sections; a widened glob deletes your
+   introduction.
+
+6. **Rewrite the tests.** Keep the four fleet-wide sweeps — no empty bold, no
+   dangling cross-references, every package has a chapter, every provider loads.
+   Those are the assertions that catch whole-suite degradation, which is the
+   failure class this design is exposed to.
+
+7. **Declare your suite dependencies.** Path dependencies in `[tool.uv.sources]`,
+   plus anything a package's provider imports. Sync with `uv sync --all-extras`.
+
+## Keep these properties
+
+- **Import, never duplicate.** The moment a fact has two homes, one of them is
+  wrong and nobody notices.
+- **Pure core, thin orchestrators.** All writing in `scripts/`.
+- **Loud failure.** A build that quietly drops a chapter's content must exit
+  non-zero.
+- **Byte-stable regeneration**, pinned by a test that runs the generator twice.
+- **Documentation that names only what exists.** This is the fork's real risk —
+  see below.
+
+## The documentation trap
+
+This package was itself a fork, and its documentation set was not rewritten with
+it. Twenty-three files described the source exemplar's modules — an optimizer, an
+experiment config, an analysis package, a dashboard, their tests and their
+convergence plot — none of which ever existed here. `src/AGENTS.md` was 411 lines
+of it. Every test passed, coverage stayed above the gate, and the
+lint and drift checkers were clean the whole time, because none of them reads
+prose against the tree.
+
+If you fork this package, rewrite the docs in the same commit. The fleet gate
+catches the specific case of a backticked `src/…py` path that does not resolve:
 
 ```bash
-# 0. From the repo root, install deps once
-uv sync
-
-# 1. Clean-copy the exemplar to your new project name
-uv run python scripts/audit/copy_exemplar.py \
-  --source templates/bond-manuscript \
-  --dest projects/working/my_project \
-  --new-name my_project
-
-# 2. Run the tests against your fork
-uv run pytest projects/working/my_project/tests/ \
-    --cov=projects/working/my_project/src \
-    --cov-fail-under=90 -q
-
-# 3. Run the analysis pipeline against your fork
-uv run python projects/working/my_project/scripts/optimization_analysis.py
+cd projects/working/bond && python3 _phase_docs_gate.py
 ```
 
-**⚠️ Confidentiality invariant.** The repo `.gitignore` is configured so
-that **only** the public canonical exemplars listed in
-[`../../../docs/_generated/active_projects.md`](../../../../docs/_generated/active_projects.md)
-under `projects/` are ever git-tracked. Your fork (`projects/working/my_project/`)
-is local-only and won't be pushed to the public repo even if you `git
-add -f` it — `scripts/audit/check_tracked_projects.py` blocks the push in
-`pre-push-quick`. Read [`../../../../CLAUDE.md`](../../../../CLAUDE.md)
-"CONFIDENTIALITY INVARIANT" for the full fence.
+It does not catch a doc that describes a function that no longer behaves that
+way. Only reading does.
 
-## What you're forking
+## Confidentiality
 
-This template is a **research-project skeleton**: pure-math `src/`,
-thin-orchestrator `scripts/`, real-data `tests/`, token-substituted
-`manuscript/`, and a 4-phase analysis → variables → render → copy pipeline.
-The included gradient-descent algorithm is throwaway scaffolding for the
-**transferable pattern**: every numeric in the manuscript is a
-`{{TOKEN}}` registered in one Python function and cross-checked by one
-regression test. That's the discipline being taught — your fork should
-preserve it regardless of what domain you swap in.
-
-## REQUIRED vs AESTHETIC
-
-A pipeline-enforced gate fails CI if you delete a REQUIRED path. An
-AESTHETIC path is convention only — delete it and nothing complains
-automatically. The full inventory lives in [`AGENTS.md`](AGENTS.md);
-the short version:
-
-| Class | Examples | Action |
-|---|---|---|
-| REQUIRED — pipeline gate | `src/optimizer.py` and `invariants.py` (math primitives), all `tests/test_*.py`, `pyproject.toml`, `manuscript/config.yaml`, `manuscript/*.md`, `manuscript/references.bib`, `manuscript/preamble.md` | Keep them; the 90% coverage gate + LaTeX render depend on them |
-| REQUIRED — orchestration | `src/analysis/`, `src/figures/`, `src/dashboard.py`, `src/manuscript_variables.py`, all `scripts/*.py` | May import `infrastructure.*`; exercised by the end-to-end pipeline run |
-| AESTHETIC | `docs/*.md`, `*/STYLE.md`, `*/PATTERNS.md`, `*/CONVENTIONS.md`, `*/AGENTS.md`, `*/README.md` | Drift detected only by `scripts/audit/check_template_drift.py` and audits; aspire to update them when code changes |
-
-## Concrete first steps after fork
-
-### 1. Replace the algorithm
-Edit `src/optimizer.py` with your real algorithm. Keep it
-**infrastructure-free** (no `from infrastructure import ...`) — the
-math-primitive purity is what lets you copy `src/optimizer.py` into any
-Python environment without the pipeline installed. The orchestration
-modules (`analysis/`, `figures/`, etc.) are the right place for
-infrastructure-coupled code.
-
-### 2. Update the manuscript variables
-`src/manuscript_variables.py::generate_variables()` is the **single
-function** that produces every numeric token referenced in
-`manuscript/*.md`. When you change the algorithm:
-
-1. Add new tokens to `generate_variables()`.
-2. Reference them in your manuscript as `{{NEW_TOKEN}}`.
-3. The regression test
-   `tests/test_manuscript_variables.py::test_all_manuscript_tokens_are_generated`
-   automatically fails if a token is referenced but not generated.
-
-### 3. Update the test suite
-`tests/` enforces the [Zero-Mock Policy](testing_philosophy.md). Every
-test exercises real algorithms with real data — no `unittest.mock`,
-`MagicMock`, or `@patch`. Orchestration tests may use `pytest.MonkeyPatch`
-on module attributes or subprocess import isolation (see [`../tests/PATTERNS.md`](../tests/PATTERNS.md)) — not mock factories that fake algorithm output. If you find
-yourself wanting to mock something inside pure-math `src/`, that means the code
-belongs in `scripts/` instead.
-
-### 4. Run the drift checker before pushing
-```bash
-uv run python scripts/audit/check_template_drift.py
-```
-The checker runs 9 detectors against the public canonical exemplars; while
-forks are not yet covered, the gate will still flag any global drift
-your changes introduced into the shipped templates.
-
-## Common friction points (and fixes)
-
-| Symptom | Cause | Fix |
-|---|---|---|
-| `ModuleNotFoundError: optimizer` | Running a script from inside `src/` instead of the repo root | `cd` to the repo root; `uv run python projects/working/my_project/scripts/optimization_analysis.py` |
-| `PDF Rendering` stage fails with `mmdc could not find Chrome` | Manuscript embeds `mermaid` blocks; `mmdc` needs a pinned `chrome-headless-shell` not in your Puppeteer cache | One-time: `npx --yes puppeteer browsers install chrome-headless-shell`; the included `scripts/00_preflight.py` emits an actionable warning before the PDF stage if this is missing |
-| Test count drift / coverage drift | Docs in `docs/` hardcoded an old number | The drift checker now warns; replace literal numbers with a link to `docs/_generated/COUNTS.md` |
-| `{{TOKEN}}` appears literally in rendered PDF | `scripts/z_generate_manuscript_variables.py` was not re-run, or the token is not in `generate_variables()` | Re-run `z_generate_manuscript_variables.py`; if still literal, add the token to `generate_variables()` |
-| Stale `*.egg-info/` after rename | `pip install -e .` regenerated it under the old package name | `rm -rf src/*.egg-info/`; the `.gitignore` glob already covers any future occurrence |
-
-## Sibling exemplar
-
-[`template_prose_project`](../../template_prose_project) is the
-prose-review sibling — same shape, no algorithm, validates a manuscript
-instead of analyzing it. If your work is editorial rather than
-numerical, fork that one instead.
+This tree lives under `projects/working/` and is local-only: never tracked in the
+public template repository, never pushed. A fork placed anywhere under
+`projects/` other than `projects/templates/` inherits the same fence, enforced by
+the repository-root `scripts/audit/check_tracked_all.py` in the `lint` job and pre-push
+hook.
 
 ## See also
 
-- [`AGENTS.md`](AGENTS.md) — full doc inventory and reading order
-- [`agent_instructions.md`](agent_instructions.md) — 7 hard rules
-- [`architecture.md`](architecture.md) — module boundaries
-- [`testing_philosophy.md`](testing_philosophy.md) — zero-mock standard
-- [`output_inventory.md`](output_inventory.md) — producer/consumer graph
-- [`troubleshooting.md`](troubleshooting.md) — symptom-driven fixes
-- [`../../../scripts/audit/check_template_drift.py`](../../../../scripts/audit/check_template_drift.py) — the drift checker
+- [`architecture.md`](architecture.md) — layers and data flow
+- [`../src/AGENTS.md`](../src/AGENTS.md) — the API you would be copying
+- [`../tests/PATTERNS.md`](../tests/PATTERNS.md) — the test patterns worth keeping

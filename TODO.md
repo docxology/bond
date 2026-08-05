@@ -327,34 +327,37 @@ only asserts the positive case.
 
 ### Documentation
 
-#### D1. 25 documentation files still describe `template_code_project`, not the compendium
-The whole non-manuscript doc set is unmodified scaffold describing a gradient-descent optimizer
-exemplar — `src/optimizer.py`, `src/experiment_config.py`, `src/analysis/`, `src/dashboard.py`,
-`tests/test_optimizer.py`, `output/figures/convergence_plot.png` — **none of which exist here**.
-`src/AGENTS.md` is 411 lines of it; `docs/architecture.md:9-10` documents a `src/` layout with
-seven modules against the real three.
+#### D1. ~~25 documentation files still describe `template_code_project`, not the compendium~~ — RESOLVED 2026-08-05
+The whole non-manuscript doc set was unmodified scaffold describing a gradient-descent optimizer
+exemplar whose modules never existed here. `src/AGENTS.md` was 411 lines of it; `docs/architecture.md`
+documented a seven-module `src/` layout against the real three.
 
-Enumerate them:
+**Fixed.** 24 files rewritten against the real tree: `src/{AGENTS,README,STYLE}.md`, all 13 files in
+`docs/`, `tests/{AGENTS,README,PATTERNS}.md`, `scripts/{AGENTS,README,CONVENTIONS}.md`,
+`manuscript/{AGENTS,SYNTAX,README}.md`, and `.agents/skills/bond-manuscript/{SKILL,AGENTS}.md`.
+Shorter and true rather than long and inherited — `src/AGENTS.md` went from 411 lines to ~110.
+
+**Evidence.**
+
+- `python3 ../_phase_docs_gate.py` → **73 PHANTOM-MODULE findings before, 0 after**; the whole fleet
+  gate now reports `34 packages scanned, 0 failing, 0 findings`.
+- The path-existence demonstration returns no output:
+  `grep -rhoE "src/[a-z_]+\.py|tests/test_[a-z_]+\.py" docs/ src/*.md tests/*.md scripts/*.md | sort -u | while read f; do [ -e "$f" ] || echo "MISSING: $f"; done`
+- Every relative markdown link in the rewritten set resolves on disk (two inherited
+  `../../../../docs/guides/manuscript-semantics.md` links were off by one directory level and are fixed).
+- `uv run pytest tests/ --cov=src --cov-fail-under=90` → 34 passed, 97.18% (unchanged; docs-only change).
+
+**Residual, deliberately not "fixed".** The original enumeration grep still names three files:
 
 ```bash
 grep -rln "optimizer\.py\|experiment_config\|dashboard\.py\|convergence_plot\|gradient descent\|GradientDescent" \
   --include="*.md" --exclude=TODO.md . | grep -v _template_resources | grep -v "\.venv/"
 ```
 
-→ 24 files: `.agents/skills/bond-manuscript/SKILL.md` (its frontmatter `description:` still reads
-"Code-centric optimization research exemplar — gradient descent…"), all of `docs/` except
-`README.md` (13 files), `manuscript/AGENTS.md`, `manuscript/SYNTAX.md`, `scripts/AGENTS.md`,
-`scripts/README.md`, `src/AGENTS.md`, `src/README.md`, `src/STYLE.md`, `tests/AGENTS.md`,
-`tests/PATTERNS.md`, `tests/README.md`. Add `docs/README.md`, whose contents table indexes all 13
-stale `docs/` files as authoritative — 25 total.
-
-The three files that *are* current — `README.md`, `AGENTS.md`, and this `TODO.md` — describe the
-compendium correctly. The rot is confined to the inherited set.
-
-- **Done when:** the grep above returns nothing, and every doc names a file that exists.
-- **Demonstrate:** the grep, plus
-  `grep -rhoE "src/[a-z_]+\.py|tests/test_[a-z_]+\.py" docs/ src/*.md tests/*.md scripts/*.md | sort -u | while read f; do [ -e "$f" ] || echo "MISSING: $f"; done`
-  → no output.
+→ `docs/troubleshooting.md`, `scripts/README.md`, `scripts/AGENTS.md`. In all three the only match is
+the substring `dashboard.py` inside **`build_dashboard.py`**, a script that really exists here. The
+pattern is unanchored; these are true references, not drift. Verify with
+`grep -noE "optimizer\.py|dashboard\.py|gradient descent" <file>`.
 
 #### D2. `README.md` and `AGENTS.md` state a test count and coverage that are both wrong
 `README.md:49` — "`tests/  18 tests, no mocks, ≥90% coverage on src/`".
@@ -376,11 +379,49 @@ no experiment, no figures, and no tables. `domain_profile.yaml:1-20` declares
 `domain: code_research`, `required_packages: numpy, matplotlib`, and the same three figure types.
 Both are read by template validation gates, so they are a live source of false expectations.
 
-- **Done when:** both describe the compendium (a manuscript-assembly project with no experiment)
+`manuscript/layer_contract.yaml` is the same defect: it is headed "Code-centric exemplar" and
+allow-lists `src/analysis/_infra.py`, `src/_runtime.py`, and `src/benchmark_support.py` for
+infrastructure imports — three files that do not exist here, against a `src/` that imports no
+infrastructure at all.
+
+- **Done when:** all three describe the compendium (a manuscript-assembly project with no experiment)
   or are removed as not-applicable.
 - **Demonstrate:**
   `grep -rn "convergence_plot\|step_size\|objective_value" experiment_plan.yaml domain_profile.yaml`
-  → no output.
+  → no output, and `manuscript/layer_contract.yaml` names only paths that exist.
+
+#### D4. Eight of the ten runnable scripts are dead scaffold
+Found while rewriting the docs (D1); recorded here rather than fixed, because it is a code change.
+
+Four are unmodified exemplar orchestrators importing modules this fork never had, and fail at
+import: `04_benchmark_stage.py` (a `benchmark_support` module), `build_dashboard.py` (a `dashboard`
+module), `generate_api_docs.py` (a `documentation` module), `optimization_analysis.py` (an
+`analysis` package).
+
+Four are template pipeline stages that compute the template root as
+`Path(__file__).resolve().parents[4]`: `00_preflight.py`, `08_connector_search.py`,
+`09_provenance_record.py`, `10_research_workflow.py`. That depth was correct at
+`projects/<lifecycle>/<project>/`; this package sits one level deeper, so the computed root is
+`.../template/projects` and `import infrastructure` raises `ModuleNotFoundError`. Note
+`tests/conftest.py` carries the same off-by-one — harmless only because nothing in the suite imports
+`infrastructure`.
+
+Only `generate_compendium.py` and `z_generate_manuscript_variables.py` participate in the build.
+
+- **Done when:** the four non-functional scripts are deleted, and the four stage scripts either
+  resolve the template root by marker-walk (as `z_generate_manuscript_variables.py` already does)
+  or are deleted too.
+- **Demonstrate:** every script the package still ships imports cleanly. This currently names
+  exactly the eight above; after the fix it must print nothing.
+
+  ```bash
+  for s in scripts/*.py; do .venv/bin/python -c "
+  import importlib.util, sys
+  spec = importlib.util.spec_from_file_location('_probe', sys.argv[1])
+  m = importlib.util.module_from_spec(spec)
+  spec.loader.exec_module(m)
+  " "$s" >/dev/null 2>&1 || echo "FAILS: $s"; done
+  ```
 
 ---
 

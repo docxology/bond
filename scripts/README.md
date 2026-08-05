@@ -1,70 +1,58 @@
-# scripts/ - Analysis Scripts
+# scripts/ — thin orchestrators
 
-**Thin Orchestrators** demonstrating strict integration patterns. As per the Generalized Research Template policy, these scripts *do not contain core logic*. They only import from the `src/` directory and bridge results into the `infrastructure/` components for logging, rendering, and reporting.
+Two scripts build the compendium. The rest are template pipeline stages inherited
+with the project scaffold; see the status column before running any of them.
 
-## Quick Start
-
-```bash
-# Run analysis pipeline
-uv run python scripts/optimization_analysis.py
-
-# View generated outputs
-ls -la ../output/
-```
-
-## Key Features
-
-- **analysis pipeline** (experiments + visualization)
-- **Automated figure generation** (convergence plots)
-- **Data export** (optimization results to CSV)
-- **Manuscript integration** (figure registration)
-
-## Common Commands
-
-### Run Analysis
+## The two that matter
 
 ```bash
-uv run python optimization_analysis.py
+cd projects/working/bond/bond-manuscript
+
+# 1. Regenerate the 33 package chapters, the architecture chapter,
+#    the references chapter, and the unified references.bib
+uv run python scripts/generate_compendium.py
+
+# 2. Hydrate {{TOKEN}}s into output/manuscript/ for the renderer
+uv run python scripts/z_generate_manuscript_variables.py
 ```
 
-Executes optimization experiments and generates all outputs.
+`generate_compendium.py` exits non-zero if any film's `MissionProvider` failed to
+import — those chapters lose their mission brief line, and a compendium missing
+content it should carry is not a successful build.
 
-### Check Outputs
+## Inventory
 
-```bash
-ls -la ../output/figures/
-ls -la ../output/data/
-```
-
-## Scripts
-
-| Script | Role | Pipeline |
+| Script | Status | Role |
 | --- | --- | --- |
-| `optimization_analysis.py` | Main analysis pipeline (experiments, figures, reports) | Required |
-| `build_dashboard.py` | Interactive HTML dashboard + invariants report | Required |
-| `04_benchmark_stage.py` | `infrastructure.benchmark` rubric demo | Optional |
-| `08_connector_search.py` | Connector search stage (opt-in `science`) | Optional |
-| `09_provenance_record.py` | Provenance DAG record (opt-in) | Optional |
-| `10_research_workflow.py` | Research workflow dispatch (opt-in) | Optional |
-| `z_generate_manuscript_variables.py` | Manuscript `{{TOKEN}}` hydration (runs last; `z_` prefix) | Required |
-| `generate_api_docs.py` | Writes `output/docs/api_reference.md` | AESTHETIC (smoke-tested) |
-| `00_preflight.py` | Puppeteer/mmdc pre-render warning | AESTHETIC (smoke-tested; exit 0 or 1) |
+| `generate_compendium.py` | **Active** | Writes the generated manuscript sections and the unified bibliography |
+| `z_generate_manuscript_variables.py` | **Active** | Computes the token map and writes the resolved tree to `output/manuscript/` |
+| `00_preflight.py` | Inherited stage | Manuscript pre-render check via `infrastructure.rendering.preflight` |
+| `08_connector_search.py` | Inherited stage | Opt-in connector search; no-ops without `connector_search.yaml` |
+| `09_provenance_record.py` | Inherited stage | Opt-in provenance DAG record |
+| `10_research_workflow.py` | Inherited stage | Opt-in research-workflow dispatch |
+| `04_benchmark_stage.py` | Non-functional | Imports a `benchmark_support` module this package does not have |
+| `build_dashboard.py` | Non-functional | Imports a `dashboard` module this package does not have |
+| `generate_api_docs.py` | Non-functional | Imports a `documentation` module this package does not have |
+| `optimization_analysis.py` | Non-functional | Imports an `analysis` package this package does not have |
 
-Full API and smoke-test notes: [`AGENTS.md`](AGENTS.md).
+The four **inherited stages** resolve the template root by fixed directory depth
+(`Path(__file__).resolve().parents[4]`). That was correct at `projects/<lifecycle>/<project>/`;
+this package sits one level deeper, so the computed root is `projects/` and
+`import infrastructure` fails. They are not part of the compendium build.
 
-## Architecture
+The four **non-functional** scripts came from the source exemplar and reference
+modules this fork never had. Running one fails immediately with
+`ModuleNotFoundError`. Nothing depends on them.
 
-```mermaid
-graph TD
-    OA[optimization_analysis.py] --> SA[src/analysis/]
-    BD[build_dashboard.py] --> SD[src/dashboard.py]
-    ZGEN[z_generate_manuscript_variables.py] --> MV[src/manuscript_variables.py]
-    SA --> OPT[src/optimizer.py]
-    SA --> FIG[src/figures/]
-    GD[generate_api_docs.py] --> DOC[src/documentation.py]
-    PF[00_preflight.py] --> INFRA[infrastructure.rendering.preflight]
+## Rendering
+
+Rendering is driven from the template repository root, not from here:
+
+```bash
+uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-manuscript
 ```
 
-## More Information
+## More
 
-See [AGENTS.md](AGENTS.md) for technical documentation.
+[`AGENTS.md`](AGENTS.md) documents what each active script writes and what it
+protects. [`CONVENTIONS.md`](CONVENTIONS.md) covers how to write a new one.
