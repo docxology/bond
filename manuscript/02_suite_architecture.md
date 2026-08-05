@@ -81,7 +81,7 @@ package below.
 | `tomorrow_never_dies` | 98.8% |
 | `the_world_is_not_enough` | 99.4% |
 | `die_another_day` | 100.0% |
-| `casino_royale_2006` | 97.1% |
+| `casino_royale_2006` | 97.2% |
 | `quantum_of_solace` | 100.0% |
 | `skyfall` | 100.0% |
 | `spectre` | 100.0% |
