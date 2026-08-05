@@ -352,16 +352,30 @@ def build_references_bib(packages: list[PackageInfo], bond_root: Path) -> tuple[
 # --------------------------------------------------------------------------- #
 
 
-def _brief_line(package_dir: Path, slug: str) -> str:
-    """Real mission codename/objectives from the film's MissionProvider."""
-    try:
-        import sys
+#: Packages whose provider could not be loaded during the last build. A blanket
+#: ``except Exception: return ""`` once let die_another_day's chapter lose its
+#: mission brief silently: the package had added a scipy dependency the
+#: compendium's environment lacked, the import raised ModuleNotFoundError, and
+#: the chapter simply rendered one line shorter with nothing reported. Failures
+#: are recorded here so a caller can see that content went missing.
+BRIEF_FAILURES: "dict[str, str]" = {}
 
+
+def _brief_line(package_dir: Path, slug: str) -> str:
+    """Real mission codename/objectives from the film's MissionProvider.
+
+    Returns "" when the package genuinely has no ``mission.py``. Any other
+    failure is recorded in :data:`BRIEF_FAILURES` rather than swallowed, because
+    a provider that stops importing is a real integration break, not an absence.
+    """
+    import sys
+
+    search = package_dir / "src"
+    if not (search / slug / "mission.py").is_file():
+        return ""
+    try:
         from bond_api.discovery import load_provider  # type: ignore[import-not-found]
 
-        search = package_dir / "src"
-        if not (search / slug / "mission.py").is_file():
-            return ""
         sys.path.insert(0, str(search))
         try:
             provider = load_provider(slug, search_paths=[str(search)])
@@ -369,8 +383,10 @@ def _brief_line(package_dir: Path, slug: str) -> str:
         finally:
             sys.path.remove(str(search))
         objs = "; ".join(brief.objectives)
+        BRIEF_FAILURES.pop(slug, None)
         return f"Mission **{brief.codename}**: {objs}."
-    except Exception:
+    except Exception as exc:  # noqa: BLE001 — recorded, then reported by the caller
+        BRIEF_FAILURES[slug] = f"{type(exc).__name__}: {exc}"
         return ""
 
 

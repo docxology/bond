@@ -19,6 +19,10 @@ dependencies = [
     "matplotlib>=3.7.0",
     "pyyaml>=6.0",
     "defusedxml>=0.7.1",
+    # die_another_day's provider imports scipy; the compendium loads every
+    # package's MissionProvider to build its chapter brief line, so that
+    # dependency has to resolve here too or the chapter loses content.
+    "scipy>=1.10.0",
     "bond-api",
     "bond-coordinator",
     "bond-utilities",

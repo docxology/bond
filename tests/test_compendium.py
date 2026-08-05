@@ -397,3 +397,29 @@ def test_imported_abstracts_carry_no_dangling_crossrefs() -> None:
         abstract = import_package_abstract(BOND / pkg.slug)
         assert "[@" not in abstract, pkg.slug
         assert "@sec:" not in abstract, pkg.slug
+
+
+def test_brief_failures_recorded_not_swallowed(tmp_path) -> None:
+    """A provider that fails to import must be reported, not silently skipped.
+
+    die_another_day added a scipy dependency the compendium environment lacked.
+    A blanket `except Exception: return ""` turned that ModuleNotFoundError into
+    a chapter that simply rendered one line shorter, with nothing reported.
+    """
+    from bond_manuscript import compendium
+
+    pkg = tmp_path / "brokenpkg"
+    (pkg / "src" / "brokenpkg").mkdir(parents=True)
+    (pkg / "src" / "brokenpkg" / "__init__.py").write_text("")
+    (pkg / "src" / "brokenpkg" / "mission.py").write_text("import a_module_that_does_not_exist\n")
+
+    compendium.BRIEF_FAILURES.pop("brokenpkg", None)
+    assert compendium._brief_line(pkg, "brokenpkg") == ""
+    assert "brokenpkg" in compendium.BRIEF_FAILURES
+    compendium.BRIEF_FAILURES.pop("brokenpkg", None)
+
+
+def test_every_film_chapter_has_a_mission_brief_line() -> None:
+    """All 27 film providers must load; a missing brief line means a broken import."""
+    missing = [p.name for p in sorted(MANUSCRIPT.glob("03_*.md")) if "Mission **" not in p.read_text()]
+    assert not missing, missing

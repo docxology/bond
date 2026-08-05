@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]  # -> projects/working/bond/bond-manuscript
@@ -89,6 +90,22 @@ def main() -> int:
         f"compendium written: {len(packages)} packages, {len(all_refs)} references, "
         f"{film_n} film chapters, {infra_n} infra chapters -> {manuscript}"
     )
+
+    # A provider that stops importing costs its chapter the mission brief line.
+    # That used to happen silently; the build now fails loudly instead, because
+    # a compendium missing content it should carry is not a successful build.
+    from bond_manuscript.compendium import BRIEF_FAILURES
+
+    if BRIEF_FAILURES:
+        print("\nERROR: could not load MissionProvider for:", file=sys.stderr)
+        for slug, err in sorted(BRIEF_FAILURES.items()):
+            print(f"  {slug}: {err}", file=sys.stderr)
+        print(
+            "These chapters lost their mission brief line. Install the missing "
+            "dependency into this package's environment and re-run.",
+            file=sys.stderr,
+        )
+        return 1
     return 0
 
 
