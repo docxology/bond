@@ -183,7 +183,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **sykes1998scipuff** — Sykes, R. Ian and Parker, Sonya F. and Henn, Donald S. and Lewellen, William S.. *SCIPUFF*.
 
-- **morlock1989bobsled** — Morlock, M. M. and Zatsiorsky, V. M.. *Factors influencing performance in bobsled: Part I*.
+- **morlock1989bobsled** — Morlock, M. M. and Zatsiorsky, V. M.. *Factors influencing performance in bobsledding: I*.
 
 - **mcclung2006avalanche** — McClung, David and Schaerer, Peter. *The Avalanche Handbook*.
 
