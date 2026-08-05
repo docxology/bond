@@ -49,6 +49,10 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 ## `from_russia_with_love`
 
+- **foy1976position** — Foy, Wade H.. *Position-Location Solutions by Taylor*.
+
+- **torrieri1984statistical** — Torrieri, Don J.. *Statistical Theory of Passive Location Systems*.
+
 - **chan1994hyperbolic** — Chan, Y. T. and Ho, K. C.. *A Simple and Efficient Estimator for Hyperbolic Location*.
 
 ## `octopussy`
@@ -227,7 +231,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 ## `live_and_let_die`
 
-- **film_lald** — Maibaum, Richard and Mankiewicz, Tom. *Live and Let Die*.
+- **film_lald** — Mankiewicz, Tom. *Live and Let Die*.
 
 - **wood1993** — Wood, R. Kevin. *Deterministic Network Interdiction*.
 
@@ -313,7 +317,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **shamir1979share** — Shamir, Adi. *How to Share a Secret*.
 
-- **haldane1908relation** — Haldane, John Scott. *The Relation of the Action of Carbonic Oxide to Oxygen Tension*.
+- **boycott1908prevention** — Boycott, A. E. and Damant, G. C. C. and Haldane, J. S.. *The Prevention of Compressed-air Illness*.
 
 - **hart1968formal** — Hart, Peter E. and Nilsson, Nils J. and Raphael, Bertram. *A Formal Basis for the Heuristic Determination of Minimum Cost Paths*.
 
@@ -445,7 +449,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **ott2009electromagnetic** — Ott, Henry W.. *Electromagnetic Compatibility Engineering*.
 
-- **vance1975coupling** — Vance, Edward F.. *Coupling to Shielded Cables*.
+- **vance1978coupling** — Vance, Edward F.. *Coupling to Shielded Cables*.
 
 - **froehlich2008breach** — Froehlich, David C.. *Embankment dam breach parameters and their uncertainties*.
 
@@ -660,8 +664,6 @@ the unified `references.bib`. Keys are cited from the package chapters.
 - **bliss1939toxicity** — Bliss, Chester I. *The toxicity of poisons applied jointly*.
 
 ## `casino_royale_1967`
-
-- **friedman2026fivestart** — Friedman, Daniel Ari. *Casino Royale: FIVE 00s --- Special-Agent Mission Software*.
 
 - **shannon1948communication** — Shannon, Claude E.. *A Mathematical Theory of Communication*.
 
