@@ -517,3 +517,78 @@ grep -c '^! ' output/pdf/_latex_stdout.log
 # 7. Fleet gate context (read-only; owned by bond-ops, not by this package).
 python3 -c "import json;r=json.load(open('../output/aggregate/gate_manifest.json'))['packages'];print(len(r),'rows',{x['verdict'] for x in r},min(x['coverage'] for x in r))"
 ```
+
+
+---
+
+## Round 2 — the compendium carries all 33 FULL manuscripts
+
+Round 2 closed the "abstract-only excerpt" gap: instead of importing just each
+package's abstract into its chapter, `compendium.py` now reproduces each
+package's **complete manuscript** — abstract plus every authored section
+(`01_introduction` … `08_appendix`), token-hydrated from the package's own
+`manuscript_variables.json`, with the package's figures carried into the
+combined PDF.
+
+### What changed
+
+- **`src/bond_manuscript/compendium.py`**: added `import_package_sections()`
+  (imports every numbered content section in order, hydrates tokens, demotes
+  headings one level under the chapter header, rewires figure embeds) and
+  `ImportedChapter` (body + figures to copy). Rewrote `build_package_section`
+  to return the full-manuscript chapter. Package-local pandoc-crossref labels
+  (`{#sec:…}`, `{#fig:…}`, `{#tbl:…}`, `[@fig:…]`) are stripped so no duplicate
+  `\label{}` can break the combined render; literal token-protocol mentions
+  (``{{RESULT_*}}``) are folded to single braces **without touching LaTeX math**
+  (a blanket `}}`→`}` rewrite unbalanced `\frac{1}{…}}` and stopped the render).
+- **`scripts/generate_compendium.py`**: copies each chapter's figures into
+  `output/figures/` under a slug-namespaced filename, and FAILS LOUD (exit 1)
+  if a discovered package yields a hollow (<10 line) chapter.
+- **Wrapper prose** (`00_abstract.md`, `01_introduction.md`, `90_closing.md`):
+  reframed to describe a compendium containing 33 full manuscripts; counts use
+  the `{{N_PACKAGES}}/{{N_FILMS}}/{{N_INFRA}}/{{N_GATE_MEASURED}}` tokens; fixed
+  the dangling "(in the `Files` section)" pointer (TODO C10).
+- **`tests/test_compendium.py`**: rewired for the new signature; added
+  `test_every_chapter_carries_full_manuscript` (every 03_/04_ chapter must carry
+  Abstract/Introduction/Methodology/Results/Conclusion/Sources and be >60
+  lines), structure/math preservation, crossref-attribute hygiene, and
+  missing-figure fallback.
+
+### Measured evidence (before → after)
+
+| Metric | Before (round 1) | After (round 2) |
+| --- | --- | --- |
+| Total generated chapter lines | 528 | 18,671+ |
+| `03_01_dr_no.md` lines | 16 | 572 |
+| Per-chapter size range | ~16 | 169–365 |
+| Combined PDF pages | 67 | **332** |
+| Combined PDF size | 396,236 B | **6,341,986 B** |
+| Figures carried | 0 | 81 |
+
+Verification: 0 unresolved `{{…}}` in any `output/manuscript/*.md`; all 32
+unique package codenames present in `pdftotext` of the combined PDF; 0 `??`
+(unresolved refs); every 03_/04_ chapter reproduces the package's full
+manuscript (subsections, math, and figures all present).
+
+### Round-2 gates
+
+| Gate | Result |
+| --- | --- |
+| `uv run pytest tests/ --cov=src --cov-fail-under=90` | **40 passed**, 95.95 % |
+| `uv run ruff check src/ scripts/ tests/` | All checks passed |
+| `uv run ruff format --check src/ scripts/ tests/` | all formatted |
+| `uv run mypy src/` | Success (3 files) |
+
+### Residual (documented, not regressions)
+
+- **Render still logs ~89 non-fatal LaTeX warnings** — the pre-existing C2
+  bib-underscore class. The combined PDF builds (batchmode) at 332 pages with
+  full content; this matches round 1's 89-error state and is tracked as C2.
+- A few full sections cite package-local macros the compendium preface does not
+  define (`\Cindex`, `\HHI`, `\Eff`) producing non-fatal `Undefined control
+  sequence` warnings — follow-up could strip or define them.
+- **Sequencing:** sibling package agents were mid-edit during this run (the
+  merged reference count moved 330→340 and a chapter gained content between
+  regens). A final fresh regeneration was run at the end, as the handoff
+  requires; if a downstream package changed after this commit, re-run
+  `generate_compendium.py` + `z_generate_manuscript_variables.py` + render.

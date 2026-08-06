@@ -164,14 +164,19 @@ def test_build_package_section_film() -> None:
     from bond_manuscript import compendium
 
     pkg = discover_packages(BOND)[2]  # goldfinger
-    abstract = import_package_abstract(BOND / "goldfinger")
-    section = compendium.build_package_section(
-        pkg, BOND / "goldfinger", abstract, ["goldfinger_ref1", "goldfinger_ref2"], 3
-    )
-    assert "# Goldfinger (1964) — GRAND SLAM" in section
+    chapter = compendium.build_package_section(pkg, BOND / "goldfinger", ["goldfinger_ref1", "goldfinger_ref2"], 3)
+    section = chapter.body
+    assert "GRAND SLAM" in section
     assert "## Concepts" in section and "macroeconomic attack" in section
-    assert "## Abstract (imported" in section
+    assert "## Abstract" in section
     assert "## Sources" in section and "@goldfinger_ref1" in section
+    # Full-manuscript contract: the chapter carries the package's authored
+    # sections (demoted under the chapter header), not an abstract-only excerpt.
+    assert "## Methodology" in section
+    assert "## Results" in section
+    assert isinstance(chapter.figures, tuple)
+    for _src, dest in chapter.figures:
+        assert isinstance(dest, str) and dest.startswith("goldfinger_")
 
 
 def test_build_architecture_section() -> None:
@@ -214,21 +219,12 @@ def test_build_package_section_infra() -> None:
 
     packages = discover_packages(BOND)
     infra = next(p for p in packages if p.slug == "bond-api")
-    section = compendium.build_package_section(infra, BOND / "bond-api", "protocol + registry", ["bond_api_key"], 2)
+    chapter = compendium.build_package_section(infra, BOND / "bond-api", ["bond_api_key"], 2)
+    section = chapter.body
     assert "THE PROTOCOL" in section
     assert "## Concepts" in section
-
-
-# --------------------------------------------------------------------------- #
-# Plain reference-list ingestion
-#
-# Every package in the fleet now ships real BibTeX, so `_plain_ref_to_bibtex`
-# and the plain-list branch of `parse_references` lost their only real-data
-# exerciser when goldfinger's placeholder `[n] ...` list became genuine
-# citations. The format is still supported on input, so it is covered here
-# directly with real files rather than left to rot behind a branch nothing
-# reaches.
-# --------------------------------------------------------------------------- #
+    assert "## Abstract" in section
+    assert "## Methodology" in section
 
 
 def _plain_bib(tmp_path, body: str):
@@ -423,3 +419,105 @@ def test_every_film_chapter_has_a_mission_brief_line() -> None:
     """All 27 film providers must load; a missing brief line means a broken import."""
     missing = [p.name for p in sorted(MANUSCRIPT.glob("03_*.md")) if "Mission **" not in p.read_text()]
     assert not missing, missing
+
+
+def test_every_chapter_carries_full_manuscript() -> None:
+    """The full-content contract: no 03_*/04_* chapter is an abstract-only excerpt.
+
+    Every package chapter must carry the abstract, the substantive authored
+    sections, and its sources.  This is what makes the combined PDF a genuine
+    compendium of 33 full manuscripts rather than a set of summaries.
+    """
+    missing = []
+    for f in sorted(MANUSCRIPT.glob("0[34]_*.md")):
+        text = f.read_text()
+        for heading in (
+            "## Abstract",
+            "## Introduction",
+            "## Methodology",
+            "## Results",
+            "## Conclusion",
+            "## Sources",
+        ):
+            if heading not in text:
+                missing.append((f.name, heading))
+    assert not missing, missing
+    # Each chapter is substantial — far larger than the old ~16-line excerpts.
+    small = [f.name for f in MANUSCRIPT.glob("0[34]_*.md") if len(f.read_text().splitlines()) < 60]
+    assert not small, small
+
+
+def test_full_manuscript_sections_hydrated_and_structure_preserved() -> None:
+    """Sections import with tokens resolved and markdown/LaTeX structure intact."""
+    from bond_manuscript import compendium
+
+    keys = [r.key for r in parse_references(BOND / "dr_no", "dr_no")]
+    drno = compendium.build_package_section(discover_packages(BOND)[0], BOND / "dr_no", keys, 1)
+    body = drno.body
+    assert "## Methodology" in body
+    assert "### 2.1" in body  # subsection headings demoted, kept
+    assert "{{" not in body  # tokens resolved / delimiters folded
+    assert "$" in body  # LaTeX math carried through
+    assert "## Results" in body
+    assert "## Sources" in body
+    # Figures were wired to the compendium's figure store and name-spaced by slug.
+    assert drno.figures, "dr_no should carry figures"
+    for _src, dest in drno.figures:
+        assert dest.startswith("dr_no_")
+
+
+def test_no_dangling_fig_labels_or_crossref_attributes_in_chapters() -> None:
+    """No package-local pandoc-crossref attributes survive into the chapters."""
+    for f in sorted(MANUSCRIPT.glob("0[34]_*.md")):
+        text = f.read_text()
+        assert "{#fig:" not in text, f.name
+        assert "[@fig:" not in text and "[@tbl:" not in text, f.name
+        assert "{#tbl:" not in text, f.name
+
+
+def test_import_package_sections_no_sections_returns_empty(tmp_path) -> None:
+    """A package with only an abstract (no numbered content sections) yields no
+    section body and no figures."""
+    from bond_manuscript.compendium import import_package_sections
+
+    pkg = tmp_path / "minimal"
+    (pkg / "manuscript").mkdir(parents=True)
+    (pkg / "manuscript" / "00_abstract.md").write_text("# Abstract\nOnly an abstract.\n")
+    body, figs = import_package_sections(pkg, "minimal")
+    assert body == ""
+    assert figs == []
+
+
+def test_import_package_sections_missing_figure_falls_back_to_caption(tmp_path) -> None:
+    """A section embedding a figure whose source file is absent must not break
+    the chapter — the caption survives as prose, no broken image path."""
+    from bond_manuscript.compendium import import_package_sections
+
+    pkg = tmp_path / "brokenfig"
+    (pkg / "manuscript").mkdir(parents=True)
+    (pkg / "manuscript" / "03_results.md").write_text(
+        "# Results\n\n![A missing figure](../output/figures/nope.png){#fig:nope}\n\ntext\n"
+    )
+    body, figs = import_package_sections(pkg, "brokenfig")
+    assert figs == []  # nothing to copy
+    assert "nope.png" not in body  # the broken link is gone
+    assert "**Figure (in the package manuscript):**" in body  # caption kept
+    assert "{#fig:" not in body
+
+
+def test_build_package_section_no_abstract_placeholder(tmp_path) -> None:
+    """A package without an abstract still renders a chapter, and the empty
+    abstract becomes an explicit placeholder rather than a blank."""
+    from bond_manuscript import compendium
+
+    pkg = tmp_path / "noabstract"
+    (pkg / "manuscript").mkdir(parents=True)
+    (pkg / "manuscript" / "01_introduction.md").write_text("# Introduction\nSome text with {{TOKEN}} here.\n")
+    info = compendium.PackageInfo(
+        slug="noabstract", title="No Abstract", year="2026", codename="NONE", kind="film", concepts=()
+    )
+    chapter = compendium.build_package_section(info, pkg, [], 1)
+    assert "ships no abstract" in chapter.body
+    assert "## Introduction" in chapter.body
+    assert "{{" not in chapter.body  # unresolved token stripped
+    assert chapter.figures == ()

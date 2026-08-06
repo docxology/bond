@@ -35,8 +35,10 @@ __all__ = [
     "build_references_bib",
     "build_architecture_section",
     "build_package_section",
+    "ImportedChapter",
     "discover_packages",
     "import_package_abstract",
+    "import_package_sections",
     "parse_references",
 ]
 
@@ -70,6 +72,22 @@ class Reference:
     key: str
     bibtex: str
     source_package: str
+
+
+@dataclass(frozen=True)
+class ImportedChapter:
+    """The full imported chapter for one package.
+
+    ``body`` is the complete chapter: the package's abstract, every authored
+    section (01..NN) imported in canon order, and its ``## Sources`` list.
+    ``figures`` maps each figure the package manuscript embeds (resolved to an
+    absolute source path) to its namespaced destination filename in the
+    compendium's ``output/figures/``.  The core never writes; the orchestrator
+    copies these files.
+    """
+
+    body: str
+    figures: tuple[tuple[Path, str], ...] = ()
 
 
 # --------------------------------------------------------------------------- #
@@ -348,6 +366,139 @@ def build_references_bib(packages: list[PackageInfo], bond_root: Path) -> tuple[
 
 
 # --------------------------------------------------------------------------- #
+# Full manuscript import
+# --------------------------------------------------------------------------- #
+
+#: A package content-section filename: ``NN_*.md`` with NN in 01..98.  The
+#: ``99_references.md`` chapter is handled as the unified bibliography instead
+#: of being re-imported per package, and ``00_abstract.md`` is imported as the
+#: cleaned abstract paragraph.  Everything else is carried verbatim.
+_SECTION_RE = re.compile(r"^(0[1-9]|[1-8]\d)_[^/]+\.md$")
+
+
+def _package_variables(package_dir: Path) -> "dict[str, object]":
+    """Return a package's manuscript_variables.json as a dict (never raises)."""
+    vp = _find_variables_json(package_dir)
+    if vp is None:
+        return {}
+    try:
+        import json
+
+        return json.loads(vp.read_text())
+    except (OSError, ValueError):
+        return {}
+
+
+def _demote_heading(line: str) -> str:
+    """Nest a section heading one level under the chapter's ``#`` header."""
+    m = re.match(r"^(#{1,6})(?=\s)", line)
+    return ("#" + line) if m else line
+
+
+def _neutralize_crossrefs(body: str) -> str:
+    """Neutralise package-local pandoc-crossref labels without flattening prose.
+
+    Structure-preserving sibling of :func:`_strip_crossrefs`: it converts
+    section pointers into prose and drops definition/proposition/float pointers,
+    but never collapses the markdown line structure (headings, lists, math,
+    tables) that a full section carries.
+    """
+
+    def _sub(match: "re.Match[str]") -> str:
+        kind, name = match.group(1), match.group(2).split(":")[-1]
+        if kind == "sec":
+            return f"the {name.replace('-', ' ').replace('_', ' ')} section"
+        return ""
+
+    body = _CROSSREF.sub(_sub, body)
+    body = re.sub(r"\{#[a-z]+:[^{}]*\}", "", body)  # strip fig/tbl/eq crossref label attributes
+    body = re.sub(r"\(\s*[,;]?\s*\)", "", body)  # ()
+    body = re.sub(r"[ \t]+—\s*\)", ")", body)  # " — )"
+    body = re.sub(r"\bSection\s+the\b", "The", body)
+    body = re.sub(r"\bsection\s+the\b", "the", body)
+    body = re.sub(r"[ \t]+([,.;:])", r"\1", body)
+    body = re.sub(r"([,;])[ \t]*\1+", r"\1", body)
+    lines = [re.sub(r"[ \t]{2,}", " ", ln) for ln in body.splitlines()]
+    return "\n".join(lines).strip()
+
+
+#: Markdown image embed: ``![caption](src){label}``.
+_IMG = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)(\{[^}]*\})?")
+
+
+def _process_figures(text: str, package_dir: Path, slug: str) -> tuple[str, list[tuple[Path, str]]]:
+    """Rewire markdown figure embeds to the compendium's figure store.
+
+    Each embedded image's ``src`` is relative to the package's ``manuscript/``
+    directory; it is resolved to an absolute path, copied (by the orchestrator)
+    into the compendium's ``output/figures/`` under a slug-namespaced filename,
+    and the chapter body is rewritten to point at that copy with its
+    ``{#fig:...}`` crossref label dropped (such labels would collide across 33
+    packages).  A referenced figure that is missing becomes a prose caption
+    instead of a broken image.
+    """
+    figures: list[tuple[Path, str]] = []
+
+    def _sub(match: "re.Match[str]") -> str:
+        caption = match.group(1).strip()
+        src = match.group(2).strip()
+        abs_src = (package_dir / "manuscript" / src).resolve()
+        dest = f"{slug}_{Path(src).name}"
+        if abs_src.is_file():
+            figures.append((abs_src, dest))
+            # `output/figures/...` is the path the template renderer rewrites
+            # for LaTeX (see infrastructure/rendering/_pdf_figure_paths.py).
+            return f"![{caption}](output/figures/{dest})"
+        if caption:
+            return f"> **Figure (in the package manuscript):** {caption}."
+        return ""
+
+    return _IMG.sub(_sub, text), figures
+
+
+def import_package_sections(package_dir: Path, slug: str) -> tuple[str, list[tuple[Path, str]]]:
+    """Import every authored section (01..NN) of a package's manuscript.
+
+    Sections are read in lexicographic filename order, token-hydrated from the
+    package's ``manuscript_variables.json``, demoted one heading level, and
+    joined.  Figure embeds are rewired to the compendium's figure store.  An
+    unreadable section raises (fail-loud): a chapter that cannot be fully
+    imported must never silently truncate.
+    """
+    manuscript = package_dir / "manuscript"
+    files = sorted(f for f in manuscript.glob("[0-9][0-9]_*.md") if _SECTION_RE.match(f.name))
+    if not files:
+        return "", []
+    variables = _package_variables(package_dir)
+    parts: list[str] = []
+    figures: list[tuple[Path, str]] = []
+    for f in files:
+        text = f.read_text()  # unreadable -> raises, never swallowed
+        text = _resolve_tokens(text, variables)
+        if _TOKEN.search(text):
+            text = _TOKEN.sub("", text)  # any stragglers
+        # Real tokens are resolved above.  The only `{{`/`}}` that can survive
+        # are literal token-protocol prose in the package's own manuscript — a
+        # reproducibility section naming its own tokens (e.g. ``{{RESULT_*}}``)
+        # or the backtick-quoted delimiter ``{{``. Fold exactly those into
+        # single braces so the merged compendium never carries a dangling `{{`,
+        # WITHOUT touching LaTeX math braces (a blanket ``}}``->``}`` rewrite
+        # unbalanced \frac{1}{...}} and broke the combined render).
+        text = re.sub(
+            r"\{\{[A-Z][A-Z0-9_*]*\}\}",
+            lambda m: "{" + m.group(0)[2:-2] + "}",
+            text,
+        )
+        text = text.replace("`{{`", "`{`").replace("`}}`", "`}`")
+        text = _neutralize_crossrefs(text)  # inline [@fig:…]/[@tbl:…] pointers
+        text, fgs = _process_figures(text, package_dir, slug)
+        figures.extend(fgs)
+        lines = [_demote_heading(ln) for ln in text.splitlines()]
+        parts.append("\n".join(lines).strip())
+    return "\n\n".join(parts).strip(), figures
+
+
+# --------------------------------------------------------------------------- #
 # Chapter sections
 # --------------------------------------------------------------------------- #
 
@@ -393,32 +544,49 @@ def _brief_line(package_dir: Path, slug: str) -> str:
 def build_package_section(
     pkg: PackageInfo,
     package_dir: Path,
-    abstract: str,
     reference_keys: list[str],
     index: int,
-) -> str:
-    """One imported chapter for a package (film or infrastructure)."""
+) -> ImportedChapter:
+    """One imported chapter carrying the package's FULL manuscript.
+
+    The chapter is no longer an abstract-only excerpt: it reproduces the
+    package's complete manuscript — its abstract and every authored section
+    (00..NN) — token-hydrated and nested under the chapter header, plus its
+    ``## Sources`` citation list.  Figure embeds are rewired to the
+    compendium's figure store so the combined PDF carries the package's figures.
+    """
     header = f"# {pkg.title} — {pkg.codename}"
     concepts = ", ".join(pkg.concepts) if pkg.concepts else pkg.phenomena
     brief = _brief_line(package_dir, pkg.slug)
+    abstract = import_package_abstract(package_dir)
+    sections, figures = import_package_sections(package_dir, pkg.slug)
     lines = [
         header,
         "",
         f"*{pkg.kind} package · mission codename {pkg.codename}*." + (f" {brief}" if brief else ""),
         "",
+        "This chapter reproduces the package's complete manuscript verbatim:",
+        "the abstract and every authored section, token-hydrated from the",
+        "package's own manuscript variables, with the package's figures carried",
+        "in the combined PDF and its sources resolved against the unified",
+        "bibliography.",
+        "",
         "## Concepts",
         "",
         concepts,
         "",
-        "## Abstract (imported from the package manuscript)",
+        "## Abstract",
         "",
-        abstract,
+        (abstract or "_This package ships no abstract._"),
         "",
     ]
+    if sections:
+        lines.append(sections)
+        lines.append("")
     if reference_keys:
         cites = "; ".join(f"@{key}" for key in reference_keys)
         lines += ["## Sources", "", cites, ""]
-    return "\n".join(lines)
+    return ImportedChapter(body="\n".join(lines), figures=tuple(figures))
 
 
 def build_architecture_section(packages: list[PackageInfo], bond_root: Path) -> str:

@@ -229,6 +229,8 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **beer1852** — Beer, August. *Bestimmung der Absorption des rothen Lichts in farbigen Flüssigkeiten*.
 
+- **johnson1975** — Johnson, Donald B.. *Finding All the Elementary Circuits of a Directed Graph*.
+
 ## `live_and_let_die`
 
 - **film_lald** — Mankiewicz, Tom. *Live and Let Die*.
@@ -326,6 +328,8 @@ the unified `references.bib`. Keys are cited from the package chapters.
 - **thorp1967analytic** — Thorp, William H.. *Analytic Description of the Low-Frequency Attenuation Coefficient*.
 
 - **urick1983principles** — Urick, Robert J.. *Principles of Underwater Sound*.
+
+- **wenz1962noise** — Wenz, Gordon M.. *Acoustic Ambient Noise in the Ocean: Spectra and Sources*.
 
 - **blakley1979safeguarding** — Blakley, G. R.. *Safeguarding Cryptographic Keys*.
 
@@ -430,6 +434,8 @@ the unified `references.bib`. Keys are cited from the package chapters.
 - **bep_currency** — United States Bureau of Engraving and Printing. *Currency Facts: Denominations and Dimensions*.
 
 - **dea_prices** — United States Drug Enforcement Administration. *Domestic Drug Prices and Pure-Purity Analyses (STRIDE / System to Retrieve Information from Drug Evidence)*.
+
+- **shannon1948** — Shannon, Claude Elwood. *A Mathematical Theory of Communication*.
 
 ## `goldeneye`
 
@@ -605,6 +611,8 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **montgomery2012spc** — Montgomery, Douglas C.. *Introduction to Statistical Quality Control*.
 
+- **brandes2001algorithm** — Brandes, Ulrik. *A Faster Algorithm for Betweenness Centrality*.
+
 ## `spectre`
 
 - **Freeman1979** — Linton C. Freeman. *Centrality in social networks: Conceptual clarification*.
@@ -663,6 +671,8 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **bliss1939toxicity** — Bliss, Chester I. *The toxicity of poisons applied jointly*.
 
+- **lawsonhanson1974** — Lawson, Charles L and Hanson, Richard J. *Solving Least Squares Problems*.
+
 ## `casino_royale_1967`
 
 - **shannon1948communication** — Shannon, Claude E.. *A Mathematical Theory of Communication*.
@@ -689,6 +699,8 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **ross2019probability** — Ross, Sheldon M.. *Introduction to Probability Models*.
 
+- **saltelli2008sensitivity** — Saltelli, Andrea and Ratto, Marco and Andres, Terry and Campolongo, Francesca and Cariboni, Jessica and Gatelli, Debora and Saisana, Michaela and Tarantola, Stefano. *Global Sensitivity Analysis. The Primer*.
+
 - **verhulst1838notice** — Verhulst, Pierre-Francc. *Notice sur la loi que la population suit dans son accroissement*.
 
 - **unicode2023uax15** — The Unicode Consortium. *Unicode Standard Annex #15: Unicode Normalization Forms*.
@@ -708,6 +720,8 @@ the unified `references.bib`. Keys are cited from the package chapters.
 - **stinson_paterson_2018** — Stinson, Douglas R. and Paterson, Maura B.. *Cryptography: Theory and Practice*.
 
 - **iso8601** — . *ISO*.
+
+- **unicode_standard** — . *The Unicode Standard*.
 
 ## `bond-api`
 
@@ -739,6 +753,10 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **swebok2014** — Bourque, Pierre and Fairley, Richard E.. *Guide to the Software Engineering Body of Knowledge (SWEBOK), Version 3.0*.
 
+- **sandve2013tensimplerules** — Sandve, Geir Kjetil and Nekrutenko, Anton and Taylor, James and Hovig, Eivind. *Ten Simple Rules for Reproducible Computational Research*.
+
+- **peng2011reproducibleresearch** — Peng, Roger D.. *Reproducible Research in Computational Science*.
+
 ## `bond-orchestrator`
 
 - **kahn1962topological** — Kahn, Arthur B.. *Topological Sorting of Large Networks*.
@@ -768,6 +786,8 @@ the unified `references.bib`. Keys are cited from the package chapters.
 - **raymond2003unix** — Raymond, Eric S.. *The Art of Unix Programming*.
 
 - **semver2** — Preston-Werner, Tom. *Semantic Versioning 2.0.0*.
+
+- **pythoninspect** — Python Software Foundation. *inspect — Inspect live objects*.
 
 ## `bond-ops`
 

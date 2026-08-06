@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from .compendium import (
+    ImportedChapter,
     PackageInfo,
     Reference,
     build_architecture_section,
@@ -11,10 +12,12 @@ from .compendium import (
     build_references_section,
     discover_packages,
     import_package_abstract,
+    import_package_sections,
     parse_references,
 )
 
 __all__ = [
+    "ImportedChapter",
     "PackageInfo",
     "Reference",
     "build_architecture_section",
@@ -23,5 +26,6 @@ __all__ = [
     "build_references_section",
     "discover_packages",
     "import_package_abstract",
+    "import_package_sections",
     "parse_references",
 ]

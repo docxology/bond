@@ -27,7 +27,7 @@ packages' manuscripts and the coordinator's roster.
 | `parse_references(package_dir, slug)` | `-> list[Reference]` | Parses that package's `manuscript/references.bib` |
 | `build_references_bib(packages, bond_root)` | `-> tuple[str, list[Reference]]` | The unified BibTeX text plus the ordered entry list |
 | `build_architecture_section(packages, bond_root)` | `-> str` | `02_suite_architecture.md`: layer table, roster table, and (when `output/aggregate/gate_manifest.json` exists) a measured-coverage table |
-| `build_package_section(pkg, package_dir, abstract, reference_keys, index)` | `-> str` | One package chapter: header, concepts, imported abstract, `## Sources` |
+| `build_package_section(pkg, package_dir, reference_keys, index)` | `-> ImportedChapter` | The package's **full manuscript** chapter: header, concepts, abstract, every authored section (demoted), `## Sources`; `figures` maps embedded figures to namespaced copies the orchestrator writes to `output/figures/` |
 | `build_references_section(references)` | `-> str` | `99_references.md`, grouped by source package |
 
 Also in `compendium.py`, used by the generator and pinned by tests:

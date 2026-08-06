@@ -13,15 +13,18 @@ bibliography** merged from every package's `references.bib`.
 | --- | --- |
 | `00_abstract.md` · `01_introduction.md` · `90_closing.md` | hand-written wrapper prose (tokens injected) |
 | `02_suite_architecture.md` | generated — layered topology + roster + measured gate |
-| `03_01_…` … `03_27_…` | **generated film chapters** — one per Bond film, abstract imported from the package manuscript |
+| `03_01_…` … `03_27_…` | **generated film chapters** — one per Bond film, the package's **full manuscript** imported (abstract + every authored section + figures) |
 | `04_01_…` … `04_06_…` | **generated infrastructure chapters** (utilities, api, coordinator, orchestrator, cli, ops) |
 | `99_references.md` · `references.bib` | generated — the **unified bibliography** merged from all 33 packages |
 
-Each package chapter imports that package's abstract (token-hydrated from its
-`manuscript_variables.json` when present), its real mission codename/objectives
-(its live `MissionProvider`), its concepts, and its references — cited against
-the unified `references.bib` (110+ merged entries; both real BibTeX and
-plain-numbered lists are handled and de-duplicated by key).
+Each package chapter reproduces that package's **complete manuscript**, not an
+abstract-only excerpt: the abstract and every authored section (introduction,
+methodology, results, conclusion, experimental setup, reproducibility, scope)
+are imported token-hydrated from the package's own `manuscript_variables.json`,
+its figures are carried into the combined PDF, its mission codename/objectives
+are read from its live `MissionProvider`, and its references are merged into
+the unified `references.bib` (both real BibTeX and plain-numbered lists are
+handled and de-duplicated by key).
 
 ## Regenerate + render
 

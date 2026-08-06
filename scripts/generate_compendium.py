@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import shutil
 import sys
 from pathlib import Path
 
@@ -33,7 +34,6 @@ from bond_manuscript import (  # noqa: E402
     build_references_bib,
     build_references_section,
     discover_packages,
-    import_package_abstract,
     parse_references,
 )
 
@@ -68,10 +68,19 @@ def main() -> int:
     # 2) Architecture + roster chapter.
     (manuscript / "02_suite_architecture.md").write_text(build_architecture_section(packages, bond_root) + "\n")
 
-    # 3) One imported chapter per package (films 03_xx, infra 04_xx).
+    # 3) One imported chapter per package (films 03_xx, infra 04_xx). Each
+    #    chapter carries the package's FULL manuscript (abstract + every
+    #    authored section) and its figures, copied into output/figures/ under a
+    #    slug-namespaced name so the combined PDF resolves them without
+    #    colliding across 33 packages.
+    figures_dir = REPO / "output" / "figures"
+    if figures_dir.is_dir():
+        shutil.rmtree(figures_dir)
+    figures_dir.mkdir(parents=True, exist_ok=True)
+
     film_n = infra_n = 0
+    n_figures = 0
     for pkg in packages:
-        abstract = import_package_abstract(bond_root / pkg.slug)
         keys = [ref.key for ref in parse_references(bond_root / pkg.slug, pkg.slug)]
         if pkg.kind == "film":
             film_n += 1
@@ -79,16 +88,24 @@ def main() -> int:
         else:
             infra_n += 1
             filename = f"{'04'}_{infra_n:02d}_{pkg.slug}.md"
-        (manuscript / filename).write_text(
-            build_package_section(pkg, bond_root / pkg.slug, abstract, keys, film_n + infra_n) + "\n"
-        )
+        chapter = build_package_section(pkg, bond_root / pkg.slug, keys, film_n + infra_n)
+        (manuscript / filename).write_text(chapter.body + "\n")
+        for abs_src, dest in chapter.figures:
+            shutil.copy2(abs_src, figures_dir / dest)
+            n_figures += 1
+        # FAIL-LOUD: a discovered package that yields almost no content means
+        # its manuscript could not be imported. Never ship a hollow chapter.
+        if len(chapter.body.splitlines()) < 10:
+            print(f"ERROR: chapter for {pkg.slug} imported almost no content", file=sys.stderr)
+            return 1
 
     # 4) References chapter listing the unified bibliography.
     (manuscript / "99_references.md").write_text("\n".join(build_references_section(all_refs).splitlines()) + "\n")
 
     print(
         f"compendium written: {len(packages)} packages, {len(all_refs)} references, "
-        f"{film_n} film chapters, {infra_n} infra chapters -> {manuscript}"
+        f"{film_n} film chapters, {infra_n} infra chapters, "
+        f"{n_figures} figures -> {manuscript}"
     )
 
     # A provider that stops importing costs its chapter the mission brief line.

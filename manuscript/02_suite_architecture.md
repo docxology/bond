@@ -66,7 +66,7 @@ package below.
 | `goldfinger` | 100.0% |
 | `thunderball` | 100.0% |
 | `you_only_live_twice` | 98.0% |
-| `on_her_majestys_secret_service` | 98.1% |
+| `on_her_majestys_secret_service` | 98.2% |
 | `diamonds_are_forever` | 100.0% |
 | `live_and_let_die` | 97.9% |
 | `the_man_with_the_golden_gun` | 100.0% |
