@@ -1,22 +1,16 @@
 # Spectre (2015) — NINE EYES
 
-*film package · mission codename NINE EYES*. Mission **NINE EYES**: measure surveillance-network centralization and data flow; assess the SPECTRE brotherhood's hierarchy and cell separation; identify critical nodes in the network's geometry.
+*film package · package codename NINE EYES*. Mission **NINE EYES**: measure surveillance-network centralization and data flow; assess the SPECTRE brotherhood's hierarchy and cell separation; identify critical nodes in the network's geometry.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — NINE EYES: domain and operational focus
 
 surveillance networks, org intelligence
 
-## Abstract
+## Abstract — NINE EYES: mission summary
 
 This report describes **Spectre: NINE EYES — Special-Agent Mission Software** (mission codename **NINE EYES**), a special-agent mission-software package modelling the global surveillance programme from the 2015 film *Spectre*. Across 6 pure, deterministic analysis modules (infiltration, network_geometry, org_intel, signal_cover, surveillance_net, traffic_intel) it (i) measures the centralization of a nine-agency surveillance network whose data flows concentrate through hub agencies, (ii) models the SPECTRE brotherhood as a compartmentalized criminal organization with an isolatable command hierarchy, (iii) analyzes the network's geometry to identify the critical nodes whose neutralization most fragments the system, and then extends all three into operations: budgeted traffic interception, compromise cascades through the brotherhood, and sensor-placement set cover. Over the canonical NINE EYES network of 9 agencies and 13 directed data-sharing links, the measured group centralization index over out-degrees is 0.9219: one agency does almost all of the sending. The two directions do not agree. The Herfindahl index of the *inflow* shares is 0.1361 against an even-spread floor of 0.1250 for the 8 agencies that receive anything at all — so receiving is close to evenly distributed, and the concentration this network exhibits is in who sends, not in who is fed. The SPECTRE brotherhood of 7 operatives across 3 cells achieves a compartmentalization of 0.8235 with a command chain that is complete (true) to a height of 2. Geometry analysis finds 1 articulation points; the most load-bearing critical nodes are US, FR, UK. The operational layer adds budgeted *interception* (3 monitoring agencies capture 0.9669 of the exchange), *compromise cascades* through the brotherhood (a turned cell operative reaches leadership with probability 0.58), and *sensor-placement* set cover (4 agencies sweep every target with 0.2500 multi-sensor redundancy). All results are measured by the deterministic NINE EYES mission provider, which implements the frozen `bond_api` `MissionProvider` protocol over a 6-step plan and publishes 6 Q-branch gadgets. Every quantity in this report is injected from that computation; none is hand-authored. *Keywords:* surveillance networks, data-flow centralization, criminal-organisation intelligence, cell compartmentalization, network geometry, critical nodes, cascade coverage, betweenness centrality, articulation points, traffic interception, submodular maximization, compromise cascade, network percolation, sensor-placement set cover, coverage redundancy, deterministic reproducibility
 
-## Introduction
+## Introduction — NINE EYES: mission framing, the operational problem, and how to read this chapter
 
 The Nine Eyes programme — a global surveillance-sharing arrangement among a
 handful of Western intelligence agencies — is the geometric setting of the
@@ -68,7 +62,7 @@ cover and redundancy) — exposed to the BOND suite through a thin
 the canonical data, calls the pure core, and records provenance, which is why
 the protocol can stay frozen while the domain keeps deepening.
 
-## Methodology
+## Methodology — NINE EYES: the analytical models and algorithms that drive the mission
 
 All analysis is deterministic and computed over a fixed, canonical dataset. The
 only stochastic components — the influence cascade and the compromise cascade —
@@ -83,10 +77,10 @@ below.
 The NINE EYES network is a directed graph whose nodes are agencies and whose
 edges are data-sharing links. Out-degree centrality counts the data volume an
 agency pushes downstream; in-degree centrality counts the volume it pulls in.
-Freeman's group centralization index [@Freeman1979]
+Freeman's group centralization index [@freeman1979]
 
 $$
-\Cindex = \frac{\sum_i (s_{\max} - s_i)}{(n - 1)\, s_{\max}}
+\mathrm{C}_{\mathrm{index}} = \frac{\sum_i (s_{\max} - s_i)}{(n - 1)\, s_{\max}}
 $$ 
 
 measures how concentrated the flows are, from 0 (evenly spread) to 1 (a single
@@ -95,11 +89,11 @@ graph on `n` nodes, so `s_max` is passed explicitly as `n - 1` rather than left
 to default to the largest observed score; the two agree on this dataset only
 because the maximum out-degree happens to equal `n - 1`, and on any input where
 it does not, the observed-maximum form reports a different quantity from the
-one written above. The Herfindahl–Hirschman index [@Hirschman1964] of inflow
+one written above. The Herfindahl–Hirschman index [@hirschman1964] of inflow
 shares,
 
 $$
-\HHI = \sum_i \left( \frac{f_i}{\sum_j f_j} \right)^{\!2},
+\mathrm{HHI} = \sum_i \left( \frac{f_i}{\sum_j f_j} \right)^{\!2},
 $$ 
 
 is computed over the normalized in-degree share vector (which sums to 1) and
@@ -110,13 +104,13 @@ is not 0 but `1/r`, and a value near that floor means *even spread*, not
 concentration.
 
 Betweenness centrality — the share of shortest data paths passing through each
-agency — is computed with Brandes' predecessor accumulation [@Brandes2001] and
-drives the node sizing in. Note that
+agency — is computed with Brandes' predecessor accumulation [@brandes2001] and
+drives the node sizing in the network flow centralization figure. Note that
 betweenness and out-degree rank different agencies first: a pure source has no
 inbound edge, so no shortest path passes through it and its betweenness is
 exactly 0 no matter how much it sends.
 
-Cascade coverage runs an independent-cascade process [@Kempe2003] from a
+Cascade coverage runs an independent-cascade process [@kempe2003] from a
 seeding agency at a fixed activation probability. A single run is one Bernoulli
 realization, not an expectation, so the reported coverage is the mean over
 50 realizations whose per-trial seeds are derived from
@@ -147,17 +141,17 @@ falls if that operative is turned.
 
 Connectivity is assessed by connected-component flood fill; articulation points
 (nodes whose removal disconnects the graph) are found with Tarjan's low-link
-depth-first search [@Tarjan1972; @HopcroftTarjan1973]. Global efficiency is the
-Latora–Marchiori mean inverse shortest-path length [@Latora2001]
+depth-first search [@tarjan1972; @hopcrofttarjan1973]. Global efficiency is the
+Latora–Marchiori mean inverse shortest-path length [@latora2001]
 
 $$
-\Eff = \frac{1}{n(n-1)} \sum_{i \neq j} \frac{1}{d(i, j)},
+\mathrm{Eff} = \frac{1}{n(n-1)} \sum_{i \neq j} \frac{1}{d(i, j)},
 $$ 
 
 with unreachable pairs contributing nothing. Critical-node ordering greedily
 removes, at each step, the node whose removal most reduces the *current*
 graph's pairwise connectivity — the targeted-attack simulation of Albert, Jeong
-and Barabási [@Albert2000], scored as a key-player problem [@Borgatti2006].
+and Barabási [@albert2000], scored as a key-player problem [@borgatti2006].
 
 ### Traffic interception
 
@@ -167,9 +161,9 @@ it — inbound as well as outbound — and the coverage of a monitored set is th
 fraction of total traffic those links carry. Because a new agency's marginal
 interception gain shrinks as coverage grows, allocating a monitoring budget is
 a monotone submodular coverage-maximization problem; the greedy rule carries
-the Nemhauser–Wolsey–Fisher `(1 - 1/e)` guarantee [@Nemhauser1978], and the
+the Nemhauser–Wolsey–Fisher `(1 - 1/e)` guarantee [@nemhauser1978], and the
 same structure underlies submodular sensor placement for outbreak detection
-[@Leskovec2007]. Candidate agencies are scanned in sorted label order, so ties
+[@leskovec2007]. Candidate agencies are scanned in sorted label order, so ties
 break by label rather than by however the network's node tuple happens to be
 ordered — a determinism that survives reordering the input.
 
@@ -179,7 +173,7 @@ The infiltration model simulates the brotherhood's defining weakness: turn one
 operative and their cellmates, superior, and subordinates are exposed. A
 round-based cascade propagates this through the organisation, each exposed
 operative turning with a fixed probability — an independent-cascade process
-[@Kempe2003] read as percolation on the org graph [@Newman2002]. Every
+[@kempe2003] read as percolation on the org graph [@newman2002]. Every
 non-terminal round adds at least one operative to the compromised set, which is
 bounded by the organisation's size, so the process terminates without an
 imposed round cap. We report the expected fraction compromised, the rate at
@@ -191,15 +185,15 @@ seed.
 
 The placement model poses the surveillance programme as a set-cover problem
 over agencies × targets: which agencies to place so that the required fraction
-of targets is swept. The greedy set-cover heuristic [@Johnson1974] selects
+of targets is swept. The greedy set-cover heuristic [@johnson1974] selects
 agencies by largest marginal gain and stays within a factor `O(log n)` of the
 minimum cover, which is essentially the best any polynomial-time algorithm can
-guarantee [@Feige1998]; the search stops when no remaining agency adds a target,
+guarantee [@feige1998]; the search stops when no remaining agency adds a target,
 so an unreachable target is reported as a gap rather than looped over. Coverage
 redundancy measures the fraction of targets swept by at least two selected
 agencies — a multi-sensor resilience metric.
 
-## Results
+## Results — NINE EYES: measured outcomes, headline numbers, and what they establish
 
 All values below are produced by the NINE EYES mission provider's `execute`
 step over the canonical dataset and injected as tokens; the same run also
@@ -248,7 +242,7 @@ seeded cascade realizations. This is an estimated expectation, not a single
 draw; individual realizations range widely either side of it, and no single
 realization is quoted anywhere in this report.
 
-> **Figure (in the package manuscript):** The Nine Eyes agency network. Node area is betweenness centrality and arrows are directed data flows. The largest sender (ringed, marked ▸) has betweenness exactly 0 — no shortest path passes through a pure source — so it is drawn at the minimum node size despite originating most of the traffic; the figure title names both readings..
+![The Nine Eyes agency network. Node area is betweenness centrality and arrows are directed data flows. The largest sender (ringed, marked ▸) has betweenness exactly 0 — no shortest path passes through a pure source — so it is drawn at the minimum node size despite originating most of the traffic; the figure title names both readings.](output/figures/spectre_network_flow_centralization.png)
 
 ### Criminal-org cell model
 
@@ -261,7 +255,7 @@ links. Cell compartmentalization measures 0.8235: the
 brotherhood keeps a high (but imperfect) degree of separation between its
 cells, the imperfection coming from command edges that cross cell boundaries.
 
-> **Figure (in the package manuscript):** The SPECTRE brotherhood command tree. Node colour is the operative's cell, the ringed node is Mr White (the operative seeded in the compromise cascade), and the violet-highlighted nodes are the set his turn exposes — cellmates, superior and subordinates — drawn live from `org_intel.exposure`..
+![The SPECTRE brotherhood command tree. Node colour is the operative's cell, the ringed node is Mr White (the operative seeded in the compromise cascade), and the violet-highlighted nodes are the set his turn exposes — cellmates, superior and subordinates — drawn live from `org_intel.exposure`.](output/figures/spectre_brotherhood_cascade.png)
 
 ### Network geometry
 
@@ -273,7 +267,7 @@ US, FR, UK as the agencies whose neutralization most fragments
 the network. In the film, removing exactly this coordinating hub collapses the
 brotherhood's reach — the model reproduces that dependence quantitatively, and
 the ordering is the targeted-attack profile of a hub-dominated network
-[@Albert2000].
+[@albert2000].
 
 ### Traffic interception
 
@@ -302,12 +296,12 @@ The greedy set cover places 4 agencies
 (CA, DE, FR, UK) to sweep the full target set, leaving
 0 targets uncovered. The resulting multi-sensor
 redundancy is 0.2500 — the fraction of targets swept by at
-least two agencies, i.e. the resilience of the sweep to the loss of a single
+least two agencies, i.e. The resilience of the sweep to the loss of a single
 agency. Coverage and redundancy pull against each other: the greedy cover
 optimizes for reaching every target, not for surviving an agency's loss, so a
 placement that maximizes redundancy would need a larger budget.
 
-## Conclusion
+## Conclusion — NINE EYES: findings, verdict, and what the mission establishes
 
 The NINE EYES package demonstrates that a surveillance programme's vulnerability
 is a *geometric* property. The measured out-degree centralization index and the
@@ -348,7 +342,7 @@ environment; the ``bond_api`` ``MissionProvider`` contract is isolated in the
 thin ``spectre.mission`` adapter, ready to be discovered and driven by the BOND
 orchestrator alongside every other package in the fleet.
 
-## Experimental Setup
+## Experimental Setup — NINE EYES: canonical scenarios, parameters, and configuration
 
 ### Dataset
 
@@ -416,7 +410,7 @@ objectives and executing a 6-step plan, one step per
 domain module. It also registers 6 Q-branch gadgets for
 cross-package use.
 
-## Reproducibility
+## Reproducibility — NINE EYES: verification gates, deterministic regeneration, and artifacts
 
 ### Deterministic regeneration
 
@@ -487,7 +481,7 @@ Release 0.1.0, dated 2026-08-04 (from
 `manuscript/config.yaml`), hydrated on Darwin arm64 with Python
 3.14.6.
 
-## Scope and Related Work
+## Scope and Related Work — NINE EYES: boundaries, positioning, and relationship to the literature
 
 ### What this package claims
 
@@ -532,12 +526,12 @@ made for it.
 ### Related work by module
 
 **Centralization and centrality.** Freeman's group centralization index
-[@Freeman1979] is the standard measure of how concentrated a network's degree
+[@freeman1979] is the standard measure of how concentrated a network's degree
 distribution is around a single actor; the general treatment of degree,
-connectivity, and efficiency measures follows Newman [@Newman2010]. Betweenness
-is computed with Brandes' shortest-path accumulation [@Brandes2001]. Flow
+connectivity, and efficiency measures follows Newman [@newman2010]. Betweenness
+is computed with Brandes' shortest-path accumulation [@brandes2001]. Flow
 concentration reuses the Herfindahl–Hirschman index from industrial
-organization [@Hirschman1964] on the inflow-share vector, which gives a
+organization [@hirschman1964] on the inflow-share vector, which gives a
 concentration reading independent of the Freeman index — and, on this dataset,
 a contradicting one (§3). Because the index is bounded below by `1/r` rather
 than by 0, it is reported alongside that floor; quoting an HHI without its
@@ -545,32 +539,32 @@ floor invites reading an evenly-spread vector as a concentrated one, which is
 exactly what an earlier revision of this report did.
 
 **Connectivity geometry.** Articulation points come from Tarjan's low-link
-depth-first search [@Tarjan1972; @HopcroftTarjan1973]. Global efficiency is the
-Latora–Marchiori mean inverse shortest-path length [@Latora2001]. The
+depth-first search [@tarjan1972; @hopcrofttarjan1973]. Global efficiency is the
+Latora–Marchiori mean inverse shortest-path length [@latora2001]. The
 node-removal impact and robustness curve follow the error-and-attack-tolerance
-framing of Albert, Jeong and Barabási [@Albert2000]: fragmenting a
+framing of Albert, Jeong and Barabási [@albert2000]: fragmenting a
 hub-dominated network takes few targeted removals and many random ones. The
 greedy critical-node ordering is a key-player problem in the sense of Borgatti
-[@Borgatti2006], scored by pairwise-connectivity loss.
+[@borgatti2006], scored by pairwise-connectivity loss.
 
 **Cascades.** The surveillance cascade and the infiltration cascade are both
 independent-cascade processes in the sense of Kempe, Kleinberg and Tardos
-[@Kempe2003], which is also where the submodularity of coverage-style influence
+[@kempe2003], which is also where the submodularity of coverage-style influence
 objectives is established. The infiltration model's percolation reading — a
 contagion spreading over a fixed contact structure — follows Newman's treatment
-of epidemic spread on networks [@Newman2002]; here the contact structure is the
+of epidemic spread on networks [@newman2002]; here the contact structure is the
 brotherhood's exposure relation (cellmates, superior, subordinates) rather than
 a social contact graph.
 
 **Budgeted monitoring.** Interception coverage is monotone and submodular in
 the monitored set, so the greedy rule carries the classic `(1 − 1/e)` guarantee
-of Nemhauser, Wolsey and Fisher [@Nemhauser1978]. The same structure underlies
-sensor placement for outbreak detection [@Leskovec2007], which is the closest
+of Nemhauser, Wolsey and Fisher [@nemhauser1978]. The same structure underlies
+sensor placement for outbreak detection [@leskovec2007], which is the closest
 published analogue of the monitoring-allocation problem posed here.
 
 **Placement as set cover.** The sensor-placement layer is minimum set cover,
-solved with Johnson's greedy heuristic [@Johnson1974] at its `O(log n)` factor;
-Feige's threshold [@Feige1998] establishes that no substantially better
+solved with Johnson's greedy heuristic [@johnson1974] at its `O(log n)` factor;
+Feige's threshold [@feige1998] establishes that no substantially better
 polynomial-time approximation exists unless `NP` has quasi-polynomial-time
 algorithms, which is why the greedy solution is reported rather than an exact
 one.
@@ -608,7 +602,7 @@ NINE EYES it obtains through those interfaces.
  two layers deliberately answer different questions and their results should
  not be pooled.
 
-## Sources
+## Sources — NINE EYES: bibliography
 
-@Freeman1979; @Newman2010; @Brandes2001; @Tarjan1972; @Nemhauser1978; @Johnson1974; @Feige1998; @Newman2002; @HopcroftTarjan1973; @Latora2001; @Albert2000; @Borgatti2006; @Hirschman1964; @Kempe2003; @Leskovec2007
+@freeman1979; @newman2010; @brandes2001; @tarjan1972; @nemhauser1978; @johnson1974; @feige1998; @newman2002; @hopcrofttarjan1973; @latora2001; @albert2000; @borgatti2006; @hirschman1964; @kempe2003; @leskovec2007
 

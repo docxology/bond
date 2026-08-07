@@ -7,9 +7,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bond-manuscript"
-version = "2.5.2"
+version = "1.0.0"
 license = {text = "MIT"}
-description = "Fully-tested codebase with numerical optimization and analysis"
+description = "PROJECT BOND special-agent operations compendium and reproducible manuscript renderer"
 authors = [
     {name = "Daniel Ari Friedman", email = "daniel@activeinference.institute"}
 ]
@@ -31,9 +31,9 @@ dependencies = [
 # Local path dependencies so the compendium can import each package's manuscript,
 # the coordinator roster (canonical film metadata), and the frozen protocol.
 [tool.uv.sources]
-bond-api = { path = "/Users/4d/Documents/GitHub/template/projects/working/bond/bond-api" }
-bond-coordinator = { path = "/Users/4d/Documents/GitHub/template/projects/working/bond/bond-coordinator" }
-bond-utilities = { path = "/Users/4d/Documents/GitHub/template/projects/working/bond/bond-utilities" }
+bond-api = { path = "../bond-api" }
+bond-coordinator = { path = "../bond-coordinator" }
+bond-utilities = { path = "../bond-utilities" }
 
 [tool.setuptools.packages.find]
 where = ["src"]

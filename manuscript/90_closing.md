@@ -9,9 +9,9 @@ algorithms, and each exposing a `MissionProvider` against the frozen protocol.
 Every package chapter above carries that package's **full manuscript** — not an
 abstract-only excerpt. The abstract, the introduction, the methodology, the
 results, the conclusion, the experimental setup, the reproducibility
-statement, and the scope are all reproduced verbatim, token-hydrated from the
-package's own manuscript variables, with the package's figures embedded in the
-combined PDF and its sources resolved against the unified bibliography.
+statement, and the scope are all imported from the package's authored manuscript
+and token-hydrated from its own variables. The package's figures are embedded
+in the combined PDF, with citations resolved against the unified bibliography.
 
 The suite is more than the sum of its films. Through the orchestrator, missions
 run *across* films: OPERATION OMNIBUS chains **goldfinger** (market-attack
@@ -20,7 +20,7 @@ countermeasure), producing a single consolidated debrief with provenance on
 every outcome. The coordinator reconciles the fleet's real codenames and
 gadgets into a situation room. The front-door CLI exposes the whole surface.
 
-The quality bar held across the fleet:
+The quality bar and the evidence supporting it:
 
 - **Comprehensiveness** — the compendium imports all {{N_PACKAGES}} full
   manuscripts, figures included, so no package content is lost in the wrapper.

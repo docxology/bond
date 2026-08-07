@@ -1,22 +1,16 @@
 # Live and Let Die (1973) — SAN MONIQUE
 
-*film package · mission codename SAN MONIQUE*. Mission **SAN MONIQUE**: map the narcotics supply graph and identify the critical transit bottleneck; decipher the voodoo-coded communiqué by symbol-substitution; plan an infiltration route across crocodile terrain to the airfield.
+*film package · package codename SAN MONIQUE*. Mission **SAN MONIQUE**: map the narcotics supply graph and identify the critical transit bottleneck; decipher the voodoo-coded communiqué by symbol-substitution; plan an infiltration route across crocodile terrain to the airfield.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — SAN MONIQUE: domain and operational focus
 
 narcotics networks, coded comms
 
-## Abstract
+## Abstract — SAN MONIQUE: mission summary
 
---- title: "Live and Let Die: SAN MONIQUE — Special-Agent Mission Software" date: "2026-08-05" --- # Abstract Live and Let Die: SAN MONIQUE — Special-Agent Mission Software (mission codename **SAN MONIQUE**) delivers deterministic, special-agent mission software for Kananga's narcotics operation on the Caribbean island of San Monique. The system models the narcotics supply chain as a directed, capacity-constrained graph of 7 nodes and 10 legs spanning production, transit, and market. It recovers the cheapest route to each destination market (13 units to Miami), computes the maximum network throughput (220 units, capped by a min-cut value of 220), and identifies the single highest-value interdiction target: the **airfield**, whose neutralization stops 110 of those 220 units. Both figures are measured on the same demand-capped flow model; the min cut itself is demand-limited and names no severable asset, so the target comes from the disruption probe and not from the cut. Building on the graph core, a **budgeted interdiction** study shows the network is operationally fragile: an optimal 3-leg strike plan (greedy 220 units, exact optimum 220) severs the entire 220-unit operation, and the top individual target leg, field_works→harbor, is worth 50 units alone. The intelligence layer deciphers both a voodoo-coded communiqué by keyword symbol-substitution (key BARON, recovering *"KANANGA LETS THE SNAKE BITE"*) and a 195-beat drum-code transmission (exact round-trip, density 0.441) carrying *"KANANGA LETS THE SNAKE BITE"*. A market-flow economic model traces price and purity from the farm gate (300 $/kg) to the street, yielding a farm gate-to-street spread of 59× and a producer share of 1.7% of the 3888000 $ gross revenue. Those two numbers are arithmetic consequences of invented scenario parameters, not empirical estimates — see §Scope. Finally, a terrain-graph infiltration planner routes an agent from the south landing beaches to the airfield at cost 41, wading 4 crocodile-water cells against a computed floor of 4 over every possible route. All analyses are deterministic, real-data-only, and fully provenance-stamped (input hash `46044979efeafa09`).
+--- title: "Live and Let Die: SAN MONIQUE — Special-Agent Mission Software" date: "2026-08-05" --- Live and Let Die: SAN MONIQUE — Special-Agent Mission Software (mission codename **SAN MONIQUE**) delivers deterministic, special-agent mission software for Kananga's narcotics operation on the Caribbean island of San Monique. The system models the narcotics supply chain as a directed, capacity-constrained graph of 7 nodes and 10 legs spanning production, transit, and market. It recovers the cheapest route to each destination market (13 units to Miami), computes the maximum network throughput (220 units, capped by a min-cut value of 220), and identifies the single highest-value interdiction target: the **airfield**, whose neutralization stops 110 of those 220 units. Both figures are measured on the same demand-capped flow model; the min cut itself is demand-limited and names no severable asset, so the target comes from the disruption probe and not from the cut. Building on the graph core, a **budgeted interdiction** study shows the network is operationally fragile: an optimal 3-leg strike plan (greedy 220 units, exact optimum 220) severs the entire 220-unit operation, and the top individual target leg, field_works→harbor, is worth 50 units alone. The intelligence layer deciphers both a voodoo-coded communiqué by keyword symbol-substitution (key BARON, recovering *"KANANGA LETS THE SNAKE BITE"*) and a 195-beat drum-code transmission (exact round-trip, density 0.441) carrying *"KANANGA LETS THE SNAKE BITE"*. A market-flow economic model traces price and purity from the farm gate (300 $/kg) to the street, yielding a farm gate-to-street spread of 59× and a producer share of 1.7% of the 3888000 $ gross revenue. Those two numbers are arithmetic consequences of invented scenario parameters, not empirical estimates — see §Scope. Finally, a terrain-graph infiltration planner routes an agent from the south landing beaches to the airfield at cost 41, wading 4 crocodile-water cells against a computed floor of 4 over every possible route. All analyses are deterministic, real-data-only, and fully provenance-stamped (input hash `46044979efeafa09`).
 
-## Introduction
+## Introduction — SAN MONIQUE: mission framing, the operational problem, and how to read this chapter
 
 *Live and Let Die* (1973) follows James Bond to the fictional Caribbean
 island of San Monique, where the villain Kananga — governor by day, narcotics
@@ -59,7 +53,7 @@ debriefing distils actionable lessons with full provenance (fixed seed
 6 named gadgets so a coordinator can invoke any one of them
 directly, without running the full mission.
 
-## Methodology
+## Methodology — SAN MONIQUE: the analytical models and algorithms that drive the mission
 
 ### Supply-graph analytics
 
@@ -161,7 +155,7 @@ the second number licenses a universally quantified claim. The two are distinct
 quantities: where a crocodile-free detour exists the cheapest route may wade
 while the minimum is zero.
 
-## Results
+## Results — SAN MONIQUE: measured outcomes, headline numbers, and what they establish
 
 All figures below are deterministic and regenerable from the source tree.
 
@@ -186,8 +180,8 @@ critical transit node is the **airfield**: neutralizing it removes
 110 of the 220 units the network moves — the
 highest-value single interdiction on the island.
 
-> **Figure (in the package manuscript):** The San Monique supply network: cheapest production-to-Miami route and the
-critical transit node highlighted..
+![The San Monique supply network: cheapest production-to-Miami route and the
+critical transit node highlighted.](output/figures/live_and_let_die_supply_graph.png)
 
 ### Interdiction
 
@@ -200,8 +194,8 @@ for the same 220-unit total — the entire operation
 collapses. The single most valuable leg on the target list is
 field_works→harbor (50 units alone).
 
-> **Figure (in the package manuscript):** Greedy versus exhaustive-optimal throughput reduction across strike
-budgets..
+![Greedy versus exhaustive-optimal throughput reduction across strike
+budgets.](output/figures/live_and_let_die_interdiction_curve.png)
 
 ### Communiqués
 
@@ -261,10 +255,10 @@ both flanks, so no overland approach to the airfield — at any movement cost �
 wades fewer than 4. The cheapest route achieves that
 floor exactly.
 
-> **Figure (in the package manuscript):** The terrain grid with the planned infiltration route
-overlaid..
+![The terrain grid with the planned infiltration route
+overlaid.](output/figures/live_and_let_die_island_route.png)
 
-## Conclusion
+## Conclusion — SAN MONIQUE: findings, verdict, and what the mission establishes
 
 The SAN MONIQUE mission software turns the Live and Let Die set pieces into
 deterministic, auditable computation. The narcotics operation is demand-capped
@@ -291,7 +285,7 @@ Every result is reproducible from a fixed seed with a canonical input hash
 flow-based network interdiction, classical and rhythm-based cryptanalysis, and
 narcotics economics unified under a frozen mission protocol.
 
-## Experimental Setup
+## Experimental Setup — SAN MONIQUE: canonical scenarios, parameters, and configuration
 
 ### Dataset
 
@@ -344,7 +338,7 @@ and fails if a figure is missing or renamed:
 - `island_route.png` — the terrain grid with the planned infiltration route
  overlaid.
 
-## Reproducibility
+## Reproducibility — SAN MONIQUE: verification gates, deterministic regeneration, and artifacts
 
 Every number in this manuscript is computed, never typed: the thin orchestrator
 `scripts/z_generate_manuscript_variables.py` calls `generate_variables` in
@@ -395,7 +389,7 @@ uv run mypy src/
 rg -n "template[_]code_project". # expectation: zero
 ```
 
-## Scope and Related Work
+## Scope and Related Work — SAN MONIQUE: boundaries, positioning, and relationship to the literature
 
 This package is one film in the PROJECT BOND suite of 33 packages: 27 film
 packages implementing a shared, FROZEN mission protocol
@@ -479,7 +473,7 @@ the last unit, but they should be read as "exact given these invented
 parameters", never as empirical estimates. This is the honest scope of the
 whole suite, and it is enforced by the test gates rather than stated once.
 
-## Sources
+## Sources — SAN MONIQUE: bibliography
 
 @film_lald; @cormen2009; @wood1993; @stinson2019; @itu2009; @reuter1986; @caulkins2010
 

@@ -1,22 +1,16 @@
 # Never Say Never Again (1983) — REPLAY
 
-*film package · mission codename REPLAY*. Mission **REMOUNT**: replay the legacy operation as a remount; diff the original vs remount outcomes; migrate the legacy intelligence assets; assess remount detection risk and mission reliability; allocate remastered assets by marginal gain; forecast the replay learning curve.
+*film package · package codename REPLAY*. Mission **REMOUNT**: replay the legacy operation as a remount; diff the original vs remount outcomes; migrate the legacy intelligence assets; assess remount detection risk and mission reliability; allocate remastered assets by marginal gain; forecast the replay learning curve.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — REPLAY: domain and operational focus
 
 legacy remount, replay
 
-## Abstract
+## Abstract — REPLAY: mission summary
 
 **Never Say Never Again: REMOUNT — Special-Agent Mission Software** (Replaying a legacy operation: op diff, intel migration, escalation risk, marginal-gain allocation, and replay learning, version 0.1.0) presents REMOUNT, a deterministic engine for *legacy mission replay*. When an operation is re-opened years after its original run, its scenario must be re-executed — as a *remount* — with remastered intelligence, its outcomes compared against the original, and its legacy assets migrated so they can be consumed safely again. Drawing on the 1983 film *Never Say Never Again* — itself a remount of the 1965 *Thunderball* operation (Never Say Never Again, mission codename REMOUNT) — the engine models each of 4 objectives through a smooth success curve over effective intel versus difficulty. The canonical replay yields an original command score of 0.3111 and a remount command score of 0.5161 (weighted delta +0.2050, overall verdict *improved*). Per-objective, the remount improves 4 objectives, regresses 0, and leaves 0 unchanged, lifting the count of fulfilled objectives from 1 to 3. The engine migrates 3 legacy intelligence dossiers (1 gadget, 2 intel), re-fingerprinting each (SHA-256) so the remount can verify integrity before consumption (catalog fingerprint 1a1e05c4f464). The remount is not costless. Replaying the op accumulates a detection hazard: over a campaign of replay operations the probability of alerting the adversary reaches 0.7769 (expected 4.00 operations before alert), while the mission's block-structured reliability is 0.9578 — a campaign expected value of +18.10. Scarce remastered assets are therefore allocated by marginal gain (6 assets deployed, 0.8030 of the saturation ceiling), and repeated rehearsal pushes the command score along an exponential learning curve toward 0.7010 (delta +0.3899, reaching the target by iteration 3). Everything computes deterministically — no random draws, no external calls — so the remount is reproducible to the byte on Python 3.14.6 (document date 2026-08-05). Every quantity above is a token injected from the running code; none is transcribed by hand. The models themselves are standard and cited, not invented here: the contribution is their deterministic, auditable composition into a single remount pipeline, evaluated at one canonical parameter set rather than calibrated against operational data.
 
-## Introduction
+## Introduction — REPLAY: mission framing, the operational problem, and how to read this chapter
 
 ### Never Say Never Again and the remount battalion
 
@@ -67,7 +61,7 @@ makes **no random draws and no external calls**: its success model is a fixed
 Logistic curve, its hashing is canonical SHA-256, and two runs under the same
 inputs are byte-identical.
 
-## Methodology
+## Methodology — REPLAY: the analytical models and algorithms that drive the mission
 
 ### Scenario model
 
@@ -218,7 +212,7 @@ is one-dimensional — it perturbs one parameter at a time rather than sampling
 the joint space — which is appropriate for binding two specific conclusions but
 is not a general global-sensitivity decomposition.
 
-## Results
+## Results — REPLAY: measured outcomes, headline numbers, and what they establish
 
 ### Command score
 
@@ -236,9 +230,9 @@ to 0.5161, a weighted delta of +0.2050. Per
 objective, 4 improve, 0 regress, and
 0 are unchanged.
 
-### Figure: original vs remount
+**Figure — original versus remount objective scores.**
 
-> **Figure (in the package manuscript):** Op diff — original vs remount objective scores.
+![Op diff — original versus remount objective scores](output/figures/never_say_never_again_op_diff_scores.png)
 
 The grouped bar figure (rendered by `src/never_say_never_again/figures.py`
 into `output/figures/op_diff_scores.png`) shows each objective's score under
@@ -255,7 +249,7 @@ catalog-wide stable fingerprint — the SHA-256 over the sorted
 declared fingerprint does not match its content, so a tampered legacy record
 cannot silently enter the remount.
 
-> **Figure (in the package manuscript):** Migrated asset distribution.
+![Migrated asset distribution](output/figures/never_say_never_again_asset_distribution.png)
 
 ### Remount risk
 
@@ -309,7 +303,7 @@ within the `(1 - 1/e)` factor of the general submodular bound — checked in
 `tests/test_asset_allocator.py` against the maximum over every feasible split
 of the budget, with the unweighted-selection variant failing the same check.
 
-> **Figure (in the package manuscript):** Marginal-gain asset allocation.
+![Marginal-gain asset allocation](output/figures/never_say_never_again_asset_allocation.png)
 
 ### Replay learning curve
 
@@ -325,7 +319,7 @@ both ends of the curve are computed by the engine rather than posited. A target
 at or above that asymptote is reported as unreachable rather than as met on the
 first iteration — the curve approaches its asymptote but never attains it.
 
-> **Figure (in the package manuscript):** Replay learning curve.
+![Replay learning curve](output/figures/never_say_never_again_learning_curve.png)
 
 ### Sensitivity and robustness
 
@@ -342,7 +336,7 @@ hold:
 | Detection rate | [0.05, 1] | [0.050, 0.527] | conclusion (b) breaks at high rate (false = spans) |
 | Learning rate | [0.05, 1] | [0.050, 1.000] | affects neither (a) nor (b) (true = spans) |
 
-> **Figure (in the package manuscript):** Sensitivity sweep — robust parameter sub-ranges.
+![Sensitivity sweep — robust parameter sub-ranges](output/figures/never_say_never_again_sensitivity_sweep.png)
 
 Interpretation. The remount-improvement conclusion is *not* a knife-edge of the
 logistic steepness: it holds across the entire declared sensitivity sweep,
@@ -354,7 +348,7 @@ and the expected value turns negative — so "keep the remount short" depends on
 the adversary's per-replay acuity. The learning rate, by construction, fights
 neither battle, and the analysis says so rather than pretending it does.
 
-## Conclusion
+## Conclusion — REPLAY: findings, verdict, and what the mission establishes
 
 REMOUNT (REMOUNT) demonstrates a clean, deterministic answer to
 the legacy-mission re-open: re-run the scenario, diff the outcomes, and migrate
@@ -400,7 +394,7 @@ this model's behaviour — reproducible to the byte, robust where the analysis
 shows them to be, and open to being falsified by anyone who reruns it — rather
 than claims about the world. The full list of bounds is in the scope section.
 
-## Experimental setup
+## Experimental Setup — REPLAY: canonical scenarios, parameters, and configuration
 
 ### Canonical dataset
 
@@ -454,7 +448,7 @@ so every outcome is deterministic. Figures render with the Agg backend and are
 byte-identical across runs. Manuscript variables are injected — they are never
 hand-authored in prose.
 
-## Reproducibility
+## Reproducibility — REPLAY: verification gates, deterministic regeneration, and artifacts
 
 ### Determinism by construction
 
@@ -506,7 +500,7 @@ rg -n "template[_]code_project". --glob '!uv.lock' --glob '!.git/**'
 This manuscript is produced on Python 3.14.6; its document date is
 2026-08-05.
 
-## Scope and related work
+## Scope and Related Work — REPLAY: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -566,7 +560,7 @@ These are real bounds on what the results support, not caveats-as-decoration.
  headline conclusions hold under single-parameter variation; it is not a global
  variance decomposition, so it cannot rank second-order parameter interactions.
 
-## Sources
+## Sources — REPLAY: bibliography
 
 @bond_api; @bond_utilities; @nemhauser1978submodular; @wright1936learning; @barlow1975reliability; @ross2019probability; @saltelli2008sensitivity; @verhulst1838notice; @nist2015fips180; @unicode2023uax15
 

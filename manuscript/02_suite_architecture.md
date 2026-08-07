@@ -1,10 +1,10 @@
-# Suite Architecture
+# Suite Architecture — layered topology, package roster, and measured gate
 
 PROJECT BOND is a 33-package fleet: 27 film packages, each a standalone
 software package implementing its film's concepts, plus 6 mission-
 infrastructure packages that provide the contract and the operation.
 
-## Layers
+## Layered topology and execution responsibilities
 
 | Layer | Packages |
 | --- | --- |
@@ -19,7 +19,7 @@ Every film implements the frozen `bond_api` `MissionProvider` and is
 discovered by `bond_api.discovery`. The compendium imports one chapter per
 package below.
 
-## Roster
+## Complete package roster and mission codenames
 
 | # | Package | Codename |
 |---|---------|----------|
@@ -51,13 +51,13 @@ package below.
 | 26 | `casino_royale_1967` — Casino Royale (1967) | FIVE BONDS |
 | 27 | `never_say_never_again` — Never Say Never Again (1983) | REPLAY |
 | 28 | `bond-utilities` — Bond Utilities | Q-BRANCH |
-| 29 | `bond-api` — Bond Api | THE PROTOCOL |
+| 29 | `bond-api` — Bond API | THE PROTOCOL |
 | 30 | `bond-coordinator` — Bond Coordinator | MISSION CONTROL |
 | 31 | `bond-orchestrator` — Bond Orchestrator | DAG 00 |
-| 32 | `bond-cli` — Bond Cli | THE FRONT DOOR |
-| 33 | `bond-ops` — Bond Ops | QUARTERMASTER |
+| 32 | `bond-cli` — Bond CLI | THE FRONT DOOR |
+| 33 | `bond-ops` — Bond Operations | QUARTERMASTER |
 
-## Measured gate
+## Aggregate quality gate and coverage evidence
 
 | Package | Coverage |
 | --- | --- |

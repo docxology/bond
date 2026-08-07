@@ -1,22 +1,16 @@
 # From Russia with Love (1963) — LEKTOR
 
-*film package · mission codename LEKTOR*. Mission **LURES**: evaluate a deception lure campaign via the entrapment engine; allocate the lure budget across the analytical target pool; intercept and decipher an encoded SIGINT channel; geolocate the transmitter by TDOA direction finding; schedule defector-handoff rendezvous within time windows; execute the green-pathed defector handoff protocol.
+*film package · package codename LEKTOR*. Mission **LURES**: evaluate a deception lure campaign via the entrapment engine; allocate the lure budget across the analytical target pool; intercept and decipher an encoded SIGINT channel; geolocate the transmitter by TDOA direction finding; schedule defector-handoff rendezvous within time windows; execute the green-pathed defector handoff protocol.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — LEKTOR: domain and operational focus
 
 entrapment ops, SIGINT interception, defector handoff
 
-## Abstract
+## Abstract — LEKTOR: mission summary
 
 From Russia with Love: LURES — Special-Agent Mission Software — mission codename LURES — is a deterministic mission-software package in the PROJECT BOND suite. Its analytical core implements 6 interlocking engines drawn from the film *From Russia with Love* (1963): an entrapment/deception playbook engine that evaluates bait profiles and drives trap state machines; a lure-budget allocation engine that solves the exact 0/1 knapsack over an analytical target pool; a SIGINT channel interception simulation that captures, deciphers, and traffic-segments an encoded radio channel; a TDOA direction-finding engine that geolocates the transmitter by Gauss–Newton hyperbolic localisation; a courier scheduler that fits handoff rendezvous into time windows; and a defector handoff protocol whose meet / challenge / confirm / abort state machine gates a source transfer on a pre-arranged confirm code. Where a problem admits both a cheap heuristic and an expensive exact solver, the package runs both and reports the gap rather than assuming it away: the knapsack allocator is scored against a profit-density greedy baseline, and the courier scheduler — whose underlying problem is NP-hard once meets carry release times and deadlines — against an exact subset dynamic program. On the canonical scenario the heuristic schedule completes 4 of 5 rendezvous against a true optimum of 4. All outputs are reproducible: every stage is driven by fixed seeds and exact mathematical models, so the same inputs always yield the same lure allocation, recovered plaintext, localisation, schedule, and handoff path. Keywords: entrapment playbook, 0/1 knapsack allocation, SIGINT interception, cipher deciphering, TDOA direction finding, interval scheduling, defector handoff protocol, state machine, deterministic simulation, mission software.
 
-## Introduction
+## Introduction — LEKTOR: mission framing, the operational problem, and how to read this chapter
 
 Mission codename **LURES** implements the operational concepts behind *From
 Russia with Love* (1963) as a small, testable mission-software package. The
@@ -67,7 +61,7 @@ turns out to be optimal on that instance.
 - Section 06 — reproducibility, determinism, and the artifact inventory.
 - Section 07 — scope boundaries and related work.
 
-## Methodology
+## Methodology — LEKTOR: the analytical models and algorithms that drive the mission
 
 ### 2.1 Entrapment / deception playbook engine
 
@@ -219,7 +213,7 @@ $$
 Only an exact confirm-code match advances to `CONFIRM`; any other confirm
 code lands the protocol in `ABORT` (the red-path drill).
 
-## Results
+## Results — LEKTOR: measured outcomes, headline numbers, and what they establish
 
 All figures and numbers below are produced live by the package's engines and
 injected as generated tokens; none are hand-authored. Regenerating the token map
@@ -282,7 +276,7 @@ profit-density pick blocks the optimal one — the exact allocation reaches
 solver merely greedy in disguise, this gap would collapse to zero, and the
 test suite pins it.
 
-> **Figure (in the package manuscript):** LURE surface: bite probability vs. lure strength and target susceptibility..
+![LURE surface: bite probability vs. lure strength and target susceptibility.](output/figures/from_russia_with_love_lure_surface.png)
 
 ### 3.2 SIGINT interception
 
@@ -327,7 +321,7 @@ realisation may land on either side of it (as it does here), and a degenerate
 array with no finite accuracy has an infinite bound rather than a fabricated
 confidence.
 
-> **Figure (in the package manuscript):** TDOA geometry: intercept sites, true transmitter, and estimate..
+![TDOA geometry: intercept sites, true transmitter, and estimate.](output/figures/from_russia_with_love_tdoa_geometry.png)
 
 ### 3.4 Handoff scheduling
 
@@ -364,7 +358,7 @@ given a deliberately wrong confirm code — ended in
 handoff, and that a failed confirm is an ordinary terminal outcome rather
 than an exception.
 
-## Conclusion
+## Conclusion — LEKTOR: findings, verdict, and what the mission establishes
 
 LURES turns the operational fiction of a Cold-War deception mission into a
 small, fully deterministic mission-software package. The
@@ -407,7 +401,7 @@ whole distribution. A deterministic mission model that states its own
 uncertainty is more useful — and more defensible — than one that merely looks
 deterministic.
 
-## Experimental Setup
+## Experimental Setup — LEKTOR: canonical scenarios, parameters, and configuration
 
 ### Where the parameters live
 
@@ -461,7 +455,7 @@ the site spacing row is what converts it to units of site spacing.
 | Package version | 0.1.0 |
 | Manuscript date (`config.yaml` `paper.date`) | 2026-08-04 |
 
-## Reproducibility
+## Reproducibility — LEKTOR: verification gates, deterministic regeneration, and artifacts
 
 ### Determinism
 
@@ -524,7 +518,7 @@ to fail.
 | TDOA geometry figure | `output/figures/tdoa_geometry.png` |
 | Manuscript variable map | `output/data/manuscript_variables.json` |
 
-## Scope and Related Work
+## Scope and Related Work — LEKTOR: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -600,7 +594,7 @@ rather than implying that a deterministic single number is a confident one:
 - **Localisation** — hyperbolic (TDOA) position estimation. The solver
  implemented in `direction_finding.py` is the **iterative Taylor-series /
  Gauss–Newton** estimator [@foy1976position; @torrieri1984statistical],
- i.e. the standard non-linear least-squares iteration
+ i.e. The standard non-linear least-squares iteration
  [@nocedal2006numerical] applied to the pair TDOA residuals from a receiver
  centroid start. It is *not* the Chan & Ho estimator
  [@chan1994hyperbolic]: that is a **closed-form, non-iterative** two-stage
@@ -618,7 +612,7 @@ rather than implying that a deterministic single number is a confident one:
 - **Source material** — Ian Fleming's novel [@fleming1957russia], of which the
  1963 film is an adaptation.
 
-## Sources
+## Sources — LEKTOR: bibliography
 
 @bond_api; @bond_utilities; @foy1976position; @torrieri1984statistical; @chan1994hyperbolic; @nocedal2006numerical; @martello1990knapsack; @bellman1957dynamic; @kleinberg2005algorithm; @garey1979computers; @proakis2008digital; @shannon1949secrecy; @nist2015fips180; @cox1958regression; @fleming1957russia
 

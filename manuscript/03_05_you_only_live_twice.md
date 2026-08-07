@@ -1,22 +1,16 @@
 # You Only Live Twice (1967) — BIRD ONE
 
-*film package · mission codename BIRD ONE*. Mission **VOLCANO**: solve space-capsule rendezvous and intercept windows; engineer the orbital capture and phasing of the enemy capsule; detect the concealed volcano-camouflaged lair; localize the hidden base by Bayesian cue fusion and RF emission; plan the infiltration route into the lair; characterize the adversary base pattern of life.
+*film package · package codename BIRD ONE*. Mission **VOLCANO**: solve space-capsule rendezvous and intercept windows; engineer the orbital capture and phasing of the enemy capsule; detect the concealed volcano-camouflaged lair; localize the hidden base by Bayesian cue fusion and RF emission; plan the infiltration route into the lair; characterize the adversary base pattern of life.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — BIRD ONE: domain and operational focus
 
 orbital capture, hidden-base discovery
 
-## Abstract
+## Abstract — BIRD ONE: mission summary
 
 YOU ONLY LIVE TWICE (1967), mission codename VOLCANO, is special-agent mission software for the adversary-prosecution problem a single agent faces when the enemy's base is hidden inside a volcano and the enemy's capsule must be swallowed out of orbit. This package implements seven deterministic, quantitative capabilities and reports them through the frozen BOND-API mission protocol. The **rendezvous / intercept solver** propagates two circular orbits under two-body Keplerian mechanics and finds every contiguous window where the chase spacecraft can acquire the target: the nominal scenario yields 1 window(s) in a one-day horizon, opening at 32940.0 seconds with a peak elevation of 82.77°, and a coplanar Hohmann intercept costs 133.4 m/s over 2943.0 seconds. The **orbital capture** model then turns this into a phasing problem — the platform waits 31989.1 seconds for the 4.69° lead angle and grapples with a 982.8 m/s velocity-matching burn inside 1 capture window(s). The **concealed-lair detector** fuses thermal and terrain anomaly scoring to locate a volcano-camouflaged structure, reporting 6 candidate region(s), the strongest with a fused score of 8.55. The **hidden-base discovery** engine then fuses those cues with passive RF and a terrain-weighted prior, reaching the injected 80-cell lair footprint at rank 1 of 4096 candidate sites (P-found-within-10-sites 0.9999); the injected *centre cell* is not recovered — it ranks 80, 5656.9 m from the posterior peak. The **infiltration planner** routes an agent to the lair on a slope/thermal/guard-exposure cost surface, cutting route cost by 36.11 % over a goal-reaching greedy baseline, and the **emitter locator** fixes the base's transmitter by TDOA multilateration to within 3.7912 m using 5 passive sensors whose timings carry a 10.0 ns jitter, backed by a deterministic 6-level error envelope vs jitter. Finally the **pattern-of-life analyzer** reads a week of base activity (311 events), finding 2 daily operating window(s) (07-09h; 19-21h) with a medium operational tempo and duty cycle 0.679. Every number above is computed, never hand-authored: the manuscript renders entirely from the deterministic scenario (seed 1967, provenance 69984c9e423de2cf).
 
-## Introduction
+## Introduction — BIRD ONE: mission framing, the operational problem, and how to read this chapter
 
 In *You Only Live Twice* (1967), the adversary's base is a volcano that swallows
 spacecraft whole, and the mission is won by knowing *where* the enemy is and
@@ -59,7 +53,7 @@ The remainder of the manuscript details the methodology (Section 2), the
 results (Section 3), the experimental setup (Section 5), and reproducibility
 (Section 6).
 
-## Methodology
+## Methodology — BIRD ONE: the analytical models and algorithms that drive the mission
 
 This section states the mathematics behind each of the seven capabilities.
 Everything is standard, deterministic, and free of hidden randomness.
@@ -221,7 +215,7 @@ comes from the normalized autocorrelation, contiguous hours above a percentile
 are **peak operating windows**, and tempo is classified from the mean event
 rate.
 
-## Results
+## Results — BIRD ONE: measured outcomes, headline numbers, and what they establish
 
 All results come from the deterministic VOLCANO scenario (seed
 1967, provenance hash 69984c9e423de2cf) and are injected as
@@ -232,8 +226,7 @@ tokens — none are hand-authored.
 Over a one-day horizon the geometry admits 1
 rendezvous window(s). The first opens at 32940.0 seconds
 after mission start and lasts 1020.0 seconds, peaking
-at a target elevation of 82.77°. Figure
- shows the slant-range and elevation evolution with the
+at a target elevation of 82.77°. The rendezvous figure shows the slant-range and elevation evolution with the
 accepted window shaded.
 
 ![Rendezvous geometry: slant range (top) and target elevation (bottom) vs time, with the viable window shaded.](output/figures/you_only_live_twice_rendezvous_windows.png)
@@ -250,7 +243,7 @@ Adding the capture envelope (range + relative-speed constraint) yields
 2400.0 seconds; the grapple still needs a
 velocity-matching burn of 982.8 m/s. The phasing solution
 requires a 4.69° lead angle, reached after a
-31989.1 second wait. Figure shows the range
+31989.1 second wait. The capture figure shows the range
 and relative-speed profile with the capture window shaded.
 
 ![Orbital capture: slant range (top) and relative speed (bottom) vs time, with the grapple window shaded.](output/figures/you_only_live_twice_orbital_capture.png)
@@ -261,7 +254,7 @@ The thermal and terrain anomaly fusion surfaces
 6 candidate region(s); the strongest covers
 272 cells with a fused score of
 8.55 (thermal 7.622, terrain
-9.478). Figure shows the raw scenes and the
+9.478). The lair figure shows the raw scenes and the
 fused anomaly map with the top candidate boxed.
 
 Measured against the injected facility — a 80-cell shelf
@@ -311,7 +304,7 @@ Independently of any ground truth, the posterior-weighted expected effort — th
 mean number of sites a greedy search inspects, $\sum_k k\,P(c_k)$ — is
 1.05 cell(s) against a uniform-prior expectation
 of half the field, and the search finds a footprint cell within ten sites with
-probability 0.9999. Figure shows the
+probability 0.9999. The discovery figure shows the
 posterior map with the injected footprint, the injected centre, and the
 posterior peak marked separately.
 
@@ -325,8 +318,7 @@ in 48 steps at a total cost of
 115.557 — a 36.11 % cost
 reduction (fraction 0.3611) — accruing a thermal exposure
 of 2.0694 over 922 expanded cells.
-Figure
- shows the cost field and the optimal route.
+The infiltration figure shows the cost field and the optimal route.
 
 ![Infiltration route: movement-cost field with the optimal route (red), entry (green), lair (cyan) and guard posts (orange).](output/figures/you_only_live_twice_infiltration_route.png)
 
@@ -338,7 +330,7 @@ transmitter to within 3.7912 m of the injected emitter in
 differences carrying a 10.0 ns (1σ) timing jitter, applied
 before the conversion to ranges, so this error is an achieved accuracy that can
 degrade — not the machine-zero a noise-free round trip through the same forward
-model returns by construction. Figure shows the sensor ring, the
+model returns by construction. The emitter figure shows the sensor ring, the
 range-difference hyperbolae converging on the injected transmitter, and the
 converged fix, imagery candidate and injected truth marked separately.
 
@@ -352,7 +344,7 @@ sweeping σₜ over (0.0, 10.0, 20.0, 50.0, 100.0, 200.0) ns gives mean errors o
 (0.0, 2.0, 3.6, 9.7, 19.2, 41.3) m respectively. The mean error rises from zero
 (the noiseless round-trip identity) to 41.3 m at
 200.0 ns — a monotone envelope for this geometry,
-reported through Figure rather than asserted.
+reported through the emitter envelope figure rather than asserted.
 
 ![Emitter accuracy envelope: mean localisation error vs receiver timing jitter σₜ.](output/figures/you_only_live_twice_emitter_error_sweep.png)
 
@@ -371,8 +363,7 @@ A week of 311 base events resolves into
 2 daily operating window(s)
 (07-09h; 19-21h), a dominant period of
 12.0 hours, a duty cycle of
-0.679, and a medium operational tempo. Figure
- visualizes the weekly and daily rhythms with the peak windows
+0.679, and a medium operational tempo. The pattern figure visualizes the weekly and daily rhythms with the peak windows
 shaded.
 
 ![Pattern of life: weekly activity histogram (top) and mean daily profile with detected peak windows (bottom).](output/figures/you_only_live_twice_pattern_of_life.png)
@@ -384,7 +375,7 @@ capabilities in a single deterministic run against 11
 frozen protocol dataclasses across 5 provider
 methods, returning full provenance.
 
-## Conclusion
+## Conclusion — BIRD ONE: findings, verdict, and what the mission establishes
 
 The VOLCANO package demonstrates that a single-agent mission intelligence
 problem — where to intercept, how to capture, where the enemy hides, how to get
@@ -432,7 +423,7 @@ suite, exposing its capabilities through the frozen BOND-API mission protocol
 so any coordinator can drive it without knowing its internals, and keeping its
 pure domain core importable without the protocol at all.
 
-## Experimental Setup
+## Experimental Setup — BIRD ONE: canonical scenarios, parameters, and configuration
 
 The scenario is fixed in `src/you_only_live_twice/scenario.py`, which exports
 every input as a named constant and assembles them into one JSON descriptor.
@@ -510,7 +501,7 @@ The suite runs `pytest` with `--cov=src --cov-fail-under=90` (line **and**
 branch). Live test counts and the achieved coverage percentage are tracked in
 `docs/_generated/COUNTS.md`, not hardcoded here.
 
-## Reproducibility
+## Reproducibility — BIRD ONE: verification gates, deterministic regeneration, and artifacts
 
 The VOLCANO package is reproducible by construction.
 
@@ -557,7 +548,7 @@ with ruff (check + format) and mypy green on `src/` and `scripts/`. Live
 counts live in `docs/_generated/COUNTS.md`. The suite uses real computation and
 no mock framework, so a green gate means the algorithms were actually exercised.
 
-## Scope and Related Work
+## Scope and Related Work — BIRD ONE: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -638,7 +629,7 @@ perturbation-aware propagator, a spline-refined window edge detector, and
 binding to the shared `bond-utilities` provenance helper once that dependency
 ships.
 
-## Sources
+## Sources — BIRD ONE: bibliography
 
 @vallado2013; @bate1971; @wertz2011; @fehse2003; @reed1990; @chandola2009; @pearl1988; @stone1975; @waltz1990; @hart1968; @cormen2009; @foy1976; @chan1994; @skolnik2001; @daley2003
 

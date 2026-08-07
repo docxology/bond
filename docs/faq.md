@@ -101,10 +101,16 @@ pass count.
 uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-manuscript
 ```
 
-### Why does the compendium have no figures?
+### Does the compendium carry figures?
 
-It generates none. The architecture chapter is tables only. `../TODO.md` tracks a
-deterministic dependency-layer figure as future work.
+It generates none of its own — the architecture chapter is tables only — but it
+**copies every figure each package manuscript embeds** into
+`output/figures/` under a slug-namespaced name and carries them into the
+combined PDF. The fleet uses three source-path conventions (relative to the
+package `manuscript/`, to the package root, and to the package
+`output/figures/`); the generator tries each before degrading an embed to a
+caption. `../TODO.md` tracks a deterministic dependency-layer figure as future
+work.
 
 ### Half the scripts in `scripts/` fail immediately
 

@@ -42,7 +42,7 @@ package's `references.bib` and re-run `scripts/generate_compendium.py`.
 
 Two entry shapes reach the merge:
 
-- Real BibTeX `@entry` blocks, preserved verbatim and de-duplicated by key.
+- Real BibTeX `@entry` blocks, normalized to case-insensitive canonical keys and de-duplicated before rendering. Text fields are escaped for safe LaTeX output.
 - Plain-text `[n] Author, *Title*, publisher, year. — note` lines, converted to
   `@misc` entries keyed `<slug>_ref<n>`.
 

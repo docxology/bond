@@ -1,22 +1,16 @@
-# Bond Cli — THE FRONT DOOR
+# Bond CLI — THE FRONT DOOR
 
-*infra package · mission codename THE FRONT DOOR*.
+*infra package · package codename THE FRONT DOOR*.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — THE FRONT DOOR: domain and operational focus
 
 Unified terminal front door (bond list/brief/…/run/status/gadgets)
 
-## Abstract
+## Abstract — THE FRONT DOOR: mission summary
 
 bond-cli (version 3.0.0, codename THE FRONT DOOR) is the Layer-4 terminal front door of the PROJECT BOND suite — a fleet of 27 film packages plus shared mission infrastructure, each film package implementing the frozen `MissionProvider` protocol. As the front door, bond-cli is a thin dispatch layer: it routes 12 verb-first commands — list, brief, recon, plan, execute, debrief, run, status, gadgets, missions, whois, roster-export — to the 4 built sibling layers (bond-utilities, bond-api, bond-coordinator, bond-orchestrator) and maps their outcomes to deterministic exit codes. It implements no mission logic and ships no `MissionProvider` of its own; every command either loads a real film provider through the frozen `bond-api` discovery contract or delegates to the coordinator's registry and the orchestrator's runner. The deepened surface adds machine-readable `--json` output on 4 commands (list, status, missions, whois), a JSON roster export, color-safe aligned tables that never emit ANSI, and reconciliation of the fleet's measured gate manifest onto the registry so that reported status and coverage are measurements rather than intentions.
 
-## Introduction
+## Introduction — THE FRONT DOOR: mission framing, the operational problem, and how to read this chapter
 
 PROJECT BOND is a serious special-agent software fleet: 27 film packages, each faithful to a film's central idea and implementing the frozen `MissionProvider` protocol, plus shared infrastructure — `bond-api` (the protocol + discovery + registries), `bond-coordinator` (mission control: registry, ledger, status, situation room), `bond-orchestrator` (the DAG mission runner with checkpoint/resume and provenance), and `bond-utilities` (Q-branch primitives and mission IO).
 
@@ -26,7 +20,7 @@ Its role, `THE FRONT DOOR`, accepts a verb and a target. `brief`/`recon`/`plan`/
 
 Two design commitments shape everything that follows. First, **thinness**: argument shaping, provider loading, output formatting, and exit-code mapping live here, and nothing else does. The front door cannot drift from the layers it fronts because it implements none of their logic — it ships no `MissionProvider` and no mission mathematics. Second, **measurement over intention**: where the fleet has actually been gated, `status`, `whois`, and `roster-export` report the measured result rather than the registry's declared state, and they say plainly when no measurement exists.
 
-## Methodology
+## Methodology — THE FRONT DOOR: the analytical models and algorithms that drive the mission
 
 ### Thin dispatch over built layers
 
@@ -80,7 +74,7 @@ Film providers are fixed-seed and side-effect free, output ordering is canonical
 
 Gadget-hook arity is read from `inspect.signature` [@pythoninspect] rather than guessed by catching `TypeError` on a registry call. That closes a subtle failure mode: a `register_gadgets(registry)` hook whose *body* raised `TypeError` was previously re-invoked as a zero-arg hook, escaping a second, misleading `TypeError: missing 1 required positional argument` that aborted the whole-fleet sweep and masked the film's real defect. With arity from the signature, a hook-body exception is caught per-film, diagnosed to stderr, and the sweep continues.
 
-## Results
+## Results — THE FRONT DOOR: measured outcomes, headline numbers, and what they establish
 
 ### The delivered surface
 
@@ -135,13 +129,13 @@ Each placeholder in the table above is regenerated from the live coordinator `RO
 - **The measured gate is a snapshot, not a promise.** `status`, `whois`, and `roster-export` report the aggregate gate manifest as last written by the fleet runner. A stale or absent manifest degrades to the declared registry view, flagged `measured: false`; the front door reports the manifest honestly and does not try to re-measure the fleet itself.
 - **Determinism is inherited, not re-derived.** The byte-identical repeat runs pass because the layers beneath are deterministic and the front door introduces no randomness, wall-clock, or unordered output. If a film provider ever became seed-dependent, the front door's output would stop reproducing and the determinism tests above would turn red — but they would flag the *symptom*, not pinpoint the film.
 
-## Conclusion
+## Conclusion — THE FRONT DOOR: findings, verdict, and what the mission establishes
 
 bond-cli gives the operator of the PROJECT BOND fleet a single, reliable terminal: 12 verbs in one grammar over the 4 built layers, real film providers loaded through the FROZEN contract, orchestrator missions run to a consolidated debrief, and a status surface that reports what the fleet gate actually measured. Its guarantees are the ones a front door must provide — thinness (no duplicated logic, no `MissionProvider` of its own), correctness through delegation, honesty about what has and has not been measured, and determinism (canonical output, sorted JSON keys, fixed seeds, no wall-clock state).
 
 The design bet is that a front door earns its keep by being boring. Every capability stays where it was built; nothing is reimplemented one layer up for convenience. What bond-cli adds is uniformity — one grammar, one exit-code contract, one output format that pipes cleanly — and the discipline that keeps that uniformity true: every number it reports is derived from the registry that owns it, and every claim it makes is exercised against a real provider rather than a stand-in.
 
-## Experimental Setup
+## Experimental Setup — THE FRONT DOOR: canonical scenarios, parameters, and configuration
 
 - **Runtime.** Python ≥3.10; the 4 built layers (bond-utilities, bond-api, bond-coordinator, bond-orchestrator) wired via `[tool.uv.sources]` path sources, plus NumPy (film providers load it at import time) and PyYAML (manuscript config).
 - **Entry points.** Console script `bond` (`bond = "bond_cli.dispatch:main"`) and the thin `scripts/bond.py` bootstrap — identical dispatch, both returning the same exit codes. Both are exercised: the console script by a subprocess smoke test that asserts its stdout/exit code equal the bootstrap's, the bootstrap by the `test_scripts_smoke.py` suite.
@@ -154,7 +148,7 @@ The design bet is that a front door earns its keep by being boring. Every capabi
 - **Gates.** `uv run pytest tests/ --cov=src --cov-fail-under=90` (line + branch), `uv run ruff check src/ scripts/ tests/`, `uv run ruff format --check src/ scripts/ tests/`, `uv run mypy src/ scripts/`. Measured results are recorded in `docs/_generated/COUNTS.md`, not in this prose.
 - **Tests.** Real subprocess CLI smoke against the real packages plus in-process dispatch tests against real deterministic film providers and real temporary film packages; zero mocks.
 
-## Reproducibility
+## Reproducibility — THE FRONT DOOR: verification gates, deterministic regeneration, and artifacts
 
 bond-cli inherits the fleet's determinism guarantees and adds a few of its own:
 
@@ -175,7 +169,7 @@ uv run python scripts/z_generate_manuscript_variables.py
 uv run python scripts/bond.py status --json
 ```
 
-## Scope and Related Work
+## Scope and Related Work — THE FRONT DOOR: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -200,7 +194,7 @@ The color-safe table is the one place the front door deviates from common practi
 
 `bond list` and `bond run` overlap conceptually with the orchestrator's own `list`/`run` CLI; the front door re-exposes them under one grammar rather than relocating the logic. Where the two disagree, the orchestrator is authoritative — it holds the implementation.
 
-## Sources
+## Sources — THE FRONT DOOR: bibliography
 
 @bethard2009argparse; @pythonargparse; @rfc8259; @posix2018; @raymond2003unix; @semver2; @pythoninspect
 

@@ -1,22 +1,16 @@
 # Bond Orchestrator — DAG 00
 
-*infra package · mission codename DAG 00*.
+*infra package · package codename DAG 00*.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — DAG 00: domain and operational focus
 
 Multi-package mission DAG runner + real-film binding
 
-## Abstract
+## Abstract — DAG 00: mission summary
 
 **BOND-ORCHESTRATOR (codename DAG 00)** is the Layer 3 mission orchestrator of the BOND suite: it executes multi-package film missions end-to-end over the `MissionProvider` protocol. A mission is a directed acyclic graph of film packages — dependency edges exist exactly where one film's recon outputs feed another film's recon — and the orchestrator executes every package through the five lifecycle phases in deterministic topological order, producing a single consolidated debrief. The flagship canned mission, **OPERATION_OMNIBUS**, chains goldfinger → goldeneye → no_time_to_die; its last measured execution order was goldfinger → goldeneye → no_time_to_die, with an all-verdicts outcome of **PASS**. Every outcome is recorded with provenance (an independent, deterministic record writer — this package does not yet delegate to `bond-utilities.mission_io`, see §7.4), and intermediate reports persist to a state directory so an interrupted mission resumes from its last completed step. The execution core is pure logic with zero infrastructure imports; determinism is load-bearing: identical inputs produce byte-identical reports, checkpoint files, and provenance records.
 
-## Introduction
+## Introduction — DAG 00: mission framing, the operational problem, and how to read this chapter
 
 The BOND suite splits multi-package research-and-response operations into
 six cooperating packages: `bond-utilities` (shared mission I/O and
@@ -72,7 +66,7 @@ what the design bought and what it deferred; §5 lists the configured mission
 parameters and the mission shapes under test; §6 documents reproducibility;
 §7 bounds the scope and places the work against prior art.
 
-## Methodology
+## Methodology — DAG 00: the analytical models and algorithms that drive the mission
 
 ### 2.1 The mission DAG
 
@@ -85,7 +79,7 @@ dependency, validating that:
 
 1. no package depends on itself,
 2. every dependency names a package inside the mission,
-3. the graph is acyclic.
+3. The graph is acyclic.
 
 Execution order is the **deterministic topological order** of the DAG: Kahn's
 algorithm with a sorted ready-worklist, so the result is canonical for a given
@@ -217,7 +211,7 @@ independent, deterministic provenance writer, not yet a delegation to
 `bond-utilities.mission_io` (the integration and its schema mapping are tracked
 in `TODO.md`, §7.4).
 
-## Results
+## Results — DAG 00: measured outcomes, headline numbers, and what they establish
 
 ### 3.1 OPERATION OMNIBUS execution
 
@@ -360,7 +354,7 @@ The stage 1 → 2 → 3 chain and the two non-empty edges mirror the
 width confirms the serial shape §3.5 describes, and the labelled payloads are
 exactly the evidence §3.1 quoted in prose.
 
-## Conclusion
+## Conclusion — DAG 00: findings, verdict, and what the mission establishes
 
 BOND-ORCHESTRATOR delivers its Layer 3 contract: multi-package missions run
 end-to-end over the `MissionProvider` protocol in deterministic topological
@@ -392,7 +386,7 @@ the achievable concurrency, while the sequential runner remains the reference
 implementation of the same order. The plan is the artifact; the concurrency is
 a later, separately verifiable step.
 
-## Experimental Setup
+## Experimental Setup — DAG 00: canonical scenarios, parameters, and configuration
 
 ### 5.1 Identity and configuration
 
@@ -466,7 +460,7 @@ The same three shapes are re-run over the REAL film packages through the
 adapter of §2.6, so the DAG results are not an artifact of the reference
 providers alone.
 
-## Reproducibility
+## Reproducibility — DAG 00: verification gates, deterministic regeneration, and artifacts
 
 ### 6.1 Determinism policy
 
@@ -541,7 +535,7 @@ Daniel Ari Friedman) the all-verdicts outcome was
 **PASS**. Live test counts and measured coverage are
 tracked in [`docs/_generated/COUNTS.md`](../docs/_generated/COUNTS.md).
 
-## Scope and Related Work
+## Scope and Related Work — DAG 00: boundaries, positioning, and relationship to the literature
 
 ### 7.1 Scope
 
@@ -648,7 +642,7 @@ bullet is grounded in the current code and tracked where it is ongoing work.
  or platforms, a question the single-interpreter gap above does not yet
  answer.
 
-## Sources
+## Sources — DAG 00: bibliography
 
 @kahn1962topological; @cormen2009introduction; @elnozahy2002survey; @chandy1985distributed; @kwok1999static; @avizienis2004basic; @gamma1994design; @bondorchestrator2026
 

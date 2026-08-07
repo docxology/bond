@@ -41,7 +41,7 @@
   institution = {National Institute of Standards and Technology},
   number      = {NISTIR 5632},
   year        = {1995},
-  note        = {Source of the mu/rho values in MASS_ATTENUATION_CM2_G}
+  note        = {Source of the mu/rho values in MASS\_ATTENUATION\_CM2\_G}
 }
 @misc{nistxcom,
   author       = {Berger, M. J. and Hubbell, J. H. and Seltzer, S. M. and
@@ -57,7 +57,7 @@
   title        = {Compendium of Dose Coefficients based on {ICRP} Publication 60},
   howpublished = {ICRP Publication 119, Annals of the ICRP 41 (Suppl.)},
   year         = {2012},
-  note         = {Committed effective dose coefficients behind INHALATION_DCF_SV_BQ}
+  note         = {Committed effective dose coefficients behind INHALATION\_DCF\_SV\_BQ}
 }
 @misc{icrp72,
   author       = {{International Commission on Radiological Protection}},
@@ -76,7 +76,7 @@
   number  = {3},
   pages   = {271--291},
   year    = {2012},
-  note    = {Specific gamma-ray constants behind GAMMA_CONSTANT_MSV_M2_H_GBQ}
+  note    = {Specific gamma-ray constants behind GAMMA\_CONSTANT\_MSV\_M2\_H\_GBQ}
 }
 @article{pasquill1961estimation,
   author  = {Pasquill, F.},
@@ -109,11 +109,11 @@
   pages   = {145--147},
   year    = {1976},
   note    = {Power-law fits to the Pasquill-Gifford curves. The a/b/c/d/f
-             values in plume_model.STABILITY_TABLE are taken from this paper
+             values in plume\_model.STABILITY\_TABLE are taken from this paper
              verbatim (x in km, sigma in m); only the near-field x <= 1 km
-             sigma_z branch is implemented. A phase-6 review found the table
+             sigma\_z branch is implemented. A phase-6 review found the table
              had previously held neither this paper's coefficients nor a
-             consistent unit convention; tests/test_plume_model.py now binds
+             consistent unit convention; tests/test\_plume\_model.py now binds
              both coefficients to published Pasquill-Gifford values}
 }
 @book{turner1994workbook,
@@ -656,7 +656,7 @@
   number  = {1},
   pages   = {269--271},
   year    = {1959},
-  note    = {Single-source shortest paths; run over feasibility-filtered parkour edges in urban_routes.py.}
+  note    = {Single-source shortest paths; run over feasibility-filtered parkour edges in urban\_routes.py.}
 }
 @article{levi2006,
   title   = {Money Laundering},
@@ -840,7 +840,7 @@
   address = {Hoboken, NJ},
   note = {Ch. 1: solar position, the sunrise hour angle, and the closed-form
           daily extraterrestrial irradiation on a horizontal plane implemented
-          in solar_tracking.daily_extraterrestrial_insolation_kwh_m2.},
+          in solar\_tracking.daily\_extraterrestrial\_insolation\_kwh\_m2.},
 }
 @article{spencer,
   title = {Fourier series representation of the position of the sun},
@@ -851,7 +851,7 @@
   pages = {172},
   year = {1971},
   note = {The declination and equation-of-time Fourier series implemented in
-          solar_tracking.solar_declination_deg and equation_of_time_min.},
+          solar\_tracking.solar\_declination\_deg and equation\_of\_time\_min.},
 }
 @article{michalsky,
   title = {The Astronomical Almanac's algorithm for approximate solar position
@@ -876,7 +876,7 @@
   address = {Cambridge, MA},
   note = {Ch. 24 Dijkstra; ch. 26 maximum flow, Edmonds--Karp and max-flow
           min-cut; sec. 16.5 unit-time task scheduling with deadlines as a
-          matroid, which is the exactness argument for deadline_scheduler.},
+          matroid, which is the exactness argument for deadline\_scheduler.},
 }
 @article{ford_fulkerson,
   author  = {Ford, Lester R. and Fulkerson, Delbert R.},
@@ -915,7 +915,7 @@
   pages = {372--378},
   year = {1973},
   note = {Linear-time biconnected-components / cut-vertex algorithm
-          implemented in lair_topology.articulation_points.},
+          implemented in lair\_topology.articulation\_points.},
 }
 @book{kleinberg_tardos,
   title = {Algorithm Design},
@@ -925,9 +925,9 @@
   address = {Boston, MA},
   note = {Sec. 6.1: weighted interval scheduling by dynamic programming with
           the p(j) predecessor table, implemented in
-          duel_scheduler.max_bounty_schedule; sec. 4.1: the earliest-finish
+          duel\_scheduler.max\_bounty\_schedule; sec. 4.1: the earliest-finish
           greedy for interval scheduling, implemented in
-          duel_scheduler.earliest_finish_schedule.},
+          duel\_scheduler.earliest\_finish\_schedule.},
 }
 @article{tarjan_unionfind,
   title = {Efficiency of a good but not linear set union algorithm},
@@ -938,7 +938,7 @@
   pages = {215--225},
   year = {1975},
   note = {Path-compressed disjoint-set analysis; the structure used for the
-          "latest free slot" query in deadline_scheduler._SlotUnionFind.},
+          "latest free slot" query in deadline\_scheduler.\_SlotUnionFind.},
 }
 @book{kay_detection_1998,
   author    = {Kay, Steven M.},
@@ -1435,8 +1435,8 @@
   doi     = {10.1147/sj.41.0025}
 }
 @article{tarjan1972,
-  author  = {Tarjan, Robert Endre},
-  title   = {Depth-First Search and Linear Graph Algorithms},
+  author  = {Robert Endre Tarjan},
+  title   = {Depth-first search and linear graph algorithms},
   journal = {SIAM Journal on Computing},
   volume  = {1},
   number  = {2},
@@ -1525,7 +1525,7 @@
   year = {1996},
   publisher = {International Electrotechnical Commission}
 }
-@misc{milstD188125,
+@misc{milstd188125,
   title = {High-altitude electromagnetic pulse (HEMP) protection for ground-based facilities performing critical, time-urgent missions},
   howpublished = {MIL-STD-188-125-1},
   year = {1998},
@@ -1872,7 +1872,7 @@
   booktitle = {Advances in Neural Information Processing Systems 20 (NIPS)},
   pages     = {1729--1736},
   year      = {2007},
-  note      = {Counterfactual regret minimization; the algorithm implemented in poker_cfr.py.}
+  note      = {Counterfactual regret minimization; the algorithm implemented in poker\_cfr.py.}
 }
 @article{billings2002poker,
   author  = {Billings, Darse and Davidson, Aaron and Schaeffer, Jonathan and Szafron, Duane},
@@ -1897,14 +1897,14 @@
   booktitle = {Proceedings of the 10th International Conference on Autonomous Agents and Multiagent Systems (AAMAS)},
   pages     = {533--540},
   year      = {2011},
-  note      = {Bayesian/game-theoretic opponent modelling; the motivation for the Dirichlet-multinomial archetype posterior in opponent_bayes.py.}
+  note      = {Bayesian/game-theoretic opponent modelling; the motivation for the Dirichlet-multinomial archetype posterior in opponent\_bayes.py.}
 }
 @techreport{minka2000dirichlet,
   author      = {Minka, Thomas P.},
   title       = {Estimating a {Dirichlet} Distribution},
   institution = {Massachusetts Institute of Technology},
   year        = {2000},
-  note        = {Dirichlet and Dirichlet-multinomial machinery; the closed-form log-space likelihood used in opponent_bayes.py.}
+  note        = {Dirichlet and Dirichlet-multinomial machinery; the closed-form log-space likelihood used in opponent\_bayes.py.}
 }
 @techreport{page1999pagerank,
   author      = {Page, Lawrence and Brin, Sergey and Motwani, Rajeev and Winograd, Terry},
@@ -1912,7 +1912,7 @@
   institution = {Stanford InfoLab},
   number      = {1999-66},
   year        = {1999},
-  note        = {PageRank; used in laundering_network.py to rank the collection account that centrally-placed senders feed.}
+  note        = {PageRank; used in laundering\_network.py to rank the collection account that centrally-placed senders feed.}
 }
 @article{raghavan2007labelprop,
   author  = {Raghavan, Usha Nandini and Albert, R{\'e}ka and Kumara, Soundar},
@@ -1922,27 +1922,26 @@
   number  = {3},
   pages   = {036106},
   year    = {2007},
-  note    = {Label-propagation community detection; implemented deterministically in laundering_network.py.}
+  note    = {Label-propagation community detection; implemented deterministically in laundering\_network.py.}
 }
 @article{brandes2001,
-  author  = {Brandes, Ulrik},
-  title   = {A Faster Algorithm for Betweenness Centrality},
+  author  = {Ulrik Brandes},
+  title   = {A faster algorithm for betweenness centrality},
   journal = {Journal of Mathematical Sociology},
   volume  = {25},
   number  = {2},
   pages   = {163--177},
   year    = {2001},
-  note    = {The betweenness algorithm implemented in laundering_detect.py to find smurf collection hubs.}
+  doi     = {10.1080/0022250X.2001.9990249}
 }
 @article{hirschman1964,
-  author  = {Hirschman, Albert O.},
-  title   = {The Paternity of an Index},
+  author  = {Albert O. Hirschman},
+  title   = {The paternity of an index},
   journal = {The American Economic Review},
   volume  = {54},
   number  = {5},
   pages   = {761--762},
-  year    = {1964},
-  note    = {The Herfindahl-Hirschman concentration index; applied to counterparty flow shares in laundering_network.py.}
+  year    = {1964}
 }
 @inproceedings{weber2019aml,
   author    = {Weber, Mark and Domeniconi, Giacomo and Chen, Jie and Weidele, Daniel Karl I. and Bellei, Claudio and Robinson, Tom and Leiserson, Charles E.},
@@ -1956,7 +1955,7 @@
   title       = {Vulnerabilities of Casinos and Gaming Sector},
   institution = {FATF/OECD, Paris},
   year        = {2009},
-  note        = {Casino-sector money-laundering typologies: chip purchase and redemption, structuring, and minimal-play cash-out - the behaviours laundering_detect.py scores.}
+  note        = {Casino-sector money-laundering typologies: chip purchase and redemption, structuring, and minimal-play cash-out - the behaviours laundering\_detect.py scores.}
 }
 @article{antman1990fab,
   author  = {Antman, Elliott M. and Wenger, Thomas L. and Butler, Vincent P. and Haber, Edgar and Smith, Thomas W.},
@@ -1966,7 +1965,7 @@
   number  = {6},
   pages   = {1744--1752},
   year    = {1990},
-  note    = {Digoxin-specific Fab fragments as definitive therapy for life-threatening digitalis toxicity; the severe-grade intervention in poison_detect.antidote_plan.}
+  note    = {Digoxin-specific Fab fragments as definitive therapy for life-threatening digitalis toxicity; the severe-grade intervention in poison\_detect.antidote\_plan.}
 }
 @book{hirschman1945national,
   author    = {Hirschman, Albert O.},
@@ -2159,7 +2158,7 @@
   pages = {163--177},
   year = {2001}
 }
-@article{Freeman1979,
+@article{freeman1979,
   author  = {Linton C. Freeman},
   title   = {Centrality in social networks: Conceptual clarification},
   journal = {Social Networks},
@@ -2169,34 +2168,14 @@
   year    = {1978/1979},
   doi     = {10.1016/0378-8733(78)90021-7}
 }
-@book{Newman2010,
+@book{newman2010,
   author    = {Mark E. J. Newman},
   title     = {Networks: An Introduction},
   publisher = {Oxford University Press},
   year      = {2010},
   doi       = {10.1093/acprof:oso/9780199206650.001.0001}
 }
-@article{Brandes2001,
-  author  = {Ulrik Brandes},
-  title   = {A faster algorithm for betweenness centrality},
-  journal = {Journal of Mathematical Sociology},
-  volume  = {25},
-  number  = {2},
-  pages   = {163--177},
-  year    = {2001},
-  doi     = {10.1080/0022250X.2001.9990249}
-}
-@article{Tarjan1972,
-  author  = {Robert Endre Tarjan},
-  title   = {Depth-first search and linear graph algorithms},
-  journal = {SIAM Journal on Computing},
-  volume  = {1},
-  number  = {2},
-  pages   = {146--160},
-  year    = {1972},
-  doi     = {10.1137/0201010}
-}
-@article{Nemhauser1978,
+@article{nemhauser1978,
   author  = {George L. Nemhauser and Laurence A. Wolsey and Marshall L. Fisher},
   title   = {An analysis of approximations for maximizing submodular set functions---{I}},
   journal = {Mathematical Programming},
@@ -2206,7 +2185,7 @@
   year    = {1978},
   doi     = {10.1007/BF01588971}
 }
-@article{Johnson1974,
+@article{johnson1974,
   author  = {David S. Johnson},
   title   = {Approximation algorithms for combinatorial problems},
   journal = {Journal of Computer and System Sciences},
@@ -2216,7 +2195,7 @@
   year    = {1974},
   doi     = {10.1016/S0022-0000(74)80044-9}
 }
-@article{Feige1998,
+@article{feige1998,
   author  = {Uriel Feige},
   title   = {A threshold of $\ln n$ for approximating set cover},
   journal = {Journal of the ACM},
@@ -2226,7 +2205,7 @@
   year    = {1998},
   doi     = {10.1145/285055.285059}
 }
-@article{Newman2002,
+@article{newman2002,
   author  = {Mark E. J. Newman},
   title   = {Spread of epidemic disease on networks},
   journal = {Physical Review E},
@@ -2235,7 +2214,7 @@
   year    = {2002},
   doi     = {10.1103/PhysRevE.66.016128}
 }
-@article{HopcroftTarjan1973,
+@article{hopcrofttarjan1973,
   author  = {John Hopcroft and Robert Endre Tarjan},
   title   = {Algorithm 447: Efficient algorithms for graph manipulation},
   journal = {Communications of the ACM},
@@ -2245,7 +2224,7 @@
   year    = {1973},
   doi     = {10.1145/362248.362272}
 }
-@article{Latora2001,
+@article{latora2001,
   author  = {Vito Latora and Massimo Marchiori},
   title   = {Efficient behavior of small-world networks},
   journal = {Physical Review Letters},
@@ -2255,7 +2234,7 @@
   year    = {2001},
   doi     = {10.1103/PhysRevLett.87.198701}
 }
-@article{Albert2000,
+@article{albert2000,
   author  = {R{\'e}ka Albert and Hawoong Jeong and Albert-L{\'a}szl{\'o} Barab{\'a}si},
   title   = {Error and attack tolerance of complex networks},
   journal = {Nature},
@@ -2265,7 +2244,7 @@
   year    = {2000},
   doi     = {10.1038/35019019}
 }
-@article{Borgatti2006,
+@article{borgatti2006,
   author  = {Stephen P. Borgatti},
   title   = {Identifying sets of key players in a social network},
   journal = {Computational and Mathematical Organization Theory},
@@ -2274,16 +2253,7 @@
   pages   = {21--34},
   year    = {2006}
 }
-@article{Hirschman1964,
-  author  = {Albert O. Hirschman},
-  title   = {The paternity of an index},
-  journal = {The American Economic Review},
-  volume  = {54},
-  number  = {5},
-  pages   = {761--762},
-  year    = {1964}
-}
-@inproceedings{Kempe2003,
+@inproceedings{kempe2003,
   author    = {David Kempe and Jon Kleinberg and {\'E}va Tardos},
   title     = {Maximizing the spread of influence through a social network},
   booktitle = {Proceedings of the 9th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD '03)},
@@ -2291,7 +2261,7 @@
   year      = {2003},
   doi       = {10.1145/956750.956769}
 }
-@inproceedings{Leskovec2007,
+@inproceedings{leskovec2007,
   author    = {Jure Leskovec and Andreas Krause and Carlos Guestrin and Christos Faloutsos and Jeanne VanBriesen and Natalie Glance},
   title     = {Cost-effective outbreak detection in networks},
   booktitle = {Proceedings of the 13th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD '07)},
@@ -2312,7 +2282,7 @@
   howpublished = {Local-only PROJECT BOND suite, Layer 3},
 }
 @misc{bond_utilities_2026,
-  title        = {bond-utilities: Q-BRANCH ciphers, codenames, and mission_io provenance},
+  title        = {bond-utilities: Q-BRANCH ciphers, codenames, and mission\_io provenance},
   author       = {PROJECT BOND},
   year         = {2026},
   howpublished = {Local-only PROJECT BOND suite, Layer 0},
@@ -2495,7 +2465,7 @@
                Campolongo, Francesca and Cariboni, Jessica and Gatelli,
                Debora and Saisana, Michaela and Tarantola, Stefano},
   title     = {Global Sensitivity Analysis. The Primer},
-  publisher = {John Wiley & Sons},
+  publisher = {John Wiley \& Sons},
   address   = {Chichester},
   year      = {2008},
   doi       = {10.1002/9780470725184},
@@ -2795,7 +2765,7 @@
                   (IEEE Std 1003.1-2017), Chapter 12: Utility Conventions},
   organization = {IEEE and The Open Group},
   year         = {2018},
-  url          = {https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html},
+  url          = {https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1\_chap12.html},
   note         = {The utility argument and exit-status conventions the
                   front door's option handling and 0/1/2 exit codes follow.},
 }

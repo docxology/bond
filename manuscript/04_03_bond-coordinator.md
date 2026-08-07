@@ -1,22 +1,16 @@
 # Bond Coordinator — MISSION CONTROL
 
-*infra package · mission codename MISSION CONTROL*.
+*infra package · package codename MISSION CONTROL*.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — MISSION CONTROL: domain and operational focus
 
 Fleet registry, mission ledger, status, situation room
 
-## Abstract
+## Abstract — MISSION CONTROL: mission summary
 
 This paper presents **BOND-COORDINATOR** (codename **MISSION CONTROL**), the Layer-2 mission-control package for PROJECT BOND, a fleet of software packages descended from a numerical-optimization research exemplar. Where that exemplar demonstrated optimization mathematics inside a single package, BOND-COORDINATOR demonstrates the *fleet* view: a deterministic registry of all 27 film packages, a forward-only mission-state ledger, an aggregate suite-status report, and a self-contained HTML situation room. The registry (`src/bond_coordinator/registry.py`) is seeded from the ROSTER conventions in `projects/working/bond/SCOPE.md` §2.1 and assigns a provisional mission codename per film; `reconcile.py` merges a film's real codename and gadget table over it (refresh/replace semantics) once a film declares them via `bond-api`. The ledger (`src/bond_coordinator/ledger.py`) tracks each package's lifecycle — brief → recon → plan → execute → debrief — with strict forward-only transition rules, attributable-identity validation, an append-only audit trail of who/when/version, and deterministic audit summaries. The status module (`src/bond_coordinator/status.py`) aggregates counts by state and phase, a measured-coverage summary, stale/blocked flags, and a per-layer summary of the fleet topology. The situation room (`src/bond_coordinator/situation.py`) renders the whole fleet — packages, mission-timeline bars, coverage heat, suite layers, a per-film Q-branch gadget table, and the recent-transitions audit tail — into one self-contained HTML document. **Roster state (this build):** 27 packages tracked across 6 declared topology layers; 25 scaffolded, 0 building, 2 ready, 0 red; 2 packages with measured coverage (mean 95.5%, 2 at/above the 90% gate, 25 without a gate result in this build); 0 blocked; 0 stale. Provenance of those status and coverage figures: *measured gate output on 2 of 27 registry rows* — the registry's seed defaults are not a measurement of any film package; see the Results section. **Keywords:** mission control, film-package registry, mission-state ledger, append-only audit trail, registry reconciliation, suite status, software fleet, fault isolation, reproducible research
 
-## Introduction 
+## Introduction — MISSION CONTROL: mission framing, the operational problem, and how to read this chapter
 
 PROJECT BOND is a fleet of standalone software packages — one per
 James Bond film, plus a shared layer of Q-branch infrastructure — built to the
@@ -76,7 +70,7 @@ mocking, and is exercised by a zero-mock real-data test suite.
  certify, and how the seeded-versus-measured distinction can be misread.
 - the scope section scopes the package and relates it to the rest of the fleet.
 
-## Methodology 
+## Methodology — MISSION CONTROL: the analytical models and algorithms that drive the mission
 
 The pure core lives under `src/bond_coordinator/`: `types.py` (protocol
 mirror), `registry.py`, `reconcile.py`, `gates.py`, `ledger.py`, `status.py`,
@@ -218,7 +212,7 @@ a single self-contained HTML document (no external assets, no JavaScript):
 Every value is HTML-escaped; the document is deterministic given its inputs.
 `scripts/build_situation_room.py` writes it to the gitignored `output/` tree.
 
-## Results 
+## Results — MISSION CONTROL: measured outcomes, headline numbers, and what they establish
 
 All figures in this section are generated from source by
 `src/bond_coordinator/manuscript_variables.py` and injected as substitution
@@ -331,7 +325,7 @@ Provenance of the status and coverage columns:
 *measured gate output on 2 of 27 registry rows* — read the Limitations section
 (§[sec:limitations]) before interpreting them as claims about any film.
 
-## Conclusion 
+## Conclusion — MISSION CONTROL: findings, verdict, and what the mission establishes
 
 BOND-COORDINATOR (codename **MISSION CONTROL**) demonstrates a
 fleet-scale variant of the research-exemplar contract: instead of one
@@ -378,7 +372,7 @@ removed. The honest summary is therefore narrower than "always reflects
 reality": the dashboard reflects the manifests supplied to it, and states their
 absence when they are not.
 
-## Experimental Setup 
+## Experimental Setup — MISSION CONTROL: canonical scenarios, parameters, and configuration
 
 ### Configuration surface
 
@@ -433,7 +427,7 @@ gadget-purpose regression guard — the test materialises its own minimal film
 package in a temporary directory and points the CLI at it with `--bond-root`.
 This keeps the suite's result a function of this package alone.
 
-## Reproducibility Certification 
+## Reproducibility — MISSION CONTROL: certification, gates, and regeneration
 
 Reproducibility is a first-order requirement for mission control, because the
 suite's provenance story depends on it. The certification below follows the
@@ -500,7 +494,7 @@ type and message on stderr while every other film still reconciles, and the
 harvest merge is idempotent (re-registering a `(film, gadget)` pair replaces
 it, so repeated runs converge on the same table).
 
-## Scope, Related Work, and Positioning 
+## Scope and Related Work — MISSION CONTROL: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -561,7 +555,7 @@ is the one open integration item (see `TODO.md`). Layer 4's `bond-ops`
 produces the fleet gate aggregate that `src/bond_coordinator/gates.py`
 consumes, which is how a registry row acquires a measured status and coverage.
 
-## Limitations and Uncertainty 
+## Limitations and Uncertainty — MISSION CONTROL: assumptions, threats to validity, and what the numbers do not claim
 
 No claim below is a discovery about any film; every statement is about the
 registry, ledger, and status machinery this package ships, and about the
@@ -665,7 +659,7 @@ The reproducibility bar is documented in §[sec:reproducibility] and follows
 the reproducibility-in-research-software guidance of
 [@sandve2013tensimplerules; @peng2011reproducibleresearch].
 
-## Sources
+## Sources — MISSION CONTROL: bibliography
 
 @gamma1995designpatterns; @brooks1987nosilverbullet; @bass2012softwarearchitecture; @fowler2002patterns; @hunt1999pragmatic; @swebok2014; @sandve2013tensimplerules; @peng2011reproducibleresearch
 

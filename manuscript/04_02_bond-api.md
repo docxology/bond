@@ -1,22 +1,16 @@
-# Bond Api — THE PROTOCOL
+# Bond API — THE PROTOCOL
 
-*infra package · mission codename THE PROTOCOL*.
+*infra package · package codename THE PROTOCOL*.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — THE PROTOCOL: domain and operational focus
 
 The frozen MissionProvider protocol, registry, discovery, serialization
 
-## Abstract
+## Abstract — THE PROTOCOL: mission summary
 
 BOND-API (codename *THE PROTOCOL*) is the frozen mission protocol contract for the BOND film suite — Layer 1 of the suite. It defines 11 frozen dataclasses (Asset, Constraint, Debrief, Finding, MissionBrief, MissionOutcome, MissionPlan, Provenance, ReconReport, ReconRequest, Step) and a 5-method provider contract (brief, recon, plan, execute, debrief) that every film package implements. The package ships the machinery every coordinator needs: deterministic JSON round-trip serialization for all protocol objects, a gadget registry and a mission/package registry for discovered providers, slug-based film discovery on `sys.path`, and 9 capability helpers (brief_issues, derive_provenance, fingerprint, hash_provenance, normalize_debrief, normalize_lessons, plan_schema_issues, require_plan_schema, validate_brief) layered on the frozen surface — soft brief validation, plan-step schema checks, provenance hashing, and debrief normalization. A reference film (sable) exercises the full lifecycle, and the 27 film packages of the suite implement the same contract. Every artifact crosses process boundaries as tagged JSON (reserved key `__bond_type__`), and the suite enforces a 90% line-and-branch coverage floor on `src/`. This is version 0.1.0 of the contract.
 
-## Introduction
+## Introduction — THE PROTOCOL: mission framing, the operational problem, and how to read this chapter
 
 The BOND suite is a family of packages that cooperate to run missions:
 5 lifecycle stages — brief, recon, plan, execute, debrief —
@@ -53,7 +47,7 @@ document the environment and reproducibility contract. Chapter 8 is the
 honest counterweight: the deliberately permissive boundaries, the wire-format
 strictness now enforced, and the places where the evidence is bounded.
 
-## Methodology
+## Methodology — THE PROTOCOL: the analytical models and algorithms that drive the mission
 
 ### The mission lifecycle
 
@@ -172,7 +166,7 @@ reusable semantics on top of it without changing a single field or flow
 All helpers are deterministic and serialize cleanly through the same JSON
 surface as the protocol objects they consume.
 
-## Results
+## Results — THE PROTOCOL: measured outcomes, headline numbers, and what they establish
 
 ### Protocol surface
 
@@ -273,7 +267,7 @@ script grows business logic beyond `main` or stops delegating to `bond_api`.
 
 All tests use real data and real computation — no mocks.
 
-## Conclusion
+## Conclusion — THE PROTOCOL: findings, verdict, and what the mission establishes
 
 BOND-API freezes the contract the film suite is coded against. Version
 0.1.0 delivers:
@@ -319,7 +313,7 @@ boundaries, the interpreter-bounded determinism claims, and the provenance
 uncertainty — are stated in Chapter 8 rather than left for a reader to
 discover.
 
-## Experimental Setup
+## Experimental Setup — THE PROTOCOL: canonical scenarios, parameters, and configuration
 
 ### Package layout
 
@@ -362,7 +356,7 @@ uv run python scripts/demo_mission.py
 uv run python scripts/z_generate_manuscript_variables.py
 ```
 
-## Reproducibility
+## Reproducibility — THE PROTOCOL: verification gates, deterministic regeneration, and artifacts
 
 ### Determinism policy
 
@@ -455,7 +449,7 @@ code-derived values outside the token map. It is not self-certifying prose:
 `tests/test_claim_ledger.py` re-derives every row from the source the row
 cites and fails on a row with no verifier.
 
-## Scope and Related Work
+## Scope and Related Work — THE PROTOCOL: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -487,7 +481,7 @@ from — frozen dataclasses for value objects, `typing.Protocol` for structural
 contracts, deterministic serialization, and a zero-mock test discipline — so
 code moving between template projects and the BOND suite keeps its shape.
 
-## Limitations and Uncertainty
+## Limitations and Uncertainty — THE PROTOCOL: assumptions, threats to validity, and what the numbers do not claim
 
 Every engineering claim in this manuscript is scoped honestly. This section
 collects the limits that a hostile reviewer of a protocol library would care
@@ -584,7 +578,7 @@ drift detectable, but it does not make the version a single loaded value —
 that single-source refactor is tracked in `TODO.md` if a future round wants
 it.
 
-## Sources
+## Sources — THE PROTOCOL: bibliography
 
 @pep544; @pep557; @pep484; @rfc8259; @nist_fips180_4; @bond_api
 

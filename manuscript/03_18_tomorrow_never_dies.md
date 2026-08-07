@@ -1,22 +1,16 @@
 # Tomorrow Never Dies (1997) — CARVER
 
-*film package · mission codename CARVER*. Mission **CARVER**: model Carver-style disinformation propagation on a social network; measure narrative capture and echo-chamber fragmentation under a bounded-confidence broadcast; quantify low-RCS stealth-vessel detection limits; recover detection range against a stealth hull via pulse compression; analyze GPS-denial impact and navigation failure cascades; bound spoofed-measurement error with RAIM integrity monitoring.
+*film package · package codename CARVER*. Mission **CARVER**: model Carver-style disinformation propagation on a social network; measure narrative capture and echo-chamber fragmentation under a bounded-confidence broadcast; quantify low-RCS stealth-vessel detection limits; recover detection range against a stealth hull via pulse compression; analyze GPS-denial impact and navigation failure cascades; bound spoofed-measurement error with RAIM integrity monitoring.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — CARVER: domain and operational focus
 
 media manipulation, stealth
 
-## Abstract
+## Abstract — CARVER: mission summary
 
 **Tomorrow Never Dies: CARVER — Special-Agent Mission Software** (*Six Paired Models of Media, Radar, and Navigation Warfare: Disinformation and Narrative Control, Stealth Detection and Pulse Compression, GPS Denial and RAIM Integrity*). CARVER is a deterministic mission-software package that turns the media-warfare playbook of Elliot Carver into 6 quantitative, reproducible analyses, paired as attack and counter across media, radar, and navigation. A disinformation model simulates how a broadcast campaign converts a social network to a manufactured belief — 57.5% by campaign end, 11.5x the no-media baseline — and a bounded-confidence narrative model shows how a *selective* broadcast pulls the audience mean 54.2% toward the manufactured line while fragmenting it into echo chambers (bimodal split 0.402; the tipping point is a reach of just 19.6%). A radar model finds that a 20.0 dB low-RCS reduction drops a stealth hull's detection range to 40.7 km (25.7 km for a Rayleigh fluctuating hull), but pulse compression (27.0 dB, 15.0 m resolution, -13.5 dB range sidelobes) restores it to 108.2 km — 373% beyond an unmodulated pulse of the same range resolution; the Barker-13 code reaches that same 108.2 km at the cost of 577 m range resolution in exchange for a -22.2 dB sidelobe floor. A GPS-denial model drives effective C/N0 from 45 to 10.5 dB-Hz at 100 km — below the 25 dB-Hz carrier-lock threshold, so the modelled outcome is loss of lock rather than the 25.3 m the range-error formula extrapolates past its validity (clean-sky: 8.7 m) — and fails 0.429 of the maritime dependency network; its RAIM guardian bounds the damage (HPL 19.9 m) but catches a 20 m corrupted navigation measurement with only 25.2% probability on the worst-placed satellite (54.2% on the best-placed) — the parity projection sees only part of any single-satellite fault. Keywords: disinformation propagation, media manipulation, bounded-confidence opinion dynamics, echo chambers, radar cross-section, stealth detection, pulse compression, matched filtering, GPS denial, navigation failure cascade, RAIM, GNSS integrity monitoring, deterministic simulation, reproducible research.
 
-## Introduction
+## Introduction — CARVER: mission framing, the operational problem, and how to read this chapter
 
 In *Tomorrow Never Dies* (1997), Elliot Carver builds a global media empire
 whose reach lets him manufacture the conflicts he then reports. His two
@@ -64,7 +58,7 @@ lifecycle, with every outcome carrying deterministic provenance. All numbers
 in this manuscript are injected from `manuscript/config.yaml` and the real
 domain modules — none are hand-authored in the prose.
 
-## Methodology
+## Methodology — CARVER: the analytical models and algorithms that drive the mission
 
 Each concept is a self-contained deterministic model with clear physical or
 algorithmic grounding.
@@ -153,7 +147,7 @@ explicitly rather than leaving it implicit in a smooth curve. The honest
 reading is therefore *denial*: a real receiver stops producing a solution,
 and the 25.3 m quoted in the results is what the
 code-tracking formula extrapolates past its own validity, not an accuracy a
-receiver would report. shades that region for the same reason and
+receiver would report. The gps figure shades that region for the same reason and
 extends to 2000 km so the standoff at which lock returns is visible.
 Loss of navigation, not degraded navigation, is what
 `simulate_navigation_cascade` then propagates across the maritime dependency
@@ -178,7 +172,7 @@ the factor as an argument rather than defaulting to one. The reported figure
 is the worst-placed satellite, matching the worst-slope convention the
 protection levels already use.
 
-## Results
+## Results — CARVER: measured outcomes, headline numbers, and what they establish
 
 ### Disinformation propagation
 
@@ -187,7 +181,7 @@ Carver's broadcast multiplies that by 11.5x, ending at a
 57.5% belief share with an echo-chamber coefficient of
 0.913 and an amplification of 1.92 believers per
 directly-exposed agent — the broadcast does not merely seed the belief, it
-recruits the social channel that then carries it. shows
+recruits the social channel that then carries it. The disinformation figure shows
 both trajectories.
 
 ![Believing fraction over time: media campaign vs no-media baseline](output/figures/tomorrow_never_dies_disinformation_propagation.png)
@@ -202,7 +196,7 @@ toward the manufactured line (0.85), reaching a consensus of
 the audience fragmenting into detached opinion clusters — echo chambers. The
 tipping-point analysis finds that a broadcast reach of just
 19.6% is enough to drive the discrete belief model past a
-majority. shows the opinion trajectory under the campaign.
+majority. The narrative figure shows the opinion trajectory under the campaign.
 
 ![Narrative control: bounded-confidence opinion dynamics under a media campaign](output/figures/tomorrow_never_dies_narrative_control.png)
 
@@ -216,7 +210,7 @@ Reporting the same hull as a Rayleigh (Swerling-1) fluctuating target — the
 realistic case for a ship in a sea-clutter background — leaves it detectable
 only out to 25.7 km: a fading target must beat the detection
 threshold across the whole integration dwell rather than at a single peak.
- shows the detection probability curves.
+The stealth figure shows the detection probability curves.
 
 ![Detection probability vs range: reference target and stealth hull](output/figures/tomorrow_never_dies_stealth_detection.png)
 
@@ -236,7 +230,7 @@ of the gain. The two baselines are different pulses and the comparison is
 stated against each explicitly: matched filtering makes range depend on pulse
 energy alone, so compression does not buy range over an equally long pulse;
 what it buys is that resolution stops costing range.
- shows the compressed-pulse envelopes of the LFM chirp and the
+The waveform figure shows the compressed-pulse envelopes of the LFM chirp and the
 Barker-13 code. The Barker code buys far less gain (13x
 against the chirp's 27.0 dB) but pays for it with a much cleaner
 range response: a measured -22.2 dB sidelobe floor against
@@ -270,7 +264,7 @@ notion of losing lock, extrapolates 25.3 m there; that
 number is reported as the extrapolation it is and not as an achieved
 accuracy. Either way the jamming cascades:
 0.429 of the maritime systems fail over 3
-cascade rounds. plots position error against jammer standoff
+cascade rounds. The gps figure plots position error against jammer standoff
 distance.
 
 ![Position error vs jammer standoff distance (GPS denial)](output/figures/tomorrow_never_dies_gps_denial.png)
@@ -291,12 +285,12 @@ worst-placed satellite and 54.2% on the best-placed one; the
 worst case is the figure reported, because it is the one integrity has to
 survive. This is the honest cost of a modest 4-degree-of-freedom
 geometry: the protection level, not the detection probability, is what RAIM
-guarantees at this bias size. shows both ramps against measurement
+guarantees at this bias size. The raim figure shows both ramps against measurement
 bias.
 
 ![RAIM: detecting a corrupted navigation measurement](output/figures/tomorrow_never_dies_raim_detection.png)
 
-## Conclusion
+## Conclusion — CARVER: findings, verdict, and what the mission establishes
 
 CARVER demonstrates that the media-warfare instruments of *Tomorrow Never
 Dies* admit quantitative, reproducible models across six coupled analyses.
@@ -319,7 +313,7 @@ drivable by any coordinator through the unchanged brief → recon → plan →
 execute → debrief lifecycle, with provenance that lets any outcome be audited
 against its inputs.
 
-## Experimental Setup
+## Experimental Setup — CARVER: canonical scenarios, parameters, and configuration
 
 ### Scenario configuration
 
@@ -389,7 +383,7 @@ This is the committed date of the manuscript, not the time of the last
 regeneration: re-running the command above on an unchanged tree rewrites the
 same bytes, which it could not do if this line moved with the clock.
 
-## Reproducibility
+## Reproducibility — CARVER: verification gates, deterministic regeneration, and artifacts
 
 ### Determinism guarantees
 
@@ -446,7 +440,7 @@ after `z_generate_manuscript_variables.py` has run the canonical scenario.
 That is deliberate — it makes a stale number impossible to ship, because
 there is no number in the source to go stale.
 
-## Scope and Related Work
+## Scope and Related Work — CARVER: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -530,7 +524,7 @@ deterministic, and verifiable end to end from a bare checkout.
 The package itself is one film in the BOND suite, interoperating through the
 frozen `bond_api` `MissionProvider` protocol rather than bespoke interfaces.
 
-## Sources
+## Sources — CARVER: bibliography
 
 @marcum1960statistical; @swerling1960probability; @kempe2003maximizing; @misra2006gps; @skolnik2001radar; @tnd1997; @hegselmann2002opinion; @degroot1974reaching; @barker1953group; @parkinson1988autonomous; @brown1992baseline
 

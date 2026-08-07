@@ -15,8 +15,11 @@ output/
     provenance/   dag.json (provenance record for the run)
 ```
 
-There is no `figures/` and no `data/`. The compendium generates no plots and runs
-no experiment; its numbers are counts derived from live discovery.
+There is no `data/` — the compendium runs no experiment; its numbers are counts
+derived from live discovery. `figures/` exists as a build-time staging area:
+`scripts/generate_compendium.py` copies every embedded package figure into
+`output/figures/` (slug-namespaced) and the renderer rewrites those paths for
+LaTeX. It is gitignored along with the rest of `output/`.
 
 ## Two kinds of generated file
 

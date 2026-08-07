@@ -1,28 +1,22 @@
-# Bond Ops — QUARTERMASTER
+# Bond Operations — QUARTERMASTER
 
-*infra package · mission codename QUARTERMASTER*.
+*infra package · package codename QUARTERMASTER*.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — QUARTERMASTER: domain and operational focus
 
 Fleet inventory, gates, health, provisioning
 
-## Abstract
+## Abstract — QUARTERMASTER: mission summary
 
-PROJECT BOND is a **33**-package research suite: **6** infrastructure packages and **27** film packages. This manuscript documents **bond-ops** (*QUARTERMASTER*), the Layer-4 fleet-operations package that keeps the whole fleet measurable and gateable. The QUARTERMASTER owns the canonical suite roster as data, reconciles it against live suite directories, runs per-package quality gates (one package per subprocess), reports per-repo git health, and emits the herdr provisioning roster. Fleet gate results are runtime diagnostics — never hand-authored metrics. The methodology section defines the gates, probes, and formalisms; the results section shows the measured fleet surface; the reproducibility section pins the determinism properties.
+PROJECT BOND is a **33**-package research suite: **6** infrastructure packages and **27** film packages. This manuscript documents **bond-ops** (*QUARTERMASTER*), the Layer-4 fleet-operations package that keeps the whole fleet measurable and gateable. The QUARTERMASTER owns the canonical suite roster as data ([@def:suite-roster]), reconciles it against live suite directories, runs per-package quality gates (one package per subprocess — [@prop:isolation]), reports per-repo git health, and emits the herdr provisioning roster. Fleet gate results are runtime diagnostics — never hand-authored metrics. The methodology section defines the gates, probes, and formalisms; the results section shows the measured fleet surface; the reproducibility section pins the determinism properties.
 
-## Introduction 
+## Introduction — QUARTERMASTER: mission framing, the operational problem, and how to read this chapter
 
 The PROJECT BOND suite (**PROJECT BOND**) comprises **33**
 packages: **6** infrastructure packages forming the operational
 core (protocol, coordinator, orchestrator, CLI, ops, utilities) and
 **27** film packages implementing their respective mission
-providers. shows the composition.
+providers. The roster composition figure shows the composition.
 
 ::: {.definition #def:suite-roster title="Suite roster"}
 The *suite roster* is the frozen, ordered set of the **33** package
@@ -38,20 +32,20 @@ inventoried, gated, and provisioned from a single, deterministic vantage
 point. `bond-ops` fills exactly that Layer-4 role; the machinery is defined in
 the methodology section.
 
-## Methodology 
+## Methodology — QUARTERMASTER: the analytical models and algorithms that drive the mission
 
 ### Inventory
 
 `src/bond_ops/inventory.py` carries the canonical roster as data
- and reconciles it against the live suite root, flagging
-missing or unexpected packages.
+([@def:suite-roster]) and reconciles it against the live suite root, flagging
+missing or unexpected packages ([@def:inventory-reconcile]).
 
 ::: {.definition #def:inventory-reconcile title="Reconciliation"}
 `inventory.reconcile(root)` partitions the roster into `present` (slug
 directory exists under `root`), `missing` (roster slug absent), and
 `unexpected` (non-hidden directories on disk that are not roster slugs). The
 fleet is *complete* exactly when the missing set is empty
-.
+(the reconcile verdict equation).
 :::
 
 $$
@@ -85,7 +79,7 @@ per package.
 Coverage is parsed from either the pytest-cov `TOTAL` table or the
 `... not reached. Total coverage: X%` failure line. The manifest summarises
 measured coverage across the fleet with the mean and extrema of the
-per-package values.
+per-package values (the coverage mean equation, the coverage extrema equation).
 
 $$
 \mu = \frac{1}{n} \sum_{i=1}^{n} c_i
@@ -96,7 +90,7 @@ $$
 $$ 
 
 A package's gate verdict is the conjunction of the coverage gate and, when
-run, the ruff and mypy checks:
+run, the ruff and mypy checks (the gate verdict equation):
 
 $$
 G(p) = \mathrm{pytest}(p) \;\land\; \mathrm{ruff}(p) \;\land\; \mathrm{mypy}(p)
@@ -104,8 +98,8 @@ $$
 
 The toolchain is standard and pinned via `uv.lock`: [@pytest] drives every
 package's tests, [@coveragepy] measures line+branch coverage, [@ruff] lints
-and formats, and [@mypy] checks types. and
- visualise a real gate run; lists the
+and formats, and [@mypy] checks types. The gate coverage figure and
+the gate verdicts figure visualise a real gate run; the toolchain table lists the
 tools.
 
 ### Health
@@ -113,7 +107,7 @@ tools.
 ::: {.definition #def:health-verdict title="Health verdict"}
 A package is *healthy* when it is present, ships all **4**
 required files (README / AGENTS / TODO / pyproject), is free of lineage hits,
-and has a clean git tree.
+and has a clean git tree (the health verdict equation).
 :::
 
 $$
@@ -131,7 +125,7 @@ normal case in this local-only suite.
 The layout probes (`health.probe_layout`: `[project] name` equal to the slug,
 `tests/` present, `src/` present) and the toolchain probe
 (`health.tool_versions`) are reported alongside the health verdict but are
-deliberately **not** folded into $H(p)$ of. A package
+deliberately **not** folded into $H(p)$ of the health verdict equation. A package
 whose pyproject name has drifted from its slug is a silent fork hazard worth
 surfacing, but folding a new condition into the verdict would retroactively
 change the contract that downstream consumers of `ops health --json` read.
@@ -155,9 +149,9 @@ Every default is read-only; only `roster --execute` starts anything.
 ### Visualization
 
 `bond_ops.figures` renders the manuscript figures headlessly (Agg backend, no
-display) from canonical data and real reports: from
-the frozen roster constants, from a real health sweep, and
- / from a real gate report. Colours
+display) from canonical data and real reports: the roster composition figure from
+the frozen roster constants, the fleet health figure from a real health sweep, and
+the gate coverage figure / the gate verdicts figure from a real gate report. Colours
 come from a colourblind-safe palette [@wong2011] and the plotting is done with
 Matplotlib [@matplotlib]. Because the inputs are fixed and no wall-clock or
 random draw enters the render path, the PNG bytes are reproducible for a given
@@ -181,41 +175,41 @@ of a shell script.
 See the results section for the measured fleet surface and the setup section for the
 experimental setup.
 
-## Results 
+## Results — QUARTERMASTER: measured outcomes, headline numbers, and what they establish
 
 The fleet surface produced by bond-ops (codename QUARTERMASTER) is the
-**4**-subcommand `ops` surface of, all
+**4**-subcommand `ops` surface of [@def:ops-surface], all
 measured from real subprocess and filesystem state:
 
 - **Inventory.** `ops inventory` reconciles the canonical roster
- against `projects/working/bond/` and reports present,
+ ([@def:suite-roster]) against `projects/working/bond/` and reports present,
  missing, and unexpected directories. A complete fleet shows `present
  33/33 · missing 0 · complete True`
-; the verdict is rendered as the Python boolean it
+ (the reconcile verdict equation); the verdict is rendered as the Python boolean it
  is, and a test binds this quoted line to the CLI's real output.
 - **Fleet identity.** Every present film package's declared mission codename
  is cross-checked against the roster as data; the coherence test fails loudly
  on a rename or drift, so the QUARTERMASTER's copy of the 27-film
  roster matches what the fleet actually declares.
 - **Aggregate gate.** `ops gate --json` emits a deterministic
- `bond-ops-gate` manifest containing, for each
+ `bond-ops-gate` manifest ([@def:aggregate-gate]) containing, for each
  package, its presence, pytest pass/fail, measured coverage, ruff and mypy
  verdicts, and the summary totals with coverage min/mean/max over the
- 90-floor gate (,
- ). `ops gate` (human form) prints a per-package table; the
+ 90-floor gate (the coverage mean equation, the coverage extrema equation,
+ the gate verdict equation). `ops gate` (human form) prints a per-package table; the
  exit code is `0` iff every present package passes.
 - **Fleet health.** `ops health` reports per-repo clean/dirty, branch,
  ahead/behind, required-file coverage, lineage hits, layout probes, and the
- overall verdict; `--json` exposes `probes` and
+ overall verdict ([@def:health-verdict]); `--json` exposes `probes` and
  `layout_ok` per package as diagnostics that never move the verdict
-. shows a real sweep over the
+ ([@prop:probe-additivity]). The fleet health figure shows a real sweep over the
  whole fleet.
 - **Provisioning roster.** `ops roster` prints the herdr provisioning script;
  `ops roster --json` emits a machine-readable roster report
-; `ops roster --execute` runs it against the
+ ([@def:provisioning-roster]); `ops roster --execute` runs it against the
  herdr daemon.
 
-The gate manifest schema (version 1) is summarised in.
+The gate manifest schema (version 1) is summarised in the gate manifest table.
 
 | Field | Type | Meaning |
 |---|---|---|
@@ -236,19 +230,19 @@ The gate manifest schema (version 1) is summarised in.
 Because the manifest carries no wall-clock timestamp and asks only real
 processes for their verdicts, re-running `ops gate` against an unchanged fleet
 yields an identical manifest — a live determinism check
-.
+([@prop:manifest-determinism]).
 
-## Conclusion 
+## Conclusion — QUARTERMASTER: findings, verdict, and what the mission establishes
 
 **bond-ops** (*QUARTERMASTER*) delivers the fleet-operations surface of
-PROJECT BOND: a canonical roster, aggregate gates that
-respect one-package-per-subprocess isolation, per-repo
-health inspection, and a safe, read-only provisioning
-path. Together these make a **33**-
+PROJECT BOND: a canonical roster ([@def:suite-roster]), aggregate gates that
+respect one-package-per-subprocess isolation ([@prop:isolation]), per-repo
+health inspection ([@def:health-verdict]), and a safe, read-only provisioning
+path ([@def:provisioning-roster]). Together these make a **33**-
 package suite measurable and maintainable from a single QUARTERMASTER vantage
 point.
 
-## Experimental Setup 
+## Experimental Setup — QUARTERMASTER: canonical scenarios, parameters, and configuration
 
 - **Runtime.** Python ≥3.12 (the lowest exercised floor; the toolchain is
  standard library + `subprocess` + `pyyaml` + `matplotlib` (figures only). No
@@ -261,11 +255,11 @@ point.
  33 packages (6 infra, 27 films).
 - **Isolation contract**: each gate subprocess runs with `cwd` equal to the
  package's own directory; never all packages in one pytest process
-.
+ ([@prop:isolation]).
 - **Figures**: rendered headlessly (Agg) into `output/figures/` by
  `scripts/z_generate_figures.py`, byte-deterministic for fixed inputs.
 
-The toolchain is pinned via `uv.lock`.
+The toolchain is pinned via `uv.lock` (the toolchain table).
 
 | Tool | Role |
 |---|---|
@@ -285,7 +279,7 @@ health/layout probes against the live sibling packages under
 `projects/working/bond/`, giving the QUARTERMASTER an end-to-end gate it can
 trust on the fleet it operates.
 
-## Reproducibility 
+## Reproducibility — QUARTERMASTER: verification gates, deterministic regeneration, and artifacts
 
 ::: {.proposition #prop:manifest-determinism title="Manifest determinism"}
 Gate manifests and manuscript variable maps embed no wall-clock timestamp, so
@@ -302,10 +296,10 @@ bond-ops is engineered to be deterministic and reproducible:
 - **Fixed roster data.** The 33-package roster (6
  infra + 27 films) is a frozen, ordered data structure in
  `src/bond_ops/inventory.py`; order never varies across runs or platforms
-.
+ ([@def:suite-roster]).
 - **No wall-clock in persisted artifacts.** Gate manifests and manuscript
  variable maps embed no timestamps; for an unchanged fleet they are
- byte-identical across runs.
+ byte-identical across runs ([@prop:manifest-determinism]).
 - **Real subprocess, real files.** Every gate, git inspection, lineage sweep,
  and provisioning execution reads actual `subprocess` output and actual
  files — there is no mock or simulated state.
@@ -330,14 +324,14 @@ bond-ops is engineered to be deterministic and reproducible:
 - **No untracked randomness.** No `random` draws; nothing depends on
  wall-clock ordering.
 
-## Scope and Related Work 
+## Scope and Related Work — QUARTERMASTER: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
 bond-ops covers fleet *operations* only: knowing the
-33-package roster, gating each package
-, inspecting health, and
-rendering provisioning. It does **not** dispatch
+33-package roster ([@def:suite-roster]), gating each package
+([@def:aggregate-gate]), inspecting health ([@def:health-verdict]), and
+rendering provisioning ([@def:provisioning-roster]). It does **not** dispatch
 multi-package missions (that is `bond-orchestrator`) and does **not** provide
 the user-facing front door (that is `bond-cli`). Its gate runs each package's
 *own* tests; it never executes another package's mission logic.
@@ -364,18 +358,18 @@ directory with tests, a git tree, and a layout to probe.
  ships as a dependency, with the acceptance criterion that the reconciled
  slug set stays identical to the canonical 33.
 - **bond-cli (THE FRONT DOOR)** may consume the gate manifest produced here
- to surface fleet status to an end user.
+ (the gate manifest table) to surface fleet status to an end user.
 - **bond-api (THE PROTOCOL)** defines the protocol the film packages
  implement; bond-ops does not depend on it, but a film package fails
  the aggregate gate if it stops meeting protocol-backed tests.
 
 ### External dependencies
 
-The fleet's toolchain is standard and versioned via
-`uv.lock`; the manifest schema and CLI surface are the
+The fleet's toolchain (the toolchain table) is standard and versioned via
+`uv.lock`; the manifest schema (the gate manifest table) and CLI surface are the
 stable interfaces documented in `docs/`.
 
-## Limitations and Uncertainty 
+## Limitations and Uncertainty — QUARTERMASTER: assumptions, threats to validity, and what the numbers do not claim
 
 ### Scope of a gate verdict
 
@@ -388,8 +382,8 @@ prose (the reproducibility section).
 
 ### Verdicts are narrower than their diagnostics
 
-`HealthReport.healthy` deliberately excludes the layout
-probes: a package with a clean tree and all
+`HealthReport.healthy` ([@def:health-verdict]) deliberately excludes the layout
+probes ([@prop:probe-additivity]): a package with a clean tree and all
 4 required files is `healthy` even if its `[project] name`
 has drifted from its slug, because folding the probe in would change the
 verdict contract downstream consumers read. The drift is surfaced as
@@ -398,7 +392,7 @@ verdict contract downstream consumers read. The drift is surfaced as
 
 ### Fleet identity is a reflection, not a ground truth
 
-The roster and each film's mission codename are
+The roster ([@def:suite-roster]) and each film's mission codename are
 cross-checked as data against every present film package's own declaration.
 That declaration is read from source and config files and can itself be stale:
 the coherence test catches a film that renamed itself without updating this
@@ -407,7 +401,7 @@ codename. The check is only as fresh as the packages it reads.
 
 ### Determinism has a same-environment scope
 
-Gate manifests are byte-identical for an unchanged fleet, but figure bytes are deterministic *within a pinned environment*:
+Gate manifests are byte-identical for an unchanged fleet ([@prop:manifest-determinism]), but figure bytes are deterministic *within a pinned environment*:
 changing the matplotlib/font stack can move PNG bytes even for identical inputs.
 The figure guarantee is therefore reproduced under a fixed toolchain rather than
 claimed unconditionally across every platform.
@@ -435,7 +429,7 @@ mismatch must be treated as *fleet drift*, not resolved by picking a winner.
 That integration point, and the current codename divergence from the
 coordinator's provisional registry, are tracked in `TODO.md`.
 
-## Sources
+## Sources — QUARTERMASTER: bibliography
 
 @bond_ops; @pytest; @coveragepy; @ruff; @mypy; @matplotlib; @wong2011
 

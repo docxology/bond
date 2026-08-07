@@ -49,7 +49,7 @@ src/bond_manuscript/   compendium.py (discovery, abstract import, bib merge, sec
                        manuscript_variables.py ({{TOKEN}} map from live discovery)
 scripts/               generate_compendium.py · z_generate_manuscript_variables.py
 manuscript/            the wrapper manuscript (sections + unified references.bib)
-tests/                 18 tests, no mocks, ≥90% coverage on src/
+tests/                 43 tests, no mocks, ≥90% coverage on src/
 ```
 
 Local-only workspace tree under `projects/working/` — never pushed.

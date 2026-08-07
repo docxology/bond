@@ -4,19 +4,15 @@ authors:
   given-names: Daniel Ari
   orcid: 0000-0001-6232-9096
 cff-version: 1.2.0
-date-released: '2026-07-10'
-doi: 10.5281/zenodo.20417136
 keywords:
-- optimization algorithms
-- gradient descent
-- convergence analysis
-- numerical methods
-- mathematical programming
+- software suite
+- special-agent operations
+- James Bond
 - reproducible research
-- infrastructure automation
+- deterministic computation
 license: MIT
 message: If you use this software, please cite it using the metadata from this file.
-repository-code: https://github.com/docxology/bond-manuscript
-title: Convergence Analysis of Gradient Descent Optimization
+repository-code: https://github.com/docxology/bond
+title: PROJECT BOND — The Special-Agent Operations Compendium
 type: software
-version: 2.5.2
+version: 1.0.0

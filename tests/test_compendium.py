@@ -83,6 +83,12 @@ def test_generated_bibtex_is_balanced() -> None:
     assert _entry_count(bib) >= 100
     # No plain-text `[n]` fragments leaked into the BibTeX.
     assert not re.search(r"^\s*\[[0-9]+\]", bib, re.M)
+    keys = re.findall(r"@\w+\s*\{\s*([\w:.-]+)\s*,", bib)
+    assert len({key.lower() for key in keys}) == len(keys)
+    assert "@article{brandes2001," in bib
+    assert "@article{Brandes2001," not in bib
+    assert "poison\\_detect" in bib
+    assert "Wiley \\& Sons" in bib
 
 
 def test_every_package_chapter_present_on_disk() -> None:
@@ -106,6 +112,9 @@ def test_manuscript_variables_counts() -> None:
     assert variables["N_PACKAGES"] == "33"
     assert variables["N_FILMS"] == str(N_FILMS)
     assert variables["N_INFRA"] == str(N_INFRA)
+    assert variables["N_GATE_MEASURED"] == str(N_FILMS + N_INFRA)
+    assert variables["SUITE_TITLE"] == "PROJECT BOND — The Special-Agent Operations Compendium"
+    assert variables["SUITE_TITLE_SHORT"] == "PROJECT BOND Compendium"
 
 
 def test_degenerate_no_duplicate_abstract_content() -> None:
@@ -186,10 +195,10 @@ def test_build_architecture_section() -> None:
     section = compendium.build_architecture_section(packages, BOND)
     assert "# Suite Architecture" in section
     assert "Layer 0 · utilities" in section
-    assert "## Roster" in section and "bond-api" in section
+    assert "## Complete package roster and mission codenames" in section and "bond-api" in section
     assert "goldfinger" in section
     if (BOND / "output/aggregate/gate_manifest.json").is_file():
-        assert "## Measured gate" in section
+        assert "## Aggregate quality gate and coverage evidence" in section
 
 
 def test_build_references_section_groups_by_source() -> None:
@@ -384,15 +393,30 @@ def test_no_empty_bold_in_any_imported_abstract() -> None:
 
 
 def test_imported_abstracts_carry_no_dangling_crossrefs() -> None:
-    """Package-local section labels must not survive into the wrapper.
+    """Package-local labels that cannot resolve must not survive into the wrapper.
 
-    They resolve inside their own manuscript but render as `sec. ??` and `[?]`
-    in the combined compendium PDF.
+    Section labels are not imported as anchors into the combined document, so
+    ``@sec:`` pointers are converted to prose and ``@fig:``/``@eq:``/``@tbl:``/
+    ``@lst:`` pointers are dropped. Formalism references (``def``/``prop``/``thm``/
+    ``lem``/``cor``) ARE resolvable — the compendium imports each package's
+    formalism blocks with their labels — so every one that survives must name a
+    label defined in that package's own manuscript.
     """
+    import re as _re
+
     for pkg in discover_packages(BOND):
         abstract = import_package_abstract(BOND / pkg.slug)
-        assert "[@" not in abstract, pkg.slug
         assert "@sec:" not in abstract, pkg.slug
+        assert "@fig:" not in abstract and "@tbl:" not in abstract, pkg.slug
+        assert "@eq:" not in abstract and "@lst:" not in abstract, pkg.slug
+        # Every surviving formalism citation must point at a label the package
+        # itself defines (so it resolves in the combined compendium document).
+        formal = _re.findall(r"@(def|prop|thm|lem|cor):([\w:-]+)", abstract)
+        if not formal:
+            continue
+        pkg_manuscript = "".join(f.read_text() for f in (BOND / pkg.slug / "manuscript").glob("[0-9][0-9]_*.md"))
+        for kind, label in formal:
+            assert f"#{kind}:{label}" in pkg_manuscript, f"{pkg.slug}: @{kind}:{label} cited but never defined"
 
 
 def test_brief_failures_recorded_not_swallowed(tmp_path) -> None:
@@ -473,6 +497,47 @@ def test_no_dangling_fig_labels_or_crossref_attributes_in_chapters() -> None:
         assert "{#fig:" not in text, f.name
         assert "[@fig:" not in text and "[@tbl:" not in text, f.name
         assert "{#tbl:" not in text, f.name
+
+
+def test_imported_sections_use_backend_safe_math_macros() -> None:
+    text = (MANUSCRIPT / "03_24_spectre.md").read_text()
+    assert r"\Cindex" not in text
+    assert r"\HHI" not in text
+    assert r"\Eff" not in text
+    assert r"\mathrm{HHI}" in text
+    assert "@Brandes2001" not in text
+    assert "@brandes2001" in text
+
+
+def test_every_package_figure_embeds_resolve_and_copy() -> None:
+    """Every source figure embed must resolve and be copied, never caption-only.
+
+    The fleet mixes three path conventions (manuscript-relative, package-root
+    ``output/figures/``, package-root ``figures/``).  The generator must not
+    silently degrade an existing figure to a prose caption.
+    """
+    from bond_manuscript import compendium
+
+    img = re.compile(r"!\[[^\]]*\]\(([^)]+)\)")
+    for pkg in compendium.discover_packages(BOND):
+        pdir = BOND / pkg.slug
+        embeds: list[str] = []
+        for f in (pdir / "manuscript").glob("[0-9][0-9]_*.md"):
+            embeds += [m for m in img.findall(f.read_text()) if "{{" not in m]
+        if not embeds:
+            continue
+        sections, figures = compendium.import_package_sections(pdir, pkg.slug)
+        assert figures, f"{pkg.slug}: {len(embeds)} embeds but no figure copied"
+        assert "Figure (in the package manuscript)" not in sections, pkg.slug
+        for _abs, dest in figures:
+            assert dest.startswith(pkg.slug + "_"), (pkg.slug, dest)
+
+
+def test_spectre_figures_carried_into_combined_chapter() -> None:
+    text = (MANUSCRIPT / "03_24_spectre.md").read_text()
+    assert "output/figures/spectre_network_flow_centralization.png" in text
+    assert "output/figures/spectre_brotherhood_cascade.png" in text
+    assert "Figure (in the package manuscript)" not in text
 
 
 def test_import_package_sections_no_sections_returns_empty(tmp_path) -> None:

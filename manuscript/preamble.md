@@ -10,6 +10,18 @@ This file contains LaTeX packages and commands that are automatically injected i
 \usepackage{amssymb}
 \usepackage{amsfonts}
 \usepackage{amsthm}
+% All theorem-like blocks in the imported fleet use these environments.  The
+% counters are owned by LaTeX (never hand-numbered in Markdown) and reset by
+% section, so Definition 4.1 / Proposition 4.2 remain stable under pagination.
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}[definition]{Example}
+\newtheorem{remark}[definition]{Remark}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
 
 % Document layout
 \usepackage{geometry}
@@ -31,7 +43,7 @@ This file contains LaTeX packages and commands that are automatically injected i
 % Typography and formatting
 \usepackage{microtype}
 \usepackage{xcolor}
-\IfFileExists{siunitx.sty}{\usepackage[binary-units]{siunitx}}{}
+\IfFileExists{siunitx.sty}{\usepackage{siunitx}}{}
 
 % Cross-references and citations
 \usepackage{hyperref}
@@ -42,27 +54,7 @@ This file contains LaTeX packages and commands that are automatically injected i
 \usepackage[capitalise,noabbrev]{cleveref}
 \usepackage{natbib}
 
-% ── Unicode-capable mono font for code listings ──────────────────────
-% JuliaMono (TeX Live 2026) covers the full math/Greek glyph set used in
-% scientific code blocks; the default lmmono lacks \alpha/\mu/\partial/\nabla.
-%
-% The hardcoded TeX Live 2026 path below is portable to most macOS / Linux
-% TeX Live installs that placed JuliaMono under the default texmf-dist path.
-% If your TeX Live version differs (e.g., 2025, 2027) or your distribution
-% installs fonts elsewhere, comment out the explicit Path = line — fontspec
-% will then search the system font path. If JuliaMono is not installed at
-% all, comment out the whole block; xelatex falls back to lmmono with
-% reduced Unicode coverage but the document still compiles.
-\usepackage{fontspec}
-\setmonofont{JuliaMono-Regular}[
-  Path           = /usr/local/texlive/2026/texmf-dist/fonts/truetype/public/juliamono/,
-  Extension      = .ttf,
-  UprightFont    = *,
-  BoldFont       = JuliaMono-Bold,
-  ItalicFont     = JuliaMono-RegularItalic,
-  BoldItalicFont = JuliaMono-BoldItalic,
-  Scale          = MatchLowercase,
-]
+% Code listings use the renderer default mono font for portability.
 
 % Math font for unicode-math: Latin Modern Math (TeX Live) has full BMP
 % coverage including U+2223 (\mid), U+226A/226B (\ll/\gg), and the Greek/

@@ -1,7 +1,9 @@
 # manuscript/ — the PROJECT BOND compendium
 
 The wrapper manuscript for the 33-package BOND suite: three hand-authored
-sections framing 32 generated chapters and a unified bibliography.
+sections framing 35 generated sections (1 architecture chapter, 27 film
+chapters, 6 infrastructure chapters, 1 references chapter) and a unified
+bibliography.
 
 ## Structure
 
@@ -38,7 +40,7 @@ Output: `output/pdf/bond-manuscript_combined.pdf`, per-section HTML under
 
 ## Before you edit
 
-The 32 generated sections and `references.bib` are rewritten on every build. A
+The 35 generated sections and `references.bib` are rewritten on every build. A
 correction to a film belongs in that film's package, not here.
 [`AGENTS.md`](AGENTS.md) has the full table of what is editable and where each
 kind of fix belongs; [`SYNTAX.md`](SYNTAX.md) covers tokens, citations, and the

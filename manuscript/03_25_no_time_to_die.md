@@ -1,22 +1,16 @@
 # No Time to Die (2021) — HERACLES
 
-*film package · mission codename HERACLES*. Mission **HERACLES**: assess DNA-targeted bioweapon countermeasure specificity and delivery; design and rank the countermeasure guide across a population; characterize poison-garden dose-response toxicology; screen competitive-antagonist antidotes against a toxin dose; assess poison exposure pathways and cumulative risk; run vesper poison-delivery trace detection forensics.
+*film package · package codename HERACLES*. Mission **HERACLES**: assess DNA-targeted bioweapon countermeasure specificity and delivery; design and rank the countermeasure guide across a population; characterize poison-garden dose-response toxicology; screen competitive-antagonist antidotes against a toxin dose; assess poison exposure pathways and cumulative risk; run vesper poison-delivery trace detection forensics.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — HERACLES: domain and operational focus
 
 DNA-targeted bioweapons, toxicology
 
-## Abstract
+## Abstract — HERACLES: mission summary
 
 No Time to Die: HERACLES — Special-Agent Mission Software — mission codename **HERACLES** — reduces the pharmaco-forensic threats of *No Time to Die* (2021) to deterministic, tested mathematics with a shared provenance ledger. The pure domain core in `src/no_time_to_die/` comprises **6** modules spanning three threat families: a DNA-targeted bioweapon countermeasure (target specificity, guide design, and delivery kinetics), poison-garden toxicology (dose–response and competitive-antagonist pharmacology), and poison-delivery forensics (exposure assessment and trace detection on the Vesper's glass). A thin adapter binds that core to the frozen bond-api mission protocol so the film is discoverable and drivable by the BOND suite orchestrator. The poison-garden catalog profiles **7** flora toxins spanning 0.8 to 10.0 mg/kg (median 1.5) — commonly-cited order-of-magnitude LD50 figures paired with invented Hill slopes. The HERACLES countermeasure demonstration selects a target guide that attains 66.67% specificity against a constructed reference genome with a planted, documented structure, and a combined neutralization probability of 49.59%. Guide design ranks 4 candidates by a Doench-style efficiency blended with population off-target burden; a screen over five invented inhibition constants restores 98.87% survival against a ricin dose; and the delivered exposure carries a margin of exposure of 8.333 (risk quotient 60) — a verdict of elevated risk. Forensic trace detection clears a limit-of-detection signal-to-noise ratio of 3.0 at an observed SNR of 9, recovering a dosable residue from the glass and identifying it as ricin. The entire assessment is deterministic — no module imports a clock or an RNG, the canonical input digest is `cb8fe93a43fc`, and two runs on one interpreter render byte-identical artifacts — and it is reproduced under Python 3.14.6, satisfying the suite's coverage, mock-free, and lineage gates. Every constant is registered with its provenance class in `data/claim_ledger.yaml`; none is a measurement.
 
-## Introduction
+## Introduction — HERACLES: mission framing, the operational problem, and how to read this chapter
 
 *No Time to Die* (2021) introduces three interlocking threats that map cleanly
 onto computational modelling problems: a DNA-targeted bioweapon program
@@ -63,9 +57,9 @@ importable without bond-api, the mission adapter implements the frozen
 protocol, every metric flows into the manuscript through
 `src/no_time_to_die/manuscript_variables.py`, and the whole assessment is
 deterministic and fully tested. A reader can open any function named in
-[Methodology](#methodology) and trace it to its source file in seconds.
+Methodology and trace it to its source file in seconds.
 
-## Methodology
+## Methodology — HERACLES: the analytical models and algorithms that drive the mission
 
 This section specifies the mathematics of each concept module. All functions
 are pure, side-effect-free, and deterministic; the canonical demonstration
@@ -210,7 +204,7 @@ residual = f_tox * (1 - f_antag); survival = 1 - residual
 ```
 
 The `Ki` values fed to this model are invented, not published — see
-[Scope](#scope-and-related-work). The relation and the isotherm are real and are
+Scope. The relation and the isotherm are real and are
 tested against hand-checkable values; the library entries are illustrative
 inputs named after real drugs, and the model is applied uniformly to all five
 regardless of whether the real drug is a competitive antagonist. `screen_report`
@@ -229,7 +223,7 @@ body burden under first-order elimination
 `absorbed / reference_dose`. `exposure_scenario_report` composes these into a
 single verdict (acceptable vs elevated risk).
 
-## Results
+## Results — HERACLES: measured outcomes, headline numbers, and what they establish
 
 All results below are computed live from `src/no_time_to_die/demo.py` by
 `src/no_time_to_die/manuscript_variables.py`; none are hand-authored. The
@@ -267,7 +261,7 @@ the reference could not have contradicted. Combined with a delivered fraction of
 **49.59%**.
 
 The delivery kinetics (one-compartment bateman model) are rendered in
-[Figure.
+[the delivery figure.
 
 ![HERACLES one-compartment delivery kinetics over a
 12.0 h horizon (absorption rate
@@ -294,7 +288,7 @@ risk, so the composite reduced to the raw efficiency, the two leaders tied at
 1.0, and the "winner" was chosen by the alphabetical tie-break. The suite now
 fails if the off-target term goes inert or the top two tie again.
 
-The efficiency landscape (vs GC content) is rendered in [Figure.
+The efficiency landscape (vs GC content) is rendered in [the guidance figure.
 
 ![HERACLES guide-design efficiency across the candidate
 set.](output/figures/no_time_to_die_guide_efficiency.png)
@@ -304,7 +298,7 @@ set.](output/figures/no_time_to_die_guide_efficiency.png)
 The `7`-toxin catalog spans LD50 0.8 to
 10.0 mg/kg, median 1.5 mg/kg.
 Dose–response curves for every flora member are rendered in
-[Figure. A garden-risk mixture of ricin, nicotine, and cyanide
+[the toxicology figure. A garden-risk mixture of ricin, nicotine, and cyanide
 combines under response addition to affect **42.12%** of
 an exposed population.
 
@@ -322,15 +316,15 @@ of the toxin's receptor occupancy. The *challenge* is put in context by the
 therapeutic window — the toxin LD50 sits **2** times above the
 administered dose, a margin of safety of **1** — so the dose the
 screen confronts is comfortably below the population-lethal level (see
-[Scope](#scope-and-related-work) for what this ratio is and is not).
+Scope for what this ratio is and is not).
 
 This ranking is a property of the arithmetic, not of pharmacology. Every `Ki`
-in the library is invented (see [Scope](#scope-and-related-work)); three of the
+in the library is invented (see Scope); three of the
 five named agents are not competitive receptor antagonists at all, and the
 Cheng–Prusoff model is applied to them anyway. The result demonstrates that the
 screen orders a library correctly given inhibition constants; it says nothing
 about which of these drugs would help against ricin. The competitive-antagonist
-dose–response for the library is rendered in [Figure.
+dose–response for the library is rendered in [the antidote figure.
 
 ![Competitive-antagonist antidote response
 curves.](output/figures/no_time_to_die_antidote_response.png)
@@ -356,13 +350,13 @@ At a limit-of-detection SNR of `3.0`, the demonstration signal
 confidence. The calibration model back-computes a residue concentration of
 **4.25** (the calibration inversion is clamped at the
 calibration intercept, not at the limit of detection — see
-[Methodology](#methodology)), and applying the
+Methodology), and applying the
 0.1 transfer fraction over 0.5 mL
 gives a transfer-corrected residue dose of **0.2125**
 (arbitrary mass units) on the glass. Spectral matching against the
 `5`-entry reference library identifies the residue as
 **ricin**. Detection confidence vs signal-to-noise is rendered
-in [Figure.
+in [the detection figure.
 
 ![Vesper trace detection confidence vs signal-to-noise against the
 limit of detection.](output/figures/no_time_to_die_detection_confidence.png)
@@ -376,12 +370,12 @@ atropine mix, `decompose_mixture` recovers the
 non-negative mixing fractions by least squares over 1- and 2-component
 candidates: a primary **60%** + secondary
 **40%** split with a squared residual of
-**1.329e-32** (see [Methodology](#methodology)). The
+**1.329e-32** (see Methodology). The
 decomposition is a *model*, not an instrument read: it recovers the planted
 blend because the blend was put there, exactly as the specificity and guide
-results recover planted structure (see [Scope](#scope-and-related-work)).
+results recover planted structure (see Scope).
 
-## Conclusion
+## Conclusion — HERACLES: findings, verdict, and what the mission establishes
 
 No Time to Die: HERACLES — Special-Agent Mission Software demonstrates that the three central threats of *No Time to
 Die* (2021) — a DNA-targeted bioweapon, a poison garden, and delivery
@@ -415,7 +409,7 @@ path, guarded by `check_demo_completeness` so a renamed result key fails the
 build rather than silently hydrating a zero. This is the reference film pattern
 for the remaining BOND suite packages.
 
-The clearest limitation is the one the [Scope](#scope-and-related-work) section
+The clearest limitation is the one the Scope section
 names: nothing here is a measurement. Most constants are invented for this
 demonstration; the rest are commonly-cited order-of-magnitude figures carried
 without a citation. The demonstration therefore supports claims about the
@@ -435,7 +429,7 @@ an unseen genome and a stronger one than the package could previously make at
 all — the earlier periodic reference made its own headline numbers arithmetically
 inevitable.
 
-## Experimental Setup
+## Experimental Setup — HERACLES: canonical scenarios, parameters, and configuration
 
 ### Software environment
 
@@ -482,7 +476,7 @@ constants at hydration time, so the table cannot drift from the code that runs:
 | Canonical input digest (sha256, first 12) | `cb8fe93a43fc` |
 
 All are fixed at import. No module in the package imports a clock or an RNG
-(structurally enforced — see [Reproducibility](#reproducibility)), so two runs
+(structurally enforced — see Reproducibility), so two runs
 on one interpreter render byte-identical artifacts. The single host-dependent
 value in the whole package is the `PYTHON_VERSION` token above.
 
@@ -495,7 +489,7 @@ forced by the input. The earlier reference was `AACCGGTTAACCGGTT` repeated four
 times, whose period equalled the guide length; that reference could only ever
 return 100% specificity, zero off-target windows, and zero population
 off-target risk, so those numbers carried no information. See
-[Results](#results).
+Results.
 
 ### Figure generation
 
@@ -514,7 +508,7 @@ cannot annotate a parameter the demonstration does not use:
 - `detection_confidence.png` — logistic detection confidence vs SNR against the
  3.0 limit of detection.
 
-## Reproducibility
+## Reproducibility — HERACLES: verification gates, deterministic regeneration, and artifacts
 
 This package treats reproducibility as a hard constraint enforced by tests, not
 a prose promise. Every guarantee below names the test that would fail if it
@@ -610,7 +604,7 @@ git diff --exit-code # clean tree after regeneration
 The suite enforces ≥90% line+branch coverage on `src/` and zero mocks. Rendered
 under Python 3.14.6.
 
-## Scope and Related Work
+## Scope and Related Work — HERACLES: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -726,7 +720,7 @@ well-established published method rather than an invention of this package:
 The simplifications are the point: each is small enough to test exactly against
 a hand-checkable value, which is what makes the whole assessment auditable.
 
-## Sources
+## Sources — HERACLES: bibliography
 
 @bond_api_2026; @bond_orchestrator_2026; @bond_utilities_2026; @hill1910possible; @no_time_to_die_2021; @doench2014rational; @hsu2013dna; @cheng1973relationship; @nrc1983risk; @bateman1910solution; @gibaldi1982pharmacokinetics; @langmuir1918adsorption; @bliss1939toxicity; @currie1968limits; @lawsonhanson1974
 

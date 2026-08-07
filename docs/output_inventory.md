@@ -9,7 +9,7 @@ Tracked, because they are the manuscript — but never hand-edited.
 
 | Path | Content | Produced by |
 | --- | --- | --- |
-| `manuscript/references.bib` | Unified bibliography merged from all 33 packages, de-duplicated by key | `build_references_bib()` via `scripts/generate_compendium.py` |
+| `manuscript/references.bib` | Unified bibliography merged from all 33 packages, de-duplicated by case-insensitive canonical key and escaped for safe LaTeX output | `build_references_bib()` via `scripts/generate_compendium.py` |
 | `manuscript/02_suite_architecture.md` | Layer table, roster table, measured-gate table | `build_architecture_section()` |
 | `manuscript/03_01_…` … `03_27_…` | One chapter per film: header, concepts, imported abstract, sources | `build_package_section()` |
 | `manuscript/04_01_…` … `04_06_…` | One chapter per infrastructure package | `build_package_section()` |

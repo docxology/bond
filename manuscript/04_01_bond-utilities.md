@@ -1,22 +1,16 @@
 # Bond Utilities — Q-BRANCH
 
-*infra package · mission codename Q-BRANCH*.
+*infra package · package codename Q-BRANCH*.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — Q-BRANCH: domain and operational focus
 
 Q-Branch primitives — ciphers, codenames, clock, provenance, fixtures
 
-## Abstract
+## Abstract — Q-BRANCH: mission summary
 
 The BOND suite's shared foundation, codenamed **Q-BRANCH**, ships dependency-light Python modules that every other bond package imports: a classic-cipher suite with cryptanalysis helpers, a deterministic codename engine with several schemes, mission clock/schedule math, seeded randomness, mission-record persistence with provenance, and plain-text reporting. The cipher layer exposes **9** classic primitives (caesar, vigenere, one_time_pad, xor, atbash, beaufort, rail_fence, playfair, columnar) — each round-trip verified with real data — and **8** analysis helpers (letter frequency, index of coincidence, chi-squared scoring, Caesar/Vigenère breaking, Kasiski examination). Codenames are drawn under **5** deterministic schemes (adjective_noun, alliterative, nato, numeric, token); the NATO scheme spells a short identifier as `QUEBEC-BRAVO-7`. Reproducible sampling runs through **7** seeded draw helpers (seeded_bytes, seeded_int, seeded_float, seeded_choice, seeded_choices, seeded_shuffle, seeded_sample), each derived from one seed. Mission schedules are half-open UTC windows with overlap, merge, and duration models, and persisted mission records carry a reproducible input hash, the schema version, and the producing seed, so any outcome can be re-derived from its stored inputs. Every quantity this manuscript claims about the package — counts, capacities, window durations, sample outputs, and gate thresholds — arrives as a generated token computed from `manuscript/config.yaml` and the live registries by `src/bond_utilities/manuscript_variables.py`. Three tests enforce that: a cross-reference test fails on any prose token the generator does not produce; a bare-numeral guard fails on any hand-authored number in the abstract, introduction, results, conclusion, and reproducibility sections; and a hand-copied-metric guard fails when any section anywhere in the manuscript writes a generated value as a literal instead of its token. The exception is stated rather than hidden: the methodology and scope sections write the constants that *define* an algorithm — the modular base, the digraph square size, the reference index-of-coincidence values — as literals, because those are definitions of the mathematics, not measurements of this package.
 
-## Introduction
+## Introduction — Q-BRANCH: mission framing, the operational problem, and how to read this chapter
 
 `bond-utilities` is Layer 0 of the BOND suite: the shared, dependency-free
 foundation imported by every other bond package. It deliberately keeps its
@@ -57,7 +51,7 @@ the measured round-trips, determinism, cryptanalysis demos, and schedule
 results. `05_experimental_setup.md` documents the mission parameters that
 drive every token in this manuscript.
 
-## Methodology
+## Methodology — Q-BRANCH: the analytical models and algorithms that drive the mission
 
 ### Ciphers (`src/bond_utilities/ciphers.py`)
 
@@ -214,7 +208,7 @@ Frequency scoring uses the standard English letter table in `ENGLISH_FREQUENCIES
 (normalized; sum 1.0). All cryptanalysis outputs are deterministic given the
 input text.
 
-## Results
+## Results — Q-BRANCH: measured outcomes, headline numbers, and what they establish
 
 ### Round-trip fidelity
 
@@ -239,7 +233,7 @@ qualification cannot quietly stop being true. `kasiski_key_lengths` returns the
 true key length among its candidates for repeated plaintext, and
 `index_of_coincidence` cleanly separates repetitive (more-structured) text from
 uniform random text. The figure
-`` shows the A-Z counts of the mission codename sample.
+`the freq figure` shows the A-Z counts of the mission codename sample.
 
 ![Letter frequency of the codename sample.](output/figures/bond-utilities_letter_frequency.png)
 
@@ -319,14 +313,14 @@ extend a record without invalidating its audit trail.
 
 The primary mission window spans 144.0 hours, from
 2026-08-04T00:00:00+00:00 to 2026-08-10T00:00:00+00:00 (UTC), rendered in
-. The secondary window overlaps the primary by
+the schedule figure. The secondary window overlaps the primary by
 48.0 hours — computed by `windows_overlap`, not
 hand-authored. Window math is exact under the half-open `[start, end)`
 semantics; elapsed and remaining durations clamp at zero.
 
 ![Mission schedule window with the reference "now" marker.](output/figures/bond-utilities_mission_schedule.png)
 
-## Conclusion
+## Conclusion — Q-BRANCH: findings, verdict, and what the mission establishes
 
 `bond-utilities` (codename **Q-BRANCH**) delivers a broadened,
 fully-tested, dependency-light foundation on which the rest of the BOND suite
@@ -355,7 +349,7 @@ Future phases (bond-api and higher layers) will continue to consume this
 package's `record_provenance_outcome`/`verify_provenance` persistence surface,
 its seeded draw helpers, and its schedule models.
 
-## Experimental setup
+## Experimental Setup — Q-BRANCH: canonical scenarios, parameters, and configuration
 
 ### Mission parameters
 
@@ -391,7 +385,7 @@ The package requires Python ≥ 3.10 and depends only on `numpy`,
 framework is used anywhere. All randomness is seeded; functions with a
 wall-clock default take an explicit `now=/seed=` override in tests.
 
-## Reproducibility
+## Reproducibility — Q-BRANCH: verification gates, deterministic regeneration, and artifacts
 
 ### Artifact inventory
 
@@ -451,7 +445,7 @@ measured coverage of any given run is deliberately not quoted here; run the
 command above to read it. `ruff check`, `ruff format --check`, and
 `mypy src/ scripts/` must also pass clean.
 
-## Scope and related work
+## Scope and Related Work — Q-BRANCH: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -497,7 +491,7 @@ semantics follow ISO-8601 date/time representations [@iso8601].
 - The word lists are deliberately small and curated; they are not a secure
  randomness source.
 
-## Sources
+## Sources — Q-BRANCH: bibliography
 
 @kahn_codebreakers; @shannon_1949; @matsumoto_1998; @friedman_1922; @kasiski_1863; @stinson_paterson_2018; @iso8601; @unicode_standard
 

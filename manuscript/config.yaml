@@ -7,7 +7,10 @@ paper:
   title: "PROJECT BOND — The Special-Agent Operations Compendium"
   subtitle: "A 33-Package Software Suite Wrapping One Chapter per James Bond Film"
   version: "1.0.0"
-  date: "2026-08-04"
+  # No static date: the title page renders \today automatically, so the cover
+  # always carries the build date rather than a stale fixed value.
+  cover:
+    image: "assets/project_bond_cover.png"
 
 authors:
   - name: "Daniel Ari Friedman"
@@ -16,10 +19,16 @@ authors:
     affiliation: "Active Inference Institute"
     corresponding: true
 
+rendering:
+  cover_height_fraction: 0.62
+
 publication:
-  doi: ""            # local-only compendium; no DOI minted
-  repository_url: ""
-  repository_label: ""
+  doi: "10.5281/zenodo.21843592" # not yet minted; the title page shows the status below
+  doi_status: "forthcoming"
+  repository_url: "https://github.com/docxology/bond"
+  repository_label: "GitHub repository"
+  version_doi: "10.5281/zenodo.21843593"
+  version_record: "https://zenodo.org/records/21843593"
 
 keywords:
   - "software suite"

@@ -1,22 +1,16 @@
 # GoldenEye (1995) — ARKANGEL
 
-*film package · mission codename ARKANGEL*. Mission **ARKANGEL**: model the orbital EMP threat envelope and the orbital platform geometry; assess electronics kill radii by vulnerability class; assess EM coupling and shielding on sensitive infrastructure; assess regional power-network resilience to the strike; evaluate Arkangel dam-facility security and breach-flood hydrograph.
+*film package · package codename ARKANGEL*. Mission **ARKANGEL**: model the orbital EMP threat envelope and the orbital platform geometry; assess electronics kill radii by vulnerability class; assess EM coupling and shielding on sensitive infrastructure; assess regional power-network resilience to the strike; evaluate Arkangel dam-facility security and breach-flood hydrograph.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — ARKANGEL: domain and operational focus
 
 orbital EMP, infrastructure resilience
 
-## Abstract
+## Abstract — ARKANGEL: mission summary
 
 **GoldenEye: ARKANGEL** (film identity **GOLDENEYE**, mission codename **ARKANGEL**) is a deterministic special-agent mission software package that models the coupled threat surfaces from the 1995 film *GoldenEye*: an orbital electromagnetic-pulse (EMP) weapon and its orbital-platform delivery, the electronics kill-radius it imposes on surface assets, the coupling and shielding of sensitive infrastructure, the resilience of the regional power network, and the security and breach-flood risk of the Arkangel dam facility. The threat envelope is a documented conservative point-source model of a high-altitude nuclear burst (**2000.0** kt at **300.0** km), producing a nadir early-time field of **90125** V/m across a line-of-sight footprint of radius **1978** km (**12291795** km^2). Four electronics vulnerability classes (**4** in total: **unprotected, commercial, military, legacy_tube**) are assessed: unprotected microelectronics are destroyed over essentially the entire visible footprint (**1978.0** km, **100.0**\% of it), while MIL-STD-188-125-hardened and legacy vacuum-tube electronics require ever-higher fields and survive to within **268.7** km of the burst or are immune (**0.0** km). For the Arkangel dam, the report combines the published Froehlich (1995) breach-outflow regression with the Ritter (1892) instantaneous dam-break solution. Given a reservoir of **130000000** m^3 behind a **75.0** m head, peak outflow reaches **31760** m^3/s with a wave front moving at **54.2** m/s; the facility **8.0** km downstream faces a **33.3** m peak inundation within **2.5** min — an overall **extreme** risk. Defense-in-depth access control yields a **0.987** detection probability and a **89.3** composite security score. Beyond the envelope, the package deepens the model. The weapon rides a circular orbital platform (period **90.4** min, speed **7.7** km/s) that sees the target at a **18.8**-degree elevation over **797.7** km of slant range, with a **5.0**-minute usable pass. At the facility the envelope field of **10617** V/m couples **34218** V onto a **3.2** m effective antenna, yet a **0.008** mm-penetration aluminium enclosure provides **192.3** dB of shielding and reduces the penetrated field to **0.00** V/m. The regional power grid (**5** nodes, **6** lines) loses the nodes **town_a, relay** and serves only **28.4**\% of critical load; the mission-critical facility retains a **0.402** survival probability over **3** redundant paths. A breach hydrograph (average width **164.7** m, duration **136.4** min) sweeps all **3** monitored stations, the farthest **20.0** km downstream arriving in **6.1** min. All results are closed-form, deterministic, and regenerable from source; figures, data, and manuscript variables are produced by thin orchestration scripts under `scripts/`.
 
-## Introduction
+## Introduction — ARKANGEL: mission framing, the operational problem, and how to read this chapter
 
 **GoldenEye: ARKANGEL — Special-Agent Mission Software** (**Orbital EMP effects, electronics kill radius, EM coupling and shielding, power-network resilience, and Arkangel dam-facility security**) is a BOND-suite film package for *GoldenEye*
 (1995), the film in which a captured space-based weapon — a
@@ -69,7 +63,7 @@ the scenario parameters, environment, and regeneration contract.
 `07_scope_and_related_work.md` delimits the model's assumptions and situates it
 in the HEMP-damage and dam-break literature.
 
-## Methodology
+## Methodology — ARKANGEL: the analytical models and algorithms that drive the mission
 
 ### Orbital EMP weapon model (`src/goldeneye/emp_model.py`)
 
@@ -136,9 +130,7 @@ frictionless bed (Ritter, 1892): with $c_0=\sqrt{gH}$, the depth and velocity in
 wave region $(-c_0 \le x/t \le 2c_0)$ are
 
 $$h(x,t) = \frac{1}{9g}\left(2c_0 - \frac{x}{t}\right)^2, \qquad
-u(x,t) = \frac{2}{3}\left(c_0 + \frac{x}{t}\right),$$
-
-the front arrives at a downstream distance $x$ at time $x/(2c_0)$, and the
+u(x,t) = \frac{2}{3}\left(c_0 + \frac{x}{t}\right),$$The front arrives at a downstream distance $x$ at time $x/(2c_0)$, and the
 asymptotic peak depth at any fixed distance is
 $0.4444\,H$. (The rational factors inside the
 Ritter solution — $1/9g$, $2/3$ — are exact constants of that closed-form
@@ -217,7 +209,7 @@ table combines the Ritter front-arrival time, the asymptotic peak depth
 $0.4444\,H$, and the flood-risk rating at each named
 station.
 
-## Results
+## Results — ARKANGEL: measured outcomes, headline numbers, and what they establish
 
 Run via the ARKANGEL mission software against the canonical scenario
 (`scripts/execute.py`), all figures and values below are the deterministic
@@ -235,7 +227,7 @@ Because the prompt-flux absorption is negligible along the vacuum path at this
 altitude, the field decays with the squared geometric projection $\sin^2\psi$
 across the footprint.
 
-> **Figure (in the package manuscript):** EMP threat envelope and kill radii.
+![EMP threat envelope and kill radii](output/figures/goldeneye_emp_footprint.png)
 
 ### Kill radius by vulnerability class
 
@@ -267,7 +259,7 @@ downstream in **2.5** min with an asymptotic peak inundation
 of **33.3** m — a severity ratio of **3.333** against
 the facility elevation, rated **extreme**.
 
-> **Figure (in the package manuscript):** Ritter dam-break flood wave.
+![Ritter dam-break flood wave](output/figures/goldeneye_flood_wave.png)
 
 ### Downstream inundation stations
 
@@ -321,7 +313,7 @@ military withstand level.
 
 ### Regional power-network resilience
 
-> **Figure (in the package manuscript):** Regional grid resilience.
+![Regional grid resilience](output/figures/goldeneye_grid_resilience.png)
 
 The **5**-node, **6**-line regional network
 loses the nodes **town_a, relay** to certain failure. It serves an
@@ -343,7 +335,7 @@ min at a mean outflow of **15880** m^3/s. The flood sweeps all
 **20.0** km downstream, is reached in
 **6.1** min.
 
-## Conclusion
+## Conclusion — ARKANGEL: findings, verdict, and what the mission establishes
 
 **GoldenEye: ARKANGEL — Special-Agent Mission Software** delivers a complete, deterministic, and reproducible analysis of
 the coupled threat surfaces of *GoldenEye*'s ARKANGEL mission:
@@ -385,7 +377,7 @@ and facility as a serious, well-tested scientific problem — rigorous enough to
 stand beside the analytical tools it mimics, and honest about the simplifying
 assumptions documented in `07_scope_and_related_work.md`.
 
-## Experimental setup
+## Experimental Setup — ARKANGEL: canonical scenarios, parameters, and configuration
 
 ### Scenario parameters
 
@@ -449,7 +441,7 @@ src/ scripts/`, a zero-mock audit of `tests/`, and a live cross-reference test
 that every manuscript token (the double-brace variables in the numbered
 sections) is produced by `generate_variables`.
 
-## Reproducibility
+## Reproducibility — ARKANGEL: verification gates, deterministic regeneration, and artifacts
 
 This is version **0.1.0** of **GoldenEye: ARKANGEL — Special-Agent Mission Software**. Every numeric claim in
 this manuscript — result, model constant, and scenario input alike — is produced
@@ -516,7 +508,7 @@ Regenerable artifacts under `output/` (git-ignored):
 Live test count and achieved coverage are tracked in
 `docs/_generated/COUNTS.md`, not hardcoded here.
 
-## Scope and related work
+## Scope and Related Work — ARKANGEL: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -593,7 +585,7 @@ standard layered-reliability formula. The BOND protocol itself is specified in
 the frozen `bond-api` package; this package is one of many films implementing
 that contract.
 
-## Sources
+## Sources — ARKANGEL: bibliography
 
-@glasstone1977effects; @iec6100029; @milstD188125; @froehlich1995peak; @ritter1892fortpflanzung; @stoker1957water; @bate1971fundamentals; @ott2009electromagnetic; @vance1978coupling; @froehlich2008breach; @buldyrev2010cascading; @dijkstra1959note; @edmonds1972theoretical; @schelkunoff1943electromagnetic
+@glasstone1977effects; @iec6100029; @milstd188125; @froehlich1995peak; @ritter1892fortpflanzung; @stoker1957water; @bate1971fundamentals; @ott2009electromagnetic; @vance1978coupling; @froehlich2008breach; @buldyrev2010cascading; @dijkstra1959note; @edmonds1972theoretical; @schelkunoff1943electromagnetic
 

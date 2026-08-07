@@ -1,22 +1,16 @@
 # Quantum of Solace (2008) — QUANTUM
 
-*film package · mission codename QUANTUM*. Mission **QUANTUM**: assess desert water-network resilience under evaporation; quantify cartel leverage over water-rights through dam control; measure multi-resource commodity-control concentration; price water scarcity and the cartel's scarcity rent; rank aqueduct interdiction criticality and network resilience; resolve cooperative power over the commodity portfolio.
+*film package · package codename QUANTUM*. Mission **QUANTUM**: assess desert water-network resilience under evaporation; quantify cartel leverage over water-rights through dam control; measure multi-resource commodity-control concentration; price water scarcity and the cartel's scarcity rent; rank aqueduct interdiction criticality and network resilience; resolve cooperative power over the commodity portfolio.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — QUANTUM: domain and operational focus
 
 resource cartels, hydrology
 
-## Abstract
+## Abstract — QUANTUM: mission summary
 
 **Quantum of Solace: QUANTUM — Special-Agent Mission Software** (mission codename **QUANTUM**) is special-agent mission software for the 2008 film *Quantum of Solace*. It models the film's central threat — a shadow cartel whose leverage rests on controlling water and the logistics around scarce commodities — as six deterministic, real-data mathematical systems: 1. **Desert hydrology** — a water network under evaporation, solved with shortest-effort Dijkstra routing and Edmonds–Karp maximum flow (total aquifer yield **80.0** units/period over 5 nodes and 6 routes, of which 80.0 units/period can be routed to settlements); 2. **Water-rights cartel** — reservoir operation and the leverage a cartel gains by withholding downstream releases: controlling 2 of 3 dams (66.7% of the fleet) withholds **25.6%** of the demand the fleet exists to serve — a leverage-to-ownership ratio of 0.38; 3. **Commodity-cartel graph** — multi-resource market concentration via the Herfindahl–Hirschman index (aggregate **3925.0** points across copper, grain, lithium, water, a highly concentrated portfolio); 4. **Water scarcity pricing** — linear-demand economics showing the cartel's cut raises the price from 46.5 to 64.4 and collects a scarcity rent of 2549.6; 5. **Aqueduct interdiction** — 4 of the 6 routes are critical and 2 are redundant; the *mean* retention across single cuts is 0.917 while the single worst cut retains 0.750, and 3 greedy cuts remove 56.2% of delivery; 6. **Cooperative power** — exact Shapley values over the commodity portfolio, with quantum holding the largest share. The package is a BOND-suite film: a pure domain core ships with a thin `bond_api` ``MissionProvider`` adapter, and every number reported is computed, never hand-authored. Keywords navigable for this mission: water-rights cartel, desert hydrology, commodity-cartel graph, herfindahl-hirschman concentration, maximum flow, reservoir leverage, water scarcity pricing, network interdiction, shapley value, deterministic mission software.
 
-## Introduction
+## Introduction — QUANTUM: mission framing, the operational problem, and how to read this chapter
 
 *Quantum of Solace* (2008) centres on a shadow organisation whose power derives
 not from weapons but from controlling a basic resource: water. This package —
@@ -72,7 +66,7 @@ Every number in the manuscript is computed by `src/quantum_of_solace/analysis.py
 from these modules on fixed problem instances and injected as a manuscript
 token — none is hand-authored prose.
 
-## Methodology
+## Methodology — QUANTUM: the analytical models and algorithms that drive the mission
 
 We implement six deterministic models, one per module of the pure domain core.
 All are pure functions of fixed problem data; there is no random number
@@ -198,7 +192,7 @@ module-level `GadgetRegistry` under the package slug, which is how the
 coordinator and CLI reach them across packages. The domain modules import
 nothing from `bond_api`, so they remain standalone.
 
-## Results
+## Results — QUANTUM: measured outcomes, headline numbers, and what they establish
 
 All results below are computed by `quantum_of_solace/analysis.py` on the fixed
 canonical problem instances and injected from `manuscript/config.yaml` + the
@@ -218,7 +212,7 @@ Directed at one settlement alone, the network can push 65.0
 units/period to border_town or 55.0 to valley_compact.
 These two figures are **alternatives, not addends**: the settlements draw on the
 same aquifers, so their sum exceeds what the network can route in total and must
-never be added. plots them side by side for that reason, against
+never be added. The delivery figure plots them side by side for that reason, against
 the network-wide bound.
 
 Both figures are *routed* volume under capacity and yield constraints, not
@@ -253,7 +247,7 @@ the cartel withholds only 50% of each controlled dam's
 release rather than all of it, and the uncontrolled dam keeps releasing at full
 rate into the same horizon demand. The interesting quantity here is the ratio
 itself, not a direction assumed in advance — the model is free to return a value
-above 1, and on this fleet it does not. reports leverage per dam;
+above 1, and on this fleet it does not. The leverage figure reports leverage per dam;
 controlled dams are red.
 
 ![Cartel leverage by dam](output/figures/quantum_of_solace_water_cartel_leverage.png)
@@ -265,7 +259,7 @@ Across copper, grain, lithium, water, control is concentrated: water HHI
 the 2500-point line above which the U.S. Horizontal Merger
 Guidelines [@doj2010merger] call a market *highly concentrated*. The
 portfolio-mean HHI is **3925.0** points, which
-`concentration_band` classifies as highly concentrated. plots
+`concentration_band` classifies as highly concentrated. The hhi figure plots
 concentration per commodity, and
 the dominance map shows the shadow cartel holding the largest share of water
 and lithium while a rival syndicate and a state utility split copper and grain.
@@ -300,7 +294,7 @@ coercive value of the squeeze here is the price shock imposed on buyers, not a
 larger cheque for the seller. Even without withholding, the
 underlying market is already monopolistic: the monopoly price would be
 55.0 on 180.0 units, imposing a deadweight loss of
-**4050.0** versus the competitive outcome. shows the demand
+**4050.0** versus the competitive outcome. The pricing figure shows the demand
 curve with the baseline, restricted and monopoly prices.
 
 ![Water scarcity pricing under cartel restriction](output/figures/quantum_of_solace_water_pricing_curve.png)
@@ -316,7 +310,7 @@ worst single cut retains 0.750. Only the second is a
 worst-case bound; the mean is quoted here as a mean and nowhere else as a
 guarantee. The most critical single route, highland_aquifer->border_town, costs
 20.0 units (25.0%) of the
-80.0-unit baseline if lost. shows the greedy
+80.0-unit baseline if lost. The interdict figure shows the greedy
 worst-case interdiction sequence: 3 well-chosen cuts remove
 45.0 units, 56.2% of baseline delivery,
 leaving 35.0 units still flowing — a heavy loss, but not
@@ -332,12 +326,12 @@ value. With a grand-coalition portfolio value of 7.0, the leading
 actor **quantum** commands 2.624, ahead of the rival
 (2.290) and the state utility (2.086) — a dominance gap
 of 0.334 — and quantum's normalised Banzhaf power is
-0.378. plots the per-actor Shapley values,
+0.378. The shapley figure plots the per-actor Shapley values,
 with the dominant actor highlighted.
 
 ![Cooperative power over the commodity portfolio](output/figures/quantum_of_solace_cartel_shapley_power.png)
 
-## Conclusion
+## Conclusion — QUANTUM: findings, verdict, and what the mission establishes
 
 **Quantum of Solace: QUANTUM — Special-Agent Mission Software** demonstrates how a seemingly non-violent lever — control
 of water and scarce commodities — produces coercive power, and how deterministic
@@ -378,7 +372,7 @@ greedy network interdiction, and exact Shapley and Banzhaf indices — are all
 standard, all real, and all reproduced deterministically. No metric in this
 manuscript is hand-authored; a test fails if one appears.
 
-## Experimental Setup
+## Experimental Setup — QUANTUM: canonical scenarios, parameters, and configuration
 
 This package is a BOND-suite film repository with a `src/` layout, a local-only
 git working tree, and a line-and-branch coverage floor enforced on `src/` by
@@ -433,7 +427,7 @@ Banzhaf solvers evaluate all `2^n` coalitions rather than sampling, so power
 indices carry no estimation error. Migration between Python versions leaves
 every numeric result unchanged.
 
-## Reproducibility
+## Reproducibility — QUANTUM: verification gates, deterministic regeneration, and artifacts
 
 ### Provenance
 
@@ -485,7 +479,7 @@ The manuscript identity (title, subtitle, version, date) is authored once in
 via `quantum_of_solace/manuscript_variables.py`, never duplicated in prose.
 Keywords: water-rights cartel, desert hydrology, commodity-cartel graph, herfindahl-hirschman concentration, maximum flow, reservoir leverage, water scarcity pricing, network interdiction, shapley value, deterministic mission software. Actors modelled: quantum, rival_syndicate, state_utility.
 
-## Scope and Related Work
+## Scope and Related Work — QUANTUM: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -550,7 +544,7 @@ protocol, and coupling six otherwise-independent models into one measured
 assessment in which the hydrology network's delivered flows feed the
 interdiction analysis and the reservoir simulation feeds the price model.
 
-## Sources
+## Sources — QUANTUM: bibliography
 
 @dijkstra1959note; @edmonds1972theoretical; @hirschman1945national; @shapley1953value; @banzhaf1965weighted; @ford1956maximal; @herfindahl1950concentration; @doj2010merger; @dubey1979mathematical; @wood1993deterministic; @espey1997price; @loucks2017water
 

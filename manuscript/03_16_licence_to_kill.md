@@ -1,22 +1,16 @@
 # Licence to Kill (1989) — WAVEKREST
 
-*film package · mission codename WAVEKREST*. Mission **ROGUE**: detect layering and integration in the Sanchez money-laundering network; forensic anomaly scan of the Wavekrest-class mothership; risk-optimised rogue-00 engagement plan under a revoked licence; quantify narcotics-finance economics and cash-manifest feasibility; route the operation and select the gadget loadout under risk and weight; schedule covert actions against adversary watchlist accumulation.
+*film package · package codename WAVEKREST*. Mission **ROGUE**: detect layering and integration in the Sanchez money-laundering network; forensic anomaly scan of the Wavekrest-class mothership; risk-optimised rogue-00 engagement plan under a revoked licence; quantify narcotics-finance economics and cash-manifest feasibility; route the operation and select the gadget loadout under risk and weight; schedule covert actions against adversary watchlist accumulation.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — WAVEKREST: domain and operational focus
 
 narcotics finance, rogue ops
 
-## Abstract
+## Abstract — WAVEKREST: mission summary
 
 Licence to Kill: ROGUE — Special-Agent Mission Software for Laundering-Graph, Vessel-Forensic, Rogue-Policy, Narcotics-Finance, Logistics, and Surveillance Analysis — Six deterministic domains — graph detection, marine physics, dynamic programming, cash economics, risk-adjusted routing, and survival-optimal scheduling — behind one unsanctioned operation — is a deterministic, fully-tested special-agent mission software package implementing the ROGUE mission from the film *Licence to Kill* (1989). Six interoperating domain models sit behind the frozen BOND-API `MissionProvider` protocol. The first three answer the field analyst's original questions: 1. a **money-laundering graph** model of the Sanchez cartel's placement–layering–integration flow, with cycle, funnel, and dirty-flow detectors; 2. **first-principles vessel forensics** of the Wavekrest-class mothership from marine physics (IMO gross tonnage, hydrostatic displacement, fuel endurance, route plausibility); 3. a **rogue-00 operation risk model** in which an operator whose licence has been revoked must trade mission gain against escalating adversary alert and blowback, solved exactly by finite-horizon dynamic programming. The remaining three carry the campaign from the ledger into the world: 4. **narcotics-finance economics** — the supply-chain price/purity ladder and the cash physics (mass, volume, hold manifest) behind the cartel's US$5,000,000 courier parcel; 5. **operations logistics** — risk-adjusted Dijkstra routing of the Wavekrest campaign, exact 0/1-knapsack gadget loadout, and trip projection against fuel endurance; 6. **surveillance / watchlist** — a logistic detection model over a covert action sequence, with exact and heuristic survival-optimal ordering. On the canonical seeded network (codename ROGUE, seed 0) the analysis detects 1 money-returning cycle(s) and 16 funnels across 22 nodes and and 89 directed edges, with 720 layering chains (the exact count) enumerated — a composite layering score of 0.513 and an integration score of 0.653. profile resolves a gross tonnage of 356 and flags 2 forensic anomalies (score 2.0). The rogue-00 dynamic program over 10 steps returns an optimal expected mission value of 1.665 with a stealth opening, closing on overt — evidence that, under a revoked licence, unsanctioned escalation is strictly a last resort, worth taking only when there is no remaining horizon left to protect. The layered logistics route cuts cumulative interdiction risk by 30.7% versus the direct leg (0.208 vs 0.300), and the covert campaign's survival-optimal sequence completes undetected with probability 0.263 before watchlist compromise at action 5. Every result is deterministic and reproducible: fixed seed, no random draws in the detectors, no wall-clock in persisted outputs, and ≥ 90% line + branch test coverage on the source tree.
 
-## Introduction
+## Introduction — WAVEKREST: mission framing, the operational problem, and how to read this chapter
 
 ### The ROGUE mission
 
@@ -97,7 +91,7 @@ This manuscript is produced from `manuscript/config.yaml` and
 `src/licence_to_kill/manuscript_variables.py`: every numeric value in the
 prose is injected as a generated token and never hand-authored.
 
-## Methodology
+## Methodology — WAVEKREST: the analytical models and algorithms that drive the mission
 
 This section specifies the six deterministic algorithms that constitute the
 ROGUE analytical core. Deep familiarity with each module's source is the
@@ -262,7 +256,7 @@ which cumulative detection crosses the threshold 0.50. The
 canonical detection coefficients are $\beta_0 = -4.0$,
 $\beta_w = 1.2$, and $\beta_s = 1.5$.
 
-## Results
+## Results — WAVEKREST: measured outcomes, headline numbers, and what they establish
 
 All results below are deterministic outputs of the canonical seeded run
 (seed 0) and are re-computed verbatim by
@@ -307,8 +301,8 @@ value is diluted to that degree by the legitimate exporter flows feeding the
 same banks, with a **mixing entropy** of **1.381** nats across
 the 4 integration sinks.
 
-> **Figure (in the package manuscript):** Sanchez money-laundering graph; node colour is the dirty-flow share, laid
-out left-to-right by laundering stage..
+![Sanchez money-laundering graph; node colour is the dirty-flow share, laid
+out left-to-right by laundering stage.](output/figures/licence_to_kill_laundering_network.png)
 
 ### 3.2 Wavekrest-class vessel forensics
 
@@ -326,10 +320,10 @@ The forensic scan flags **2** anomalies (aggregate score
 2.0): a cargo bulk-density inconsistent with boxed fish,
 and a declared displacement that disagrees with the draft-predicted value —
 consistent with concealed contraband load. The Wavekrest's own physics betray
-its cargo before its crew does.
+its cargo before its crew does (the vessel figure).
 
-> **Figure (in the package manuscript):** Wavekrest-class forensic profile: hull volume, gross tonnage, fuel, and
-draft-predicted displacement..
+![Wavekrest-class forensic profile: hull volume, gross tonnage, fuel, and
+draft-predicted displacement.](output/figures/licence_to_kill_vessel_forensics.png)
 
 ### 3.3 Rogue-00 optimal policy
 
@@ -349,7 +343,7 @@ dynamic program evaluates **2310** state cells and returns:
 - a **peak blowback hazard** of **0.378**, reached on the
  last step, and a **peak alert** of **3.0** —
  the level the closing overt action *leaves behind*, which is therefore
- also the terminal alert (3.0). Read
+ also the terminal alert (3.0) (the rogue figure). Read
  those two numbers carefully, because they say different things. No step
  in the horizon is ever exposed to that alert: it is raised by the final
  action and the mission then ends, which is exactly why the dynamic
@@ -362,11 +356,11 @@ dynamic program evaluates **2310** state cells and returns:
  each step is entered with would report a flat zero for this policy and
  read as "the optimum never escalates", which is false.
 
-> **Figure (in the package manuscript):** Rogue-00 escalation under the optimal policy. Two alert series are drawn:
+![Rogue-00 escalation under the optimal policy. Two alert series are drawn:
 the level each step is *entered* with (flat at zero here) and the level each
 step's own action *leaves behind* — the second is the only one that shows
 the closing overt escalation. Exposure and the blowback hazard climb
-throughout..
+throughout.](output/figures/licence_to_kill_rogue_escalation.png)
 
 ### 3.4 Narcotics-finance economics
 
@@ -394,7 +388,7 @@ Risk-optimal routing over the campaign network returns the layered path
 **$270,000**) with a cumulative interdiction risk of
 **0.208** — against **0.300** for the direct
 single leg, a **30.7%** reduction — the same pairing the
-finance graph demonstrates in the money layer. The voyage
+finance graph demonstrates in the money layer (the operations figure). The voyage
 requires **3** refuelling stops (against the Wavekrest's
 4,257 nm endurance at 10 kn) for roughly
 **74** days at sea (**1,772** hours). The gadget
@@ -415,8 +409,8 @@ instance, where greedy is not;
 `test_greedy_value_density_is_suboptimal_on_a_counterexample` exhibits an
 instance on which the greedy pass leaves value on the table.
 
-> **Figure (in the package manuscript):** ROGUE operations network with the risk-optimal route highlighted against
-the direct single leg..
+![ROGUE operations network with the risk-optimal route highlighted against
+the direct single leg.](output/figures/licence_to_kill_operations_logistics.png)
 
 ### 3.6 Surveillance and watchlist
 
@@ -434,7 +428,7 @@ Because 5 ≤ 8, this ordering is the
 exhaustively-verified optimum rather than the ratio-rule heuristic — no
 permutation of these actions survives more often.
 
-## Conclusion
+## Conclusion — WAVEKREST: findings, verdict, and what the mission establishes
 
 Licence to Kill: ROGUE — Special-Agent Mission Software for Laundering-Graph, Vessel-Forensic, Rogue-Policy, Narcotics-Finance, Logistics, and Surveillance Analysis demonstrates that a special-agent mission package can be
 entirely deterministic and still analytically rich. The six domains — the
@@ -480,7 +474,7 @@ BOND package, `licence_to_kill` exposes all of this through the frozen
 and drive it as a first-class citizen of the 27-film suite. The revoked
 licence changes the operator's tactics — never the rigour of the analysis.
 
-## Experimental Setup
+## Experimental Setup — WAVEKREST: canonical scenarios, parameters, and configuration
 
 All experiments are deterministic and reproducible under Python
 3.14.6 with NumPy 2.4.2.
@@ -595,7 +589,7 @@ every value is an injected token read from the same functions.
 > (2.4.2), which fix the scope of the reproducibility claim to a
 > given interpreter and NumPy build.
 
-## Reproducibility
+## Reproducibility — WAVEKREST: verification gates, deterministic regeneration, and artifacts
 
 ### Determinism contract
 
@@ -674,7 +668,7 @@ differ across environments. Environment: Python 3.14.6, NumPy
 2.4.2, film `licence_to_kill`, codename `ROGUE`,
 package version 0.1.0.
 
-## Scope and Related Work
+## Scope and Related Work — WAVEKREST: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -777,7 +771,7 @@ Each of these is documented where the corresponding parameter lives in
 source, and each is open to principled extension behind the same frozen
 `bond-api` protocol.
 
-## Sources
+## Sources — WAVEKREST: bibliography
 
 @tarjan1972; @imo1969; @bellman1957; @licence1989; @fatf2020; @dijkstra1959; @kellerer2004; @smith1956; @bep_currency; @dea_prices; @shannon1948
 

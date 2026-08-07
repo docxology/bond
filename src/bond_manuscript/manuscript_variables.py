@@ -30,7 +30,10 @@ def generate_variables(*, bond_root: Path | None = None) -> dict[str, str]:
     gate_ok = 0
     try:
         rows = json.loads(gate.read_text()).get("packages", [])
-        gate_ok = sum(1 for p in rows if isinstance(p.get("coverage"), (int, float)))
+        package_slugs = {p.slug for p in packages}
+        gate_ok = sum(
+            1 for row in rows if row.get("package") in package_slugs and isinstance(row.get("coverage"), (int, float))
+        )
     except (OSError, ValueError):
         rows = []
     return {

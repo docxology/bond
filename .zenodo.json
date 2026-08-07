@@ -6,25 +6,16 @@
       "orcid": "0000-0001-6232-9096"
     }
   ],
-  "description": "Source code for Convergence Analysis of Gradient Descent Optimization (2026).",
+  "description": "Source code and manuscript for PROJECT BOND — The Special-Agent Operations Compendium.",
   "keywords": [
-    "optimization algorithms",
-    "gradient descent",
-    "convergence analysis",
-    "numerical methods",
-    "mathematical programming",
+    "software suite",
+    "special-agent operations",
+    "James Bond",
     "reproducible research",
-    "infrastructure automation"
+    "deterministic computation"
   ],
   "license": "MIT",
-  "related_identifiers": [
-    {
-      "identifier": "10.5281/zenodo.20417136",
-      "relation": "isVersionOf",
-      "scheme": "doi"
-    }
-  ],
-  "title": "Convergence Analysis of Gradient Descent Optimization",
+  "title": "PROJECT BOND — The Special-Agent Operations Compendium",
   "upload_type": "software",
-  "version": "2.5.2"
+  "version": "1.0.0"
 }

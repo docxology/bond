@@ -1,22 +1,16 @@
 # Die Another Day (2002) — ICARUS
 
-*film package · mission codename ICARUS*. Mission **ICARUS**: detect gene-therapy-grade identity replacement; plan ice-palace cold-environment operations; verify orbital-mirror (ICARUS) targeting geometry.
+*film package · package codename ICARUS*. Mission **ICARUS**: detect gene-therapy-grade identity replacement; plan ice-palace cold-environment operations; verify orbital-mirror (ICARUS) targeting geometry.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — ICARUS: domain and operational focus
 
 identity replacement, extreme-environment ops
 
-## Abstract
+## Abstract — ICARUS: mission summary
 
 Die Another Day: ICARUS — Special-Agent Mission Software (mission codename **ICARUS**) is a special-agent mission-software package built for the BOND film suite. It implements 6 mission concepts as pure, deterministic algorithms: Biometric Identity-Replacement Detection, DNA Sequence Identity Verification, Ice-Palace Thermal Operations, Cold-Water Hypothermia Risk, Ice-Structure Integrity, Orbital Mirror Targeting. The identity layer screens an operative on two complementary signals. The biometric module enrols a Gaussian baseline and flags gene-therapy-grade trait drift via the Mahalanobis distance against a chi-square threshold: the replaced probe scores 41.42 against a 22.46 threshold while a fresh out-of-sample operative scores 10.97 and clears. The sequence module verifies a 1500-base DNA read by Levenshtein edit distance, k-mer fingerprint similarity, and contiguous edit-block detection; fingerprint similarity alone does not separate the probes, but a 12-base coherent substitution block does. The extreme-environment layer plans the ice-palace theatre: a 467.1-second Newton-cooling exposure ceiling covered by 4 rotating squads, a cold-water rescue that reaches the operative 1602.1 s before the severe stage in 10 C water, and an ice-structure check that passes its 1.17 load safety factor while failing its thermal-gradient case. The orbital-mirror module propagates an 7200-km circular orbit, solves the mirror reflection law, and finds 300 s of feasible targeting at a peak focused flux of 5.87 W/m^2. All results are deterministic: fixed seed, no wall-clock in persisted artifacts, and every metric in this manuscript is injected from the code — configured inputs from `manuscript/config.yaml`, measured outputs from the same concept runner the mission provider itself executes — rather than being hand-authored.
 
-## Introduction
+## Introduction — ICARUS: mission framing, the operational problem, and how to read this chapter
 
 Die Another Day: ICARUS — Special-Agent Mission Software is the PROJECT BOND film package for *Die Another Day*
 (2002), mission codename **ICARUS** (version 0.1.0).
@@ -53,7 +47,7 @@ The remainder of this manuscript documents the methodology (§02), results
 (§03), scope and limitations (§07), experimental setup (§05), and
 reproducibility guarantees (§06) of the package.
 
-## Methodology
+## Methodology — ICARUS: the analytical models and algorithms that drive the mission
 
 The mission's concepts rest on a set of mathematical cores, each pure and
 deterministic. All 6 of them (identity_detection, sequence_identity, ice_ops, hypothermia, ice_structure, orbital_mirror) are driven
@@ -198,7 +192,7 @@ which formats it into the measured manuscript tokens this paper cites. A number
 printed here is therefore the same value the mission reported, not a
 transcription of it.
 
-## Results
+## Results — ICARUS: measured outcomes, headline numbers, and what they establish
 
 Running the deterministic mission (`uv run python scripts/run_mission.py`)
 exercises all 6 concepts under seed 7 and reports
@@ -232,12 +226,12 @@ genuine draw scores 10.97 ($p =$ 0.089) with
 deliberately not the profile mean, which would score exactly zero and make
 clearance true by construction rather than measured.
 
-> **Figure (in the package manuscript):** Per-marker standardized trait drift for the two probes that produced the
+![Per-marker standardized trait drift for the two probes that produced the
 verdicts in the table above — the out-of-sample genuine draw and the
 4.5-sigma replaced probe — plotted from the same
 `ConceptResults` record. The dashed lines mark the
 $\pm$3 flagging
-threshold..
+threshold.](output/figures/die_another_day_icarus_identity_drift.png)
 
 ### Identity-replacement detection (sequence)
 
@@ -267,8 +261,8 @@ Fingerprint similarity alone does not separate the two probes — both clear the
 the 12-base contiguous mismatch run, which scattered
 sequencing noise does not produce; this is what the levenshtein-kmer-cluster rule keys on.
 
-> **Figure (in the package manuscript):** DNA mismatch map for the replaced probe: the contiguous edit cluster is
-shaded against isolated single-base errors..
+![DNA mismatch map for the replaced probe: the contiguous edit cluster is
+shaded against isolated single-base errors.](output/figures/die_another_day_icarus_sequence_mismatch.png)
 
 ### Ice-palace operations
 
@@ -294,8 +288,8 @@ reach is 35.81 C, clinical stage *normal*
 against the mild/moderate/severe bands at 35,
 32, and 28 C.
 
-> **Figure (in the package manuscript):** Cold-water immersion core-temperature decay with mild/moderate/severe stage
-thresholds..
+![Cold-water immersion core-temperature decay with mild/moderate/severe stage
+thresholds.](output/figures/die_another_day_icarus_hypothermia_curve.png)
 
 ### Ice-structure integrity
 
@@ -323,11 +317,11 @@ solar constant: a 10000 m^2 mirror at orbital range spreads its
 beam over a footprint kilometres across, so at this scale the model describes
 an illumination instrument rather than the film's weapon.
 
-> **Figure (in the package manuscript):** ICARUS orbital-mirror elevation vs. time over the ground target. The shaded
+![ICARUS orbital-mirror elevation vs. time over the ground target. The shaded
 band marks the feasible targeting window and the red point the peak-flux
-instant..
+instant.](output/figures/die_another_day_icarus_pass_profile.png)
 
-## Conclusion
+## Conclusion — ICARUS: findings, verdict, and what the mission establishes
 
 Die Another Day: ICARUS — Special-Agent Mission Software demonstrates that a special-agent mission can be encoded as
 6 independent, deterministic computational cores united by a thin
@@ -356,7 +350,7 @@ line-and-branch coverage floor by `pytest --cov-fail-under`, and a manuscript
 whose every metric — configured input and measured output alike — is injected
 from the code through the 6 concept modules.
 
-## Experimental Setup
+## Experimental Setup — ICARUS: canonical scenarios, parameters, and configuration
 
 All mission parameters are declared once in `manuscript/config.yaml` under the
 `concepts:` block and consumed by the code via
@@ -479,7 +473,7 @@ Everything else in §03 — every score, verdict, time, flux, and safety factor 
 is free to move with the inputs, and
 `test_measured_tokens_track_the_configuration` demonstrates that it does.
 
-## Reproducibility
+## Reproducibility — ICARUS: verification gates, deterministic regeneration, and artifacts
 
 The package is deterministic by construction:
 
@@ -546,7 +540,7 @@ The package is deterministic by construction:
 
 Python version: 3.14.6.
 
-## Scope and Related Work
+## Scope and Related Work — ICARUS: boundaries, positioning, and relationship to the literature
 
 **Scope.** This package models three decision problems relevant to a
 special-agent operation — identity-replacement screening, cold-environment
@@ -610,7 +604,7 @@ implementation, and each is visible in the code:
 - The ice-structure model is a static bearing-capacity plus thermal-stress
  check; it does not model creep, crack propagation, or repeated loading.
 
-## Sources
+## Sources — ICARUS: bibliography
 
 @mahalanobis1936; @levenshtein1966; @gold1971; @sodhi1995; @hobbs1974; @tipton1989; @golden2002; @newton1701; @battin1999; @glaser1968; @ondov2016; @vallado2013
 

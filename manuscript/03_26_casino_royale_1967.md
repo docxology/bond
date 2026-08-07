@@ -1,22 +1,16 @@
 # Casino Royale (1967) — FIVE BONDS
 
-*film package · mission codename FIVE BONDS*. Mission **FIVE 00s**: model coordination failure across the five overlapping Bonds; simulate dispatch chaos and protocol violations deterministically; analyze the spoof ops doctrine and quantify its deviation; quantify identity confusion and resolve dispatch sightings by Bayes; derive exact baccarat table odds and the five-Bond table collision; model doctrine escalation as an absorbing Markov chain.
+*film package · package codename FIVE BONDS*. Mission **FIVE 00s**: model coordination failure across the five overlapping Bonds; simulate dispatch chaos and protocol violations deterministically; analyze the spoof ops doctrine and quantify its deviation; quantify identity confusion and resolve dispatch sightings by Bayes; derive exact baccarat table odds and the five-Bond table collision; model doctrine escalation as an absorbing Markov chain.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — FIVE BONDS: domain and operational focus
 
 multi-agent farce, coordination failure
 
-## Abstract
+## Abstract — FIVE BONDS: mission summary
 
 *Casino Royale* (1967) is the spy farce in which five different operatives answer to the same codename, James Bond. This project — codename **FIVE 00s** — builds deterministic mission software around that premise. It implements and tests six concepts drawn from the film's organizational failure: 1. **Coordination-farce model** (`coordination_farce.py`): a roster of 5 agents who all share the codename *James Bond*, assigned across 6 tasks. It detects **overlap**, **conflict**, and clearance violations, and computes a weighted coordination loss of **15** from 3 overlaps and 3 conflicts. 2. **Dispatch-chaos simulation** (`dispatch_chaos.py`): a tick-based dispatch centre issues 13 orders and enforces 5 protocol rules; 5 dispatch successfully, 8 are rejected, for a chaos index of **0.62**. 3. **Spoof protocol analyzer** (`spoof_analyzer.py`): lexical scoring of satirical ops doctrine against a sane protocol; the film's standing orders score **45.0 / 100**. 4. **Identity-confusion model** (`identity_confusion.py`): information theory over the shared codename — routing carries only 0.075 normalized mutual information, leaving a dispatch ambiguity `H(routed | intended)` of 2.135 bits, and a Bayesian sighting resolves to *bond_cooper* with confidence 0.613. 5. **Baccarat table model** (`baccarat_table.py`): combinatorial deal odds exact for the infinite-deck model (player 0.4461, banker 0.4584, tie 0.0954) and a 5-Bond table collision probability of 0.704 under an i.i.d.-across-hands approximation. 6. **Escalation-ladder model** (`escalation_ladder.py`): the doctrine as an absorbing Markov chain — the spoof doctrine reaches catastrophe in 4.0 steps versus 56.0 under discipline, a 14.0× acceleration. All six models are deterministic (fixed seed, no random draws, no wall clock in artifacts) and are exposed through a `MissionProvider` implementing the frozen `bond_api` protocol, with a gadget registry and publication-style figures. Keywords: 5-agent coordination failure, agent dispatch simulation, protocol violations, satirical ops doctrine, identity confusion, baccarat odds, absorbing Markov chains, reproducible research.
 
-## Introduction
+## Introduction — FIVE BONDS: mission framing, the operational problem, and how to read this chapter
 
 The 1967 film *Casino Royale* [@casinoroyale1967film] is not one Bond but many. Sir James Bond
 (played by David Niven) is recalled from retirement; the would-be successor
@@ -73,7 +67,7 @@ never hand-authored — they are injected live from `manuscript/config.yaml` and
  byte-identically.
 - **Scope and related work** states what the models deliberately do not claim.
 
-## Methodology
+## Methodology — FIVE BONDS: the analytical models and algorithms that drive the mission
 
 ### 1. The coordination-farce model
 
@@ -312,7 +306,7 @@ The analysis then computes:
 4.0 steps versus 56.0
 under discretion — 14.0× faster.
 
-## Results
+## Results — FIVE BONDS: measured outcomes, headline numbers, and what they establish
 
 ### The five-Bond coordination farce
 
@@ -450,7 +444,7 @@ analysis.
 
 ![Expected steps to catastrophe per state, by doctrine.](output/figures/casino_royale_1967_escalation_ladder.png)
 
-## Conclusion
+## Conclusion — FIVE BONDS: findings, verdict, and what the mission establishes
 
 **FIVE 00s** turns the organizing joke of *Casino Royale* (1967) — five
 operatives, one codename — into a rigorous, fully deterministic research
@@ -490,7 +484,7 @@ absorbing-chain linear algebra, and a thin `MissionProvider` adapter whose
 public shape stays stable for the fleet. A farce, modelled seriously, yields
 the same reproducibility contract as any research experiment.
 
-## Experimental Setup
+## Experimental Setup — FIVE BONDS: canonical scenarios, parameters, and configuration
 
 ### Configuration
 
@@ -542,7 +536,7 @@ The last command is the authoritative one: it recomputes the token map,
 re-renders every figure, and rewrites `output/manuscript/` with every token
 marker resolved, failing loudly if any marker is unresolvable.
 
-## Reproducibility
+## Reproducibility — FIVE BONDS: verification gates, deterministic regeneration, and artifacts
 
 ### Determinism guarantees
 
@@ -608,7 +602,7 @@ The gate enforces ≥90% line+branch coverage on `src/`, zero mocks, and a clean
 git tree after regeneration. Figures and the resolved manuscript tree live
 under `output/`, which is git-ignored and regenerable.
 
-## Scope and Related Work
+## Scope and Related Work — FIVE BONDS: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -667,7 +661,7 @@ domain; this project uses its plot beats (baccarat championship, SMERSH
 headquarters, the gamma-ray projector, Mata Bond, the five-Bond premise) as a
 satirical dataset, not as a claim about the film.
 
-## Sources
+## Sources — FIVE BONDS: bibliography
 
 @shannon1948communication; @kemeny1960finite; @ethier2010doctrine; @wizardofodds_baccarat; @casinoroyale1967film; @cover2006elements; @strehl2002cluster
 

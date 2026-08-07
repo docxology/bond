@@ -1,22 +1,16 @@
 # Goldfinger (1964) — GRAND SLAM
 
-*film package · mission codename GRAND SLAM*. Mission **GRAND SLAM**: corner the gold market via a controlled supply shock; weaponise the gold peg via a speculative reserve attack; assess Fort Knox-style layered and network vault defense; quantify the laser burn-through and thermal engagement threat.
+*film package · package codename GRAND SLAM*. Mission **GRAND SLAM**: corner the gold market via a controlled supply shock; weaponise the gold peg via a speculative reserve attack; assess Fort Knox-style layered and network vault defense; quantify the laser burn-through and thermal engagement threat.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — GRAND SLAM: domain and operational focus
 
 macroeconomic attack, vault defense, laser threat
 
-## Abstract
+## Abstract — GRAND SLAM: mission summary
 
 Auric Goldfinger's *Operation Grand Slam* is modelled as a deliberate gold-market corner: a supply shock that removes 30% of the floatable supply and drives the clearing price from $1850.00/oz to a shocked equilibrium of $2460.90/oz — a 33.0% appreciation under constant-elasticity demand (elasticity 1.25). The GRAND SLAM mission software deepens this into a full attack surface. On the **macroeconomic front** the same accumulation is weaponised against the gold peg itself: a first-generation speculative attack exhausts reserves in 5.19 time units — well before the gradual 21.28-unit drain — and lands a 336% post-float depreciation. On the **vault front** a Fort Knox-style layered defence scores 0.780 (medium security, 0.009% penetration given the weakest layer is the fence); a network model finds a 15.20-effort minimum intrusion path through the secret tunnel and shows that a 10-unit hardening budget raises the intruder's required effort to 20.20. On the **laser front** a 5000 W continuous-wave beam burns a 50 mm steel plate in 0.72 s (serious) at range, and the Gaussian-beam thermal model sets its effective engagement range at 65.0 m. The cinema's fictional scheme is treated as a *quantitative modelling exercise*: 6 deterministic, infrastructure-free modules (`market_attack`, `reserve_attack`, `vault_security`, `vault_threat_network`, `laser_physics`, `laser_thermal`) formalize the economics of cornering and speculative attack, the reliability of layered and network defense, and the physics of laser penetration and heat conduction. Each is fully unit-tested on real computation with zero mocking, and every result is injected into this manuscript as one of 73 template variables so no metric — not even a count of modules or figures — is hand-authored. The package implements the frozen BOND-API mission protocol, exposing a `MissionProvider` (film `goldfinger`, codename `GRAND SLAM`) that a fleet orchestrator can discover and drive through the brief–recon–plan–execute–debrief lifecycle.
 
-## Introduction
+## Introduction — GRAND SLAM: mission framing, the operational problem, and how to read this chapter
 
 The 1964 film *Goldfinger* dramatizes a plausibly dangerous scheme: corner the
 gold market by destroying the floatable supply, strike a fortress vault, and
@@ -86,7 +80,7 @@ is injected as one of 73 generated variables rather
 than typed by hand — including the module count in this paragraph, which is
 derived from the package directory rather than declared).
 
-## Methodology
+## Methodology — GRAND SLAM: the analytical models and algorithms that drive the mission
 
 The GRAND SLAM models each reduce one operational concept to a closed-form
 relation and a deterministic iterative update. All 6
@@ -211,7 +205,7 @@ giving the melt time $t_\mathrm{melt} = \frac{\pi}{4}\frac{k\rho c
 the greatest distance at which the defocused beam still melts the target
 within a threat window.
 
-## Results
+## Results — GRAND SLAM: measured outcomes, headline numbers, and what they establish
 
 ### Market corner: price shock and convergence
 
@@ -226,7 +220,7 @@ residual of 3.32e-10 against a convergence tolerance of
 reaches $P^*$ only in the limit, so convergence is asserted against that
 tolerance rather than by exact equality.
 
-> **Figure (in the package manuscript):** Operation Grand Slam: tatonnement price trajectory toward the shocked equilibrium..
+![Operation Grand Slam: tatonnement price trajectory toward the shocked equilibrium.](output/figures/goldfinger_market_corner_trajectory.png)
 
 The figure shows the reference price, the shocked equilibrium price, and the
 deterministic adjustment path. The corner is economically self-reinforcing:
@@ -242,7 +236,7 @@ overall sequential-penetration probability of
 **fence**, which is where fortification yields the greatest
 marginal composite gain.
 
-> **Figure (in the package manuscript):** Fort Knox-style layered defense: per-layer ratings and composite defense-in-depth score..
+![Fort Knox-style layered defense: per-layer ratings and composite defense-in-depth score.](output/figures/goldfinger_vault_layered_score.png)
 
 ### Vault network: penetration and hardening
 
@@ -265,7 +259,7 @@ achievable lift (1.50, greedy matches optimal:
 true), so on this graph the greedy allocation is
 exactly optimal at small budgets.
 
-> **Figure (in the package manuscript):** Vault network: minimum-effort intrusion path through the secret tunnel, before and after hardening..
+![Vault network: minimum-effort intrusion path through the secret tunnel, before and after hardening.](output/figures/goldfinger_vault_network.png)
 
 ### Macroeconomic attack: speculative reserve drain
 
@@ -276,7 +270,7 @@ gradual reserve floor at 21.28 (suddenness
 16.09), and the subsequent float depreciates the
 currency by **336%**.
 
-> **Figure (in the package manuscript):** Speculative attack on the gold peg: reserve drain and attack time..
+![Speculative attack on the gold peg: reserve drain and attack time.](output/figures/goldfinger_reserve_crisis.png)
 
 ### Laser threat: burn-through time
 
@@ -288,7 +282,7 @@ power halves burn-through time; doubling thickness doubles it, so the
 defensive levers on the laser side are plate thickness and material (higher
 $\rho c \Delta T$).
 
-> **Figure (in the package manuscript):** Laser threat physics: burn-through time vs beam power for the reference vault plate..
+![Laser threat physics: burn-through time vs beam power for the reference vault plate.](output/figures/goldfinger_laser_burn_through.png)
 
 ### Laser thermal engagement: beam focus and heat conduction
 
@@ -300,7 +294,7 @@ effective engagement range of **65.0 m** within the
 with range lengthens melt time, so a defender pushing the engagement beyond the
 Rayleigh range materially degrades the threat.
 
-> **Figure (in the package manuscript):** Laser engagement: surface melt time grows as the Gaussian beam defocuses with distance..
+![Laser engagement: surface melt time grows as the Gaussian beam defocuses with distance.](output/figures/goldfinger_laser_engagement.png)
 
 All 6 model results above are computed by the pure
 domain core and injected here as generated variables — none is typed by hand,
@@ -320,7 +314,7 @@ asserts the list is exactly what the rule rejects, so the hole cannot widen
 silently. It is a real hole nonetheless: a hand-typed module count in this
 prose would not be caught by the scan.
 
-## Conclusion
+## Conclusion — GRAND SLAM: findings, verdict, and what the mission establishes
 
 The GRAND SLAM mission software demonstrates that the operational concepts of
 *Goldfinger* — cornering the gold market, weaponising the monetary system,
@@ -353,7 +347,7 @@ BOND-API `MissionProvider` (film `goldfinger`, codename `GRAND SLAM`), so all
 orchestrator through the full mission lifecycle — the adapter's public shape is
 stable across phases; only its internals deepen.
 
-## Experimental Setup
+## Experimental Setup — GRAND SLAM: canonical scenarios, parameters, and configuration
 
 ### Reference intel
 
@@ -457,7 +451,7 @@ any constant is visible in the hash. The record writes no wall clock (its
 The adapter's public shape is frozen across phases; the mission internals
 (assets, plan steps, outcome results, lessons) are what deepen.
 
-## Reproducibility
+## Reproducibility — GRAND SLAM: verification gates, deterministic regeneration, and artifacts
 
 ### Deterministic regeneration
 
@@ -536,7 +530,7 @@ mocking framework anywhere.
  to the constants value-for-value and also pins the two laser models to one
  physical steel plate.
 
-## Scope and Related Work
+## Scope and Related Work — GRAND SLAM: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -679,7 +673,7 @@ gap between these laws and the real market, vault, or laser. Presenting both
 — a headline and its within-model band, side by side with the scope boundary
 — is the honest shape of the result.
 
-## Sources
+## Sources — GRAND SLAM: bibliography
 
 @walras1874elements; @hicks1946value; @kyle1985continuous; @krugman1979model; @flood1984collapsing; @garcia2007design; @dijkstra1959note; @israeli2002shortest; @steen2010laser; @carslaw1959conduction; @siegman1986lasers; @bondapi2026protocol
 

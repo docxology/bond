@@ -14,7 +14,7 @@ independently-authored package manuscripts that has to render as one document:
 | --- | --- |
 | `discover_packages()` | Structure yes; the roster source and the infra table are yours to replace |
 | `import_package_abstract()` + `_resolve_tokens()` | Directly — it handles both `output/data/` and `output/variables/` conventions and coerces non-string JSON values |
-| `parse_references()` + `build_references_bib()` | Directly — both real BibTeX and plain `[n] …` lists, de-duplicated by key |
+| `parse_references()` + `build_references_bib()` | Directly — both real BibTeX and plain `[n] …` lists, de-duplicated by case-insensitive canonical key and rendered with TeX-safe fields |
 | `latex_to_text()` | Directly |
 | `_strip_crossrefs()` | Directly, once you list your own label prefixes |
 | `_brief_line()` + `BRIEF_FAILURES` | Only if your suite has a comparable per-package protocol |

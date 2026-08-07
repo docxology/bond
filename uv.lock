@@ -29,7 +29,7 @@ provides-extras = ["dev"]
 [[package]]
 name = "bond-coordinator"
 version = "0.1.0"
-source = { directory = "/Users/4d/Documents/GitHub/template/projects/working/bond/bond-coordinator" }
+source = { directory = "../bond-coordinator" }
 dependencies = [
     { name = "bond-api" },
     { name = "pyyaml" },
@@ -51,7 +51,7 @@ provides-extras = ["dev"]
 
 [[package]]
 name = "bond-manuscript"
-version = "2.5.2"
+version = "1.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "bond-api" },
@@ -75,9 +75,9 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "bond-api", directory = "/Users/4d/Documents/GitHub/template/projects/working/bond/bond-api" },
-    { name = "bond-coordinator", directory = "/Users/4d/Documents/GitHub/template/projects/working/bond/bond-coordinator" },
-    { name = "bond-utilities", directory = "/Users/4d/Documents/GitHub/template/projects/working/bond/bond-utilities" },
+    { name = "bond-api", directory = "../bond-api" },
+    { name = "bond-coordinator", directory = "../bond-coordinator" },
+    { name = "bond-utilities", directory = "../bond-utilities" },
     { name = "defusedxml", specifier = ">=0.7.1" },
     { name = "matplotlib", specifier = ">=3.7.0" },
     { name = "numpy", specifier = ">=1.24.0" },
@@ -91,7 +91,7 @@ provides-extras = ["dev"]
 [[package]]
 name = "bond-utilities"
 version = "0.3.0"
-source = { directory = "/Users/4d/Documents/GitHub/template/projects/working/bond/bond-utilities" }
+source = { directory = "../bond-utilities" }
 dependencies = [
     { name = "matplotlib" },
     { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },

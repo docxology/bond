@@ -135,7 +135,9 @@ def discover_packages(bond_root: Path) -> list[PackageInfo]:
         packages.append(
             PackageInfo(
                 slug=slug,
-                title=slug.replace("-", " ").title(),
+                title={"bond-api": "Bond API", "bond-cli": "Bond CLI", "bond-ops": "Bond Operations"}.get(
+                    slug, slug.replace("-", " ").title()
+                ),
                 year="2026",
                 codename=codename,
                 kind="infra",
@@ -191,13 +193,21 @@ def import_package_abstract(package_dir: Path) -> str:
     Preference: hydrated chapter -> resolve source tokens from the package's
     manuscript_variables.json -> strip tokens.  Returns a cleaned paragraph.
     """
+
+    def _abstract_text(path: Path) -> str:
+        text = path.read_text()
+        # Abstract files are prose fragments; a few packages redundantly
+        # include a Markdown ``## Abstract`` heading.  The wrapper supplies
+        # the canonical abstract heading, so remove it before flattening.
+        return re.sub(r"(?m)^#{1,6}\s+Abstract\s*$", "", text)
+
     hydrated = package_dir / "output" / "manuscript" / "00_abstract.md"
     if hydrated.is_file():
-        return _clean(hydrated.read_text())
+        return _clean(_abstract_text(hydrated))
     source = package_dir / "manuscript" / "00_abstract.md"
     if not source.is_file():
         return ""
-    text = source.read_text()
+    text = _abstract_text(source)
     variables_path = _find_variables_json(package_dir)
     if variables_path is not None:
         try:
@@ -220,20 +230,17 @@ _CROSSREF = re.compile(r"\[?@(sec|def|prop|thm|lem|cor|fig|eq|tbl|lst):([\w:-]+)
 def _strip_crossrefs(body: str) -> str:
     """Neutralise cross-references that cannot resolve in the wrapper.
 
-    A package abstract may cite its own sections and theorems. Those labels are
-    real inside that package's manuscript but absent from the compendium, where
-    they render as ``Section sec. ??`` and ``[?]`` in the combined PDF. Section
-    references become plain prose; pointers to definitions, propositions and
-    floats are dropped along with any parenthetical or dash that introduced them.
+    A package abstract may cite its own sections and theorems. Section labels
+    are not imported as cross-reference anchors into the compendium, so
+    ``[@sec:...]`` becomes plain prose. Pointers to floats and equations (``fig``,
+    ``eq``, ``tbl``, ``lst``) are dropped. Formalism references (``def``, ``prop``,
+    ``thm``, ``lem``, ``cor``) are PRESERVED: the compendium imports the package's
+    formalism blocks with their labels, so ``[@def:suite-roster]`` resolves to
+    ``(Definition 1)`` in the combined PDF instead of dangling.
     """
 
-    def _sub(match: "re.Match[str]") -> str:
-        kind, name = match.group(1), match.group(2).split(":")[-1]
-        if kind == "sec":
-            return f"the {name.replace('-', ' ').replace('_', ' ')} section"
-        return ""
-
-    body = _CROSSREF.sub(_sub, body)
+    body = _CROSSREF.sub(_crossref_to_prose, body)
+    body = _repair_ref_prose(body)
     # Tidy the punctuation the removed references leave behind.
     body = re.sub(r"\(\s*[,;]?\s*\)", "", body)  # ()
     body = re.sub(r"\s+—\s*\)", ")", body)  # " — )"
@@ -268,6 +275,26 @@ class _BibBlock:
     entries: list[Reference] = field(default_factory=list)
 
 
+def _escape_bibtex_text(block: str) -> str:
+    """Protect plain-text TeX specials in imported bibliography fields.
+
+    Package notes frequently mention Python identifiers (``module_name``) and
+    prose publishers use ampersands. Those characters are emitted into ordinary
+    LaTeX text, where raw ``_``/``&`` corrupt the combined document. URL/DOI
+    values are safe to escape as well, but the entry declaration line must stay
+    untouched because its key is parsed by BibTeX.
+    """
+    lines = block.splitlines()
+    if not lines:
+        return block
+    protected: list[str] = [lines[0]]
+    for line in lines[1:]:
+        line = re.sub(r"(?<!\\)_", r"\\_", line)
+        line = re.sub(r"(?<!\\)&", r"\\&", line)
+        protected.append(line)
+    return "\n".join(protected)
+
+
 def _parse_bibtex_entries(text: str, slug: str) -> list[Reference]:
     """Split text into real '@type{key,...}' blocks (skipping @comment)."""
     entries: list[Reference] = []
@@ -288,11 +315,20 @@ def _parse_bibtex_entries(text: str, slug: str) -> list[Reference]:
             i += 1
         block = text[start:i]
         etype = m.group(1).lower()
-        key = m.group(2).strip()
+        original_key = m.group(2).strip()
         if etype == "comment":
             pos = i
             continue
-        entries.append(Reference(key=key, bibtex=block.strip(), source_package=slug))
+        # BibTeX keys are case-sensitive. Canonicalise at the fleet merge
+        # boundary so differently-cased package keys cannot conflict.
+        key = original_key.lower()
+        block = re.sub(
+            r"^(\s*@\w+\s*\{\s*)" + re.escape(original_key) + r"(\s*,)",
+            rf"\g<1>{key}\g<2>",
+            block,
+            count=1,
+        )
+        entries.append(Reference(key=key, bibtex=_escape_bibtex_text(block.strip()), source_package=slug))
         pos = i
     # De-duplicate by key within this package (later wins).
     dedup: "OrderedDict[str, Reference]" = OrderedDict()
@@ -327,7 +363,7 @@ def _plain_ref_to_bibtex(line: str, slug: str, index: int) -> Reference:
     if note:
         fields.append(f"note    = {{{note}}}")
     bibtex = "@misc{" + key + ",\n" + "\n".join(f"  {f}" for f in fields) + "\n}\n"
-    return Reference(key=key, bibtex=bibtex, source_package=slug)
+    return Reference(key=key, bibtex=_escape_bibtex_text(bibtex), source_package=slug)
 
 
 def parse_references(package_dir: Path, slug: str) -> list[Reference]:
@@ -389,29 +425,119 @@ def _package_variables(package_dir: Path) -> "dict[str, object]":
         return {}
 
 
-def _demote_heading(line: str) -> str:
+#: Informative per-chapter section titles.  The package manuscripts all use the
+#: same generic top-level headings (``# Abstract``, ``# Methodology``, ...); when
+#: 33 chapters repeat the identical word, the table of contents cannot tell one
+#: chapter's section from another's.  The compendium therefore enriches each
+#: canonical section title with the chapter's mission codename, so every
+#: ``##`` heading in the combined manuscript carries its film identity.
+SECTION_TITLES: "dict[str, str]" = {
+    "abstract": "Abstract — {codename}: the mission, its models, and the measured results at a glance",
+    "introduction": "Introduction — {codename}: mission framing, the operational problem, and how to read this chapter",
+    "methodology": "Methodology — {codename}: the analytical models and algorithms that drive the mission",
+    "results": "Results — {codename}: measured outcomes, headline numbers, and what they establish",
+    "conclusion": "Conclusion — {codename}: findings, verdict, and what the mission establishes",
+    "experimental setup": "Experimental Setup — {codename}: canonical scenarios, parameters, and configuration",
+    "reproducibility": "Reproducibility — {codename}: verification gates, deterministic regeneration, and artifacts",
+    "reproducibility certification": "Reproducibility — {codename}: certification, gates, and regeneration",
+    "scope": "Scope and Related Work — {codename}: boundaries, positioning, and relationship to the literature",
+    "scope and related work": "Scope and Related Work — {codename}: boundaries, positioning, and relationship to the literature",
+    "scope, related work, and positioning": "Scope and Related Work — {codename}: boundaries, positioning, and relationship to the literature",
+    "limitations and uncertainty": "Limitations and Uncertainty — {codename}: assumptions, threats to validity, and what the numbers do not claim",
+    "uncertainty": "Uncertainty — {codename}: what is not claimed and why",
+    "discussion": "Discussion — {codename}: interpretation, caveats, and open questions",
+    "discussion and uncertainty": "Discussion and Uncertainty — {codename}: interpretation, caveats, and what the numbers do not claim",
+    "appendix": "Appendix — {codename}: supporting material and extended results",
+}
+
+
+_CODENAME_RE = re.compile(r"^#\s+.+?—\s+([A-Z0-9][A-Z0-9 _-]*?)\s*$")
+
+
+def _package_codename(package_dir: Path, slug: str) -> str:
+    """Recover the package's mission codename (e.g. ``NINE EYES``).
+
+    The chapter's first heading carries it as ``# Title (year) — CODENAME``;
+    this parses that heading instead of importing the coordinator registry.
+    Returns ``slug`` uppercased when no heading is present.
+    """
+    manuscript = package_dir / "manuscript"
+    files = sorted(f for f in manuscript.glob("[0-9][0-9]_*.md") if _SECTION_RE.match(f.name))
+    for f in files:
+        for ln in f.read_text().splitlines():
+            m = _CODENAME_RE.match(ln)
+            if m:
+                return m.group(1).strip()
+            if ln.startswith("#"):
+                break
+    return slug.replace("-", " ").upper()
+
+
+def _demote_heading(line: str, *, codename: str = "") -> str:
+    """Nest a section heading one level under the chapter's ``#`` header.
+
+    Top-level (``#``) headings of canonical package sections are also enriched
+    with the chapter's mission codename so the combined table of contents
+    distinguishes ``## Abstract`` across 33 chapters.
+    """
+    m = re.match(r"^(#{1,6})(?=\s)", line)
+    if not m:
+        return line
+    text = line[m.end() :].strip()
+    if m.group(1) == "#" and codename:
+        # Drop trailing ``{#sec:...}`` attributes before matching: several
+        # packages anchor their canonical headings with a cross-reference
+        # label, and the label must not block title enrichment.
+        key = re.sub(r"\{[^}]*\}", "", text).strip().casefold()
+        enriched = SECTION_TITLES.get(key)
+        if enriched:
+            return "#" + m.group(1) + " " + enriched.format(codename=codename)
+    return "#" + line
+
     """Nest a section heading one level under the chapter's ``#`` header."""
     m = re.match(r"^(#{1,6})(?=\s)", line)
     return ("#" + line) if m else line
+
+
+def _repair_ref_prose(body: str) -> str:
+    """Repair sentences after cross-references were rendered as prose.
+
+    ``Figure [@fig:poker] visualises`` becomes ``Figure the poker figure
+    visualises`` after substitution; the literal noun is redundant, so it is
+    dropped.  A rendered reference that now opens a sentence is capitalised
+    (after sentence punctuation or at a paragraph start) so the prose stays
+    grammatical.
+    """
+    body = re.sub(r"\b(?:Figure|Table|Equation|Listing)\s+the\s+([a-z])", r"the \1", body)
+    body = re.sub(r"(?<=[.!?]\s)the\s+([a-z])", lambda m: "The " + m.group(1), body)
+    body = re.sub(r"(?:^|\n\n)the\s+([a-z])", lambda m: "The " + m.group(1), body)
+    return body
 
 
 def _neutralize_crossrefs(body: str) -> str:
     """Neutralise package-local pandoc-crossref labels without flattening prose.
 
     Structure-preserving sibling of :func:`_strip_crossrefs`: it converts
-    section pointers into prose and drops definition/proposition/float pointers,
-    but never collapses the markdown line structure (headings, lists, math,
-    tables) that a full section carries.
+    section pointers into prose and drops float/equation pointers, but never
+    collapses the markdown line structure (headings, lists, math, tables) that a
+    full section carries. Formalism references (``def``/``prop``/``thm``/``lem``/
+    ``cor``) are kept verbatim so pandoc-crossref can resolve them against the
+    formalism blocks imported with the chapter.
     """
 
-    def _sub(match: "re.Match[str]") -> str:
-        kind, name = match.group(1), match.group(2).split(":")[-1]
-        if kind == "sec":
-            return f"the {name.replace('-', ' ').replace('_', ' ')} section"
-        return ""
-
-    body = _CROSSREF.sub(_sub, body)
+    body = _CROSSREF.sub(_crossref_to_prose, body)
+    body = _repair_ref_prose(body)
+    # Package-local Markdown links (e.g. ``[Results](#results)``) point at
+    # labels that are intentionally not imported into the wrapper namespace.
+    # Keep their readable text but remove the dangling target before Pandoc
+    # turns it into an undefined hyperref.
+    body = re.sub(r"\[([^\]]+)\]\(#[^)]+\)", r"\1", body)
     body = re.sub(r"\{#[a-z]+:[^{}]*\}", "", body)  # strip fig/tbl/eq crossref label attributes
+    # Package-local notation macros are not available in the wrapper
+    # preamble. Expand the fleet's custom commands to backend-safe LaTeX.
+    body = body.replace(r"\Cindex", r"\mathrm{C}_{\mathrm{index}}")
+    body = body.replace(r"\HHI", r"\mathrm{HHI}")
+    body = body.replace(r"\Eff", r"\mathrm{Eff}")
     body = re.sub(r"\(\s*[,;]?\s*\)", "", body)  # ()
     body = re.sub(r"[ \t]+—\s*\)", ")", body)  # " — )"
     body = re.sub(r"\bSection\s+the\b", "The", body)
@@ -420,6 +546,36 @@ def _neutralize_crossrefs(body: str) -> str:
     body = re.sub(r"([,;])[ \t]*\1+", r"\1", body)
     lines = [re.sub(r"[ \t]{2,}", " ", ln) for ln in body.splitlines()]
     return "\n".join(lines).strip()
+
+
+#: Cross-reference kinds that become plain prose instead of dangling in the
+#: combined document: sections name the section; floats/equations name the
+#: object the package's own figure/table/equation defines.  Formalism kinds
+#: (def/prop/thm/lem/cor) are NOT here — their blocks are imported with labels,
+#: so those references resolve via pandoc-crossref.
+_CROSSREF_NOUNS: "dict[str, str]" = {
+    "fig": "figure",
+    "tbl": "table",
+    "eq": "equation",
+    "lst": "listing",
+}
+
+
+def _crossref_to_prose(match: "re.Match[str]") -> str:
+    """Render a package-local cross-reference as readable prose.
+
+    ``[@sec:results]`` becomes ``the results section``, ``[@fig:leverage]``
+    becomes ``the leverage figure``, and so on, so a reference that cannot
+    resolve inside the wrapper still leaves a grammatical sentence.  Formalism
+    references are returned verbatim for pandoc-crossref resolution.
+    """
+    kind, label = match.group(1), match.group(2).split(":")[-1]
+    human = label.replace("-", " ").replace("_", " ")
+    if kind == "sec":
+        return f"the {human} section"
+    if kind in _CROSSREF_NOUNS:
+        return f"the {human} {_CROSSREF_NOUNS[kind]}"
+    return match.group(0)
 
 
 #: Markdown image embed: ``![caption](src){label}``.
@@ -442,7 +598,17 @@ def _process_figures(text: str, package_dir: Path, slug: str) -> tuple[str, list
     def _sub(match: "re.Match[str]") -> str:
         caption = match.group(1).strip()
         src = match.group(2).strip()
-        abs_src = (package_dir / "manuscript" / src).resolve()
+        # The fleet uses three figure-path conventions: most packages embed
+        # ``images/...`` relative to ``manuscript/``; several (spectre,
+        # thunderball, octopussy, ...) reference ``output/figures/...``
+        # relative to the package root; a few reference ``figures/...``
+        # relative to the package root.  Try each before giving up.
+        candidates = (
+            package_dir / "manuscript" / src,
+            package_dir / src,
+            package_dir / "output" / "figures" / Path(src).name,
+        )
+        abs_src = next((c.resolve() for c in candidates if c.is_file()), candidates[0].resolve())
         dest = f"{slug}_{Path(src).name}"
         if abs_src.is_file():
             figures.append((abs_src, dest))
@@ -456,7 +622,9 @@ def _process_figures(text: str, package_dir: Path, slug: str) -> tuple[str, list
     return _IMG.sub(_sub, text), figures
 
 
-def import_package_sections(package_dir: Path, slug: str) -> tuple[str, list[tuple[Path, str]]]:
+def import_package_sections(
+    package_dir: Path, slug: str, codename: str | None = None
+) -> tuple[str, list[tuple[Path, str]]]:
     """Import every authored section (01..NN) of a package's manuscript.
 
     Sections are read in lexicographic filename order, token-hydrated from the
@@ -493,7 +661,8 @@ def import_package_sections(package_dir: Path, slug: str) -> tuple[str, list[tup
         text = _neutralize_crossrefs(text)  # inline [@fig:…]/[@tbl:…] pointers
         text, fgs = _process_figures(text, package_dir, slug)
         figures.extend(fgs)
-        lines = [_demote_heading(ln) for ln in text.splitlines()]
+        chapter_codename = codename or _package_codename(package_dir, slug)
+        lines = [_demote_heading(ln, codename=chapter_codename) for ln in text.splitlines()]
         parts.append("\n".join(lines).strip())
     return "\n\n".join(parts).strip(), figures
 
@@ -541,6 +710,17 @@ def _brief_line(package_dir: Path, slug: str) -> str:
         return ""
 
 
+def _canonicalize_citations(body: str, reference_keys: list[str]) -> str:
+    """Rewrite package citation spellings to the merged bibliography keys."""
+    by_fold = {key.casefold(): key for key in reference_keys}
+
+    def _sub(match: re.Match[str]) -> str:
+        key = match.group(1)
+        return "@" + by_fold.get(key.casefold(), key)
+
+    return re.sub(r"@([A-Za-z][\w:.-]*)", _sub, body)
+
+
 def build_package_section(
     pkg: PackageInfo,
     package_dir: Path,
@@ -549,8 +729,8 @@ def build_package_section(
 ) -> ImportedChapter:
     """One imported chapter carrying the package's FULL manuscript.
 
-    The chapter is no longer an abstract-only excerpt: it reproduces the
-    package's complete manuscript — its abstract and every authored section
+    The chapter is no longer an abstract-only excerpt: it imports the
+    package's complete authored content — its abstract and every authored section
     (00..NN) — token-hydrated and nested under the chapter header, plus its
     ``## Sources`` citation list.  Figure embeds are rewired to the
     compendium's figure store so the combined PDF carries the package's figures.
@@ -559,23 +739,17 @@ def build_package_section(
     concepts = ", ".join(pkg.concepts) if pkg.concepts else pkg.phenomena
     brief = _brief_line(package_dir, pkg.slug)
     abstract = import_package_abstract(package_dir)
-    sections, figures = import_package_sections(package_dir, pkg.slug)
+    sections, figures = import_package_sections(package_dir, pkg.slug, pkg.codename)
     lines = [
         header,
         "",
-        f"*{pkg.kind} package · mission codename {pkg.codename}*." + (f" {brief}" if brief else ""),
+        f"*{pkg.kind} package · package codename {pkg.codename}*." + (f" {brief}" if brief else ""),
         "",
-        "This chapter reproduces the package's complete manuscript verbatim:",
-        "the abstract and every authored section, token-hydrated from the",
-        "package's own manuscript variables, with the package's figures carried",
-        "in the combined PDF and its sources resolved against the unified",
-        "bibliography.",
-        "",
-        "## Concepts",
+        f"## Concepts — {pkg.codename}: domain and operational focus",
         "",
         concepts,
         "",
-        "## Abstract",
+        f"## Abstract — {pkg.codename}: mission summary",
         "",
         (abstract or "_This package ships no abstract._"),
         "",
@@ -585,20 +759,23 @@ def build_package_section(
         lines.append("")
     if reference_keys:
         cites = "; ".join(f"@{key}" for key in reference_keys)
-        lines += ["## Sources", "", cites, ""]
-    return ImportedChapter(body="\n".join(lines), figures=tuple(figures))
+        lines += [f"## Sources — {pkg.codename}: bibliography", "", cites, ""]
+    body = _canonicalize_citations("\n".join(lines), reference_keys)
+    return ImportedChapter(body=body, figures=tuple(figures))
 
 
 def build_architecture_section(packages: list[PackageInfo], bond_root: Path) -> str:
     """Generated suite-architecture chapter: layered topology + gate table."""
+    film_count = sum(pkg.kind == "film" for pkg in packages)
+    infra_count = sum(pkg.kind == "infra" for pkg in packages)
     lines = [
-        "# Suite Architecture",
+        "# Suite Architecture — layered topology, package roster, and measured gate",
         "",
-        "PROJECT BOND is a 33-package fleet: 27 film packages, each a standalone",
-        "software package implementing its film's concepts, plus 6 mission-",
+        f"PROJECT BOND is a {len(packages)}-package fleet: {film_count} film packages, each a standalone",
+        f"software package implementing its film's concepts, plus {infra_count} mission-",
         "infrastructure packages that provide the contract and the operation.",
         "",
-        "## Layers",
+        "## Layered topology and execution responsibilities",
         "",
         "| Layer | Packages |",
         "| --- | --- |",
@@ -607,13 +784,13 @@ def build_architecture_section(packages: list[PackageInfo], bond_root: Path) -> 
         "| Layer 2 · control | `bond-coordinator` (registry, ledger, situation room) |",
         "| Layer 3 · orchestration | `bond-orchestrator` (mission DAG runner, real-film binding) |",
         "| Layer 4 · ops | `bond-cli` (front door), `bond-ops` (fleet gates) |",
-        "| Films | 27 standalone packages, one per James Bond film |",
+        f"| Films | {film_count} standalone packages, one per James Bond film |",
         "",
         "Every film implements the frozen `bond_api` `MissionProvider` and is",
         "discovered by `bond_api.discovery`. The compendium imports one chapter per",
         "package below.",
         "",
-        "## Roster",
+        "## Complete package roster and mission codenames",
         "",
     ]
     table = ["| # | Package | Codename |", "|---|---------|----------|"]
@@ -629,7 +806,7 @@ def build_architecture_section(packages: list[PackageInfo], bond_root: Path) -> 
             cov = {p["package"]: p["coverage"] for p in rows}
         except (OSError, ValueError):
             cov = {}
-        lines += ["## Measured gate", ""]
+        lines += ["## Aggregate quality gate and coverage evidence", ""]
         gate_rows = ["| Package | Coverage |", "| --- | --- |"]
         for pkg in packages:
             c = cov.get(pkg.slug)

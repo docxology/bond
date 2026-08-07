@@ -1,22 +1,16 @@
 # Octopussy (1983) — FABERGE
 
-*film package · mission codename FABERGE*. Mission **FABERGÉ**: detect artifact forgeries via spectral/UV fingerprinting; route smuggled payload under circus cover by min-cost flow; sweep for a concealed nuclear device via radiation and mass anomaly.
+*film package · package codename FABERGE*. Mission **FABERGÉ**: detect artifact forgeries via spectral/UV fingerprinting; route smuggled payload under circus cover by min-cost flow; sweep for a concealed nuclear device via radiation and mass anomaly.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — FABERGE: domain and operational focus
 
 forgery detection, cover logistics
 
-## Abstract
+## Abstract — FABERGE: mission summary
 
 **Octopussy: FABERGÉ — Special-Agent Mission Software** (**Paired Detection: Spectral/UV Forgery Screening and Varnish Dating, Rail Min-Cost Flow and Trainset Circulation, Concealed-Device Sweep and Source Localization**), package Octopussy v0.1.0, implements three investigative disciplines under the mission codename **FABERGÉ**, carried by 6 deterministic pipelines: each discipline pairs a headline detector with a depth module that reads a different observable of the same synthetic scenario. The pairing buys independence of *observable*, not of sample — and, as the varnish result below shows, a second observable is not automatically a second confirmation. First, artifact forgery detection fingerprints painted objects by their combined spectral reflectance and UV fluorescence. A ridge-regularized non-negative least-squares fit identifies each object's pigment composition; whether any pigment post-dates the object's claimed era, how strongly the unexplained spectral residue resembles an anachronistic pigment (matched filter), and the UV fluorescence reading jointly yield a forgery disposition. Against a deterministic exhibit of 4 artifacts drawn from a library of 14 pigments, 4 objects are screened and 2 flagged as forged or likely-forged, with the all-modern composition *forged_dupe* carrying the highest score. **Varnish-ageing kinetics** date two of those same artifacts from film chemistry instead of composition, and the result is deliberately asymmetric. The forger's fresh coat on *forged_dupe* is dated at ~2.8 years against a true 3 and rejected as too_young in 32 of 32 noise realizations. The century-old shellac on *tsar_egg*, claimed 1910, is dated at ~155.5 years against a true 116 and returns a verdict of too_old — but the same ensemble scatters by 54.4 years and yields 3 distinct verdicts (consistent×12, too_young×4, too_old×16) from that one genuine object, because the kinetics saturate. The channel rejects a fresh coat; it decides nothing about an old one. Second, circus-cover smuggling logistics route 3 payload units over a 9-segment rail corridor as minimum-cost flow via successive shortest paths; the resolved plan costs 780 unit-minutes and moves the payload with a makespan of 260 minutes using 2 circus trains, inside the stated capacity and the 400-minute deadline. **Rolling-stock circulation** then bounds the cover itself: 7 circus trips are covered by a minimum of 2 trainsets (a matching of 5 successor links, 100 deadhead minutes), with a depot allocation costing 38.0 minutes. Two computed checks tie that schedule to the routed plan: whether every routed leg is a scheduled trip (True) and whether the fleet covers the trains the flow needs (True). Third, a concealed-device sweep over 100 detectors fuses a radiation anomaly map with shape/mass anomaly screening of 4 cargo containers, flagging hotspot@3,4, royal_egg and ranking hotspot@3,4 first. **Radiation source localization** converts that alarm into a fix: weighted Gauss–Newton estimation recovers the concealed source to within 0.066 metres of its true position, against a fitted positional standard deviation of 0.102 metres (residual 28.664, converged: True). Every pipeline is fully deterministic under a fixed seed (7), producing reproducible, audit-ready provenance.
 
-## Introduction
+## Introduction — FABERGE: mission framing, the operational problem, and how to read this chapter
 
 In the 1983 film *Octopussy*, the villain's scheme hides a working nuclear
 device inside a Fabergé egg and moves it by circus train across Europe. The
@@ -68,7 +62,7 @@ data generated from physically-motivated forward models — not stubs and not
 mocks. The remainder of this manuscript specifies the methodology, reports the
 measured outcomes, and documents the reproducibility guarantees.
 
-## Methodology
+## Methodology — FABERGE: the analytical models and algorithms that drive the mission
 
 The mission's 6 pipelines share a design principle:
 every quantity that reaches a verdict is *measured* or *computed*, never
@@ -196,7 +190,7 @@ seed-free and reproducible. Inverting the normal matrix yields approximate
 positional and intensity standard deviations, so a reported fix always ships
 with the precision that justifies it.
 
-## Results
+## Results — FABERGE: measured outcomes, headline numbers, and what they establish
 
 Executing the FABERGÉ mission (seed 7) produces the following
 measured outcomes. Every figure below is emitted by the live run; none is
@@ -250,11 +244,11 @@ be resolved out of an otherwise period-correct object, is *not* exercised by
 the shipped exhibit and this package makes no claim about it. What the exhibit
 does establish is narrower — the screen is not relying on the trivial
 all-modern signature, since the other fake is wholly modern by weight and this
-one is not. Figure shows the spectral fingerprints and UV
+one is not. The forgery figure shows the spectral fingerprints and UV
 responses that separate the classes.
 
-> **Figure (in the package manuscript):** Spectral fingerprints of a genuine vs. a forged artifact and their UV
-fluorescence responses..
+![Spectral fingerprints of a genuine vs. a forged artifact and their UV
+fluorescence responses.](output/figures/octopussy_forgery_fingerprints.png)
 
 ### Varnish ageing (forgery depth)
 
@@ -309,14 +303,13 @@ screen's failure mode; but both channels observe the same synthetic exhibit
 under the same authored ground truth, so they are independent in *observable*,
 not in *sample*.
 
-That asymmetry is a property of the kinetics, not of one dataset. Figure
- sweeps true coating age and shows the recovered age tracking truth
+That asymmetry is a property of the kinetics, not of one dataset. The varnish figure sweeps true coating age and shows the recovered age tracking truth
 until the film is past roughly three time constants — after which the recovered
 age scatters beyond any single reading, which is exactly why the century-old
 surface above emits every verdict the classifier can produce.
 
-> **Figure (in the package manuscript):** Recovered varnish age against true coating age, showing the precision
-collapse at saturation..
+![Recovered varnish age against true coating age, showing the precision
+collapse at saturation.](output/figures/octopussy_varnish_scatter.png)
 
 ### Cover logistics
 
@@ -327,10 +320,9 @@ total cost of 780 unit-minutes with a makespan of
 260 minutes. Against the
 400-minute deadline that leaves
 140 minutes of slack, carried by
-2 circus trains at the capacity limit. Figure
- plots the corridor and the routed flow.
+2 circus trains at the capacity limit. The rail figure plots the corridor and the routed flow.
 
-> **Figure (in the package manuscript):** The FABERGÉ circus rail corridor with routed flow..
+![The FABERGÉ circus rail corridor with routed flow.](output/figures/octopussy_rail_network.png)
 
 ### Rolling-stock circulation (logistics depth)
 
@@ -361,10 +353,10 @@ The 100-detector sweep, laid out as a
 hotspot@3,4, royal_egg. The fused report ranks hotspot@3,4
 highest across 4 screened containers, confirming a
 dense sample egg as a flagged mass anomaly — the Fabergé-egg signature of a
-small, dense concealed core. Figure renders the radiation count map
+small, dense concealed core. The sweep figure renders the radiation count map
 with the detected hotspot.
 
-> **Figure (in the package manuscript):** Concealed-device sweep: radiation count rates with the detected hotspot..
+![Concealed-device sweep: radiation count rates with the detected hotspot.](output/figures/octopussy_sweep_heatmap.png)
 
 ### Source localization (sweep depth)
 
@@ -388,7 +380,7 @@ an inverse-square fit, so the radial scale is poorly constrained by a
 single-plane lattice even when the centroid is sharp. The operational claim is
 therefore *where the source is*, not *how strong it is*.
 
-## Conclusion
+## Conclusion — FABERGE: findings, verdict, and what the mission establishes
 
 The **FABERGÉ** mission software demonstrates that three
 independent investigative disciplines — spectral/UV forgery detection,
@@ -431,7 +423,7 @@ investigative problem — and so does the discipline that pairing a detector wit
 a second observable is only worth something once the second observable's
 uncertainty has been measured rather than assumed.
 
-## Experimental setup
+## Experimental Setup — FABERGE: canonical scenarios, parameters, and configuration
 
 All experiments are configured through `manuscript/config.yaml` and the module
 constants in `src/octopussy/`. The pipeline is deterministic: every random
@@ -470,7 +462,7 @@ The full run is driven by `scripts/mission_execute.py` (mission outcome and
 figures) and `scripts/z_generate_manuscript_variables.py` (token hydration and
 the resolved manuscript tree). Neither requires network access.
 
-## Reproducibility
+## Reproducibility — FABERGE: verification gates, deterministic regeneration, and artifacts
 
 Reproducibility is the central guarantee of this package
 (Octopussy v0.1.0).
@@ -510,7 +502,7 @@ Reproducibility is the central guarantee of this package
 Report artifacts live under `output/` (regenerated): the mission outcome, the
 rendered figures, and the resolved manuscript tree.
 
-## Scope and related work
+## Scope and Related Work — FABERGE: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -606,7 +598,7 @@ frozen mission protocol, with deterministic and audit-ready provenance — and
 with each depth method reporting the uncertainty that determines how much its
 agreement is worth.
 
-## Sources
+## Sources — FABERGE: bibliography
 
 @lawson1974solving; @keshava2002spectral; @delarie1982fluorescence; @feller1994accelerated; @horie2010materials; @ford1962flows; @ahuja1993network; @bellman1958routing; @dijkstra1959note; @dantzig1954minimizing; @caprara2002train; @hopcroft1973matching; @kuhn1955hungarian; @knoll2010radiation; @currie1968limits; @kiefer1953sequential; @marquardt1963algorithm; @nocedal2006numerical
 

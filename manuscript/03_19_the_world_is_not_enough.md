@@ -1,22 +1,16 @@
 # The World Is Not Enough (1999) — ELEKTRA
 
-*film package · mission codename ELEKTRA*. Mission **ELEKTRA**: interdict tamper at oil-pipeline choke points; contain a coordinated power-grid blackout; route the nuclear submarine to safety and track the hijacked hull; model hostage-captor dynamics and negotiate the captor's patience.
+*film package · package codename ELEKTRA*. Mission **ELEKTRA**: interdict tamper at oil-pipeline choke points; contain a coordinated power-grid blackout; route the nuclear submarine to safety and track the hijacked hull; model hostage-captor dynamics and negotiate the captor's patience.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — ELEKTRA: domain and operational focus
 
 energy infrastructure, hostage psychology
 
-## Abstract
+## Abstract — ELEKTRA: mission summary
 
 In *The World Is Not Enough* (1999), mission codename **ELEKTRA**, we develop deterministic special-agent mission software across six operational pillars. Three model the film's primary threats — pipeline sabotage, submarine evasion, and hostage psychology — and three couple to them: an energy-infrastructure model that supplies the sabotage force multiplier, a bargaining model that consumes the syndrome state, and a tracking filter that re-acquires the evading hull. 1. **Oil-pipeline security** — a capacitated flow model of a Caspian crude trunk is analysed with the Edmonds–Karp max-flow/min-cut algorithm and Brandes edge-betweenness to isolate choke points, then subjected to a deterministic tamper-interdiction simulation. The analysis surfaces a single principal choke point (**J4->J5**) carrying the corridor at full rated capacity (max flow 420.000 kbbl/day, min-cut capacity 420.000 kbbl/day). 2. **Nuclear-submarine defense** — a passive-sonar equation (spherical spreading plus absorption) turns each listening sensor's range into a detection-probability field via the normal CDF; Dijkstra's algorithm then routes the *King William* from origin to safety. Least-risk routing cuts cumulative detection exposure by **24.861%** relative to line-of-sight. 3. **Hostage-psychology influence** — a four-state ODE model of hostage–captor dynamics (fear, gratitude, identification, threat) integrated with a fixed RK4 scheme reproduces the qualitative onset of Stockholm syndrome, with the syndrome index crossing the onset threshold on day **11.250** and reaching a final value of **0.532**. 4. **Energy infrastructure** — a DC power-flow model of a two-area grid with a cascading-failure solver shows that cutting the 3->5 interconnector reroutes all transfer onto a weak tie that trips, blacking out **220.000 MW** (**0.440** of system load) in a 1-step cascade. 5. **Hostage negotiation** — Rubinstein alternating-offer bargaining ties the captor's patience to the syndrome state: identification lifts the captor's equilibrium claim to **0.345** of the stake (up from a no-syndrome baseline of 0.198 — a **74.310%** relative increase), and concession closes the deal by day **5.625**. 6. **Sensor fusion** — a linear Kalman filter tracks the hijacked submarine from noisy position fixes, cutting position RMSE from **2.912** to **1.776** (a **39.016%** gain) and converging to a final error of **0.880**. All results are real model outputs, produced deterministically under seed 1999; no metric in this manuscript is hand-authored.
 
-## Introduction
+## Introduction — ELEKTRA: mission framing, the operational problem, and how to read this chapter
 
 *The World Is Not Enough* (1999) pairs Bond's espionage with a set of
 operational-economic threats that map cleanly onto computational-science
@@ -78,7 +72,7 @@ protocol over all six, thin phase scripts (`scripts/brief.py` …
 outputs via `manuscript_variables.py`. Every numeric value in this manuscript
 is generated from code — never hand-authored in prose.
 
-## Methodology
+## Methodology — ELEKTRA: the analytical models and algorithms that drive the mission
 
 This section derives the mathematics of the six ELEKTRA pillar models. All
 algorithms are standard and deterministic; every quantity reported in §3 is
@@ -231,7 +225,7 @@ raw-measurement RMSE to quantify the gain of fusion. (Bearing-only tracking
 from a stationary observer is scale-ambiguous, so the model fuses noisy
 *position* fixes — the convergent headline — and documents the limitation.)
 
-## Results
+## Results — ELEKTRA: measured outcomes, headline numbers, and what they establish
 
 All numbers below are real outputs of the deterministic domain models
 (seed 1999), hydrated into this manuscript by
@@ -279,8 +273,8 @@ principal choke point, segment **J4->J5**, which is the
 only load-bearing segment running at full rated capacity
 (1 segment in total at or above the
 90% utilization threshold).
-Figure renders the graph with flow-criticality weighting
-and choke-point emphasis.
+The pipeline network figure renders the graph with flow-criticality weighting
+and choke-point emphasis the pipeline network figure.
 
 Over **40** simulated tamper attempts, the sensor mosaic
 interdicted **22.500%** of events; active
@@ -308,7 +302,7 @@ naive line-of-sight route (dashed) and the least-risk Dijkstra route
 (solid).](output/figures/the_world_is_not_enough_submarine_detection.png)
 
 With 3 listening sensors, the ship's radiated noise yields
-a spatially varying detection field (Figure ). A
+a spatially varying detection field (the submarine detection figure). A
 straight, 4-connected line-of-sight transit accumulates
 **22.989** total detection probability, while the
 least-risk route — the global minimum of the same additive cost — accumulates
@@ -323,7 +317,7 @@ in the acoustic shadow of the field rather than crossing the loudest corridor.
 and the composite syndrome index.](output/figures/the_world_is_not_enough_hostage_dynamics.png)
 
 Integrating the four-state model over 30.0 days
-(Figure ) reproduces the qualitative trajectory reported
+(the hostage dynamics figure) reproduces the qualitative trajectory reported
 for Stockholm-syndrome cases: initial fear dominance, gratitude from small
 kindnesses, and a growing identification with the captor. The composite
 syndrome index crosses the 0.500 onset threshold on day
@@ -376,11 +370,11 @@ Fusing 20 noisy position fixes (measurement std
 cuts the track's position RMSE from **2.912** (the
 raw fixes) to **1.776** — a **39.016%** reduction
 — and drives the final position error to **0.880**
-(Figure ). The filter converges, so an intercept
+(the sensor fusion track figure). The filter converges, so an intercept
 solution can be generated reliably even while the hull evades through the sonar
 shadow.
 
-## Conclusion
+## Conclusion — ELEKTRA: findings, verdict, and what the mission establishes
 
 The ELEKTRA mission package demonstrates that the operational threats of
 *The World Is Not Enough* — pipeline sabotage, submarine hijack, coordinated
@@ -416,7 +410,7 @@ mosaic, pipeline or grid topology, bargaining schedule, or kindness schedule is
 a configuration change, and the manuscript, figures, and mission outcome all
 re-hydrate from the same source of truth.
 
-## Experimental Setup
+## Experimental Setup — ELEKTRA: canonical scenarios, parameters, and configuration
 
 Every `{CONFIG_*}` token below carries a **Source** column, because the two
 kinds are not interchangeable. `config.yaml` marks a value *typed by the
@@ -517,7 +511,7 @@ Table 1 is a read-out of one of the three datasets above, which is why editing
 `scripts/z_generate_manuscript_variables.py` after any of these changes
 re-derives every result token in §3, and no file is written outside `output/`.
 
-## Reproducibility
+## Reproducibility — ELEKTRA: verification gates, deterministic regeneration, and artifacts
 
 The ELEKTRA package is deterministic by construction.
 
@@ -613,7 +607,7 @@ The evidence is the two-run byte comparison in
 manuscript tree into two fresh directories a second apart and asserts every
 file matches byte for byte.
 
-## Scope and Related Work
+## Scope and Related Work — ELEKTRA: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -702,7 +696,7 @@ than silently reverting to a module default — a deleted knob cannot pass
 unnoticed. The *form* of the equations, by contrast, is fixed in
 `hostage_psychology.derivatives` and is not configurable.
 
-## Sources
+## Sources — ELEKTRA: bibliography
 
 @ford_fulkerson; @edmonds_karp; @brandes; @dijkstra; @urick; @namnyak; @de_fabrique; @stott; @dobson_op; @rubinstein; @kalman
 

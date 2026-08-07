@@ -1,22 +1,16 @@
 # The Man with the Golden Gun (1974) — SOLEX
 
-*film package · mission codename SOLEX*. Mission **SOLEX**: model solar concentration yield (mirror array to heat); track solar position and daily clear-sky insolation; solve the funhouse lair escape topology (rooms/mirrors as graph); analyse lair flow: edge-disjoint routes, min cut, cheapest escape; schedule the assassin duel/bounty appointment book; schedule unit-time deadline bounty contracts (max profit).
+*film package · package codename SOLEX*. Mission **SOLEX**: model solar concentration yield (mirror array to heat); track solar position and daily clear-sky insolation; solve the funhouse lair escape topology (rooms/mirrors as graph); analyse lair flow: edge-disjoint routes, min cut, cheapest escape; schedule the assassin duel/bounty appointment book; schedule unit-time deadline bounty contracts (max profit).
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — SOLEX: domain and operational focus
 
 solar concentration, lair topology, assassin scheduling
 
-## Abstract
+## Abstract — SOLEX: mission summary
 
-**Mission codename: SOLEX** — Project BOND film dossier for *The Man with the Golden Gun* (1974). ## Abstract This dossier documents the deterministic mission software built for the SOLEX operation. 6 specialist capabilities support the field agent: 1. **Solar concentration yield** — a heliostat-field model that converts a mirror array's area and reflectivity into optical power and thermal heat output, and allocates a mirror-area budget to the highest-yield mirrors. 2. **Solar tracking & daily insolation** — the sun-geometry layer: declination, daylight window, and the Duffie–Beckman clear-sky daily energy the field concentrates. 3. **Funhouse lair escape topology** — a graph solver over the villain's mirror-lined funhouse, producing a shortest escape route and identifying the bottleneck rooms that guard the exit. 4. **Lair flow analysis** — max-flow / min-cut over the lair, returning the edge-disjoint escape routes and the minimum mirror walls that seal the lair, plus a cost-aware (Dijkstra) cheapest escape. 5. **Assassin duel / bounty scheduling** — an appointment book solved by weighted interval scheduling, selecting a non-overlapping set of bounty duels that maximises total reward and reporting every scheduling conflict. 6. **Deadline bounty scheduling** — unit-time bounty contracts scheduled by the deadline-greedy (union–find) algorithm to maximise accepted profit. All results are computed from real, deterministic domain models with fixed inputs and no wall-clock dependence; every metric in this manuscript flows from code, never from hand-authored prose. The canonical SOLEX field converts a 1000 W/m² irradiance into a thermal output of 191.6325 kW (concentration 50.10×) and, over a clear-sky solstice day at 8.0°N, concentrates 1441.7 kWh. The extended funhouse has 3 edge-disjoint escape routes (min cut 3 mirror walls), while the canonical lair is guarded by 3 bottleneck rooms — redundancy and criticality are separate measurements, and the lair's 4 articulation points are a third. On the duel book the two exact schedulers disagree: weighted interval scheduling realises a bounty of 13.0 where the count-maximising earliest-finish greedy realises 11.0. The deadline book yields a maximum profit of 18.0 across 5 contested contracts.
+**Mission codename: SOLEX** — Project BOND film dossier for *The Man with the Golden Gun* (1974). This dossier documents the deterministic mission software built for the SOLEX operation. 6 specialist capabilities support the field agent: 1. **Solar concentration yield** — a heliostat-field model that converts a mirror array's area and reflectivity into optical power and thermal heat output, and allocates a mirror-area budget to the highest-yield mirrors. 2. **Solar tracking & daily insolation** — the sun-geometry layer: declination, daylight window, and the Duffie–Beckman clear-sky daily energy the field concentrates. 3. **Funhouse lair escape topology** — a graph solver over the villain's mirror-lined funhouse, producing a shortest escape route and identifying the bottleneck rooms that guard the exit. 4. **Lair flow analysis** — max-flow / min-cut over the lair, returning the edge-disjoint escape routes and the minimum mirror walls that seal the lair, plus a cost-aware (Dijkstra) cheapest escape. 5. **Assassin duel / bounty scheduling** — an appointment book solved by weighted interval scheduling, selecting a non-overlapping set of bounty duels that maximises total reward and reporting every scheduling conflict. 6. **Deadline bounty scheduling** — unit-time bounty contracts scheduled by the deadline-greedy (union–find) algorithm to maximise accepted profit. All results are computed from real, deterministic domain models with fixed inputs and no wall-clock dependence; every metric in this manuscript flows from code, never from hand-authored prose. The canonical SOLEX field converts a 1000 W/m² irradiance into a thermal output of 191.6325 kW (concentration 50.10×) and, over a clear-sky solstice day at 8.0°N, concentrates 1441.7 kWh. The extended funhouse has 3 edge-disjoint escape routes (min cut 3 mirror walls), while the canonical lair is guarded by 3 bottleneck rooms — redundancy and criticality are separate measurements, and the lair's 4 articulation points are a third. On the duel book the two exact schedulers disagree: weighted interval scheduling realises a bounty of 13.0 where the count-maximising earliest-finish greedy realises 11.0. The deadline book yields a maximum profit of 18.0 across 5 contested contracts.
 
-## Introduction
+## Introduction — SOLEX: mission framing, the operational problem, and how to read this chapter
 
 The Solex agitator concentrates sunlight from a field of tracking mirrors onto
 a central receiver to produce the heat that powers the villain's island. A
@@ -58,11 +52,11 @@ contract appears.
 Determinism is a hard constraint rather than an aspiration: fixed inputs, no
 random draws, sorted iteration in every graph traversal, and no wall-clock read
 in any persisted artifact. Equally hard is the rule that no metric is typed by
-hand — every number in [Results](#results) arrives as a placeholder resolved
+hand — every number in Results arrives as a placeholder resolved
 from the code that computed it, under a gate that fails the build when prose
 and code disagree.
 
-## Methodology
+## Methodology — SOLEX: the analytical models and algorithms that drive the mission
 
 ### Solar concentration yield
 
@@ -85,7 +79,7 @@ area × reflectivity × incidence × optical efficiency × heat-transfer
 efficiency, with no ray tracing, per-heliostat aim geometry, atmospheric
 attenuation, or receiver loss model. What it buys is a yield figure that is
 exactly reproducible and exactly attributable; what it costs is documented in
-[Scope and Related Work](#scope-and-related-work).
+Scope and Related Work.
 
 ### Solar tracking & daily insolation
 
@@ -107,7 +101,7 @@ Elevation follows $\sin e = \sin\varphi\sin\delta + \cos\varphi\cos\delta\cos
 H$, clamped to $[-1, 1]$ before the arcsine so a below-horizon sun returns a
 non-positive elevation instead of raising. Horizontal beam flux is
 $I\sin e$, floored at zero for a sun below the horizon, which is what truncates
-the daily profile to the daylight window rather than
+the daily profile (the solex daily figure) to the daylight window rather than
 folding negative flux into the integral.
 
 ### Lair escape topology
@@ -164,7 +158,7 @@ they answer different questions and can disagree on the same book:
  count objective and, in general, wrong for the bounty objective.
 
 Reporting only one of these would hide the trade-off the agent is actually
-making, so [Results](#results) reports both.
+making, so Results reports both.
 
 ### Deadline bounty scheduling
 
@@ -181,7 +175,7 @@ The reported profit and the reported slot assignment come from a single run of
 this greedy rather than two independent ones, so the two views cannot
 disagree — a divergence that would otherwise be invisible in the manuscript.
 
-## Results
+## Results — SOLEX: measured outcomes, headline numbers, and what they establish
 
 ### Solar concentration yield
 
@@ -318,7 +312,7 @@ assignment **1:B, 2:C, 3:E**.
 All six solvers run through the frozen `MissionProvider` lifecycle; the
 outcome carries full provenance including a deterministic input hash.
 
-## Conclusion
+## Conclusion — SOLEX: findings, verdict, and what the mission establishes
 
 The **SOLEX** mission software is a complete, gate-verified Project
 BOND film package: 6 pure, deterministic domain modules
@@ -351,15 +345,15 @@ on `src/` with a zero-mock suite. Determinism is likewise enforced rather than
 asserted: the 4 figures are re-rendered and byte-compared in the
 test suite. The package is a local-only working tree and publishes no remote,
 so reproduction means re-running the pipeline in place — see
-[Reproducibility](#reproducibility).
+Reproducibility.
 
-## Experimental Setup
+## Experimental Setup — SOLEX: canonical scenarios, parameters, and configuration
 
 This section fixes every input the results depend on. Nothing in the SOLEX
 package is sampled, fitted, or drawn from an external service: each model is
 evaluated on a canonical fixture defined in code, and the fixture is restated
 in `manuscript/config.yaml` where it is verified against the code at token
-generation time (see [Reproducibility](#reproducibility)).
+generation time (see Reproducibility).
 
 ### Software environment
 
@@ -374,8 +368,8 @@ generation time (see [Reproducibility](#reproducibility)).
 | Figures | 4 |
 
 `numpy` is used only to build the irradiance sweep grid for
-; `matplotlib` only to render figures; `pyyaml` only to read
-`config.yaml`. Every quantitative result in [Results](#results) is computed
+the solex yield figure; `matplotlib` only to render figures; `pyyaml` only to read
+`config.yaml`. Every quantitative result in Results is computed
 with the Python standard library.
 
 ### Heliostat field
@@ -414,7 +408,7 @@ allocator must actually choose.
 
 The site stands in for the villain's island: a low northern latitude where the
 solstice sun passes close to the zenith. The daily beam-flux profile
- is sampled at 10-minute steps in solar time and truncated
+(the solex daily figure) is sampled at 10-minute steps in solar time and truncated
 to elevations above the horizon.
 
 ### Funhouse lair fixtures
@@ -436,7 +430,7 @@ wall) and, for the cost-aware escape, unit traversal cost.
 ### Bounty contract books
 
 The **duel book** holds 4 contracts as half-open intervals
-`[start, end)` with a bounty:
+`start, end)` with a bounty:
 
 | Contract | Interval | Bounty | Target |
 | --- | --- | --- | --- |
@@ -447,7 +441,7 @@ The **duel book** holds 4 contracts as half-open intervals
 
 The book is constructed so the greedy count-maximising answer and the
 bounty-maximising answer differ — that divergence is the point of running both
-solvers in [Results](#results).
+solvers in [Results.
 
 The **deadline book** holds 5 unit-time contracts,
 each with an integer deadline slot and a profit:
@@ -464,7 +458,7 @@ Total demand (5 contracts) exceeds the
 3 available slots, so the scheduler must reject work;
 a book that fit entirely would make the greedy vacuous.
 
-## Reproducibility
+## Reproducibility — SOLEX: verification gates, deterministic regeneration, and artifacts
 
 Every number in this dossier is regenerable from a clean checkout by running
 the commands below. There is no hidden state, no network call, no wall-clock
@@ -553,7 +547,7 @@ sidecars (`.zenodo.json`, `CITATION.cff`, `codemeta.json`) deliberately omit
 DOI fields rather than carrying a placeholder. Reproduction therefore means
 re-running the commands above inside this checkout, not fetching a release.
 
-## Scope and Related Work
+## Scope and Related Work — SOLEX: boundaries, positioning, and relationship to the literature
 
 ### What this package is
 
@@ -744,7 +738,7 @@ Sensitivity — site latitude (deg N, kWh/day):
 | Python | 3.14.6 |
 | Timestamp | 2026-08-04T00:00:00Z |
 
-## Sources
+## Sources — SOLEX: bibliography
 
 @bond_protocol; @golden_gun_film; @duffie_beckman; @spencer; @michalsky; @cormen; @ford_fulkerson; @edmonds_karp; @dijkstra; @hopcroft_tarjan; @kleinberg_tardos; @tarjan_unionfind
 

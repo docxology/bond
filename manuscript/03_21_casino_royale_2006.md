@@ -1,22 +1,16 @@
 # Casino Royale (2006) — LE CHIFFRE
 
-*film package · mission codename LE CHIFFRE*. Mission **LE CHIFFRE**: counter-play Le Chiffre at the high-stakes felt (pot odds + equity against his range); solve the river toy game by CFR to a near-Nash profile (game theory); price tournament survival with the Independent Chip Model (ICM); trace the chip flows funding the game and flag laundering (behavioural + network-level); plan an extraction route across the parkour city (ground/roof); triage the spiked martini and identify the digitalis source; infer Le Chiffre's archetype posterior from his observed actions.
+*film package · package codename LE CHIFFRE*. Mission **LE CHIFFRE**: counter-play Le Chiffre at the high-stakes felt (pot odds + equity against his range); solve the river toy game by CFR to a near-Nash profile (game theory); price tournament survival with the Independent Chip Model (ICM); trace the chip flows funding the game and flag laundering (behavioural + network-level); plan an extraction route across the parkour city (ground/roof); triage the spiked martini and identify the digitalis source; infer Le Chiffre's archetype posterior from his observed actions.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — LE CHIFFRE: domain and operational focus
 
 game theory, financial crime
 
-## Abstract
+## Abstract — LE CHIFFRE: mission summary
 
 **Casino Royale: LE CHIFFRE — Special-Agent Mission Software** is the special-agent mission software for the film *Casino Royale* (2006), mission codename **LE CHIFFRE**. It packages 8 deterministic, infrastructure-free domain modules — a Texas hold'em game-theory engine plus a counterfactual-regret (CFR) solver and the tournament Independent Chip Model, a Bayesian opponent-archetype inference model, a chip-movement money-laundering detector plus network-level financial-crime analytics, a parkour mobility-graph router, and a digitalis (cardiac-glycoside) poison triage — into a single `MissionProvider` bound to the frozen BOND-API protocol. The cores are exercised on one canonical scenario (seed-stable, no wall-clock in provenance). Against the loose range Le Chiffre's observed loose-aggressive tendencies select, the engine prices the hero hand on the final board at 45.62% equity against a pot-odds break-even of 16.67%, a margin of 28.96% that recommends **raise**. CFR on the river toy game converges to an average regret of 0.001 (polar equilibrium, game value 0.0974), ICM prices the freezeout bubble at factor 1.411, and the Bayesian model reads Le Chiffre as **loose-aggressive** (aggressive posterior 0.986). The chip-flow scanner ingests 41 movements across 8 players and flags the planted smurfer with a composite score of 2 (1 alert(s) total), confirmed by the network detector at risk 0.98. On the 6×6 quarter the speed-weighted solve short-cuts via the rooftops (cost 36.53, against 103.39 for the ground route under that same weighting) while the risk-weighted solve stays on the street (cost 15.31, against 17.95 for the rooftop route under *that* weighting) — each optimal only under its own objective. The tox triage isolates the spiked martini 3 of 5 samples at 4.5 ng/mL digoxin (severe toxicity, posterior 0.95). Every result shown here, and in the sections that follow, is computed live from the engines at manuscript-generation time — none is hand-authored.
 
-## Introduction
+## Introduction — LE CHIFFRE: mission framing, the operational problem, and how to read this chapter
 
 *Casino Royale* (2006) follows the special agent against the banker-cipher
 **Le Chiffre** — a name that literally means "the cipher". The story's set
@@ -84,7 +78,7 @@ the reproducibility section covers determinism, artifact layout, and the
 verification gates; and the scope section states, per module, what is deliberately
 out of scope.
 
-## Methodology 
+## Methodology — LE CHIFFRE: the analytical models and algorithms that drive the mission
 
 This section defines all 8 algorithms. All are pure
 Python; none imports a framework, `infrastructure.*`, or bond-api. Full
@@ -252,7 +246,7 @@ mapping to the protocol's `GadgetRegistry` under the film slug; the public
 shape consumed by bond-cli, the coordinator, and the orchestrator is unchanged
 by the split.
 
-## Results 
+## Results — LE CHIFFRE: measured outcomes, headline numbers, and what they establish
 
 All results are computed live from the engines on the canonical scenario in
 `src/casino_royale_2006/scenarios.py` (fixed seed, deterministic RNG).
@@ -269,7 +263,7 @@ call 1,000,000). The resulting margin, **28.96%**,
 clears the 10% raise threshold that same archetype
 implies, so the model recommends **raise**: the probability of
 winning exceeds the price the pot is laying, and by enough to raise for value
-rather than merely call. Figure visualizes the equity-vs-price
+rather than merely call. The poker figure visualizes the equity-vs-price
 comparison.
 
 ![Poker decision: hero equity vs. pot-odds break-even with the resulting
@@ -310,7 +304,7 @@ From a tray of **5** samples, the triage isolates the spiked
 glass at **3**, reading **4.5** ng/mL
 digoxin, heart rate 42.4 bpm, potassium
 6.62 mmol/L — a **severe** toxicity with a Bayesian
-posterior of **0.95**. Figure shows the
+posterior of **0.95**. The digitalis figure shows the
 monogram-style toxicity curve used to place such a panel.
 
 ![Digitalis toxicity score vs. serum digoxin concentration with the severity
@@ -324,7 +318,7 @@ after **300** iterations, giving a game value of
 modern solver-based play: the out-of-position player bets the very top of
 his range for value (**0.9983**) and bluffs near the very
 bottom (**0.9831**), while the in-position caller calls the middle
-of his range (**0.7805**). Figure shows regret decaying
+of his range (**0.7805**). The cfr figure shows regret decaying
 toward zero across the solve.
 
 ![CFR average counterfactual regret vs. iteration, decaying toward the Nash
@@ -337,8 +331,7 @@ at a tournament-equity bubble factor of **1.411** — risking his
 stack is negative prize-equity — while the chip leader faces a squeeze of
 **3.631**. The model's tournament call on the bubble is
 **fold** (prize-equity EV **-0.829**), the correct
-survival discipline when the first chips are worth more than the last. Figure
- shows the bubble factor rising with stack size.
+survival discipline when the first chips are worth more than the last. The icm figure shows the bubble factor rising with stack size.
 
 ![ICM bubble factor by start stack on the 4-player, 3-paid freezeout,
 demonstrating the prize-equity squeeze.](output/figures/casino_royale_2006_icm_bubble.png)
@@ -363,7 +356,7 @@ mass on aggressive archetypes, an expected aggression rate of
 **0.38** — a quantified read of the adversary rather
 than a bare action count.
 
-## Conclusion 
+## Conclusion — LE CHIFFRE: findings, verdict, and what the mission establishes
 
 **Casino Royale: LE CHIFFRE — Special-Agent Mission Software** demonstrates that the serious set pieces of *Casino
 Royale* (2006) — the game-theory finale, the laundered stake, the parkour
@@ -401,7 +394,7 @@ unchanged public shape. Verified by ≥90% line-and-branch coverage, zero mocks,
 a clean lineage check, and a clean working tree, the package is ready to bind
 the moment any future suite dependency lands.
 
-## Experimental Setup 
+## Experimental Setup — LE CHIFFRE: canonical scenarios, parameters, and configuration
 
 ### Configuration
 
@@ -444,7 +437,7 @@ Each `*_snapshot` in `scenarios.py` constructs its own
 `Provenance` records `seed` and a deterministic `input_hash`; `wall_time_s` is
 held at `0.0` so no two runs diverge on timing.
 
-## Reproducibility 
+## Reproducibility — LE CHIFFRE: verification gates, deterministic regeneration, and artifacts
 
 ### Determinism & provenance
 
@@ -577,7 +570,7 @@ including digoxin-specific Fab antibody fragments as definitive therapy for
 life-threatening intoxication [@antman1990fab]. Full entries live in
 `references.bib`; the descriptive list is in `99_references.md`.
 
-## Sources
+## Sources — LE CHIFFRE: bibliography
 
 @bond_api_protocol; @casino_royale_2006; @zinkevich2007cfr; @billings2002poker; @chen_ankenman_2006; @ganzfried2011opponent; @minka2000dirichlet; @page1999pagerank; @raghavan2007labelprop; @brandes2001; @hirschman1964; @weber2019aml; @fatf2009casinos; @dijkstra1959; @antman1990fab
 

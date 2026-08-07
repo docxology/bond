@@ -1,22 +1,16 @@
 # Moonraker (1979) — MOONRAKER
 
-*film package · mission codename MOONRAKER*. Mission **DRAX**: model the shuttle hijack as a critical-path timeline; solve Drax station orbital logistics; certify a centrifuge g-force training profile; size the Hohmann resupply transfer and propellant; plan the centrifuge training regimen under exposure caps; crash the hijack timeline to a tighter deadline at minimum cost.
+*film package · package codename MOONRAKER*. Mission **DRAX**: model the shuttle hijack as a critical-path timeline; solve Drax station orbital logistics; certify a centrifuge g-force training profile; size the Hohmann resupply transfer and propellant; plan the centrifuge training regimen under exposure caps; crash the hijack timeline to a tighter deadline at minimum cost.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — MOONRAKER: domain and operational focus
 
 orbital logistics, centrifuge ops
 
-## Abstract
+## Abstract — MOONRAKER: mission summary
 
 **Moonraker: DRAX — Special-Agent Mission Software** — Critical-Path Hijack Timelining and Crashing, Orbital Logistics and Resupply Rendezvous, and Certification of Centrifuge G-Force Training. Mission codename **DRAX**, modelled on the 1979 film *Moonraker*, is a deterministic special-agent mission-software package. It operationalises the DRAX mission across three concept areas: the space-shuttle hijack as a critical-path timeline (including minimum-cost schedule crashing), Drax space-station orbital logistics (Kepler orbit physics, launch windows, consumables, the Hohmann resupply transfer and its propellant budget, and a Clohessy–Wiltshire rendezvous), and the centrifuge g-force training programme (the g-tolerance envelope plus an exposure-capped weekly regimen). The shuttle hijack plan completes in **57.0 minutes** across **8 phases**, feasible within the 60.0 point of no return (margin **3.0 min**), and can be crashed to a **50.0-minute** deadline at a cost of **23.0**. The DRAX station at 350.0 km has an orbital period of 5483.6 s and admits up to **450** per resupply cycle as a logistics ceiling (the station's own crew is 6) on the configured cadence. A Hohmann resupply transfer costs **0.0874 km/s** over **44.9 minutes**, needing **238.2 kg** of propellant; the final Clohessy–Wiltshire approach requires a **1.875 m/s** impulse. The **6.0 g** training profile is **not certified**: its 12.0 s plateau overruns the **7.26 s** tolerance allowance by **4.74 s**. At the weekly level the exposure caps still admit **4** sessions of **97.5 g·s**. Every result is a closed-form, deterministic computation — no random draws, no external calls, no wall clock — enforcing the suite's reproducibility contract. Manuscript dated 2026-08-05, rendered on Python 3.14.6 (Darwin).
 
-## Introduction
+## Introduction — MOONRAKER: mission framing, the operational problem, and how to read this chapter
 
 *Moonraker* (1979) sends special agent James Bond to intercept Hugo
 Drax's plan to destroy humanity from his private space station. Beneath the
@@ -74,7 +68,7 @@ it through the standard brief → recon → plan → execute → debrief lifecyc
  hardcoded in prose. Where a computed verdict contradicts the film — as the
  centrifuge certification does — the manuscript reports the computation.
 
-## Methodology
+## Methodology — MOONRAKER: the analytical models and algorithms that drive the mission
 
 All models are deterministic and closed-form; parameter values are read once
 from `manuscript/config.yaml` → `mission:` and shared by
@@ -186,7 +180,7 @@ credit, and the function is provided and tested but unused. Wiring it in would
 change the numbers this paper reports; the honest statement today is that it
 does not.
 
-## Results
+## Results — MOONRAKER: measured outcomes, headline numbers, and what they establish
 
 All numbers below are computed by `moonraker/mission_results.py` and injected
 as tokens — the manuscript never hand-authors a metric. The consolidated table
@@ -315,7 +309,7 @@ sessions per week.
 
 ![Weekly centrifuge training load against the exposure caps.](output/figures/moonraker_training_weekly_load.png)
 
-## Conclusion
+## Conclusion — MOONRAKER: findings, verdict, and what the mission establishes
 
 **Moonraker: DRAX — Special-Agent Mission Software** (codename **DRAX**) turns the set-pieces of
 *Moonraker* into a verified, deterministic mission-software package. Its
@@ -343,7 +337,7 @@ number is precisely that a result can come back unwelcome. Every figure and
 every number in this manuscript is regenerated from source — nothing is
 hand-written — which is the reproducibility contract the BOND suite demands.
 
-## Experimental Setup
+## Experimental Setup — MOONRAKER: canonical scenarios, parameters, and configuration
 
 ### Mission parameters
 
@@ -398,7 +392,7 @@ uv run python scripts/z_generate_manuscript_variables.py # tokens + resolved tre
 - Determinism: fixed parameter set, no random draws, no wall-clock inputs in
  any persisted artifact.
 
-## Reproducibility
+## Reproducibility — MOONRAKER: verification gates, deterministic regeneration, and artifacts
 
 ### Determinism guarantees
 
@@ -485,7 +479,7 @@ rather than the shipped defaults, because the DRAX plateau already fails the
 duration ceiling and no peak-g value could change that verdict; the test says
 so in place.
 
-## Scope and Related Work
+## Scope and Related Work — MOONRAKER: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -547,7 +541,7 @@ packages model neighbouring physics — orbital capture and hidden-base discover
 (`goldeneye`). Per the suite layering rule these packages never import one
 another; shared mechanics would live in `bond-utilities` or `bond-api`.
 
-## Sources
+## Sources — MOONRAKER: bibliography
 
 @kelley1959critical; @vallado2013astrodynamics; @stoll1956human; @moonraker1979; @hohmann1925; @clohessy1960; @tsiolkovsky1903; @burton1988
 

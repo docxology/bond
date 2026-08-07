@@ -1,22 +1,16 @@
 # Diamonds Are Forever (1971) — DIAMOND NET
 
-*film package · mission codename DIAMOND NET*. Mission **CONFLICT STONE**: trace the conflict-diamond custody chain and pinpoint provenance break points; optimize the smuggling corridor route under seizure risk; audit the diamond lot for weight and density fraud; map Las Vegas casino money movement and measure laundering closure; test the casino ledger against Benford's law; solve orbital-mirror targeting geometry and beam delivery.
+*film package · package codename DIAMOND NET*. Mission **CONFLICT STONE**: trace the conflict-diamond custody chain and pinpoint provenance break points; optimize the smuggling corridor route under seizure risk; audit the diamond lot for weight and density fraud; map Las Vegas casino money movement and measure laundering closure; test the casino ledger against Benford's law; solve orbital-mirror targeting geometry and beam delivery.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — DIAMOND NET: domain and operational focus
 
 supply-chain provenance, orbital weapons
 
-## Abstract
+## Abstract — DIAMOND NET: mission summary
 
 **Diamonds Are Forever: CONFLICT STONE — Special-Agent Mission Software** — codename **CONFLICT STONE** — is a deterministic special-agent mission analysis built on *Diamonds Are Forever* (1971). It fuses seven analytic lines into a single audit: the provenance chain of smuggled conflict diamonds, the risk-weighted corridor route that carries them, the physical forensics of the lot itself, the money-movement and Benford's-law tests of the Las Vegas casino operation, and both the targeting geometry and the beam-delivery physics of the orbital mirror the proceeds fund. **Provenance.** The custody chain comprises 5 handoffs with 2 undocumented break points — a documented coverage of 60%, the forensic signature of conflict goods. **Smuggling.** Across a 10-corridor network, the expected-cost optimum (sierra_leone -> nairobi -> paris -> amsterdam -> las_vegas) cuts expected cost by 16% versus the fewest-hops baseline, at a survival probability of 34%. **Forensics.** Weight and density testing of lot DF-71 surface 2 anomalies and a 4-point audit score — a **flagrant** verdict that exposes both the paste substitution and the final theft. **Casino.** A 7-casino money-movement graph whose laundering closure reaches 77%, and a 141-transaction ledger whose chi-square statistic ( 35.80) exceeds the 15.507 critical value and so marks it **anomalous** under Benford's law — while its 80-transaction legitimate baseline, audited alone, scores 0.53 and **conforms**, the negative control that makes the anomalous verdict attributable to the round-figure deposits. **Orbital.** Of 3 threatened cities, only 2 fall on the mirror's visible face; and honest beam physics shows the fantasy is bounded — delivering 1 MW/m2 at geostationary range takes a 42.7-m mirror. All results are reproducible: every metric is computed at runtime from fixed canonical datasets, no random draws, no mock objects, and every mission outcome carries a cryptographic input fingerprint.
 
-## Introduction
+## Introduction — DIAMOND NET: mission framing, the operational problem, and how to read this chapter
 
 **Diamonds Are Forever: CONFLICT STONE — Special-Agent Mission Software** (**Deterministic Analysis of Smuggled-Goods Provenance and Routing, Lot Forensics, Casino Money Movement and Its Benford Signature, and Orbital-Mirror Targeting and Beam Delivery**) is the CONFLICT STONE mission
 package of PROJECT BOND, a suite of deterministic special-agent mission
@@ -56,7 +50,7 @@ pure and infrastructure-free, while the adapter handles only the protocol
 wiring. This keeps every analytic claim testable in isolation and reproducible
 by construction.
 
-## Methodology
+## Methodology — DIAMOND NET: the analytical models and algorithms that drive the mission
 
 The CONFLICT STONE mission combines seven deterministic methods, each a pure
 function of a fixed canonical dataset.
@@ -165,7 +159,7 @@ puts ≈83.8% inside it (see *Scope and Related Work*), pushing the same
 direction as the other omissions, so the minimum diameter remains a lower
 bound.
 
-## Results
+## Results — DIAMOND NET: measured outcomes, headline numbers, and what they establish
 
 All results are computed at runtime from the frozen canonical datasets; the
 prose below cites resolving variables rather than hand-authored numbers.
@@ -176,8 +170,7 @@ The canonical route tracks a diamond lot through 5
 handoffs from mine to fence. 2 of those handoffs are
 undocumented — the smuggling hops that make the lot conflict goods — giving a
 documented coverage of 60%. The chain is therefore
-conflict-free = **false**. Figure
- marks each handoff as documented or a break point.
+conflict-free = **false**. The provenance figure marks each handoff as documented or a break point.
 
 ![Provenance chain: documented handoffs vs. break points](output/figures/diamonds_are_forever_provenance_chain.png)
 
@@ -193,8 +186,7 @@ over expected cost rather than hop count cuts expected cost by
 16%: at the same hop count, the optimum swaps the pricey
 London-Amsterdam Channel ferry for the cheaper Paris leg. The two routes carry
 almost the same seizure exposure — the saving is on transport cost, not on
-seizure risk, which is why the survival probabilities barely differ. Figure
- plots the corridor expected costs with the optimum route
+seizure risk, which is why the survival probabilities barely differ. The smuggling figure plots the corridor expected costs with the optimum route
 marked.
 
 ![Smuggling corridor expected costs (red = optimum route)](output/figures/diamonds_are_forever_smuggling_route.png)
@@ -203,7 +195,7 @@ marked.
 optimal route is cargo-dependent: at low cargo value the transport cost
 dominates and cheap corridors win; as the cargo's value grows the seizure
 probability dominates and a low-seizure, more-hop corridor wins instead.
-Figure plots the resulting ``route_reduction`` across a cargo
+The cargo figure plots the resulting ``route_reduction`` across a cargo
 sweep. The curve is deliberately *not* monotone — measured it falls and then
 rises as the optimum switches from the Paris leg to the New York leg — so no
 single figure stands in for the dependency, and the canonical
@@ -221,7 +213,7 @@ outside the 3.40-3.65 g/cm3 window); the weight
 ledger catches the final theft, a loss well beyond the
 25% cutting allowance. The two rules are
 independent — one physical, one accounting — so the verdict does not rest on a
-single instrument. Figure shows the per-handoff weight deltas
+single instrument. The lot figure shows the per-handoff weight deltas
 against the cutting allowance.
 
 ![Lot weight reconciliation](output/figures/diamonds_are_forever_lot_forensics.png)
@@ -233,7 +225,7 @@ The strip network resolves to 7 casinos and
 dollars in aggregate. The network hub is the **whyte_house** operation.
 Detection surfaces 3 distinct money cycles, and the
 laundering closure — the share of flow that circulates — is
-77%. Figure visualises the graph.
+77%. The casino figure visualises the graph.
 
 ![Las Vegas casino money movement](output/figures/diamonds_are_forever_casino_network.png)
 
@@ -256,9 +248,7 @@ deposits takes the same statistic, computed by the same code path, to
 the df=8, alpha=0.05 critical value of
 15.507, a verdict of **anomalous**. Because the
 baseline passes on its own, the flag is attributable to the deposits and not
-to the baseline.
-
-Figure plots all three distributions — baseline, full ledger,
+to the baseline.The benford figure plots all three distributions — baseline, full ledger,
 Benford expectation — so the separation is visible. Digit 5
 alone carries 55% of the statistic — the 5 x 10^n
 structuring. The full ledger runs above the Benford expectation on exactly the
@@ -277,8 +267,7 @@ At a geostationary post of 36000 km, the mirror surveys
 3 threatened cities, of which 2
 fall within the visible face: Las Vegas, Washington DC. The remaining target
 (Beijing) is occulted by the Earth — no pointing solution
-exists for it from this post, whatever the mirror's power. Figure
- reports the slant range of each target, shaded by beam
+exists for it from this post, whatever the mirror's power. The orbital figure reports the slant range of each target, shaded by beam
 visibility.
 
 ![Orbital-mirror slant range and visibility](output/figures/diamonds_are_forever_orbital_visibility.png)
@@ -296,8 +285,7 @@ physics sets an honest bound on the weapon's fantasy: delivering
 1 MW/m$^2$ at geostationary range requires a
 42.7-m mirror. Because irradiance grows as the fourth
 power of the diameter, that bound moves slowly — the mirror is the binding
-constraint, and the dwell time is what a moving target denies. Figure
- shows delivered irradiance versus mirror diameter with the
+constraint, and the dwell time is what a moving target denies. The beam figure shows delivered irradiance versus mirror diameter with the
 requirement marked.
 
 ![Beam delivery vs. mirror size at GEO](output/figures/diamonds_are_forever_beam_physics.png)
@@ -312,7 +300,7 @@ density tell the physical story; circular money movement and a failing
 Benford test are the laundering signatures; and beam physics bounds the
 orbital weapon.
 
-## Conclusion
+## Conclusion — DIAMOND NET: findings, verdict, and what the mission establishes
 
 The CONFLICT STONE mission demonstrates that a single deterministic package
 can fuse disparate traces — a smuggling provenance chain, a risk-weighted
@@ -343,7 +331,7 @@ not a hand-stated fact. CONFLICT STONE is delivered as a verified, deterministic
 mission that can be re-run end-to-end and audited from its input fingerprint
 alone.
 
-## Experimental Setup
+## Experimental Setup — DIAMOND NET: canonical scenarios, parameters, and configuration
 
 All experiments are deterministic and use fixed canonical datasets seeded into
 the pure domain core; there is no random number generation and no mock
@@ -392,7 +380,7 @@ from `paper.date` in `manuscript/config.yaml`; no value in this manuscript comes
 from the wall clock, so re-running hydration on the same interpreter rewrites
 the same bytes.
 
-## Reproducibility
+## Reproducibility — DIAMOND NET: verification gates, deterministic regeneration, and artifacts
 
 CONFLICT STONE is reproducible by construction.
 
@@ -424,7 +412,7 @@ CONFLICT STONE is reproducible by construction.
  chosen so its headline metric is non-trivial (anomalous, flagrant, positive
  reduction) rather than vacuous.
 
-## Scope and Related Work
+## Scope and Related Work — DIAMOND NET: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -511,7 +499,7 @@ are not over-read:
  optimum switches corridors); no monotone trend is claimed, and the sweep
  figure plots the measured curve with the canonical value marked.
 
-## Sources
+## Sources — DIAMOND NET: bibliography
 
 @friedman2026conflictstone; @bondapi2026; @globalwitness1998; @kimberley2003; @berman2017; @webster1994; @dijkstra1959; @levi2006; @benford1938; @bornwolf1999; @newcomb1881; @pearson1900; @nigrini2012; @tarjan1973; @freeman1978; @airy1835; @beer1852; @johnson1975
 

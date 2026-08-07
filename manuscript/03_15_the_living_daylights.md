@@ -1,22 +1,16 @@
 # The Living Daylights (1987) — LIVING DAYLIGHTS
 
-*film package · mission codename LIVING DAYLIGHTS*. Mission **SNIPER'S NEST**: sniper cover for a high-value defection (Bratislava); rules-of-engagement discipline (no shooting the innocent); cello-case concealment of a takedown sniper rifle; mountain/desert exfiltration with covered routes.
+*film package · package codename LIVING DAYLIGHTS*. Mission **SNIPER'S NEST**: sniper cover for a high-value defection (Bratislava); rules-of-engagement discipline (no shooting the innocent); cello-case concealment of a takedown sniper rifle; mountain/desert exfiltration with covered routes.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — LIVING DAYLIGHTS: domain and operational focus
 
 countersniper optics, defection
 
-## Abstract
+## Abstract — LIVING DAYLIGHTS: mission summary
 
 The Living Daylights: SNIPER'S NEST — Special-Agent Mission Software (mission codename **SNIPER'S NEST**) is deterministic special-agent mission software for *The Living Daylights* (1987). It models six operational concepts with real, reproducible computation across eight pure domain modules: * **Sniper ballistics** — a plug-and-play point-mass external-ballistics core that solves the rifle zero (fusing the trajectory to the sight line at 300 m), captures the near/far zero, and solves windage (a 5.0 m/s full-value crosswind imposes a 0.189 m drift requiring a -0.63 mrad hold), all embedded in a takedown rifle that conceals inside a cello case (true, 2 lanes, 0.241 packing efficiency, 72 s field assembly). * **Countersniper optics** — the 10x mil-dot riflescope ranges the 300 m target from a -2.68 mil holdover and dials the 27/-6 click solution; glint radiometry detects a hostile optic at 0.083 probability at 800 m. * **Countersniper detection** — a hostile sniper is ranged acoustically (687 m from the 2.0 s crack-bang delay at 20 °C) and localized by 2 crossed bearings to (50.0, 50.0) m. With two bearings the fit is exactly determined, so its residual is zero by construction and no accuracy is claimed from it. * **Defection-handling protocol** — a staged, risk-scored pipeline (5 stages) whose weighted hazard model renders the canonical KOSKOV scenario conditional with a verify gate stage and 0.670 backstop certainty (conditional). * **Mountain/desert terrain ops** — a seeded (7) terrain grid on which a cover-weighted least-cost Dijkstra planner routes 31.00 km over 62 steps. Measured against baselines, the exposure term raises route concealment by 0.014 over the same planner with the term off, but the resulting 0.484 still falls short of the grid's own 0.490 mean (signed gap -0.006): at this weighting concealment is a preference, not the objective, and the route is not a concealed one. * **Overwatch selection** — of 16 in-range candidate positions only 1 see the extraction site; the top-scored *visible* nest at (6, 0) commands it from 3000 m with 1451.7 m elevation advantage. The staged plan's verify gate and the backstop certainty agree on a conditional posture. They read no shared variable, but both scenarios are constant tables authored in one module to encode the same story beat, so the agreement is a design-consistency check between two scoring paths — not independent corroboration. The same caution applies to the terrain cover audit, which is a second implementation of one concealment definition. All results derive from a single deterministic mission solution ([`src/the_living_daylights/compute_mission.py`](../src/the_living_daylights/compute_mission.py)) so the manuscript, the mission report, and the figures can never drift apart. Keywords: sniper ballistics, rifle zero, windage, rules of engagement, riflescope optics, mil-dot ranging, countersniper detection, optic glint radiometry, acoustic crack-bang ranging, bearing triangulation, terrain visibility, viewshed, overwatch selection, defection protocol, evidence verification, risk scoring, terrain operations, cover planning, deterministic simulation.
 
-## Introduction
+## Introduction — LIVING DAYLIGHTS: mission framing, the operational problem, and how to read this chapter
 
 *The Living Daylights* (1987) is the mission that frames SNIPER'S NEST: a
 covering sniper must protect a high-value defection, carry a sniper rifle
@@ -91,7 +85,7 @@ was shown, experimental setup (section 5) fixes the parameters, reproducibility
 (section 6) ties results to the provenance hash and the live test gate, and
 section 7 states the scope boundary and the related work.
 
-## Methodology
+## Methodology — LIVING DAYLIGHTS: the analytical models and algorithms that drive the mission
 
 Six concept modules define the algorithms, in mission order: sniper ballistics
 (`ballistics.py`), riflescope optics (`optics.py`), countersniper detection and
@@ -369,7 +363,7 @@ that preceded them:
 Each guard carries a matching positive assertion that the healthy path is
 unchanged, so these are checks of a real contract, not new ways to fail.
 
-## Results
+## Results — LIVING DAYLIGHTS: measured outcomes, headline numbers, and what they establish
 
 The deterministic mission solution ([`compute_mission.mission_solution`](../src/the_living_daylights/compute_mission.py))
 reports every number below; the manuscript never hand-authors a metric.
@@ -384,7 +378,7 @@ trajectory cross at the near zero 25.9 m and the primary far zero
 -0.804 m below the line of departure with a 0.418 s time of flight.
 A full-value 5.0 m/s crosswind deflects the round
 0.189 m, calling for a -0.63 mrad wind hold.
-Figure shows the zeroed trajectory against the sight line
+The ballistics figure shows the zeroed trajectory against the sight line
 and the drift curve.
 
 ![Zeroed ballistic trajectory and crosswind drift](output/figures/the_living_daylights_ballistics_trajectory.png)
@@ -446,8 +440,7 @@ Run against the same waypoints, the `assess_cover` audit returns
 0.484. That agreement is a cross-implementation check —
 vectorised numpy against the planner's scalar loop, sharing no helper — and it
 detects implementation drift only; both encode the same concealment definition,
-so it is not independent corroboration of the model. Figure
- maps the route and its cover points on the concealment field.
+so it is not independent corroboration of the model. The terrain figure maps the route and its cover points on the concealment field.
 
 ![Planned exfil route on the concealment map](output/figures/the_living_daylights_terrain_exfil_route.png)
 
@@ -466,7 +459,7 @@ shift is 10.0 mm.
 The hostile optic glints with a geometric brightness of 0.368
 at the 2.0° sun–observer offset; the radiometric model
 yields SNR 5.8 at 800 m and a detection
-probability of 0.083 (Figure ). Acoustically, the
+probability of 0.083 (the glint figure). Acoustically, the
 2.0 s crack-bang delay at 20 °C places the shot
 687 m away (sound speed 343.4 m/s); crossed
 bearings localize the hostile to (50.0, 50.0) m. The fit
@@ -492,8 +485,7 @@ the site*, not the top-scored candidate outright — a blind position keeps up t
 0.60 of the score from proximity, cover, and elevation, so the two need not
 coincide. The selected nest at (6, 0) commands the site from
 3000 m with 1451.7 m of elevation advantage
-and 0.50 concealment, scoring 0.714 (Figure
-).
+and 0.50 concealment, scoring 0.714 (the overwatch figure).
 
 ![Ranked overwatch nests for the extraction site](output/figures/the_living_daylights_overwatch_nests.png)
 
@@ -509,7 +501,7 @@ verification doubt. The match shows the staged and backstop scoring paths are
 mutually consistent given consistent authored inputs — a design check, not a
 corroborated finding.
 
-## Conclusion
+## Conclusion — LIVING DAYLIGHTS: findings, verdict, and what the mission establishes
 
 SNIPER'S NEST demonstrates that a special-agent mission's operational concepts
 can be turned into real, deterministic, testable algorithms. The package:
@@ -567,7 +559,7 @@ The triggering image of the title, the *trigger-guard* hold, is
 not an arbitrary flourish: it falls out of the rules-of-engagement model as the
 correct action when an innocent is not a target and a hostile's weapon is.
 
-## Experimental setup
+## Experimental Setup — LIVING DAYLIGHTS: canonical scenarios, parameters, and configuration
 
 ### Mission parameters
 
@@ -647,7 +639,7 @@ Manuscript dated 2026-08-04 — the committed date from
 `manuscript/config.yaml`, not a hydration timestamp, so re-running the
 generator changes no byte of this page.
 
-## Reproducibility
+## Reproducibility — LIVING DAYLIGHTS: verification gates, deterministic regeneration, and artifacts
 
 ### Determinism
 
@@ -736,7 +728,7 @@ so the scan cannot pass by being blind. Note what the older
 `git status --short` check does *not* prove — `output/` is git-ignored, so that
 tree stays clean whatever the bytes say.
 
-## Scope and related work
+## Scope and Related Work — LIVING DAYLIGHTS: boundaries, positioning, and relationship to the literature
 
 ### Scope boundary
 
@@ -817,7 +809,7 @@ well-tested domain core, and to serve as a canonical example of converting a
 template scaffold into a standalone mission package. It is local-only and is
 discovered by the suite orchestrator via `bond_api`.
 
-## Sources
+## Sources — LIVING DAYLIGHTS: bibliography
 
 @friedman2026sniper; @bondapi2026; @fm2310sniper; @duckworth1996counter; @astmg173; @vantrees1968; @fisher1996viewshed; @kinsler2000; @ledeczi2005countersniper; @mccoy1999; @dijkstra1959; @bresenham1965
 

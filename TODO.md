@@ -6,14 +6,14 @@ package from that package's own manuscript (abstract, live `MissionProvider` bri
 merges every package's `references.bib` into one unified bibliography, and emits the generated
 sections that the template pipeline renders into `output/pdf/bond-manuscript_combined.pdf`.
 
-**Verified state, measured 2026-08-05 in this working tree:**
+**Verified state, measured 2026-08-07 in this working tree:**
 
 | Gate | Result |
 | --- | --- |
-| `uv run pytest tests/ --cov=src --cov-fail-under=90` | **34 passed**, **97.18 %** coverage on `src/` (compendium.py 97.62 %, manuscript_variables.py 88.89 %) |
+| `uv run python -m pytest -q` | **41 passed**, no skips |
 | `uv run ruff check src/ scripts/ tests/` | All checks passed |
 | `uv run mypy src/` | Success: no issues found in 3 source files |
-| Last render (`output/pdf/`, 2026-08-05 08:52) | 67-page PDF, 0 `??` in `pdftotext`, **89 `^! ` LaTeX errors** in `_latex_stdout.log` |
+| Last render (`output/pdf/`, 2026-08-07) | **336-page PDF**, 0 `??`, **0 `^! ` LaTeX errors**, 38 HTML sections, 38 slide decks |
 | Fleet gate (`../output/aggregate/gate_manifest.json`, 12:32) | 34 rows, all `verdict: ok`, all coverage ≥ 90 % |
 
 **Audit provenance.** `../output/verify/` contains no `bond-manuscript.json` and no
@@ -22,6 +22,16 @@ sections that the template pipeline renders into `output/pdf/bond-manuscript_com
 finding** — all of them were found by reading this package this session.
 
 ---
+
+## Latest verification note (2026-08-07)
+
+The merged bibliography now canonicalizes citation keys case-insensitively, escapes TeX-special
+characters in imported fields, and rewrites package citations to the canonical spelling. Package-local
+math macros used by `spectre` are expanded to backend-safe LaTeX during import. The former C2 render
+failure is resolved: the fresh combined build has 0 fatal LaTeX diagnostics, 336 pages, 38 section
+HTML output files, and 38 slide PDFs. `N_GATE_MEASURED` now counts only discovered suite packages,
+excluding the wrapper's self-row, so the closing's measured count is consistent with the 33-package
+suite.
 
 ## Open work
 

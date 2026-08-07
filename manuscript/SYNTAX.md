@@ -49,7 +49,7 @@ Pandoc converts `[@key]` to the correct LaTeX citation command. Never write raw
 
 Key shapes reaching the merge:
 
-- keys from real BibTeX entries, preserved as the source package wrote them;
+- keys from real BibTeX entries, canonicalized case-insensitively at merge time;
 - `<slug>_ref<n>` for entries converted from a plain-text `[n] …` reference list.
 
 ## Cross-references are stripped, not resolved

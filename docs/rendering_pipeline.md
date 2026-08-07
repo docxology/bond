@@ -25,7 +25,7 @@ the hydrated `output/manuscript/00_abstract.md` when present),
 
 | File | Content |
 | --- | --- |
-| `references.bib` | Unified bibliography, de-duplicated by key. Real `@entry` blocks preserved verbatim; plain `[n] …` lists converted to deterministic `@misc` entries keyed `<slug>_ref<n>` |
+| `references.bib` | Unified bibliography, de-duplicated by case-insensitive canonical key. Real `@entry` blocks are normalized for citation-safe keys and TeX-special characters; plain `[n] …` lists become deterministic `@misc` entries keyed `<slug>_ref<n>` |
 | `02_suite_architecture.md` | Layer table, roster table, and a measured-coverage table when the gate manifest is present |
 | `03_01_…` … `03_27_…` | One chapter per film, in canon roster order |
 | `04_01_…` … `04_06_…` | One chapter per infrastructure package |

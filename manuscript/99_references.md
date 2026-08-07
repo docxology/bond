@@ -415,9 +415,11 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **bresenham1965** — Bresenham, Jack E.. *Algorithm for computer control of a digital plotter*.
 
-## `licence_to_kill`
+## `spectre`
 
-- **tarjan1972** — Tarjan, Robert Endre. *Depth-First Search and Linear Graph Algorithms*.
+- **tarjan1972** — Robert Endre Tarjan. *Depth-first search and linear graph algorithms*.
+
+## `licence_to_kill`
 
 - **imo1969** — International Maritime Organization. *International Convention on Tonnage Measurement of Ships, 1969*.
 
@@ -443,7 +445,7 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **iec6100029** — . *Electromagnetic compatibility (EMC) -- Part 2: Environment -- Section 9: Description of HEMP environment -- Radiated disturbance*.
 
-- **milstD188125** — . *High-altitude electromagnetic pulse (HEMP) protection for ground-based facilities performing critical, time-urgent missions*.
+- **milstd188125** — . *High-altitude electromagnetic pulse (HEMP) protection for ground-based facilities performing critical, time-urgent missions*.
 
 - **froehlich1995peak** — Froehlich, David C.. *Peak outflow from breached embankment dam*.
 
@@ -553,9 +555,13 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 - **raghavan2007labelprop** — Raghavan, Usha Nandini and Albert, Ré. *Near Linear Time Algorithm to Detect Community Structures in Large-Scale Networks*.
 
-- **brandes2001** — Brandes, Ulrik. *A Faster Algorithm for Betweenness Centrality*.
+## `spectre`
 
-- **hirschman1964** — Hirschman, Albert O.. *The Paternity of an Index*.
+- **brandes2001** — Ulrik Brandes. *A faster algorithm for betweenness centrality*.
+
+- **hirschman1964** — Albert O. Hirschman. *The paternity of an index*.
+
+## `casino_royale_2006`
 
 - **weber2019aml** — Weber, Mark and Domeniconi, Giacomo and Chen, Jie and Weidele, Daniel Karl I. and Bellei, Claudio and Robinson, Tom and Leiserson, Charles E.. *Anti-Money Laundering in Bitcoin: Experimenting with Graph Convolutional Networks for Financial Forensics*.
 
@@ -615,35 +621,29 @@ the unified `references.bib`. Keys are cited from the package chapters.
 
 ## `spectre`
 
-- **Freeman1979** — Linton C. Freeman. *Centrality in social networks: Conceptual clarification*.
+- **freeman1979** — Linton C. Freeman. *Centrality in social networks: Conceptual clarification*.
 
-- **Newman2010** — Mark E. J. Newman. *Networks: An Introduction*.
+- **newman2010** — Mark E. J. Newman. *Networks: An Introduction*.
 
-- **Brandes2001** — Ulrik Brandes. *A faster algorithm for betweenness centrality*.
+- **nemhauser1978** — George L. Nemhauser and Laurence A. Wolsey and Marshall L. Fisher. *An analysis of approximations for maximizing submodular set functions---I*.
 
-- **Tarjan1972** — Robert Endre Tarjan. *Depth-first search and linear graph algorithms*.
+- **johnson1974** — David S. Johnson. *Approximation algorithms for combinatorial problems*.
 
-- **Nemhauser1978** — George L. Nemhauser and Laurence A. Wolsey and Marshall L. Fisher. *An analysis of approximations for maximizing submodular set functions---I*.
+- **feige1998** — Uriel Feige. *A threshold of $łn n$ for approximating set cover*.
 
-- **Johnson1974** — David S. Johnson. *Approximation algorithms for combinatorial problems*.
+- **newman2002** — Mark E. J. Newman. *Spread of epidemic disease on networks*.
 
-- **Feige1998** — Uriel Feige. *A threshold of $łn n$ for approximating set cover*.
+- **hopcrofttarjan1973** — John Hopcroft and Robert Endre Tarjan. *Algorithm 447: Efficient algorithms for graph manipulation*.
 
-- **Newman2002** — Mark E. J. Newman. *Spread of epidemic disease on networks*.
+- **latora2001** — Vito Latora and Massimo Marchiori. *Efficient behavior of small-world networks*.
 
-- **HopcroftTarjan1973** — John Hopcroft and Robert Endre Tarjan. *Algorithm 447: Efficient algorithms for graph manipulation*.
+- **albert2000** — Ré. *Error and attack tolerance of complex networks*.
 
-- **Latora2001** — Vito Latora and Massimo Marchiori. *Efficient behavior of small-world networks*.
+- **borgatti2006** — Stephen P. Borgatti. *Identifying sets of key players in a social network*.
 
-- **Albert2000** — Ré. *Error and attack tolerance of complex networks*.
+- **kempe2003** — David Kempe and Jon Kleinberg and É. *Maximizing the spread of influence through a social network*.
 
-- **Borgatti2006** — Stephen P. Borgatti. *Identifying sets of key players in a social network*.
-
-- **Hirschman1964** — Albert O. Hirschman. *The paternity of an index*.
-
-- **Kempe2003** — David Kempe and Jon Kleinberg and É. *Maximizing the spread of influence through a social network*.
-
-- **Leskovec2007** — Jure Leskovec and Andreas Krause and Carlos Guestrin and Christos Faloutsos and Jeanne VanBriesen and Natalie Glance. *Cost-effective outbreak detection in networks*.
+- **leskovec2007** — Jure Leskovec and Andreas Krause and Carlos Guestrin and Christos Faloutsos and Jeanne VanBriesen and Natalie Glance. *Cost-effective outbreak detection in networks*.
 
 ## `no_time_to_die`
 

@@ -1,22 +1,16 @@
 # The Spy Who Loved Me (1977) — LIPARUS
 
-*film package · mission codename LIPARUS*. Mission **LIPARUS**: detect, localise and track a passive-acoustic contact; simulate a Liparus-Class tanker capture, verify submersible conversion and hull viability.
+*film package · package codename LIPARUS*. Mission **LIPARUS**: detect, localise and track a passive-acoustic contact; simulate a Liparus-Class tanker capture, verify submersible conversion and hull viability.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — LIPARUS: domain and operational focus
 
 submarine tracking, marine forensics
 
-## Abstract
+## Abstract — LIPARUS: mission summary
 
 The Spy Who Loved Me: LIPARUS — Special-Agent Mission Software is a deterministic special-agent mission model built around the concepts of *The Spy Who Loved Me* (1977) under mission codename LIPARUS. It comprises 6 standalone, infrastructure-free domain modules — passive acoustic detection and bearing-only tracking, Liparus-class tanker capture, submersible vehicle conversion forensics, underwater acoustics and the passive sonar equation, uniform-linear-array beamforming, and pressure-hull collapse/ballast analysis — exposed to the BOND fleet through a frozen `MissionProvider` adapter. Every *measured* quantity in this manuscript is computed live by the domain core rather than hand-authored, and The results section marks the one reported number that is a declared constant instead — the capture timeline. The passive detector declares the contact at a controlled false-alarm probability of 0.001 (margin 11.0 dB), and the two tracking estimators agree on the geometry: batch target-motion analysis recovers the quarry's position to within 65.4 metres of truth while the recursive extended Kalman filter settles to a steady-state position error of 804.5 metres over the same run. The ULA beamformer resolves the contact to within one 0.5-degree scan cell of the true bearing (an error of 0.0 degrees) and, with the opt-in parabolic refinement of the peak, to within 0.112 degrees against a Cramer-Rao floor of 0.33 degrees (The results section explains why the measured grid error is grid-limited rather than CRB-limited). The passive sonar equation yields a detection range of 83746 metres, and the Esprit-grade pressure hull survives to a collapse depth of 85 metres (a safety factor of 2.13 at its operating depth of 40 metres) while requiring 244 L of ballast to reach neutral buoyancy. All simulations are seeded and fully deterministic, and the test suite holds line and branch coverage on `src/` at or above 90%.
 
-## Introduction
+## Introduction — LIPARUS: mission framing, the operational problem, and how to read this chapter
 
 In *The Spy Who Loved Me* (1977), Bond confronts two icons of hydraulic
 malevolence and mechanical possibility: the *Liparus*, a supertanker whose
@@ -68,7 +62,7 @@ together answer the Lotus Esprit question from two sides — paperwork
 The remainder of this manuscript describes the algorithms (The methodology section), their measured results (The results section), and the
 deterministic experimental setup (The setup section).
 
-## Methodology 
+## Methodology — LIPARUS: the analytical models and algorithms that drive the mission
 
 ### Passive acoustic detection and bearing-only tracking
 
@@ -233,7 +227,7 @@ plan, execute, debrief) with a fixed seed, exposes deterministic results
 (with a validated collapse-depth safety factor) with full `Provenance`, and
 registers the concept functions as gadgets on a `GadgetRegistry`.
 
-## Results 
+## Results — LIPARUS: measured outcomes, headline numbers, and what they establish
 
 All numbers in this section are hydrated from the deterministic domain core
 (the canonical scenario); the simulator is seeded so the outputs are
@@ -266,7 +260,7 @@ sequence and settles to a steady-state position error of
 804.5 metres. The two numbers are not competing claims but
 one pipeline at two latencies: the batch estimate is the offline maximum-likelihood
 answer (here the tighter of the two), while the filter is what a real receiver
-could produce in real time as the bearings arrive. overlays
+could produce in real time as the bearings arrive. The bearing track figure overlays
 the true trajectory, the TMA estimate, and the maneuvering ownship path.
 
 ![Passive bearing-only tracking: true track vs TMA estimate and ownship path.](output/figures/the_spy_who_loved_me_bearing_track.png)
@@ -278,7 +272,7 @@ range of 83746 metres (figure of merit 100 dB)
 in a channel whose sound speed is 1490 m/s and whose
 absorption is 0.0184 dB/km at the 400 Hz scan
 tone.
- shows how the solved range grows with the
+The sonar detection range figure shows how the solved range grows with the
 contact's source level.
 
 ![Passive sonar detection range vs source level.](output/figures/the_spy_who_loved_me_sonar_detection_range.png)
@@ -316,7 +310,7 @@ The two errors are therefore reported as what they are: the grid figure is
 what this grid commits the estimator to, the refined figure is what the
 estimator itself can reach, and the off-grid tests in `test_beamforming.py`
 show the refinement strictly beating the grid where the grid is genuinely
-limited. shows the beamformer power response with
+limited. The beamforming response figure shows the beamformer power response with
 the true and estimated bearings marked.
 
 ![ULA beamformer response vs bearing.](output/figures/the_spy_who_loved_me_beamforming_response.png)
@@ -326,7 +320,7 @@ the true and estimated bearings marked.
 For a bay whose hold is 140 metres long with a
 16-metre mouth and a required clearance of
 1.5 metres, the canonical swallow succeeds and stows
-1 submarine(s) per pass. shows the
+1 submarine(s) per pass. The capture feasibility figure shows the
 per-axis clearance margins across a sweep of submarine sizes.
 
 The capture model reports an elapsed time of 630
@@ -355,7 +349,7 @@ clearance at secure.
 The Lotus-Esprit-grade conversion spec achieves a readiness score of
 0.67 and is classified **submersible** with
 0 missing critical systems.
- renders the requirement traceability across the
+The conversion readiness figure renders the requirement traceability across the
 canonical road-car, amphibious, and submersible grades.
 Physically, the 40-metre operating hull collapses
 only at 85 metres (safety factor
@@ -374,7 +368,7 @@ succeeds, and the hull is feasible at operating depth, together with full
 SHA-256 over the canonical parameter set, so it moves when any input does —
 see The reproducibility section, which also records what it used to be.
 
-## Conclusion
+## Conclusion — LIPARUS: findings, verdict, and what the mission establishes
 
 LIPARUS (LIPARUS) delivers faithful, deterministic models of the
 defining technologies of *The Spy Who Loved Me*: passive acoustic detection
@@ -395,7 +389,7 @@ behind one unchanged provider shape. Every claim in the manuscript is
 generated by an actual algorithm run and the full suite enforces at least
 90% line and branch coverage on `src/` with zero mocks.
 
-## Experimental setup 
+## Experimental Setup — LIPARUS: canonical scenarios, parameters, and configuration
 
 The package runs under Python 3.14.6. The manuscript variables
 are hydrated by `scripts/z_generate_manuscript_variables.py`, which computes
@@ -460,7 +454,7 @@ fail_under` in `pyproject.toml` by
 `manuscript_variables.coverage_floor_pct`, so this sentence cannot claim a
 gate stricter than the one that actually runs.
 
-## Reproducibility 
+## Reproducibility — LIPARUS: verification gates, deterministic regeneration, and artifacts
 
 LIPARUS is reproducible by construction.
 
@@ -518,7 +512,7 @@ LIPARUS is reproducible by construction.
  `ruff check`/`format`, `mypy`, and the lineage scan are the acceptance
  gate before any commit.
 
-## Scope and related work
+## Scope and Related Work — LIPARUS: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -592,7 +586,7 @@ The novelty here is not the individual algorithms but their assembly into a
 deterministic, protocol-adapter mission package whose claims are all
 code-generated.
 
-## Sources
+## Sources — LIPARUS: bibliography
 
 @kay_detection_1998; @nardone_aidala_1981; @anderson_moore_1979; @tupper_naval_2013; @urick_principles_1983; @thorp_1967; @mackenzie_1981; @van_trees_2002; @timoshenko_gere_1961; @young_roark_2011
 

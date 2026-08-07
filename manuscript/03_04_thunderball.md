@@ -1,22 +1,16 @@
 # Thunderball (1965) — THUNDERBALL
 
-*film package · mission codename THUNDERBALL*. Mission **DISCO VOLANTE**: plan the underwater recovery dive; verify the NATO escort screen holds; confirm submersible range to reach the recovery site; confirm passive-sonar detection of the recovery site; steer the return leg against the prevailing current; interdict closing threat tracks before they reach the screen.
+*film package · package codename THUNDERBALL*. Mission **DISCO VOLANTE**: plan the underwater recovery dive; verify the NATO escort screen holds; confirm submersible range to reach the recovery site; confirm passive-sonar detection of the recovery site; steer the return leg against the prevailing current; interdict closing threat tracks before they reach the screen.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — THUNDERBALL: domain and operational focus
 
 underwater ops, nuclear convoy integrity
 
-## Abstract
+## Abstract — THUNDERBALL: mission summary
 
 **Thunderball: DISCO VOLANTE — Special-Agent Mission Software** (mission codename **DISCO VOLANTE**) is a deterministic special-agent mission-software package covering six underwater-recovery capabilities: scuba dive planning with a Bühlmann ZH-L16A decompression model, NATO-style nuclear-convoy integrity analysis, submersible range/endurance logistics, passive-sonar detection, set-and-drift underwater navigation, and dynamic convoy interdiction. For the flagship recovery profile the model computes a no-decompression limit of 9.17 minutes at the working depth against an air-supply limit of 24.78 minutes, so decompression rather than gas volume is the binding constraint (**deco**) and the planned bottom time is 9.17 minutes. It further reports an intact escort screen rated ok, a passive-sonar detection range of 21.78 nautical miles, a return-leg drift of 0.122 nautical miles (yes within the recovery radius), and a closing threat held at 3.344 nautical miles (status **held**). Every value is derived from deterministic math over explicit parameters (dive planning, Bühlmann ZH-L16A decompression, no-decompression limit, air consumption, convoy integrity, escort coverage, submersible logistics, range and endurance, passive sonar, Thorp absorption, set-and-drift navigation, closest point of approach, convoy interdiction, deterministic mission software) — no random draws, no wall-clock dependence, and a fully provenanced result.
 
-## Introduction
+## Introduction — THUNDERBALL: mission framing, the operational problem, and how to read this chapter
 
 *Thunderball* (1965), adapted from Fleming's 1961 novel [@fleming1961], is the
 film in which SPECTRE hijacks two NATO nuclear bombs and the operation reaches
@@ -62,7 +56,7 @@ reproducibility guarantees (the reproducibility section), and the scope boundary
 (the scope section), and an honest statement of each model's uncertainty
 and where it would break (the discussion section).
 
-## Methodology 
+## Methodology — THUNDERBALL: the analytical models and algorithms that drive the mission
 
 ### Dive planning
 
@@ -95,7 +89,7 @@ The **no-decompression limit** is the largest bottom time after which a
 *direct ascent to the surface* remains legal, so every compartment is tested
 against its M-value at **surface** ambient pressure — the ceiling the diver
 must clear on the way up — and not against the inflated M-value at working
-depth. The distinction is not cosmetic: at
+depth (the ndl figure). The distinction is not cosmetic: at
 40 m the ambient pressure is roughly five times the
 surface value, so evaluating the ceiling at depth admits almost any bottom
 time and overstates the limit by more than an order of magnitude. The limit is
@@ -130,7 +124,7 @@ unioned defended arc divided by 360°. Its pointwise companion
 `is_bearing_covered` answers whether one specific bearing falls inside any
 escort's arc, measuring separation on the circle so the 0/360° seam needs no
 special case; sweeping it around the compass draws the screen's actual
-coverage rosette.
+coverage rosette (the convoy figure).
 
 The **integrity score** combines a sigmoid gap penalty with coverage:
 
@@ -152,7 +146,7 @@ coverage target.
 Submersible logistics in `src/thunderball/submersible_logistics.py` models
 underwater propulsion with a cubic speed-power law plus a constant hotel
 load: `P(v) = k v^3 + H`. Endurance is `E / P(v)`, and range is
-`v * E / P(v)`. The speed that maximises range balances the
+`v * E / P(v)` (the range figure). The speed that maximises range balances the
 cubic drag term against the hotel load; because `R(v)` rises then falls, the
 optimum is found from the derivative vanishing at `k v^3 = H/2`. The inverse
 problem — energy required to transit a given range — inverts the cubic via a
@@ -164,7 +158,7 @@ Detection modelling in `src/thunderball/sonar_detection.py` uses the passive
 sonar equation. **Thorp absorption** gives the frequency-dependent seawater
 attenuation (`alpha(f) = 0.11 f²/(1+f²) + 44 f²/(4100+f²) + 2.75e-4 f² + 0.003`
 dB/km), and **transmission loss** combines spherical spreading with
-absorption: `TL(r) = 20 log10(r) + alpha(f) r`. The **signal
+absorption: `TL(r) = 20 log10(r) + alpha(f) r` (the sonar figure). The **signal
 excess** `SE = SL - TL - (NL - DI) - DT` is the detection margin; the
 **detection range** is where `SE` crosses zero, located by bounded bisection.
 
@@ -180,7 +174,7 @@ giving the heading that makes good the track. **Cross-track error** is the
 signed perpendicular distance off the track line, and the drift distance over
 the dive's *planned* bottom time — `min(air limit, NDL)` as reported by
 `plan_dive`, which is the time the team is in the water, not the longer air
-budget it never flies — is checked against the recovery radius.
+budget it never flies — is checked against the recovery radius (the drift figure).
 
 ### Convoy interdiction
 
@@ -202,7 +196,7 @@ between three times: `breached` when the threat reaches minimum separation
 before the escorts' reaction time, `penetrated` when the gap chord is crossed
 before it, and `held` otherwise — including a diverging threat.
 
-## Results 
+## Results — THUNDERBALL: measured outcomes, headline numbers, and what they establish
 
 ### Flagship verdict summary
 
@@ -242,7 +236,7 @@ margin of **1564.5 L**: the recovery team surfaces on its
 decompression obligation with gas to spare, which is the correct way round for
 a working dive at this depth.
 
-> **Figure (in the package manuscript):** Bühlmann ZH-L16A no-decompression limit versus depth, evaluated against the surface ascent ceiling..
+![Bühlmann ZH-L16A no-decompression limit versus depth, evaluated against the surface ascent ceiling.](output/figures/thunderball_ndl_curve.png)
 
 ### Convoy integrity results
 
@@ -260,16 +254,16 @@ before any hole actually opens. To reach the
 0.90 coverage target a uniform screen needs at least
 **6 escorts**.
 
-> **Figure (in the package manuscript):** Polar coverage rosette for the configured screen: each of 360 sample bearings tested against the actual escort set, with the escorts marked on the rim..
+![Polar coverage rosette for the configured screen: each of 360 sample bearings tested against the actual escort set, with the escorts marked on the rim.](output/figures/thunderball_convoy_screen.png)
 
 ### Submersible logistics results
 
 The submersible powerplant (400 kWh, drag coefficient
 0.035, hotel load 2.0 kW) achieves its optimal
 range at **3.057 knots**, giving an
-**407.61 nautical-mile** best range.
+**407.61 nautical-mile** best range (the range figure).
 
-> **Figure (in the package manuscript):** Submersible range versus speed, with the optimal-range marker..
+![Submersible range versus speed, with the optimal-range marker.](output/figures/thunderball_submersible_range.png)
 
 ### Passive sonar results
 
@@ -277,9 +271,9 @@ At 10.0 kHz (source level 150 dB,
 ambient noise 75 dB, directivity index
 15 dB) the passive-sonar range equation gives a detection
 range of **21.78 nautical miles** — the range at which the
-signal excess crosses zero.
+signal excess crosses zero (the sonar figure).
 
-> **Figure (in the package manuscript):** Passive-sonar transmission loss versus range, with the detection budget..
+![Passive-sonar transmission loss versus range, with the detection budget.](output/figures/thunderball_transmission_loss.png)
 
 ### Navigation results
 
@@ -293,9 +287,9 @@ is actually in the water, which is the decompression limit here and not the
 longer 24.78-minute air budget — the current sweeps the
 team **0.122 nautical miles**. Inside the
 1.0-nautical-mile recovery radius:
-**yes**.
+**yes** (the drift figure).
 
-> **Figure (in the package manuscript):** Set-and-drift geometry over the planned bottom time, computed from the dive parameters rather than pinned to a literal..
+![Set-and-drift geometry over the planned bottom time, computed from the dive parameters rather than pinned to a literal.](output/figures/thunderball_drift_geometry.png)
 
 ### Interdiction results
 
@@ -312,7 +306,7 @@ Crossing the 45.00-degree inter-escort sector at
 hours**, against an escort reaction time of 0.05
 hours; the screen is rated **held**.
 
-## Conclusion
+## Conclusion — THUNDERBALL: findings, verdict, and what the mission establishes
 
 The **DISCO VOLANTE** mission software turns the planning questions of an
 underwater nuclear-recovery operation into deterministic, reproducible
@@ -351,7 +345,7 @@ lineage, not from ZH-L16A: the test asserts that this package's ZH-L16A limits
 land inside bands bracketing them, which is an agreement check between two
 independent models, not a table lookup.
 
-## Experimental Setup 
+## Experimental Setup — THUNDERBALL: canonical scenarios, parameters, and configuration
 
 All parameters are declared in `manuscript/config.yaml` and loaded by
 `src/thunderball/manuscript_variables.py`; no numeric result is hand-authored
@@ -420,7 +414,7 @@ The mission runs under a fixed seed (dive planning, Bühlmann ZH-L16A decompress
 mission software); the six domain modules are pure functions of these
 parameters.
 
-## Reproducibility 
+## Reproducibility — THUNDERBALL: verification gates, deterministic regeneration, and artifacts
 
 DISCO VOLANTE is deterministic by construction:
 
@@ -479,7 +473,7 @@ the implementation's own arithmetic:
 A test that only restates the formula under test cannot catch a transposed
 formula. These anchors can.
 
-## Scope and Related Work 
+## Scope and Related Work — THUNDERBALL: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -543,7 +537,7 @@ As a BOND suite film, this package's primary relation is to the frozen
 the suite _orchestrator_, which drives any `MissionProvider` through the
 five-stage lifecycle.
 
-## Discussion and Uncertainty 
+## Discussion and Uncertainty — THUNDERBALL: interpretation, caveats, and what the numbers do not claim
 
 Every number in the results section is the deterministic output of a closed-form or
 bounded-iteration model over explicit parameters in `manuscript/config.yaml`.
@@ -639,7 +633,7 @@ navigation, and multi-track association for interdiction. They are out of
 scope for this deterministic, six-capability mission package, which is sized to
 demonstrate the BOND mission protocol rather than to plan a live operation.
 
-## Sources
+## Sources — THUNDERBALL: bibliography
 
 @buehlmann1984; @urick1983; @thorp1967; @bowditch2002; @newman1977; @cockcroft2011; @usnavydiving2016; @fleming1961; @bondapi2026
 

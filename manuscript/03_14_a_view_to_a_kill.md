@@ -1,22 +1,16 @@
 # A View to a Kill (1985) — MAIN STRIKE
 
-*film package · mission codename MAIN STRIKE*. Mission **ZORIN**: map microchip supply-chain monopoly choke points; optimize the budgeted acquisition that corners the market; model flood-the-mine water-ingress dynamics; couple the flood to surface-fab capacity loss in the valley; score horse-race form analytics for the cover operation; price the cover's betting-market position and staking.
+*film package · package codename MAIN STRIKE*. Mission **ZORIN**: map microchip supply-chain monopoly choke points; optimize the budgeted acquisition that corners the market; model flood-the-mine water-ingress dynamics; couple the flood to surface-fab capacity loss in the valley; score horse-race form analytics for the cover operation; price the cover's betting-market position and staking.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — MAIN STRIKE: domain and operational focus
 
 microchip supply chain, urban sabotage, racing analytics
 
-## Abstract
+## Abstract — MAIN STRIKE: mission summary
 
 **A View to a Kill (1985) · mission codename ZORIN** This package implements **A View to a Kill: ZORIN — Special-Agent Mission Software** as a deterministic, fully-tested special-agent mission model. It operationalizes the film's central scheme through six pure, infrastructure-free domain modules: 1. **Microchip supply-chain security graph** (`chip_supply_chain.py`) — a directed graph of the mid-1980s semiconductor market ($12$ firms, $18$ supply links across four stages). Concentration (HHI), Brandes betweenness choke points, single-source dependence, and cascade failure quantify the monopoly attack. 2. **Monopoly acquisition optimizer** (`acquisition.py`) — the budgeted selection problem of which independent fabricators ZORIN buys to corner the market. Exhaustive search for the optimal acquisition (`intel_fab, nec_fab`) raises market-wide HHI from a 1012.8 baseline to 1741.4 with a budget of 2, a gain of 728.6. The set the film-faithful scenario buys (`amd_fab, nec_fab`) is a different set scoring 1528.9; the scheme is suboptimal by 212.5 HHI points, and we report that rather than claim optimality for it. 3. **Flood-the-mine water-ingress dynamics** (`mine_flood.py`) — a mass-conserving deterministic Euler simulation of water flowing through the 8-chamber "Main Strike" network, flooding 0.625 of it by 900.0 s with a water-balance error of $1.2e-15$ (machine precision). 4. **Valley impact / urban sabotage** (`valley_impact.py`) — couples the flood to the fabs above: rising groundwater disables 3 of 5 valley fabs, 0.583 of fabricating capacity. ZORIN's own plant is among the 2 survivors (`nec_fab, zorin_fab`); the other survivor is `nec_fab`, which he acquires, so the number of surviving plants he neither owns nor acquires is 0. The bluntness runs the other way: `amd_fab`, a plant ZORIN buys, is destroyed by his own flood. 5. **Horse-race form analytics** (`race_analytics.py`) — normalized speed indices, EWMA ratings, softmax win probabilities, and a signal-detection cover-risk model. A subtle 0.2 speed-index boost to Pegasus carries only 0.001 detection risk (expected value 2924); a blatant boost is caught. 6. **Racing betting-market / cover-finance** (`race_market.py`) — converts the softmax win probabilities to honest-market decimal odds under a 1.12 overround, and prices the cover: Pegasus's boosted true probability (0.248) exceeds the market-implied (0.238), yielding a positive value edge (0.0415) and a Kelly stake of 1298 — the exact anomaly to detect. Every metric is computed, not asserted: figures, manuscript tokens, and the BOND-API mission provider all draw from the same pure core (seed 1985, fully deterministic). Keywords: microchip supply-chain security, monopoly choke points, herfindahl-hirschman index, betweenness centrality, budgeted acquisition optimization, water-ingress dynamics, mine flooding simulation, groundwater inundation damage, horse-race form analytics, cover-operation modeling, signal-detection theory, kelly criterion, betting-market pricing, reproducible research, deterministic simulation.
 
-## Introduction
+## Introduction — MAIN STRIKE: mission framing, the operational problem, and how to read this chapter
 
 In *A View to a Kill* (1985), industrialist Max ZORIN plots to flood the
 abandoned mine workings beneath California's Silicon Valley, destroying
@@ -88,7 +82,7 @@ this document, and `figures/plots.py` renders the five figures. The methods sect
 measured outputs; The scope section states what the models do and do not
 claim.
 
-## Methodology 
+## Methodology — MAIN STRIKE: the analytical models and algorithms that drive the mission
 
 All six models are pure functions of fixed, documented datasets; no random
 draws, no external state, no wall-clock dependence. The manuscript pipeline
@@ -131,7 +125,7 @@ The default market opens at HHI $892.2$.
 betweenness-centrality algorithm [@brandes]: a firm's betweenness is the fraction of
 ordered node pairs for which it lies on a shortest directed supply path.
 Wafer sources carry zero betweenness by construction; the top choke point is
-`amkor` (see ).
+`amkor` (see the choke points figure).
 
 **Single-source dependence.** A downstream firm whose only upstream supplier
 is one firm is a single point of failure; such dependencies are the monopolist's
@@ -178,7 +172,7 @@ $w_i \geq \Omega_i$; `flooded_fraction` reports the share of chambers flooded
 at a time $t$. `critical_ingress` picks the single entry that floods the most
 of the network by the horizon. The default "Main Strike" network has
 $8$ chambers and $10$ tunnels totalling
-$9100$ m$^3$ (see ).
+$9100$ m$^3$ (see the flood curve figure).
 
 ### Race-form analytics and cover model
 
@@ -200,9 +194,7 @@ $n$ races and natural race-to-race variability $\sigma$, the standard error of
 the mean performance is $\sigma/\sqrt{n}$, so applying a boost $b$ gives a
 detection risk
 
-$$ \mathrm{risk}(b) = \Phi\!\left(\frac{b - \theta}{\sigma/\sqrt{n}}\right), $$
-
-the probability a normal draw with mean $b$ clears the threshold — the
+$$ \mathrm{risk}(b) = \Phi\!\left(\frac{b - \theta}{\sigma/\sqrt{n}}\right), $$The probability a normal draw with mean $b$ clears the threshold — the
 detection-theoretic reading of stewards' scrutiny [@greenswets1966].
 `cover_viability` returns `win_delta`, `detection_risk`, and
 `expected_value = win_delta * PURSE - risk * DETECTION_PENALTY`, with
@@ -211,12 +203,12 @@ PURSE = 100000 and DETECTION_PENALTY = 900000
 $0.2$ boost to Pegasus (with
 $\sigma = 0.5$) the risk is $0.001$ and
 expected value $2924$ — a sustainable cover — whereas a
-blatant boost is caught (see ).
+blatant boost is caught (see the race cover figure).
 
 ### Monopoly acquisition optimizer
 
 The monopoly is a *selection* problem too: with a budget of
-$K$ acquisitions, which independent fabricators
+$K$ acquisitions (the acquisition curve figure), which independent fabricators
 should ZORIN buy? The acquireable set is the $amd_fab, intel_fab, nec_fab$ fabricators
 (owners other than ZORIN). Each budget-$K$ subset is scored by the objective
 `post_elimination_hhi(chain, acquired)` (or by ZORIN's fabrication share),
@@ -251,7 +243,7 @@ $$ \mathrm{table}_{f}(t) = \ell_f \cdot h_{c(f)}(t), \qquad \text{inoperable if 
 `valley_capacity_loss` reports the fraction of total fabricating capacity
 inoperable by a decision time — for the default scenario 3
 of 5 fabs (0.583 of capacity) by the horizon
-(see ). The 2 survivors are
+(see the valley impact figure). The 2 survivors are
 `nec_fab, zorin_fab`: `zorin_fab` endures because it sits over the
 low-coupling, high-separation `shaft_a`, which is the outcome the scheme
 intends. The survivor and victim sets are determined purely by coupling
@@ -284,7 +276,7 @@ giving a positive edge (0.0415) and a Kelly stake of
 1298 — precisely the anomaly that the cover-risk model of
 `race_analytics` would eventually flag [@kelly1956].
 
-## Results 
+## Results — MAIN STRIKE: measured outcomes, headline numbers, and what they establish
 
 All figures and numeric results below are generated from the pure core by
 `scripts/z_generate_manuscript_variables.py`; no number is hand-authored.
@@ -313,7 +305,7 @@ market. The cascade model removes exactly the acquired-and-dismantled firms
 assembly house, so nothing downstream is starved (starved fraction
 0.000, starved firms: none). That is
 the monopolist's intent: competitors are *removed*, but the market ZORIN owns
-keeps flowing.
+keeps flowing (the choke points figure).
 
 ### Flood-the-mine water ingress
 
@@ -323,7 +315,7 @@ At $10.0$ m$^3$/s into the `adit`, the Main Strike
 network (8 chambers, 10 tunnels,
 9100 m$^3$) floods $0.625$ of its chambers by
 $900.0$ s; the lowest working (`vault`) is submerged at
-$310.0$ s. The critical single ingress
+$310.0$ s (the flood curve figure). The critical single ingress
 point is `adit`. The simulation conserves water mass to
 $1.2e-15$ — machine precision.
 
@@ -334,7 +326,7 @@ $1.2e-15$ — machine precision.
 Over $20$ records ($5$ horses, $2.0$
 halflife), the strongest form is `Silverado`
 (form rating 0.808); Pegasus opens at win probability
-0.213. A $0.2$
+0.213 (the race cover figure). A $0.2$
 speed-index boost to Pegasus buys win probability `+0.035` while
 carrying only $0.001$ detection risk, for a positive
 expected value of $2924$ — a sustainable cover. Pushing
@@ -357,7 +349,7 @@ Table: Acquisition optimizer on the default market (budget 2).
 | Greedy baseline HHI | 1741.4 |
 | Greedy regret | 0.0 |
 
-The exhaustive optimum lifts concentration from
+The exhaustive optimum (the acquisition curve figure) lifts concentration from
 1012.8 to 1741.4 with just 2
 acquisitions. Greedy is exact here (regret 0.0) — and this is
 *not* a happy accident of this dataset. Both acquisition objectives are
@@ -408,7 +400,7 @@ Table: Urban blast-reach of the flood at the decision horizon.
 
 By the horizon the flood's groundwater reach has disabled 3
 of 5 valley fabrication plants — 0.583 of total
-fabricating capacity — leaving
+fabricating capacity (the valley impact figure) — leaving
 2 operable: `nec_fab, zorin_fab`. ZORIN's own
 `zorin_fab` is among them, sitting over the low-coupling `shaft_a` and
 protected from the very flood he releases.
@@ -457,7 +449,7 @@ nothing else. That a single horse's true chance exceeds the honest market's
 price is exactly the statistical anomaly the cover-risk model would flag: the
 cover is profitable only while it stays undetectable.
 
-## Conclusion
+## Conclusion — MAIN STRIKE: findings, verdict, and what the mission establishes
 
 This package demonstrates that a film's elaborate scheme can be reduced to a
 deterministic, testable computational model without losing its substance.
@@ -485,7 +477,7 @@ at least 90% line and branch coverage on `src/`, zero mocks, deterministic
 seeds, ruff and mypy clean, no leftover exemplar-lineage strings, and a clean
 git tree.
 
-## Experimental Setup
+## Experimental Setup — MAIN STRIKE: canonical scenarios, parameters, and configuration
 
 All experiments are deterministic and fully prescribed by
 `manuscript/config.yaml`, whose `experiment:` block is loaded by
@@ -547,7 +539,7 @@ surfaced here as computed tokens, so neither can drift from the code.
  `manuscript/config.yaml`. The generator reads no wall clock, so this line —
  like every other line — is the same on every rerun.
 
-## Reproducibility
+## Reproducibility — MAIN STRIKE: verification gates, deterministic regeneration, and artifacts
 
 ### Determinism
 
@@ -640,7 +632,7 @@ asserts below. Five gates keep this honest:
  requires the protocol.
 - No leftover template-scaffold lineage strings (`rg` gate clean).
 
-## Scope and Related Work 
+## Scope and Related Work — MAIN STRIKE: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -724,7 +716,7 @@ Within the PROJECT BOND suite, this package is one of the film packages
 implementing the FROZEN `bond_api.MissionProvider` protocol; its pure core
 constitutes the local scientific content that the protocol wraps.
 
-## Sources
+## Sources — MAIN STRIKE: bibliography
 
 @brandes; @hhi; @film; @dixon; @ast; @kelly1956; @christopher2004; @kreibich2008; @greenswets1966
 

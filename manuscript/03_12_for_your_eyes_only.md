@@ -1,22 +1,16 @@
 # For Your Eyes Only (1981) — ATAC
 
-*film package · mission codename ATAC*. Mission **ATAC**: recover the lost ATAC targeting-communicator key; verify custodian custody before release; plan underwater retrieval and island insertion.
+*film package · package codename ATAC*. Mission **ATAC**: recover the lost ATAC targeting-communicator key; verify custodian custody before release; plan underwater retrieval and island insertion.
 
-This chapter reproduces the package's complete manuscript verbatim:
-the abstract and every authored section, token-hydrated from the
-package's own manuscript variables, with the package's figures carried
-in the combined PDF and its sources resolved against the unified
-bibliography.
-
-## Concepts
+## Concepts — ATAC: domain and operational focus
 
 targeting systems, key recovery
 
-## Abstract
+## Abstract — ATAC: mission summary
 
 **For Your Eyes Only: ATAC — Special-Agent Mission Software** — Targeting-Communicator Escrow, Underwater Retrieval, and Greek-Island Insertion Routing. This report documents the **ATAC** special-agent mission software: a deterministic suite for recovering a lost targeting-communicator device and directing it onto target. The mission's mathematics rest on six pillars, each implemented as a pure, infrastructure-free domain module: 1. **Key escrow** — the ATAC key is split among 3 custodians using Shamir secret sharing, with a quorum of 2 required to release it (key 1390851129; match True), and custody is carried as an audited 3-record hash-chained ledger (True). 2. **Erasure-coded key recovery** — 4 data symbols encoded into 6 code fragments so any quorum recovery survives loss/corruption (match True). 3. **Underwater retrieval planning** — a Haldane-style staged dive of 3580.722 s to the 42-m wreck: a 600 s bottom exposure, then 14 tissue-sized decompression stops, against a drift offset of (-143.229, 71.614) m (reachable: True). 4. **Greek-island insertion routing** — a least-cost route (corfu -> paxi -> lefkada -> ithaca -> wreck_site, 56.00 nm). 5. **Fire-control targeting** — an intercept lead-angle firing solution (94.6 s, 9.89° lead; feasible True). 6. **Underwater acoustic link** — a link budget with SNR 52.33 dB at 3500 m against a 8 dB threshold, a margin of 44.33 dB (closes: True; max range 18553 m). Every computation is deterministic — a single fixed seed (7), no untracked randomness, no wall-clock dependence in persisted artifacts — and each concept carries a matching real-data test suite with no mocking framework. Every quantity above is injected from the code that computed it rather than typed into the prose, and the escrow's fingerprint match is re-derived by comparison rather than asserted, so a wrong result would surface as a changed number instead of a stale claim. Keywords: key escrow and recovery, Shamir secret sharing, erasure coding, underwater retrieval planning, decompression modelling, island routing, fire-control targeting, underwater acoustic link budget, deterministic mission software.
 
-## Introduction
+## Introduction — ATAC: mission framing, the operational problem, and how to read this chapter
 
 The ATAC (Automatic Targeting Attack Communicator) is a lost-key device whose
 recovery demands coordinated custody, underwater access, and insertion
@@ -52,7 +46,7 @@ surface is stable across phases; only the internal scenario deepens.
 * §3 presents the computed mission results and figures.
 * §5 details the experimental configuration; §6 the reproducibility contract.
 
-## Methodology
+## Methodology — ATAC: the analytical models and algorithms that drive the mission
 
 This section details the deterministic mathematics behind each of the six
 mission modules.
@@ -225,7 +219,7 @@ honestly — a link that already fails at the bracket floor has a coverage radiu
 of zero, not a coverage radius equal to the floor, and a link still closing at
 the ceiling returns that ceiling as a lower bound.
 
-## Results
+## Results — ATAC: measured outcomes, headline numbers, and what they establish
 
 The mission was executed end to end through the frozen protocol; all results
 below are computed live by the domain modules (never hand-authored).
@@ -284,9 +278,9 @@ of ascent, each stop sized from the compartment ceilings (see §2). The surface
 drift offset is (-143.229, 71.614) m;
 the target is reachable within the operational envelope
 (True). The depth-time profile is shown in
-Figure.
+the dive profile figure.
 
-> **Figure (in the package manuscript):** ATAC underwater retrieval dive profile.
+![ATAC underwater retrieval dive profile](output/figures/for_your_eyes_only_dive_profile.png)
 
 ### Island insertion routing
 
@@ -299,9 +293,9 @@ Ionian island chain's safest corridor is also its shortest. The reported route
 is therefore the shortest route, and this section claims nothing more for it.
 The risk term is exercised as a mechanism on a purpose-built two-option graph
 in the test suite, not here. The Ionian graph and planned route are shown in
-Figure.
+the island graph figure.
 
-> **Figure (in the package manuscript):** ATAC Ionian insertion route.
+![ATAC Ionian insertion route](output/figures/for_your_eyes_only_island_graph.png)
 
 ### Targeting solution
 
@@ -310,9 +304,9 @@ The ATAC fire-control solution for the canonical contact is feasible
 s, a lead angle of 9.89° and a weapon course of
 54.89°; where a close is not achievable, the module
 reports the closest-approach distance (0.0 m). The
-intercept geometry is shown in Figure.
+intercept geometry is shown in the targeting geometry figure.
 
-> **Figure (in the package manuscript):** ATAC targeting intercept geometry.
+![ATAC targeting intercept geometry](output/figures/for_your_eyes_only_targeting_geometry.png)
 
 ### Acoustic link budget
 
@@ -322,11 +316,11 @@ At the 3500-m operating range the ATAC uplink receives
 44.33 dB; the link closes (True) with a
 maximum acoustic range of 18553 m. Because the operating
 range sits inside that maximum, the uplink is not run at the edge of its
-budget. The SNR-vs-range curve is shown in Figure.
+budget. The SNR-vs-range curve is shown in the acoustic link figure.
 
-> **Figure (in the package manuscript):** ATAC underwater acoustic link budget.
+![ATAC underwater acoustic link budget](output/figures/for_your_eyes_only_acoustic_link.png)
 
-## Conclusion
+## Conclusion — ATAC: findings, verdict, and what the mission establishes
 
 This package delivers a complete, deterministic ATAC special-agent mission
 implementation. The six domain modules — key escrow and erasure-coded
@@ -376,7 +370,7 @@ environment seam. As before, each binds a claim to a derived value that a test
 must hold true — a deeper wreck, a longer bottom, or a broken custody link now
 moves the reported numbers rather than silently restating an intention.
 
-## Experimental Setup
+## Experimental Setup — ATAC: canonical scenarios, parameters, and configuration
 
 ### Configuration
 
@@ -407,7 +401,7 @@ wall-clock dependence in persisted artifacts. The stamp above is the declared
 tomorrow produces the same bytes; it deliberately does not report when the
 render happened, because that value cannot be both honest and reproducible.
 
-## Reproducibility
+## Reproducibility — ATAC: verification gates, deterministic regeneration, and artifacts
 
 ### Determinism contract
 
@@ -495,7 +489,7 @@ Three suites exist specifically to stop documentation drifting from code:
 
 See `tests/` and `docs/testing_philosophy.md`.
 
-## Scope and Related Work
+## Scope and Related Work — ATAC: boundaries, positioning, and relationship to the literature
 
 ### Scope
 
@@ -543,7 +537,7 @@ themselves are scenario fiction, not a recorded operational trail. These
 simplifications keep the mission fully deterministic and testable while
 preserving the mathematical substance of each concept.
 
-## Sources
+## Sources — ATAC: bibliography
 
 @shamir1979share; @boycott1908prevention; @dijkstra1959note; @hart1968formal; @reed1960polynomial; @thorp1967analytic; @urick1983principles; @wenz1962noise; @blakley1979safeguarding; @berlekamp1968algebraic; @buhlmann1984decompression
 

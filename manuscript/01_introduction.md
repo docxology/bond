@@ -9,7 +9,7 @@ package meets the same bar: pure, deterministic algorithm cores; zero mock
 framework; ≥90% line+branch coverage on `src/`; thin orchestrator scripts; and
 manuscript variables injected from configuration.
 
-## The two layers
+## Two-layer topology: shared infrastructure and film-specific algorithms
 
 - **Layer 1 · mission infrastructure ({{N_INFRA}} packages).** `bond-utilities`
   (codename Q-BRANCH) provides the shared primitives — ciphers, deterministic
@@ -36,7 +36,7 @@ manuscript variables injected from configuration.
   `MissionProvider` in `src/<slug>/mission.py` and is discoverable by the
   orchestrator.
 
-## How this compendium was built
+## Generation, hydration, and provenance of the compendium
 
 Every chapter below is **generated from the corresponding package's own
 manuscript**. Each chapter reproduces that package's complete manuscript
