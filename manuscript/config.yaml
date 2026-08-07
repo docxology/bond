@@ -23,10 +23,11 @@ rendering:
   cover_height_fraction: 0.62
 
 publication:
-  doi: "10.5281/zenodo.21843592" # not yet minted; the title page shows the status below
-  doi_status: "forthcoming"
+  doi: "10.5281/zenodo.21843592" # stable concept DOI; version DOI is recorded below
+  doi_status: "published"
   repository_url: "https://github.com/docxology/bond"
   repository_label: "GitHub repository"
+  concept_doi: "10.5281/zenodo.21843592"
   version_doi: "10.5281/zenodo.21843593"
   version_record: "https://zenodo.org/records/21843593"
 
