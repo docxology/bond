@@ -11,7 +11,7 @@ bibliography** merged from every package's `references.bib`.
 
 The public source repository is https://github.com/docxology/bond. The v1.0.0
 release is available at https://github.com/docxology/bond/releases/tag/v1.0.0.
-The archival Zenodo record is https://doi.org/10.5281/zenodo.21843593; the
+The archival Zenodo record is https://doi.org/10.5281/zenodo.21843802; the
 concept DOI is https://doi.org/10.5281/zenodo.21843592. The PDF attached to the
 release carries the concept DOI so it remains stable across Zenodo versions.
 

@@ -28,8 +28,8 @@ publication:
   repository_url: "https://github.com/docxology/bond"
   repository_label: "GitHub repository"
   concept_doi: "10.5281/zenodo.21843592"
-  version_doi: "10.5281/zenodo.21843593"
-  version_record: "https://zenodo.org/records/21843593"
+  version_doi: "10.5281/zenodo.21843802"
+  version_record: "https://zenodo.org/records/21843802"
 
 keywords:
   - "software suite"
