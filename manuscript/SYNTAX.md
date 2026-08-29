@@ -1,7 +1,7 @@
 # Manuscript syntax reference
 
 Markup rules for the compendium's sections. The repository-wide semantics are in
-[`docs/guides/manuscript-semantics.md`](../../../../../docs/guides/manuscript-semantics.md);
+`docs/guides/manuscript-semantics.md` (referenced guide not present in repo — needs owner input);
 this file covers what is specific to a **wrapper** manuscript whose chapters are
 imported from documents written to render somewhere else.
 

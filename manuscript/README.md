@@ -50,4 +50,4 @@ cross-reference constraint.
 
 - [`../README.md`](../README.md) — what the compendium is
 - [`../docs/rendering_pipeline.md`](../docs/rendering_pipeline.md) — the three build steps
-- [repository manuscript semantics](../../../../../docs/guides/manuscript-semantics.md) — repository-wide semantics
+- repository manuscript semantics (referenced guide `docs/guides/manuscript-semantics.md` not present in repo — needs owner input)

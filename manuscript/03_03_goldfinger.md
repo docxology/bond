@@ -666,7 +666,7 @@ not a general theorem, which is precisely why the enumeration exists.
 ### What the numbers are not
 
 These are single-point, single-intel outputs of deliberately stylized models
-(full scope in [scope and related work](07_scope_and_related_work.md)). The
+(full scope in scope and related work (target section `07_scope_and_related_work.md` not present in this manuscript — needs owner input)). The
 uncertainty quantified above is *within*-model sensitivity to declared inputs;
 it does not capture the (larger, unquantifiable) model-form uncertainty — the
 gap between these laws and the real market, vault, or laser. Presenting both
