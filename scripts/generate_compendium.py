@@ -2,7 +2,7 @@
 """Generate the PROJECT BOND compendium manuscript (thin orchestrator).
 
 Imports every package's manuscript into a single top-level manuscript under
-``bond-manuscript/manuscript/``: introduction, generated architecture
+``docs/manuscript/``: introduction, generated architecture
 chapter, one imported chapter per package, closing, and a unified
 BibTeX bibliography merged from all 33 packages.
 

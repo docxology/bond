@@ -9,7 +9,7 @@ tags: [compendium, manuscript, generator, thin-orchestrator]
 
 # bond-manuscript
 
-Project-scoped skill for `projects/working/bond/bond-manuscript/`, the wrapper
+Project-scoped skill for `projects/working/bond/bond-docs/manuscript/`, the wrapper
 manuscript for the PROJECT BOND suite. Load this when working inside the package.
 
 ## What it does

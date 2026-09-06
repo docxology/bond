@@ -5,7 +5,7 @@ One folder per skill. Each ships `AGENTS.md`, `README.md`, `SKILL.md`.
 
 | Skill | Purpose |
 | --- | --- |
-| [`bond-manuscript/`](bond-manuscript/AGENTS.md) | Drive this exemplar end-to-end. |
+| [`bond-docs/manuscript/`](bond-docs/manuscript/AGENTS.md) | Drive this exemplar end-to-end. |
 
 ## Skill contract
 

@@ -36,7 +36,7 @@ grep -r "{{" output/manuscript/ && echo "UNRESOLVED" || echo "All tokens resolve
 
 ## 2. Citations
 
-All citation keys resolve against the unified `manuscript/references.bib`, which
+All citation keys resolve against the unified `docs/manuscript/references.bib`, which
 is a merge output. **Never add an entry to it by hand** — add it to the source
 package's `references.bib` and re-run `scripts/generate_compendium.py`.
 

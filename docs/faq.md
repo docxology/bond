@@ -11,14 +11,14 @@ citations live in that film's package and are read from there on every build.
 
 ### Which files are generated?
 
-`manuscript/02_suite_architecture.md`, `03_01_…`–`03_27_…`, `04_01_…`–`04_06_…`,
-`99_references.md`, and `manuscript/references.bib`. All are rewritten by
+`docs/manuscript/02_suite_architecture.md`, `03_01_…`–`03_27_…`, `04_01_…`–`04_06_…`,
+`99_references.md`, and `docs/manuscript/references.bib`. All are rewritten by
 `scripts/generate_compendium.py`. Hand-authored: `00_abstract.md`,
 `01_introduction.md`, `90_closing.md`, `preamble.md`, `config.yaml`.
 
 ### I edited a package chapter and my change vanished
 
-It was a generated file. Edit the source package's `manuscript/00_abstract.md`,
+It was a generated file. Edit the source package's `docs/manuscript/00_abstract.md`,
 or edit the builder in `src/bond_manuscript/compendium.py`, and re-run the
 generator.
 
@@ -27,7 +27,7 @@ generator.
 `discover_packages()` reads the canon-ordered 27-film roster from
 `bond_coordinator.registry.ROSTER` — the single source of truth for film metadata
 — and carries the 6 infrastructure packages as a table in `compendium.py`. A
-package is included only if it has a `manuscript/` directory on disk.
+package is included only if it has a `docs/manuscript/` directory on disk.
 
 ### Why does `pyproject.toml` depend on scipy?
 
@@ -40,12 +40,12 @@ why the build now exits non-zero instead.
 
 ### How is the unified bibliography built?
 
-`build_references_bib()` merges every package's `manuscript/references.bib` into
+`build_references_bib()` merges every package's `docs/manuscript/references.bib` into
 one, de-duplicating by key. Real `@entry` blocks are preserved verbatim; plain
 `[n] Author, *Title*, …` lists become deterministic `@misc` entries keyed
 `<slug>_ref<n>`.
 
-### Can I add an entry to `manuscript/references.bib`?
+### Can I add an entry to `docs/manuscript/references.bib`?
 
 No — it is a merge output and your entry disappears on the next build. Add it to
 the source package's `references.bib`.
@@ -107,7 +107,7 @@ It generates none of its own — the architecture chapter is tables only — but
 **copies every figure each package manuscript embeds** into
 `output/figures/` under a slug-namespaced name and carries them into the
 combined PDF. The fleet uses three source-path conventions (relative to the
-package `manuscript/`, to the package root, and to the package
+package `docs/manuscript/`, to the package root, and to the package
 `output/figures/`); the generator tries each before degrading an embed to a
 caption. `../TODO.md` tracks a deterministic dependency-layer figure as future
 work.

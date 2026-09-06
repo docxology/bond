@@ -12,7 +12,7 @@ fleet logic in a script where no test can reach it.
 | --- | --- | --- | --- |
 | **`src/bond_manuscript/`** — pure core | `compendium.py`, `manuscript_variables.py` | Discovery, abstract import, token resolution, bibliography merge, section text | Write files; import `infrastructure.*`; import suite packages at module scope |
 | **`scripts/`** — orchestrators | `generate_compendium.py`, `z_generate_manuscript_variables.py` | Where output goes, exit codes, `sys.path` setup | Parse packages, assemble chapters, or hold any fleet knowledge |
-| **`manuscript/`** — content | Hand-authored boundaries + generated chapters | The wrapper's own prose; the generated sections as build output | Be hand-edited where generated |
+| **`docs/manuscript/`** — content | Hand-authored boundaries + generated chapters | The wrapper's own prose; the generated sections as build output | Be hand-edited where generated |
 | **The fleet** — inputs | 33 sibling package trees | Every fact about a film or an infrastructure package | — |
 
 ## Dependency direction
@@ -39,12 +39,12 @@ graph TD
     DISC["discover_packages()"] --> ARCH["build_architecture_section()"]
     DISC --> SEC["build_package_section()"]
 
-    ABS["each package:<br/>manuscript/00_abstract.md<br/>+ manuscript_variables.json"] --> IMP["import_package_abstract()"]
+    ABS["each package:<br/>docs/manuscript/00_abstract.md<br/>+ manuscript_variables.json"] --> IMP["import_package_abstract()"]
     IMP --> SEC
     PROV["each film:<br/>src/&lt;slug&gt;/mission.py"] --> BRIEF["_brief_line()"]
     BRIEF --> SEC
 
-    BIB["each package:<br/>manuscript/references.bib"] --> PARSE["parse_references()"]
+    BIB["each package:<br/>docs/manuscript/references.bib"] --> PARSE["parse_references()"]
     PARSE --> MERGE["build_references_bib()"]
     MERGE --> REFSEC["build_references_section()"]
 
@@ -54,7 +54,7 @@ graph TD
     SEC --> GEN
     MERGE --> GEN
     REFSEC --> GEN
-    GEN --> MAN["manuscript/*.md + references.bib"]
+    GEN --> MAN["docs/manuscript/*.md + references.bib"]
 
     MAN --> HYD["scripts/z_generate_manuscript_variables.py"]
     VARS["generate_variables()"] --> HYD
@@ -75,8 +75,8 @@ provider needs must have it resolvable here too, or that chapter loses content a
 
 | Pattern | Why | Instead |
 | --- | --- | --- |
-| Hand-writing a film's facts into a package chapter | The chapter is generated; the edit is deleted on the next run | Edit that package's `manuscript/00_abstract.md` |
-| Adding an entry to `manuscript/references.bib` | The file is a merge output | Add it to the source package's `references.bib` and re-run |
+| Hand-writing a film's facts into a package chapter | The chapter is generated; the edit is deleted on the next run | Edit that package's `docs/manuscript/00_abstract.md` |
+| Adding an entry to `docs/manuscript/references.bib` | The file is a merge output | Add it to the source package's `references.bib` and re-run |
 | Fleet parsing in `scripts/` | Untestable without running the whole build | Move it to `compendium.py` and cover it |
 | `from infrastructure import …` in `src/` | Breaks the core's independence from the monorepo | Call infrastructure from `scripts/` |
 | `except Exception: return ""` around a content-producing call | Silently drops chapter content | Record the failure (`BRIEF_FAILURES`) and let the caller report it |

@@ -1,4 +1,4 @@
-# bond-manuscript/data
+# bond-docs/manuscript/data
 
 Project-maintained **inputs** for the code exemplar (not pipeline outputs).
 

@@ -35,7 +35,7 @@ collected count is greater than zero. Exit code 0 alone proves nothing.
 uv run python scripts/generate_compendium.py
 ```
 
-Writes into `manuscript/`: the unified `references.bib`, the architecture chapter,
+Writes into `docs/manuscript/`: the unified `references.bib`, the architecture chapter,
 27 film chapters, 6 infrastructure chapters, and the references chapter. It
 prints a one-line summary — package count, reference count, chapter counts.
 
@@ -52,7 +52,7 @@ uv run python scripts/z_generate_manuscript_variables.py
 
 Resolves `{{SUITE_TITLE}}`, `{{N_PACKAGES}}`, `{{N_FILMS}}`, `{{N_INFRA}}`,
 `{{N_GATE_MEASURED}}` and writes the resolved tree to `output/manuscript/`. The
-renderer reads those copies, never `manuscript/` directly.
+renderer reads those copies, never `docs/manuscript/` directly.
 
 ## Render
 
@@ -75,12 +75,12 @@ Produces:
 grep -r "{{" output/manuscript/ && echo "UNRESOLVED" || echo "All tokens resolved"
 
 # regeneration is byte-stable
-uv run python scripts/generate_compendium.py && git diff --stat manuscript/
+uv run python scripts/generate_compendium.py && git diff --stat docs/manuscript/
 ```
 
 ## Command reference
 
-| Task | Command (from `bond-manuscript/`) |
+| Task | Command (from `bond-docs/manuscript/`) |
 | --- | --- |
 | Install | `uv sync --all-extras` |
 | Tests + coverage gate | `uv run pytest tests/ --cov=src --cov-fail-under=90` |

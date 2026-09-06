@@ -12,20 +12,20 @@ Never edit a sibling bond package, the bond root, or the template repository fro
 here. This tree is local-only and has no remote — never push.
 
 If a package chapter is wrong, the fix belongs in that package's
-`manuscript/00_abstract.md`, `manuscript/references.bib`, or
+`docs/manuscript/00_abstract.md`, `docs/manuscript/references.bib`, or
 `src/<slug>/mission.py` — not here. Report it rather than reaching across.
 
 ## 2. Generated sections are build output
 
 Owned by `scripts/generate_compendium.py` and rewritten on every run:
 
-- `manuscript/02_suite_architecture.md`
-- `manuscript/03_01_…` … `03_27_…` (film chapters)
-- `manuscript/04_01_…` … `04_06_…` (infrastructure chapters)
-- `manuscript/99_references.md`
-- `manuscript/references.bib`
+- `docs/manuscript/02_suite_architecture.md`
+- `docs/manuscript/03_01_…` … `03_27_…` (film chapters)
+- `docs/manuscript/04_01_…` … `04_06_…` (infrastructure chapters)
+- `docs/manuscript/99_references.md`
+- `docs/manuscript/references.bib`
 
-Hand-authored: `manuscript/00_abstract.md`, `01_introduction.md`, `90_closing.md`,
+Hand-authored: `docs/manuscript/00_abstract.md`, `01_introduction.md`, `90_closing.md`,
 `preamble.md`, `config.yaml`.
 
 Editing a generated file is a no-op that survives until the next build and then
@@ -82,7 +82,7 @@ grep -rn "^\(from\|import\) infrastructure" src/ || echo "Clean"
 uv run python scripts/generate_compendium.py
 
 # 4. Regeneration is byte-stable
-uv run python scripts/generate_compendium.py && git diff --stat manuscript/
+uv run python scripts/generate_compendium.py && git diff --stat docs/manuscript/
 ```
 
 ## See also

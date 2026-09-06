@@ -12,11 +12,11 @@ uv run python scripts/generate_compendium.py [--bond-root ..]
 ```
 
 **Inputs.** The 33 sibling package trees under the bond root — each package's
-`manuscript/00_abstract.md` (or its hydrated `output/manuscript/00_abstract.md`),
-`manuscript/references.bib`, `src/<slug>/mission.py`, and the fleet's
+`docs/manuscript/00_abstract.md` (or its hydrated `output/manuscript/00_abstract.md`),
+`docs/manuscript/references.bib`, `src/<slug>/mission.py`, and the fleet's
 `output/aggregate/gate_manifest.json` when present.
 
-**Writes**, all under `manuscript/`:
+**Writes**, all under `docs/manuscript/`:
 
 | Path | Content |
 | --- | --- |
@@ -50,7 +50,7 @@ uv run python scripts/z_generate_manuscript_variables.py
 
 Calls `bond_manuscript.manuscript_variables.generate_variables(bond_root=…)` and
 passes the result to `infrastructure.rendering.manuscript_injection.write_resolved_manuscript_tree`,
-which copies `manuscript/*.md` to `output/manuscript/*.md` with every `{{TOKEN}}`
+which copies `docs/manuscript/*.md` to `output/manuscript/*.md` with every `{{TOKEN}}`
 substituted. The renderer reads the resolved copies, never the originals.
 
 The script walks up from its own location to find the ancestor holding
@@ -64,19 +64,16 @@ every other stage produced.
 ## Inherited template stages
 
 `00_preflight.py`, `08_connector_search.py`, `09_provenance_record.py`, and
-`10_research_workflow.py` came with the project scaffold. Each computes the
-template root as `Path(__file__).resolve().parents[4]`, which resolves to
-`projects/` from this package's path rather than the repository root, so
-`import infrastructure` raises `ModuleNotFoundError`. None of them participates in
-the compendium build. Fix the depth calculation before wiring any of them in.
-
-## Non-functional leftovers
-
-`04_benchmark_stage.py`, `build_dashboard.py`, `generate_api_docs.py`, and
-`optimization_analysis.py` are unmodified orchestrators from the source exemplar.
-They import, respectively, a `benchmark_support` module, a `dashboard` module, a
-`documentation` module, and an `analysis` package — none of which this fork has
-ever had. Each fails at import. They are dead weight, not a contract.
+`10_research_workflow.py` came with the project scaffold and are thin stages
+around the vendored template infrastructure: preflight checks
+(`infrastructure.rendering.preflight`), connector search
+(`infrastructure.search.connectors`), provenance DAG recording
+(`infrastructure.provenance`), and the 7-stage research workflow
+(`infrastructure.research.config`). Each resolves `infrastructure` from
+`Path(__file__)` — the vendored mirror at `_template_resources/infrastructure/`
+— rather than counting `parents[N]` up a monorepo, and each fails loudly (a
+stderr message and exit 2) if that mirror is missing. None of them participates
+in the compendium build.
 
 ## Rules for a new script
 
@@ -86,8 +83,8 @@ ever had. Each fails at import. They are dead weight, not a contract.
    eventually delete a hand-authored file.
 3. Fail loudly. A build that quietly drops content is worse than one that stops.
 4. Resolve paths from `Path(__file__).resolve()`, never from the caller's cwd,
-   and never by a fixed `parents[N]` reach into the monorepo — the four inherited
-   stages above are what that costs.
+   and never by a fixed `parents[N]` reach into the monorepo — point at the
+   vendored mirror (`_template_resources/`) or walk up to a marker instead.
 
 ## See also
 

@@ -1,19 +1,19 @@
 # Output inventory
 
 Every artifact this package produces, and what produced it. Paths are relative to
-`projects/working/bond/bond-manuscript/`.
+`projects/working/bond/bond-docs/manuscript/`.
 
-## Generated inside `manuscript/`
+## Generated inside `docs/manuscript/`
 
 Tracked, because they are the manuscript — but never hand-edited.
 
 | Path | Content | Produced by |
 | --- | --- | --- |
-| `manuscript/references.bib` | Unified bibliography merged from all 33 packages, de-duplicated by case-insensitive canonical key and escaped for safe LaTeX output | `build_references_bib()` via `scripts/generate_compendium.py` |
-| `manuscript/02_suite_architecture.md` | Layer table, roster table, measured-gate table | `build_architecture_section()` |
-| `manuscript/03_01_…` … `03_27_…` | One chapter per film: header, concepts, imported abstract, sources | `build_package_section()` |
-| `manuscript/04_01_…` … `04_06_…` | One chapter per infrastructure package | `build_package_section()` |
-| `manuscript/99_references.md` | Bibliography listing grouped by source package | `build_references_section()` |
+| `docs/manuscript/references.bib` | Unified bibliography merged from all 33 packages, de-duplicated by case-insensitive canonical key and escaped for safe LaTeX output | `build_references_bib()` via `scripts/generate_compendium.py` |
+| `docs/manuscript/02_suite_architecture.md` | Layer table, roster table, measured-gate table | `build_architecture_section()` |
+| `docs/manuscript/03_01_…` … `03_27_…` | One chapter per film: header, concepts, imported abstract, sources | `build_package_section()` |
+| `docs/manuscript/04_01_…` … `04_06_…` | One chapter per infrastructure package | `build_package_section()` |
+| `docs/manuscript/99_references.md` | Bibliography listing grouped by source package | `build_references_section()` |
 
 ## Generated inside `output/`
 
@@ -39,7 +39,7 @@ Untracked and disposable.
 | `../<package>/manuscript/00_abstract.md` | `import_package_abstract()` |
 | `../<package>/output/manuscript/00_abstract.md` | `import_package_abstract()` — preferred when present |
 | `../<package>/output/{data,variables}/manuscript_variables.json` | `import_package_abstract()` for token resolution |
-| `../<package>/manuscript/references.bib` | `parse_references()` |
+| `../<package>/docs/manuscript/references.bib` | `parse_references()` |
 | `../<package>/src/<slug>/mission.py` | `_brief_line()` via `bond_api.discovery.load_provider` |
 | `../output/aggregate/gate_manifest.json` | `build_architecture_section()`, `generate_variables()` |
 

@@ -136,16 +136,19 @@ when `../output/aggregate/gate_manifest.json` is absent. When they skip, nothing
 is exercising the generator CLI or byte-stable regeneration. Regenerate the
 fleet's aggregate gate, or run the generator manually and diff.
 
-## `ModuleNotFoundError` from a script in `scripts/`
+## Script failures in `scripts/`
 
-Four scripts (`04_benchmark_stage.py`, `build_dashboard.py`,
-`generate_api_docs.py`, `optimization_analysis.py`) came from the source exemplar
-and import modules this package never had. Four more (`00_preflight.py`,
-`08_connector_search.py`, `09_provenance_record.py`, `10_research_workflow.py`)
-compute the template root by fixed directory depth and land on `projects/` from
-this package's deeper path. None of the eight participates in the compendium
-build — see [`../scripts/README.md`](../scripts/README.md). The two that matter
-are `generate_compendium.py` and `z_generate_manuscript_variables.py`.
+Four exemplar-leftover scripts (`04_benchmark_stage.py`, `build_dashboard.py`,
+`generate_api_docs.py`, `optimization_analysis.py`) imported modules this
+package never had; the 2026-09 scripts audit deleted them. The four remaining
+inherited stages (`00_preflight.py`, `08_connector_search.py`,
+`09_provenance_record.py`, `10_research_workflow.py`) import `infrastructure.*`
+from the vendored mirror at `_template_resources/infrastructure/`, resolved from
+`Path(__file__)`. If the mirror or its dependencies are missing, each stage
+prints the failing import to stderr and exits `2` — a loud, documented failure.
+None of the eight participates in the compendium build — see
+[`../scripts/README.md`](../scripts/README.md). The two that matter are
+`generate_compendium.py` and `z_generate_manuscript_variables.py`.
 
 ## `mmdc` cannot find Chrome during the combined PDF
 

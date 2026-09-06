@@ -7,7 +7,7 @@
 
 ```
 output/
-    manuscript/   token-resolved copies of manuscript/ — the renderer's input
+    docs/manuscript/   token-resolved copies of docs/manuscript/ — the renderer's input
     pdf/          bond-manuscript_combined.pdf + Pandoc/LaTeX intermediates
     web/          index.html + one HTML page per section
     slides/       one Beamer PDF per section + its LaTeX intermediates
@@ -24,12 +24,12 @@ LaTeX. It is gitignored along with the rest of `output/`.
 ## Two kinds of generated file
 
 The distinction that matters here is not source-versus-output — it is
-**generated inside `manuscript/`** versus **generated inside `output/`**.
+**generated inside `docs/manuscript/`** versus **generated inside `output/`**.
 
 | | Location | Written by | Tracked |
 | --- | --- | --- | --- |
-| Generated manuscript sections | `manuscript/02_suite_architecture.md`, `03_*`, `04_*`, `99_references.md`, `references.bib` | `scripts/generate_compendium.py` | yes — they are the manuscript |
-| Hand-authored sections | `manuscript/00_abstract.md`, `01_introduction.md`, `90_closing.md` | a human | yes |
+| Generated manuscript sections | `docs/manuscript/02_suite_architecture.md`, `03_*`, `04_*`, `99_references.md`, `references.bib` | `scripts/generate_compendium.py` | yes — they are the manuscript |
+| Hand-authored sections | `docs/manuscript/00_abstract.md`, `01_introduction.md`, `90_closing.md` | a human | yes |
 | Render artifacts | everything under `output/` | hydration + the template render stage | no |
 
 Editing a generated manuscript section is a no-op that survives until the next
@@ -42,8 +42,8 @@ Everything under `output/` derives from exactly four inputs:
 
 1. The 33 sibling package manuscripts, variables, bibliographies, and providers
 2. `bond_coordinator.registry.ROSTER` — canon film order and metadata
-3. `manuscript/` — the hand-authored boundaries plus the generated sections
-4. `manuscript/config.yaml` — paper metadata
+3. `docs/manuscript/` — the hand-authored boundaries plus the generated sections
+4. `docs/manuscript/config.yaml` — paper metadata
 
 ## Regenerating
 

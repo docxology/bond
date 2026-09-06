@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Provenance DAG recording stage.
 
-Reads the ``provenance:`` block from ``manuscript/config.yaml`` and, when
+Reads the ``provenance:`` block from ``docs/manuscript/config.yaml`` and, when
 enabled, records a provenance node for the current pipeline run to the
 content-addressed DAG store via the shared ``infrastructure.provenance``
 store — the same store class every other provenance-recording surface in
@@ -17,12 +17,18 @@ import sys
 from pathlib import Path
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-REPO_ROOT = Path(__file__).resolve().parents[4]
-sys.path.insert(0, str(REPO_ROOT))
+sys.path.insert(0, str(PROJECT_DIR / "_template_resources"))
 
-from infrastructure.core.logging.utils import get_logger  # noqa: E402
-from infrastructure.provenance import Provenance, RunNode  # noqa: E402
-from infrastructure.provenance.config import load_provenance_config  # noqa: E402
+try:
+    from infrastructure.core.logging.utils import get_logger  # noqa: E402
+    from infrastructure.provenance import Provenance, RunNode  # noqa: E402
+    from infrastructure.provenance.config import load_provenance_config  # noqa: E402
+except ImportError as _exc:  # pragma: no cover - vendored infra guard
+    sys.stderr.write(
+        "09_provenance_record: cannot import infrastructure "
+        f"({_exc}); expected the vendored mirror at _template_resources/infrastructure/\n"
+    )
+    raise SystemExit(2) from None
 
 logger = get_logger(__name__)
 

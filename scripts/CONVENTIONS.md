@@ -29,7 +29,7 @@ script, move it into `src/bond_manuscript/compendium.py` and write a test for it
 ## Resolve paths from the file, not the cwd
 
 ```python
-REPO = Path(__file__).resolve().parents[1]   # -> bond-manuscript/
+REPO = Path(__file__).resolve().parents[1]   # -> repo root
 ```
 
 Both active scripts are runnable from any working directory because of this. Do

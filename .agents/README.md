@@ -8,7 +8,7 @@ exemplar.
 | [`AGENTS.md`](AGENTS.md) | Per-folder technical reference and update policy. |
 | [`skills/`](skills/README.md) | Project-local skill catalog (`SKILL.md` + `AGENTS.md` + `README.md` per skill). |
 
-Start with [`skills/bond-manuscript/SKILL.md`](skills/bond-manuscript/SKILL.md)
+Start with [`skills/bond-docs/manuscript/SKILL.md`](skills/bond-docs/manuscript/SKILL.md)
 when working inside this exemplar — it carries when-to-use guidance, quick
 reference commands, and pitfalls. The technical contract for the whole
 exemplar is [`../AGENTS.md`](../AGENTS.md).

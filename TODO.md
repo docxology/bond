@@ -43,12 +43,12 @@ suite.
 *"Convergence Analysis of Gradient Descent Optimization"*, DOI **10.5281/zenodo.20417136**, repo
 `github.com/docxology/bond-manuscript`, plus eight declared mirror locations (GitHub Pages,
 HuggingFace, IPFS, Netlify, OSF, test.pypi, Software Heritage, a second version DOI
-`10.5281/zenodo.20931934`). None of that applies. `manuscript/config.yaml:21` explicitly declares
+`10.5281/zenodo.20931934`). None of that applies. `docs/manuscript/config.yaml:21` explicitly declares
 `doi: ""  # local-only compendium; no DOI minted` — the sidecars directly contradict the
 manuscript's own metadata. `STANDALONE.md:3-17` sits inside a
 `<!-- BEGIN:PUBLICATION_INDEX -->` block marked "do not hand-edit", so the fix is either to
 delete the sidecars (this tree is local-only and never pushed) or to regenerate them from
-`manuscript/config.yaml`.
+`docs/manuscript/config.yaml`.
 
 - **Files:** `.zenodo.json` (whole file), `CITATION.cff` (whole file), `codemeta.json` (whole
   file), `STANDALONE.md:3-17`.
@@ -61,7 +61,7 @@ delete the sidecars (this tree is local-only and never pushed) or to regenerate 
 
 #### C2. Bare `_` in merged bibliography fields drops LaTeX into math mode (89 errors)
 The last render logged **89 `^! ` errors** — 44 `Missing $ inserted`, 22 `Missing } inserted`,
-22 `Extra }`, 1 `Double subscript`. Cause: 14 field lines in the merged `manuscript/references.bib`
+22 `Extra }`, 1 `Double subscript`. Cause: 14 field lines in the merged `docs/manuscript/references.bib`
 carry an unescaped `_`, BibTeX copies them verbatim into `_combined_manuscript.bbl`, and TeX
 switches to math mode. Evidence: `output/pdf/_combined_manuscript.bbl:68` reads
 `poison_detect.antidote_plan.` and `output/pdf/_latex_stdout.log:563` is the matching
@@ -74,11 +74,11 @@ The compendium propagates them without escaping at three points:
 `compendium.py:510` (`latex_to_text` maps `r"\_": "_"`, actively **un**escaping a correctly
 escaped upstream underscore before `build_references_section` writes it into
 `99_references.md`). The upstream source is a sibling package (e.g.
-`../casino_royale_2006/manuscript/references.bib:154`) which is outside this package's write
+`../casino_royale_2006/docs/manuscript/references.bib:154`) which is outside this package's write
 scope, so the escape belongs in the merge.
 
 - **Files:** `src/bond_manuscript/compendium.py:277`, `:286-312`, `:510`, `:541-559`;
-  symptom in `manuscript/references.bib` lines 44, 60, 79, 659, 1846, 1871, 1878, 1886, 1896,
+  symptom in `docs/manuscript/references.bib` lines 44, 60, 79, 659, 1846, 1871, 1878, 1886, 1896,
   1906, 1916, 1930, 1940, 2277.
 - **Done when:** a fresh render logs **0** `^! ` lines, and no BibTeX field value in the merged
   bib contains an unescaped `_`.
@@ -86,7 +86,7 @@ scope, so the escape belongs in the merge.
   ```bash
   uv run python scripts/generate_compendium.py
   grep -nE "^\s+(note|title|author|journal|booktitle|publisher|howpublished|series)\s*=" \
-    manuscript/references.bib | grep -cE "[A-Za-z0-9)]_"     # expect 0
+    docs/manuscript/references.bib | grep -cE "[A-Za-z0-9)]_"     # expect 0
   # from the template root, after re-rendering:
   grep -c "^! " output/pdf/_latex_stdout.log                  # expect 0
   ```
@@ -94,7 +94,7 @@ scope, so the escape belongs in the merge.
 #### C3. `{{N_GATE_MEASURED}}` renders 34 in a chapter that just said 33
 `manuscript_variables.py:29-33` counts every row of `../output/aggregate/gate_manifest.json` that
 carries a numeric coverage. That manifest has **34** rows because `bond-manuscript` measures
-itself. `manuscript/90_closing.md:21` then reads "per package: {{N_GATE_MEASURED}} packages
+itself. `docs/manuscript/90_closing.md:21` then reads "per package: {{N_GATE_MEASURED}} packages
 measured, all passing" eighteen lines after `90_closing.md:3-4` states the suite is
 **{{N_PACKAGES}} packages** (= 33). The rendered PDF therefore says 33 packages and 34 measured.
 Either exclude self from the count or reword the closing to name the wrapper explicitly.
@@ -102,7 +102,7 @@ Either exclude self from the count or reword the closing to name the wrapper exp
 Measured this session: `generate_variables(bond_root=..)` →
 `{'N_FILMS': '27', 'N_INFRA': '6', 'N_PACKAGES': '33', 'N_GATE_MEASURED': '34'}`.
 
-- **Files:** `src/bond_manuscript/manuscript_variables.py:29-33`, `manuscript/90_closing.md:21`.
+- **Files:** `src/bond_manuscript/manuscript_variables.py:29-33`, `docs/manuscript/90_closing.md:21`.
 - **Done when:** the rendered closing's package count and measured count are mutually consistent,
   and a test pins the relationship.
 - **Demonstrate:**
@@ -112,23 +112,23 @@ Measured this session: `generate_variables(bond_root=..)` →
 `tests/test_compendium.py:118-127` (`test_script_smoke_regen`) and `:130-141`
 (`test_regeneration_is_deterministic`) invoke `scripts/generate_compendium.py` with
 `cwd=bond-manuscript`, so the generator deletes and rewrites the **real, git-tracked**
-`manuscript/` tree — 33 chapters plus `02_suite_architecture.md`, `99_references.md`, and
-`references.bib`. Confirmed this session: `manuscript/03_03_goldfinger.md`,
-`manuscript/references.bib`, and `manuscript/02_suite_architecture.md` all carry the mtime of my
+`docs/manuscript/` tree — 33 chapters plus `02_suite_architecture.md`, `99_references.md`, and
+`references.bib`. Confirmed this session: `docs/manuscript/03_03_goldfinger.md`,
+`docs/manuscript/references.bib`, and `docs/manuscript/02_suite_architecture.md` all carry the mtime of my
 `pytest` run. A read-only verification gate must not mutate versioned content; this is how the
 tree silently became dirty (see C11).
 
 - **Files:** `tests/test_compendium.py:118-141`; generator target
   `scripts/generate_compendium.py:48-52` (`_rm_owned`) and `:59` (`manuscript = REPO / "manuscript"`).
 - **Done when:** `generate_compendium.py` accepts an output directory (or the tests copy the tree
-  to `tmp_path` first), and a full `pytest` run leaves `git status --short manuscript/` empty on a
+  to `tmp_path` first), and a full `pytest` run leaves `git status --short docs/manuscript/` empty on a
   clean tree.
 - **Demonstrate:**
-  `git stash -u && uv run pytest tests/ -q && git status --short manuscript/` → no output.
+  `git stash -u && uv run pytest tests/ -q && git status --short docs/manuscript/` → no output.
 
-#### C5. Four scripts in `scripts/` are dead — they import modules this package does not have
+#### C5. ~~Four scripts in `scripts/` are dead — they import modules this package does not have~~ — RESOLVED 2026-09-06 (scripts audit: deleted)
 Probed this session from the **template root** with
-`uv run python projects/working/bond/bond-manuscript/scripts/<name>.py --help`:
+`uv run python projects/working/bond/bond-docs/manuscript/scripts/<name>.py --help`:
 
 | Script | Failure |
 | --- | --- |
@@ -148,10 +148,10 @@ not this item.
 
 - **Done when:** every file in `scripts/` either runs or is deleted.
 - **Demonstrate:** from the template root —
-  `for s in projects/working/bond/bond-manuscript/scripts/*.py; do [ "$(basename $s)" = "__init__.py" ] && continue; uv run python "$s" --help >/dev/null 2>&1 || echo "DEAD: $s"; done`
+  `for s in projects/working/bond/bond-docs/manuscript/scripts/*.py; do [ "$(basename $s)" = "__init__.py" ] && continue; uv run python "$s" --help >/dev/null 2>&1 || echo "DEAD: $s"; done`
   → no output.
 
-#### C6. Repo-root path arithmetic is off by one for this directory depth
+#### C6. ~~Repo-root path arithmetic is off by one for this directory depth~~ — RESOLVED 2026-09-06 (scripts audit: `scripts/` now import the vendored mirror at `_template_resources/infrastructure/` via `Path(__file__)`; `tests/conftest.py` guess fixed the same day)
 Every inherited script computes the template root for the layout
 `projects/templates/<name>/scripts/`. This package lives at
 `projects/working/bond/<name>/scripts/` — one level deeper — so all of them resolve to
@@ -189,7 +189,7 @@ The package cannot be synced on any other checkout or machine. Relative path dep
 #### C8. Package metadata still describes the optimizer exemplar, and disagrees with the manuscript
 `pyproject.toml:13` — `description = "Fully-tested codebase with numerical optimization and
 analysis"`. `pyproject.toml:11` declares `version = "2.5.2"` while
-`manuscript/config.yaml:10` declares `version: "1.0.0"`; nothing reconciles them.
+`docs/manuscript/config.yaml:10` declares `version: "1.0.0"`; nothing reconciles them.
 `pyproject.toml:20-22` also declares `numpy`, `matplotlib`, `pyyaml`, and `defusedxml`, none of
 which are imported by `src/bond_manuscript/` or by either live orchestrator (only `scipy` is
 genuinely required — `pyproject.toml:23-26` documents why: `die_another_day`'s provider imports it
@@ -204,7 +204,7 @@ and the compendium loads every provider).
 #### C9. The rendered PDF is stale relative to the manuscript tree
 `output/pdf/bond-manuscript_combined.pdf` is from 08:52; the generated manuscript sections are
 from 12:36. The content genuinely diverged — `output/pdf/_combined_manuscript.md` says
-*"the island posture is MODERATE"* for `dr_no` while `manuscript/03_01_dr_no.md:11` now says
+*"the island posture is MODERATE"* for `dr_no` while `docs/manuscript/03_01_dr_no.md:11` now says
 *"the island posture is HIGH"*. Anyone reading the checked-in PDF reads superseded fleet numbers.
 
 - **Done when:** the PDF is regenerated from the current tree (do C2 first, so the re-render is
@@ -214,17 +214,17 @@ from 12:36. The content genuinely diverged — `output/pdf/_combined_manuscript.
   then `grep -c "island posture is HIGH" output/pdf/_combined_manuscript.md` → 1.
 
 #### C10. Dangling pointer in hand-authored prose
-`manuscript/01_introduction.md:41` reads "Every chapter below (in the `Files` section) is
+`docs/manuscript/01_introduction.md:41` reads "Every chapter below (in the `Files` section) is
 **generated from…**". The compendium has no "Files" section — its sections are Abstract,
 Introduction, Suite Architecture, the 33 package chapters, Closing, and References. This is
 hand-authored text (`01_introduction.md` is one of the three protected boundaries per
 `AGENTS.md:14`), so the generator will not fix it.
 
 - **Done when:** the parenthetical names a section that exists, or is removed.
-- **Demonstrate:** ``grep -n '`Files`' manuscript/01_introduction.md`` → no output.
+- **Demonstrate:** ``grep -n '`Files`' docs/manuscript/01_introduction.md`` → no output.
 
 #### C11. 27 regenerated manuscript files are uncommitted
-`git status --short` shows 27 modified files under `manuscript/` (22 film chapters + 2 infra
+`git status --short` shows 27 modified files under `docs/manuscript/` (22 film chapters + 2 infra
 chapters + `02_suite_architecture.md` + `99_references.md` + `references.bib`), produced by
 generator runs — including the test-suite
 side effect in C4. They are correct output (they reflect current upstream package content), just
@@ -232,8 +232,8 @@ uncommitted, so `git diff` is permanently noisy and the next agent cannot tell t
 from drift. **Note:** other agents are active in this workspace; confirm ownership before
 committing, and commit by explicit pathspec.
 
-- **Done when:** `git status --short manuscript/` is empty.
-- **Demonstrate:** `git status --short manuscript/` → no output.
+- **Done when:** `git status --short docs/manuscript/` is empty.
+- **Demonstrate:** `git status --short docs/manuscript/` → no output.
 
 ---
 
@@ -247,8 +247,8 @@ post-regeneration. The test proves the generator is idempotent within one sessio
 fail because the checked-in manuscript has fallen behind the fleet. That is exactly the condition
 C11 describes, and it went unnoticed.
 
-- **Done when:** a test fails when the on-disk `manuscript/` differs from what the generator
-  would produce from the current fleet — generate into `tmp_path` and diff against `manuscript/`.
+- **Done when:** a test fails when the on-disk `docs/manuscript/` differs from what the generator
+  would produce from the current fleet — generate into `tmp_path` and diff against `docs/manuscript/`.
 - **Demonstrate:** touch any sibling package's `00_abstract.md`, run `uv run pytest tests/ -q`,
   observe a failure naming the stale chapter.
 
@@ -278,15 +278,15 @@ render: no BibTeX field value emitted by `build_references_bib` may contain an u
 #### V4. `N_GATE_MEASURED`, `SUITE_TITLE`, `SUITE_TITLE_SHORT` are unbound
 `tests/test_compendium.py:104-108` asserts only `N_PACKAGES`, `N_FILMS`, `N_INFRA`. The other
 three keys returned by `manuscript_variables.py:36-43` have no test. Worse, `SUITE_TITLE` and
-`SUITE_TITLE_SHORT` are generated but referenced **nowhere** in `manuscript/` —
-`grep -rn "SUITE_TITLE" manuscript/` returns nothing — so they are dead tokens that no rendered
+`SUITE_TITLE_SHORT` are generated but referenced **nowhere** in `docs/manuscript/` —
+`grep -rn "SUITE_TITLE" docs/manuscript/` returns nothing — so they are dead tokens that no rendered
 output would notice losing.
 
 - **Done when:** every key `generate_variables` returns is either asserted by a test or consumed
   by a manuscript section (and the unused ones are dropped).
 - **Demonstrate:**
   `uv run python -c "import sys;sys.path.insert(0,'src');from bond_manuscript.manuscript_variables import generate_variables as g;print(sorted(g().keys()))"`
-  cross-checked against `grep -oh "{{[A-Z_0-9]*}}" manuscript/*.md | sort -u`.
+  cross-checked against `grep -oh "{{[A-Z_0-9]*}}" docs/manuscript/*.md | sort -u`.
 
 #### V5. Unreachable defensive branch in the token resolver
 `compendium.py:191-193`:
@@ -344,7 +344,7 @@ documented a seven-module `src/` layout against the real three.
 
 **Fixed.** 24 files rewritten against the real tree: `src/{AGENTS,README,STYLE}.md`, all 13 files in
 `docs/`, `tests/{AGENTS,README,PATTERNS}.md`, `scripts/{AGENTS,README,CONVENTIONS}.md`,
-`manuscript/{AGENTS,SYNTAX,README}.md`, and `.agents/skills/bond-manuscript/{SKILL,AGENTS}.md`.
+`docs/manuscript/{AGENTS,SYNTAX,README}.md`, and `.agents/skills/bond-docs/manuscript/{SKILL,AGENTS}.md`.
 Shorter and true rather than long and inherited — `src/AGENTS.md` went from 411 lines to ~110.
 
 **Evidence.**
@@ -364,10 +364,8 @@ grep -rln "optimizer\.py\|experiment_config\|dashboard\.py\|convergence_plot\|gr
   --include="*.md" --exclude=TODO.md . | grep -v _template_resources | grep -v "\.venv/"
 ```
 
-→ `docs/troubleshooting.md`, `scripts/README.md`, `scripts/AGENTS.md`. In all three the only match is
-the substring `dashboard.py` inside **`build_dashboard.py`**, a script that really exists here. The
-pattern is unanchored; these are true references, not drift. Verify with
-`grep -noE "optimizer\.py|dashboard\.py|gradient descent" <file>`.
+Update 2026-09-06 (scripts audit): the four exemplar scripts were deleted and the three docs
+rewritten, so the enumeration grep above now returns nothing.
 
 #### D2. `README.md` and `AGENTS.md` state a test count and coverage that are both wrong
 `README.md:49` — "`tests/  18 tests, no mocks, ≥90% coverage on src/`".
@@ -389,7 +387,7 @@ no experiment, no figures, and no tables. `domain_profile.yaml:1-20` declares
 `domain: code_research`, `required_packages: numpy, matplotlib`, and the same three figure types.
 Both are read by template validation gates, so they are a live source of false expectations.
 
-`manuscript/layer_contract.yaml` is the same defect: it is headed "Code-centric exemplar" and
+`docs/manuscript/layer_contract.yaml` is the same defect: it is headed "Code-centric exemplar" and
 allow-lists `src/analysis/_infra.py`, `src/_runtime.py`, and `src/benchmark_support.py` for
 infrastructure imports — three files that do not exist here, against a `src/` that imports no
 infrastructure at all.
@@ -398,9 +396,9 @@ infrastructure at all.
   or are removed as not-applicable.
 - **Demonstrate:**
   `grep -rn "convergence_plot\|step_size\|objective_value" experiment_plan.yaml domain_profile.yaml`
-  → no output, and `manuscript/layer_contract.yaml` names only paths that exist.
+  → no output, and `docs/manuscript/layer_contract.yaml` names only paths that exist.
 
-#### D4. Eight of the ten runnable scripts are dead scaffold
+#### D4. ~~Eight of the ten runnable scripts are dead scaffold~~ — RESOLVED 2026-09-06 (scripts audit: the four exemplar leftovers were deleted; the four stage scripts were rewired to the vendored `_template_resources/infrastructure/` mirror)
 Found while rewriting the docs (D1); recorded here rather than fixed, because it is a code change.
 
 Four are unmodified exemplar orchestrators importing modules this fork never had, and fail at
@@ -488,14 +486,14 @@ is a design change, not a defect.
   (`compendium.py:341-347`). De-duplicating by DOI/title would need a matching heuristic that can
   silently drop a real citation.
 - **Sibling packages and the bond root are out of write scope.** Where a defect originates
-  upstream (C2's bare underscores come from `../casino_royale_2006/manuscript/references.bib:154`
+  upstream (C2's bare underscores come from `../casino_royale_2006/docs/manuscript/references.bib:154`
   and 18 other package bibliographies), the fix recorded here is the compendium-side one.
 
 ---
 
 ## Verification
 
-Run from `projects/working/bond/bond-manuscript/`. If `uv` reports
+Run from `projects/working/bond/bond-docs/manuscript/`. If `uv` reports
 `Failed to initialize cache at /Users/4d/.cache/uv`, re-run the same command outside the sandbox.
 
 ```bash
@@ -509,7 +507,7 @@ uv run mypy src/
 # 3. Regenerate the compendium. Expected exit 0 and
 #    "compendium written: 33 packages, N references, 27 film chapters, 6 infra chapters".
 #    A non-zero exit lists packages whose MissionProvider failed to import.
-#    NOTE (C4): this rewrites tracked files under manuscript/.
+#    NOTE (C4): this rewrites tracked files under docs/manuscript/.
 uv run python scripts/generate_compendium.py
 
 # 4. Hydrate {{TOKEN}}s. Expected: "[bond-manuscript] hydrated 6 tokens -> output/manuscript/".

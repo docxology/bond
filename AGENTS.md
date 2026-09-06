@@ -44,11 +44,11 @@ under any interpreter.
 | `src/bond_manuscript/compendium.py` | Discovery, abstract import, reference merge, section builders — pure; suite deps (bond_api/bond_coordinator) imported lazily |
 | `src/bond_manuscript/manuscript_variables.py` | `{{TOKEN}}` map from live discovery |
 | `scripts/` | Thin orchestrators (`generate_compendium.py`, `z_generate_manuscript_variables.py`) |
-| `manuscript/` | Wrapper sections + unified `references.bib` (generated sections regenerable) |
+| `docs/manuscript/` | Wrapper sections + unified `references.bib` (generated sections regenerable) |
 | `tests/` | Real fleet data, zero mocks, ≥90% coverage |
 
 ## Contact / context
 
 - Fleet roster + scope: `../SCOPE.md`, `../ROSTER.md`.
 - This project's source-of-truth inputs: every sibling package's
-  `manuscript/` + `output/data/manuscript_variables.json`.
+  `docs/manuscript/` + `output/data/manuscript_variables.json`.

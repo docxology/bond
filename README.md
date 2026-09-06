@@ -56,7 +56,7 @@ sections and bibliography (test-locked).
 src/bond_manuscript/   compendium.py (discovery, abstract import, bib merge, sections)
                        manuscript_variables.py ({{TOKEN}} map from live discovery)
 scripts/               generate_compendium.py · z_generate_manuscript_variables.py
-manuscript/            the wrapper manuscript (sections + unified references.bib)
+docs/manuscript/            the wrapper manuscript (sections + unified references.bib)
 tests/                 43 tests, no mocks, ≥90% coverage on src/
 ```
 

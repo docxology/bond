@@ -1,13 +1,12 @@
 # scripts/ — thin orchestrators
 
-Two scripts build the compendium. The rest are template pipeline stages inherited
-with the project scaffold; see the status column before running any of them.
+Scripts set paths and delegate into `src/bond_manuscript/` or the vendored
+template infrastructure under `_template_resources/`; they do not compute.
+Testable logic lives in `src/bond_manuscript/` and is covered by `tests/`.
 
 ## The two that matter
 
 ```bash
-cd projects/working/bond/bond-manuscript
-
 # 1. Regenerate the 33 package chapters, the architecture chapter,
 #    the references chapter, and the unified references.bib
 uv run python scripts/generate_compendium.py
@@ -22,27 +21,24 @@ content it should carry is not a successful build.
 
 ## Inventory
 
-| Script | Status | Role |
-| --- | --- | --- |
-| `generate_compendium.py` | **Active** | Writes the generated manuscript sections and the unified bibliography |
-| `z_generate_manuscript_variables.py` | **Active** | Computes the token map and writes the resolved tree to `output/manuscript/` |
-| `00_preflight.py` | Inherited stage | Manuscript pre-render check via `infrastructure.rendering.preflight` |
-| `08_connector_search.py` | Inherited stage | Opt-in connector search; no-ops without `connector_search.yaml` |
-| `09_provenance_record.py` | Inherited stage | Opt-in provenance DAG record |
-| `10_research_workflow.py` | Inherited stage | Opt-in research-workflow dispatch |
-| `04_benchmark_stage.py` | Non-functional | Imports a `benchmark_support` module this package does not have |
-| `build_dashboard.py` | Non-functional | Imports a `dashboard` module this package does not have |
-| `generate_api_docs.py` | Non-functional | Imports a `documentation` module this package does not have |
-| `optimization_analysis.py` | Non-functional | Imports an `analysis` package this package does not have |
+| Script | Purpose | Delegates to | Command |
+| --- | --- | --- | --- |
+| `generate_compendium.py` | Writes the generated manuscript sections and the unified bibliography | `bond_manuscript.compendium` | `uv run python scripts/generate_compendium.py` |
+| `z_generate_manuscript_variables.py` | Computes the token map and writes the resolved tree to `output/manuscript/` | `bond_manuscript.manuscript_variables`, `infrastructure.rendering.manuscript_injection` | `uv run python scripts/z_generate_manuscript_variables.py` |
+| `00_preflight.py` | Pre-render check: embedded mermaid blocks need a pinned chrome-headless-shell | `infrastructure.rendering.preflight` | `uv run python scripts/00_preflight.py` |
+| `08_connector_search.py` | Connector search; skips unless `connector_search.yaml` is present | `infrastructure.search.connectors` | `uv run python scripts/08_connector_search.py` |
+| `09_provenance_record.py` | Records a provenance DAG node for the pipeline run to `output/provenance/` | `infrastructure.provenance` | `uv run python scripts/09_provenance_record.py` |
+| `10_research_workflow.py` | Dispatches the 7-stage research workflow (log-only stages) | `infrastructure.research.config` | `uv run python scripts/10_research_workflow.py` |
 
-The four **inherited stages** resolve the template root by fixed directory depth
-(`Path(__file__).resolve().parents[4]`). That was correct at `projects/<lifecycle>/<project>/`;
-this package sits one level deeper, so the computed root is `projects/` and
-`import infrastructure` fails. They are not part of the compendium build.
+## Template infrastructure imports
 
-The four **non-functional** scripts came from the source exemplar and reference
-modules this fork never had. Running one fails immediately with
-`ModuleNotFoundError`. Nothing depends on them.
+The four stage scripts import `infrastructure.*` from the vendored mirror at
+`_template_resources/infrastructure/`, resolved from `Path(__file__)` — no
+fixed-depth reach into a monorepo. If the mirror or its dependencies are
+missing, each script prints the failing import to stderr and exits `2` instead
+of dying with a bare traceback. `z_generate_manuscript_variables.py` walks up to
+the nearest ancestor holding `infrastructure/rendering/` and, when none exists,
+prints the token map and returns `2`.
 
 ## Rendering
 
@@ -54,5 +50,5 @@ uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-ma
 
 ## More
 
-[`AGENTS.md`](AGENTS.md) documents what each active script writes and what it
+[`AGENTS.md`](AGENTS.md) documents what each script writes and what it
 protects. [`CONVENTIONS.md`](CONVENTIONS.md) covers how to write a new one.

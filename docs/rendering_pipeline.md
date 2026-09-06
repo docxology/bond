@@ -5,7 +5,7 @@ Each must finish before the next begins.
 
 ```
 generate_compendium.py  →  z_generate_manuscript_variables.py  →  stage_03_render.py
-   manuscript/*.md              output/manuscript/*.md              output/{pdf,web,slides}
+   docs/manuscript/*.md              output/manuscript/*.md              output/{pdf,web,slides}
 ```
 
 ## 1. Build the compendium
@@ -15,13 +15,13 @@ cd projects/working/bond/bond-manuscript
 uv run python scripts/generate_compendium.py [--bond-root ..]
 ```
 
-**Reads**, for every package under the bond root: `manuscript/00_abstract.md` (or
+**Reads**, for every package under the bond root: `docs/manuscript/00_abstract.md` (or
 the hydrated `output/manuscript/00_abstract.md` when present),
 `output/data/manuscript_variables.json` or `output/variables/manuscript_variables.json`,
-`manuscript/references.bib`, `src/<slug>/mission.py`. Also the fleet's
+`docs/manuscript/references.bib`, `src/<slug>/mission.py`. Also the fleet's
 `output/aggregate/gate_manifest.json` when it exists.
 
-**Writes**, into `manuscript/`:
+**Writes**, into `docs/manuscript/`:
 
 | File | Content |
 | --- | --- |
@@ -48,7 +48,7 @@ uv run python scripts/z_generate_manuscript_variables.py
 Computes the token map from live discovery via
 `bond_manuscript.manuscript_variables.generate_variables()` and calls
 `infrastructure.rendering.manuscript_injection.write_resolved_manuscript_tree`,
-which copies `manuscript/` to `output/manuscript/` with every `{{TOKEN}}`
+which copies `docs/manuscript/` to `output/manuscript/` with every `{{TOKEN}}`
 substituted. The tokens are `SUITE_TITLE`, `SUITE_TITLE_SHORT`, `N_FILMS`,
 `N_INFRA`, `N_PACKAGES`, `N_GATE_MEASURED`.
 
@@ -72,8 +72,8 @@ From the **template repository root**:
 uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-manuscript
 ```
 
-**Reads** `output/manuscript/*.md` (the resolved copies), `manuscript/config.yaml`,
-`manuscript/preamble.md`, and the unified `references.bib`.
+**Reads** `output/manuscript/*.md` (the resolved copies), `docs/manuscript/config.yaml`,
+`docs/manuscript/preamble.md`, and the unified `references.bib`.
 
 **Writes** under `output/`:
 
@@ -93,7 +93,7 @@ matters: `00_abstract`, `01_introduction`, `02_suite_architecture`, `03_*` films
 
 ## config.yaml
 
-`manuscript/config.yaml` carries paper metadata only — title, subtitle, version,
+`docs/manuscript/config.yaml` carries paper metadata only — title, subtitle, version,
 date, authors, keywords, license, language. There is no `experiment:` block: the
 compendium runs no experiment. `publication.doi` is empty because this is a
 local-only manuscript with no minted DOI.
