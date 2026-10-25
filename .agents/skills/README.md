@@ -6,7 +6,7 @@ contract), and `README.md` (pointer).
 
 | Skill | Purpose |
 | --- | --- |
-| [`bond-docs/manuscript/`](bond-docs/manuscript/README.md) | Drive this exemplar end-to-end (commands, pitfalls, contract traceability). |
+| [`bond-manuscript/`](bond-manuscript/README.md) | Drive this compendium end-to-end (commands, pitfalls, contract traceability). |
 
-Load [`bond-docs/manuscript/SKILL.md`](bond-docs/manuscript/SKILL.md)
-when working inside the exemplar or forking it as a scaffold.
+Load [`bond-manuscript/SKILL.md`](bond-manuscript/SKILL.md)
+when working inside the compendium or forking the generator.

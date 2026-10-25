@@ -45,13 +45,15 @@ percentage in prose here; name the command that produces it.
 ## Verification
 
 ```bash
-cd projects/working/bond/bond-manuscript
+# run from the repository root
 uv run pytest tests/ --cov=src --cov-fail-under=90
 grep -rn "^\(from\|import\) infrastructure" src/ || echo "Clean"
 uv run python scripts/generate_compendium.py
 
-# Fleet-wide documentation gate (phantom modules, mock frameworks, doc floors)
-cd .. && python3 _phase_docs_gate.py
+# Phantom-path rule from the fleet documentation gate (the gate itself lives in
+# the suite repository): every src/ path named in prose must exist
+git grep -hoE "src/[a-z_]+\.py" -- '*.md' | sort -u |
+  while read -r f; do [ -e "$f" ] || echo "MISSING: $f"; done
 ```
 
 ## Cross-references
@@ -61,4 +63,4 @@ cd .. && python3 _phase_docs_gate.py
 - [`../src/AGENTS.md`](../src/AGENTS.md) — the generator API
 - [`../tests/AGENTS.md`](../tests/AGENTS.md) — what the suite covers
 - [`../scripts/AGENTS.md`](../scripts/AGENTS.md) — orchestrator contract
-- [`../manuscript/AGENTS.md`](../manuscript/AGENTS.md) — manuscript directory rules
+- [`manuscript/AGENTS.md`](manuscript/AGENTS.md) — manuscript directory rules

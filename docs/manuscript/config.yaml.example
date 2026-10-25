@@ -35,7 +35,7 @@ publication:
   doi: ""  # Concept DOI — stable citation; PDF cover and CITATION.cff use this field only
   version_doi: ""  # Latest Zenodo version DOI; updated by publish_project_release.py when split layout is used
   version_record: ""  # https://zenodo.org/records/{id} for the latest deposit
-  github_repository: ""  # Pre-release bookends; e.g. docxology/bond-manuscript
+  github_repository: ""  # Pre-release bookends; e.g. docxology/bond
   # published_artifacts: {}  # optional; provider -> published-mirror URL, populated post-publication (e.g. ipfs_pinata, huggingface_hub, osf, pypi, netlify, github_pages, software_heritage)
   transmission_bookends:
     enabled: false

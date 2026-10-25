@@ -37,18 +37,15 @@ suite.
 
 ### Correctness — things that are wrong
 
-#### C1. Citation sidecars claim someone else's DOI, title, and repository
-`.zenodo.json`, `CITATION.cff`, `codemeta.json`, and `STANDALONE.md` are unmodified
-`template_code_project` scaffold. They assert, as machine-readable record, that this package is
-*"Convergence Analysis of Gradient Descent Optimization"*, DOI **10.5281/zenodo.20417136**, repo
-`github.com/docxology/bond-manuscript`, plus eight declared mirror locations (GitHub Pages,
-HuggingFace, IPFS, Netlify, OSF, test.pypi, Software Heritage, a second version DOI
-`10.5281/zenodo.20931934`). None of that applies. `docs/manuscript/config.yaml:21` explicitly declares
-`doi: ""  # local-only compendium; no DOI minted` — the sidecars directly contradict the
-manuscript's own metadata. `STANDALONE.md:3-17` sits inside a
-`<!-- BEGIN:PUBLICATION_INDEX -->` block marked "do not hand-edit", so the fix is either to
-delete the sidecars (this tree is local-only and never pushed) or to regenerate them from
-`docs/manuscript/config.yaml`.
+#### C1. ~~Citation sidecars claim someone else's DOI, title, and repository~~ — RESOLVED 2026-10-25
+`.zenodo.json`, `CITATION.cff`, and `codemeta.json` were regenerated from `docs/manuscript/config.yaml`
+(PROJECT BOND title, repo `github.com/docxology/bond`, version `1.0.0`, no foreign DOI or mirror
+location). `STANDALONE.md`'s `<!-- BEGIN:PUBLICATION_INDEX -->` block now carries this repository's
+own identity — repo, version `1.0.0`, concept DOI `10.5281/zenodo.21843592`, version DOI
+`10.5281/zenodo.21843802` — and declares no mirrors. For the record, the finding was: all four files
+were unmodified `template_code_project` scaffold asserting *"Convergence Analysis of Gradient Descent
+Optimization"*, DOI **10.5281/zenodo.20417136**, repo `github.com/docxology/bond-manuscript`, plus
+eight declared mirror locations.
 
 - **Files:** `.zenodo.json` (whole file), `CITATION.cff` (whole file), `codemeta.json` (whole
   file), `STANDALONE.md:3-17`.
@@ -223,7 +220,7 @@ hand-authored text (`01_introduction.md` is one of the three protected boundarie
 - **Done when:** the parenthetical names a section that exists, or is removed.
 - **Demonstrate:** ``grep -n '`Files`' docs/manuscript/01_introduction.md`` → no output.
 
-#### C11. 27 regenerated manuscript files are uncommitted
+#### C11. ~~27 regenerated manuscript files are uncommitted~~ — RESOLVED 2026-10-25 (`git status --short docs/manuscript/` is empty on the published tree)
 `git status --short` shows 27 modified files under `docs/manuscript/` (22 film chapters + 2 infra
 chapters + `02_suite_architecture.md` + `99_references.md` + `references.bib`), produced by
 generator runs — including the test-suite
@@ -367,7 +364,7 @@ grep -rln "optimizer\.py\|experiment_config\|dashboard\.py\|convergence_plot\|gr
 Update 2026-09-06 (scripts audit): the four exemplar scripts were deleted and the three docs
 rewritten, so the enumeration grep above now returns nothing.
 
-#### D2. `README.md` and `AGENTS.md` state a test count and coverage that are both wrong
+#### D2. ~~`README.md` and `AGENTS.md` state a test count and coverage that are both wrong~~ — RESOLVED 2026-10-25 (both now read "43 tests", which is the number of `def test_*` in `tests/test_compendium.py`; no "18 tests" or "≥91" remains)
 `README.md:49` — "`tests/  18 tests, no mocks, ≥90% coverage on src/`".
 `AGENTS.md:24` — "(18 tests, ≥91%)". Measured this session: **34 tests, 97.18 %**. Both numbers
 are hardcoded prose that drifts. Prefer a pointer to the measuring command over a literal;
@@ -458,10 +455,10 @@ is a design change, not a defect.
 
 ## Known limitations (not bugs)
 
-- **Local-only, never published.** This tree has no git remote and lives under
-  `projects/working/`, which the template's confidentiality invariant keeps untracked in the
-  public repo. That is why C1 is a metadata-hygiene item and not a disclosure incident — no
-  reader outside this machine sees the false DOI today.
+- **Published, but the fleet is not in the tree.** The compendium is public at
+  https://github.com/docxology/bond, while the 33 packages it imports chapters from are separate
+  checkouts: regeneration and the fleet-wide tests need `--bond-root` to resolve them, so a bare
+  clone of this repository can read the committed manuscript but cannot rebuild it.
 - **Cross-references from package abstracts are destroyed, not resolved.** `_strip_crossrefs`
   (`compendium.py:202-226`) turns `[@sec:results]` into "the results section" and deletes
   `@def:`/`@thm:`/`@fig:` pointers entirely, because those labels exist only inside the source
@@ -493,11 +490,13 @@ is a design change, not a defect.
 
 ## Verification
 
-Run from `projects/working/bond/bond-docs/manuscript/`. If `uv` reports
-`Failed to initialize cache at /Users/4d/.cache/uv`, re-run the same command outside the sandbox.
+Run from the repository root. If `uv` reports `Failed to initialize cache at …`, re-run the same
+command outside the sandbox.
 
 ```bash
-# 1. The gate. Expected: 34 passed, coverage >= 90% (97.18% at time of writing).
+# 1. The gate. Expected: all tests pass, coverage >= 90%. (In this standalone
+#    repository the fleet-wide tests cannot pass — the 33 sibling packages are
+#    absent; run it from a suite checkout where --bond-root resolves them.)
 uv run pytest tests/ --cov=src --cov-fail-under=90
 
 # 2. Lint + types. Expected: "All checks passed!" and "Success: no issues found in 3 source files".

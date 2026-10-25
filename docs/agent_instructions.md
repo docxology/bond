@@ -9,7 +9,8 @@ The rules below all follow from that.
 ## 1. Work only inside this directory
 
 Never edit a sibling bond package, the bond root, or the template repository from
-here. This tree is local-only and has no remote — never push.
+here. This tree is the published compendium — https://github.com/docxology/bond,
+default branch `main`.
 
 If a package chapter is wrong, the fix belongs in that package's
 `docs/manuscript/00_abstract.md`, `docs/manuscript/references.bib`, or
@@ -61,16 +62,19 @@ no `set` or `glob` ordering in anything that reaches a file.
 
 This documentation set was once 23 files describing a different project's modules.
 Before you write a file path, a function name, or a command into any doc here,
-run it or open it. The fleet docs gate re-checks this:
+run it or open it. This check re-runs the fleet gate's phantom-path rule
+(that gate itself lives in the suite repository, not in this one):
 
 ```bash
-cd projects/working/bond && python3 _phase_docs_gate.py 2>&1 | grep bond-manuscript -A20
+# from the repository root — every src/ path named in prose must exist
+git grep -hoE "src/[a-z_]+\.py|tests/test_[a-z_]+\.py" -- '*.md' | sort -u |
+  while read -r f; do [ -e "$f" ] || echo "MISSING: $f"; done
 ```
 
 ## Verification checklist
 
 ```bash
-cd projects/working/bond/bond-manuscript
+# run from the repository root
 
 # 1. Suite passes and coverage gate is met — confirm collected > 0, not just exit 0
 uv run pytest tests/ --cov=src --cov-fail-under=90

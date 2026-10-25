@@ -10,7 +10,7 @@ resolution-markers = [
 [[package]]
 name = "bond-api"
 version = "0.1.0"
-source = { directory = "/Users/4d/Documents/GitHub/template/projects/working/bond/bond-api" }
+source = { directory = "../bond-api" }
 dependencies = [
     { name = "pyyaml" },
 ]
@@ -37,7 +37,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "bond-api", directory = "/Users/4d/Documents/GitHub/template/projects/working/bond/bond-api" },
+    { name = "bond-api", directory = "../bond-api" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.10.0" },
     { name = "numpy", marker = "extra == 'dev'", specifier = ">=1.24.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4.0" },

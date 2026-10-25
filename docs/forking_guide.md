@@ -73,23 +73,24 @@ of it. Every test passed, coverage stayed above the gate, and the
 lint and drift checkers were clean the whole time, because none of them reads
 prose against the tree.
 
-If you fork this package, rewrite the docs in the same commit. The fleet gate
-catches the specific case of a backticked `src/…py` path that does not resolve:
+If you fork this package, rewrite the docs in the same commit. The fleet gate in
+the suite repository catches the specific case of a backticked `src/…py` path
+that does not resolve; the repo-local equivalent is:
 
 ```bash
-cd projects/working/bond && python3 _phase_docs_gate.py
+git grep -hoE "src/[a-z_]+\.py" -- '*.md' | sort -u |
+  while read -r f; do [ -e "$f" ] || echo "MISSING: $f"; done
 ```
 
 It does not catch a doc that describes a function that no longer behaves that
 way. Only reading does.
 
-## Confidentiality
+## Publication
 
-This tree lives under `projects/working/` and is local-only: never tracked in the
-public template repository, never pushed. A fork placed anywhere under
-`projects/` other than `projects/templates/` inherits the same fence, enforced by
-the repository-root `scripts/audit/check_tracked_all.py` in the `lint` job and pre-push
-hook.
+This tree is the public compendium for the PROJECT BOND suite:
+https://github.com/docxology/bond, default branch `main`. The 33 packages it
+imports chapters from are separate checkouts; a fork needs those sibling trees
+(or their manuscripts) before `generate_compendium.py` can run.
 
 ## See also
 

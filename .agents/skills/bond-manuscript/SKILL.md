@@ -9,8 +9,9 @@ tags: [compendium, manuscript, generator, thin-orchestrator]
 
 # bond-manuscript
 
-Project-scoped skill for `projects/working/bond/bond-docs/manuscript/`, the wrapper
-manuscript for the PROJECT BOND suite. Load this when working inside the package.
+Project-scoped skill for the wrapper manuscript of the PROJECT BOND suite
+(public source: https://github.com/docxology/bond, branch `main`). Load this
+when working inside the package.
 
 ## What it does
 
@@ -35,8 +36,7 @@ The implementation is two modules: `src/bond_manuscript/compendium.py` and
 ## Quick reference
 
 ```bash
-cd projects/working/bond/bond-manuscript
-
+# run from the repository root
 uv sync --all-extras
 uv run pytest tests/ --cov=src --cov-fail-under=90
 uv run python scripts/generate_compendium.py                # exit 1 = a provider failed to load
@@ -59,8 +59,11 @@ uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-ma
 - **Determinism is tested.** Roster order and `OrderedDict`, no timestamps.
 - **`uv sync --all-extras`.** A bare `uv sync` prunes pytest and the suite then
   collects zero tests while exiting 0.
-- **Most of `scripts/` is dead scaffold.** Only `generate_compendium.py` and
-  `z_generate_manuscript_variables.py` are part of the build.
+- **`scripts/` is thin orchestrators.** `generate_compendium.py` and
+  `z_generate_manuscript_variables.py` are the build; the four stage scripts
+  (`00_preflight`, `08_connector_search`, `09_provenance_record`,
+  `10_research_workflow`) drive the template pipeline and need the vendored
+  `_template_resources/infrastructure/` mirror.
 
 ## Cross-refs
 

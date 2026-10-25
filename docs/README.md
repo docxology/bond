@@ -57,7 +57,7 @@ LaTeX run.
 ## Verification commands
 
 ```bash
-cd projects/working/bond/bond-manuscript
+# run from the repository root
 
 # Tests and coverage gate
 uv run pytest tests/ --cov=src --cov-fail-under=90
@@ -74,4 +74,4 @@ uv run python scripts/generate_compendium.py
 - [`../README.md`](../README.md) — what the compendium is, in one page
 - [`../AGENTS.md`](../AGENTS.md) — project contract
 - [`../TODO.md`](../TODO.md) — known gaps, ranked
-- [`../manuscript/AGENTS.md`](../manuscript/AGENTS.md) — manuscript directory rules
+- [`manuscript/AGENTS.md`](manuscript/AGENTS.md) — manuscript directory rules

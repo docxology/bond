@@ -121,5 +121,5 @@ closers.
 ## See also
 
 - [`rendering_pipeline.md`](rendering_pipeline.md) — where tokens are resolved
-- [`../manuscript/SYNTAX.md`](../manuscript/SYNTAX.md) — the same rules, at the manuscript
+- [`manuscript/SYNTAX.md`](manuscript/SYNTAX.md) — the same rules, at the manuscript
 - [`../src/AGENTS.md`](../src/AGENTS.md) — `latex_to_text` and `_strip_crossrefs`

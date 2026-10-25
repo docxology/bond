@@ -80,15 +80,14 @@ uv run python scripts/generate_compendium.py && git diff --stat docs/manuscript/
 
 ## Command reference
 
-| Task | Command (from `bond-docs/manuscript/`) |
+| Task | Command (from the repository root) |
 | --- | --- |
 | Install | `uv sync --all-extras` |
 | Tests + coverage gate | `uv run pytest tests/ --cov=src --cov-fail-under=90` |
 | Build the compendium | `uv run python scripts/generate_compendium.py` |
 | Hydrate tokens | `uv run python scripts/z_generate_manuscript_variables.py` |
-| Render (from template root) | `uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-manuscript` |
+| Render (from the suite/template root) | `uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-manuscript` |
 | Clean outputs | `rm -rf output/` |
-| Fleet docs gate (from `../`) | `python3 _phase_docs_gate.py` |
 
 ## Next
 

@@ -8,7 +8,10 @@ package and merges every package's references into one bibliography.
 
 1. **Work only inside this directory.** Never edit sibling bond packages, bond
    root files, or the template repo.
-2. **Local-only.** No remote; never push.
+2. **Published repository.** The public source is
+   https://github.com/docxology/bond (default branch `main`); pushing there is
+   normal maintenance. This tree is public, so never commit credentials,
+   absolute machine paths, or unpublished package content.
 3. **Generated sections are never hand-edited.** `02_suite_architecture.md`,
    `03_*`, `04_*`, `99_references.md`, and `references.bib` are owned by
    `scripts/generate_compendium.py` and regenerated — edit the generator or the
@@ -49,6 +52,9 @@ under any interpreter.
 
 ## Contact / context
 
-- Fleet roster + scope: `../SCOPE.md`, `../ROSTER.md`.
-- This project's source-of-truth inputs: every sibling package's
-  `docs/manuscript/` + `output/data/manuscript_variables.json`.
+- The fleet roster is read at runtime from `bond_coordinator.registry.ROSTER`;
+  the suite's own `SCOPE.md` / `ROSTER.md` live in the suite checkout, not in
+  this repository.
+- Source-of-truth inputs live outside this repository: every sibling package's
+  `docs/manuscript/` + `output/data/manuscript_variables.json`, resolved from
+  `--bond-root` (default `../..`, the suite root in the monorepo layout).

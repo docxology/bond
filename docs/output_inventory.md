@@ -1,7 +1,7 @@
 # Output inventory
 
 Every artifact this package produces, and what produced it. Paths are relative to
-`projects/working/bond/bond-docs/manuscript/`.
+this repository's root.
 
 ## Generated inside `docs/manuscript/`
 
@@ -64,4 +64,4 @@ confirm the second run changes nothing.
 
 - [`output_conventions.md`](output_conventions.md) — layout and regeneration policy
 - [`rendering_pipeline.md`](rendering_pipeline.md) — the three build steps
-- [`../manuscript/AGENTS.md`](../manuscript/AGENTS.md) — which sections are generated
+- [`manuscript/AGENTS.md`](manuscript/AGENTS.md) — which sections are generated

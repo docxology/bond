@@ -60,4 +60,7 @@ docs/manuscript/            the wrapper manuscript (sections + unified reference
 tests/                 43 tests, no mocks, ≥90% coverage on src/
 ```
 
-Local-only workspace tree under `projects/working/` — never pushed.
+The 33 source packages this compendium imports from live outside this
+repository: `scripts/generate_compendium.py` resolves the suite root from
+`--bond-root` (default `../..`) and needs those sibling checkouts to regenerate
+the chapters. The published tree carries the wrapper plus its generated sections.
