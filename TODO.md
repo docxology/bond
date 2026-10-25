@@ -395,6 +395,21 @@ infrastructure at all.
   `grep -rn "convergence_plot\|step_size\|objective_value" experiment_plan.yaml domain_profile.yaml`
   → no output, and `docs/manuscript/layer_contract.yaml` names only paths that exist.
 
+#### D5. The documented lint/type gates are not declared in this package
+`AGENTS.md` and the verification block below cite `uv run ruff check src/ scripts/ tests/` and
+`uv run mypy src/`, but `[project.optional-dependencies].dev` declares only `pytest` and
+`pytest-cov`; both tools resolve from the suite root's workspace environment instead. Run against a
+current ruff (0.17.2, default rule set), this package's own `src/`, `scripts/`, and `tests/` report
+**39 findings** — 12 RUF100 `unused-noqa`, 10 UP037 `quoted-annotation`, 6 EXE001
+`shebang-not-executable`, 4 N999 `invalid-module-name`, 3 FURB167, 2 I001, 1 RUF022, 1 RUF059.
+That is rule-set drift since the last monorepo run, not a regression from any change made here.
+
+- **Done when:** either the two tools are declared in `dev` (with `uv.lock` regenerated in the suite
+  workspace) or the docs stop presenting them as this package's gates — and the 39 findings are
+  fixed or silenced by an explicit `[tool.ruff.lint]` selection.
+- **Demonstrate:** `uv run --no-project --with ruff ruff check src/ scripts/ tests/` → `All checks
+  passed!`.
+
 #### D4. ~~Eight of the ten runnable scripts are dead scaffold~~ — RESOLVED 2026-09-06 (scripts audit: the four exemplar leftovers were deleted; the four stage scripts were rewired to the vendored `_template_resources/infrastructure/` mirror)
 Found while rewriting the docs (D1); recorded here rather than fixed, because it is a code change.
 

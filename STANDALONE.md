@@ -31,9 +31,10 @@ and renders a single combined PDF.
   them to be importable at module load.
 - `scripts/generate_compendium.py`, `scripts/z_generate_manuscript_variables.py`
   — the two build orchestrators.
-- `uv run pytest tests/ --cov=src --cov-fail-under=90`,
-  `uv run ruff check src/ scripts/ tests/`, `uv run mypy src/` — the documented
-  gates, run from the repository root.
+- `uv run pytest tests/ --cov=src --cov-fail-under=90` — the documented test gate,
+  run from the repository root. `uv run ruff check src/ scripts/ tests/` and
+  `uv run mypy src/` need the suite root's dev environment: this package's `dev`
+  extra declares only pytest and pytest-cov.
 
 ## What needs the sibling packages
 

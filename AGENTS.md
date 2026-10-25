@@ -24,7 +24,9 @@ package and merges every package's references into one bibliography.
 6. **Deterministic.** `generate_compendium.py` is byte-stable; rendering must
    be reproducible.
 7. **Quality gates.** `uv run pytest tests/ --cov=src --cov-fail-under=90`
-   (43 tests, ≥90%), ruff + mypy clean, no mocks.
+   (43 tests, ≥90%), ruff + mypy clean, no mocks. ruff and mypy resolve from the
+   suite root's workspace environment — this package's `dev` extra declares only
+   pytest and pytest-cov.
 
 ## Regenerate + render
 
