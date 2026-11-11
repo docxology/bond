@@ -614,3 +614,27 @@ manuscript (subsections, math, and figures all present).
   regens). A final fresh regeneration was run at the end, as the handoff
   requires; if a downstream package changed after this commit, re-run
   `generate_compendium.py` + `z_generate_manuscript_variables.py` + render.
+
+## Workflowz review — 2026-11-10
+
+Bounded review of the wrapper manuscript package: root `AGENTS.md`, `README.md`, `pyproject.toml`, `.python-version`, the existing `TODO.md`, and the supplied excerpts under `_template_resources/infrastructure/`. The compendium has two actively maintained source files (`compendium.py`, `manuscript_variables.py`) plus thin orchestrators; the existing `TODO.md` already tracks the open C2/C3/C4/C7 items with fresh resolution notes for C1/C5/C6. One new concrete inconsistency surfaced by this packet, stated below with exact evidence.
+
+### Correctness — things that are wrong
+
+#### W1. `pyproject.toml` `dev` extra omits `ruff` and `mypy` even though `AGENTS.md` declares them as quality gates runnable via `uv run`
+`AGENTS.md:26-29` documents the package's quality gates as `uv run pytest tests/ --cov=src --cov-fail-under=90`, "ruff + mypy clean", and explicitly rationalises the omission by saying "ruff and mypy resolve from the suite root's workspace environment — this package's `dev` extra declares only pytest and pytest-cov." That is a real external-environment coupling: a reader cloning `docxology/bond` standalone (the public repository this file ships in) cannot reproduce the documented `uv run ruff check src/ scripts/ tests/` gate without first standing up the suite workspace, which `AGENTS.md:9-10` simultaneously forbids editing. The two claims ("these are the package's quality gates" and "they only resolve via the suite root") contradict for the standalone-checkout case that `README.md:11-16` advertises as the public release.
+
+- **Files:** `AGENTS.md:26-29` (gate declaration + rationale), `pyproject.toml:41-45` (`dev = ["pytest>=7.4.0", "pytest-cov>=4.1.0"]`), `pyproject.toml:82-98` (a `[tool.mypy]` section this package ships but cannot itself run without the workspace).
+- **Done when:** one of the two is true, and the doc agrees: (a) `dev` grows `ruff` and `mypy` pins so `uv run --extra dev ruff check src/ scripts/ tests/` and `uv run --extra dev mypy src/` work in a clean standalone clone of this repo, or (b) `AGENTS.md` and `README.md` state plainly that the ruff/mypy gates are only runnable from the suite workspace and are not standalone-checkout gates, with the standalone gate set reduced to pytest.
+- **Demonstrate:** from a clean clone of `docxology/bond` at the repo root, with no sibling checkouts present —
+  ```bash
+  uv venv .venv-review && uv pip install -e '.[dev]'
+  uv run ruff check src/ scripts/ tests/    # today: fails to resolve ruff
+  uv run mypy src/                          # today: fails to resolve mypy
+  ```
+  Expected after fix: either both commands run and exit 0, or `AGENTS.md` no longer lists ruff/mypy as gates for this package and the probe is reduced to `uv run pytest tests/ -q` passing standalone.
+- **Dependencies/constraints:** none beyond choosing option (a) or (b). Option (a) must respect the existing `[[tool.mypy.overrides]]` `ignore_missing_imports = true` block at `pyproject.toml:96-98` for `infrastructure.*` so the standalone mypy run remains meaningful rather than noisy; do not loosen that override.
+
+### Coverage note
+
+Inspected: root `AGENTS.md`, `README.md`, `TODO.md`, `pyproject.toml`, `.python-version` (`3.15`), and the supplied excerpts of `_template_resources/infrastructure/{provenance,llm/cli,validation/cli,search/connectors,search/exa,skills,benchmark,prose,publishing,sia,doctor,core/pipeline}/__main__.py`, `_template_resources/infrastructure/core/cli.py`, `_template_resources/infrastructure/core/config/cli.py`, `_template_resources/infrastructure/orchestration/cli.py`, `_template_resources/infrastructure/search/connectors/cli.py`, `_template_resources/infrastructure/search/literature/client.py`, `_template_resources/infrastructure/rendering/cli.py`, `_template_resources/infrastructure/publishing/archival/orchestrate.py`, `_template_resources/infrastructure/reporting/pipeline_report_model.py`. The `_template_resources/` tree is a vendored mirror of the template infrastructure (per `TODO.md` C6 resolution note) and is excluded from production-substitute flagging; the `try/except ImportError` fallbacks seen there (`pipeline_report_model.py:12-15`, `core/config/cli.py:42-50`) are intentional compatibility/degraded-mode adapters, not silent substitutes, and the broad `except Exception` handlers at CLI top levels (`core/cli.py:74`, `rendering/cli.py:138`) are appropriate boundary catches, not findings. The Python pin `3.15` in `.python-version` is left alone: `pyproject.toml:16` declares `requires-python = ">=3.11"`, and the scientific-stack floor pins (`numpy>=1.24.0`, `scipy>=1.10.0`, `matplotlib>=3.7.0` at `pyproject.toml:18-25`) plus the compendium's dependency on sibling `bond-api`/`bond-coordinator`/`bond-utilities` wheels are a real reproducibility constraint; there is no evidence in this packet that the sibling packages publish 3.15.2-compatible artifacts, so no blind bump is proposed. Re-review trigger: a resolution of the open C7 (`pyproject.toml` `[tool.uv.sources]` absolute-path) item, since how C7 is fixed determines whether option (a) or (b) above is the right shape.
