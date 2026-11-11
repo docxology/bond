@@ -7,6 +7,7 @@ import os
 import re
 import urllib.error
 import urllib.request
+from urllib.parse import urlparse
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -84,8 +85,10 @@ class PublicationRecord:
     def github_url_path(self) -> str:
         """Return the GitHub url path."""
         url = self.repository_url
-        if url and "github.com/" in url:
-            return url.split("github.com/", 1)[1].strip("/")
+        if url:
+            parsed = urlparse(url)
+            if (parsed.hostname or "").lower() in ("github.com", "www.github.com"):
+                return parsed.path.strip("/")
         return ""
 
     @property
