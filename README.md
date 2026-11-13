@@ -5,6 +5,8 @@ manuscript the template renders: one chapter imported from each package's own
 manuscript, framed by an introduction and a closing, with a **unified
 bibliography** merged from every package's `references.bib`.
 
+<p align="center"><img src="docs/manuscript/assets/project_bond_cover.png" alt="Project Bond cover" width="320"></p>
+
 **Codename:** THE COMPENDIUM · **Rendered PDF:** `output/pdf/bond-manuscript_combined.pdf`
 
 ## Public release
