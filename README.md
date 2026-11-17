@@ -76,9 +76,20 @@ uv run python scripts/generate_compendium.py
 # 2. Hydrate {{TOKEN}}s into output/manuscript/
 uv run python scripts/z_generate_manuscript_variables.py
 
-# 3. Render the wrapper PDF via the template pipeline (from the repo root)
+# 3. Render the wrapper PDF via the template pipeline (from the template root)
 uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-manuscript
 ```
+
+Generation reads each sibling's `manuscript/` and writes the wrapper's
+`docs/manuscript/`. Hydration uses the enclosing template's renderer in a
+template checkout, or the pinned renderer in `_template_resources/` in a
+standalone checkout.
+
+The wrapper reads `output/aggregate/gate_manifest.json` from the suite root.
+Bond-ops v1 coverage and gate outcomes are shown as measured, including failed
+rows and the stages covered by reported passes. Older `packages` manifests keyed by `package`
+supply coverage only. The coordinator's legacy producer has a separate input
+contract for test counts and return codes.
 
 `generate_compendium.py` is deterministic: re-running it produces byte-identical
 sections and bibliography (test-locked).

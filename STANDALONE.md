@@ -39,7 +39,7 @@ and renders a single combined PDF.
 ## What needs the sibling packages
 
 Regenerating the compendium reads the other 33 packages from the suite root
-(`--bond-root`, default `../..`): each package's `docs/manuscript/`,
+(`--bond-root`, default `..`): each package's `manuscript/`,
 `output/data/manuscript_variables.json`, `references.bib`, and its live
 `MissionProvider`. A checkout without them can read the committed manuscript but
 cannot rebuild it, and the fleet-wide tests that assert per-package chapters fail
