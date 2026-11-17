@@ -29,9 +29,9 @@ dependencies = [
 ]
 
 # Local path dependencies so the compendium can import each package's manuscript,
-# the coordinator roster (canonical film metadata), and the frozen protocol.
+# the coordinator roster (canonical film metadata), and the frozen protocol;
+# bond-api resolves through bond-coordinator's vendored copy (single source).
 [tool.uv.sources]
-bond-api = { path = "../bond-api" }
 bond-coordinator = { path = "../bond-coordinator" }
 bond-utilities = { path = "../bond-utilities" }
 
