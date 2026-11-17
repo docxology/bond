@@ -9,6 +9,37 @@ bibliography** merged from every package's `references.bib`.
 
 **Codename:** THE COMPENDIUM · **Rendered PDF:** `output/pdf/bond-manuscript_combined.pdf`
 
+## System architecture
+
+```mermaid
+flowchart TD
+    accTitle: PROJECT BOND 33-package layered architecture and compendium dataflow
+    accDescr: Operator commands enter bond-cli and fleet audits run through bond-ops at Layer 4. bond-cli delegates roster and gate status to bond-coordinator at Layer 2, multi-film DAG runs to bond-orchestrator at Layer 3, and single-film lifecycle or gadget calls to bond-api at Layer 1. The 27 per-film packages implement the frozen bond-api MissionProvider contract and consume Layer 0 bond-utilities primitives. The bond compendium hub imports hydrated manuscripts, figures, live MissionProvider metadata and BibTeX references from all 33 packages into one unified publication.
+    CLI["Layer 4 · bond-cli (THE FRONT DOOR)<br/>Verb-first dispatch: list, status, whois, run, brief..debrief, gadgets"]
+    OPS["Layer 4 · bond-ops (QUARTERMASTER)<br/>Read-only 33-repo inventory, pytest/ruff gate runner and git health"]
+    COORD["Layer 2 · bond-coordinator (MISSION CONTROL)<br/>27-film canonical roster, reconcile, lifecycle ledger and situation room"]
+    ORCH["Layer 3 · bond-orchestrator (DAG 00)<br/>Topological film DAG runner, checkpoint/resume, retry and provenance"]
+    API["Layer 1 · bond-api (THE PROTOCOL)<br/>Frozen MissionProvider contract, GadgetRegistry and slug discovery"]
+    FILMS["27 Per-Film Packages (dr_no .. no_time_to_die)<br/>Pure domain cores + mission.py MissionProvider adapters"]
+    UTIL["Layer 0 · bond-utilities (Q-BRANCH)<br/>Deterministic ciphers, codenames, clock, seeded RNG and provenance I/O"]
+    HUB["Hub · bond-manuscript (THE COMPENDIUM)<br/>Imports 27 film + 6 infra manuscripts, figures and unified references.bib"]
+
+    CLI -->|"list, status, whois, roster-export"| COORD
+    CLI -->|"run, missions"| ORCH
+    CLI -->|"brief..debrief, gadgets"| API
+    OPS -->|"gate manifest JSON"| COORD
+    OPS -.->|"audits 33 checkouts"| FILMS
+    COORD -->|"reconcile via discovery"| API
+    ORCH -->|"FilmProviderAdapter"| API
+    API -->|"load_provider(slug)"| FILMS
+    FILMS -->|"shared primitives"| UTIL
+    API -->|"field primitives"| UTIL
+    FILMS -->|"manuscripts, tokens and BibTeX"| HUB
+    OPS -->|"measured gate and infra chapters"| HUB
+```
+
+**Source map:** [`compendium.py`](src/bond_manuscript/compendium.py), [`manuscript_variables.py`](src/bond_manuscript/manuscript_variables.py), [`02_suite_architecture.md`](docs/manuscript/02_suite_architecture.md), [`generate_compendium.py`](scripts/generate_compendium.py).
+
 ## Public release
 
 The public source repository is https://github.com/docxology/bond. The v1.0.0
