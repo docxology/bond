@@ -38,9 +38,9 @@ build and is then gone.
 
 | You want to change | Edit |
 | --- | --- |
-| A film's abstract text | that package's `docs/manuscript/00_abstract.md` |
+| A film's abstract text | that package's `manuscript/00_abstract.md` |
 | A film's codename or objectives | that package's `src/<slug>/mission.py` |
-| A citation in a chapter | that package's `docs/manuscript/references.bib` |
+| A citation in a chapter | that package's `manuscript/references.bib` |
 | The shape of every chapter | `build_package_section()` in `src/bond_manuscript/compendium.py` |
 | The architecture chapter | `build_architecture_section()` |
 | The wrapper's own framing | `00_abstract.md`, `01_introduction.md`, `90_closing.md` |

@@ -24,7 +24,7 @@ package and merges every package's references into one bibliography.
 6. **Deterministic.** `generate_compendium.py` is byte-stable; rendering must
    be reproducible.
 7. **Quality gates.** `uv run pytest tests/ --cov=src --cov-fail-under=90`
-   (43 tests, ≥90%), ruff + mypy clean, no mocks. ruff and mypy resolve from the
+   (≥90%), ruff + mypy clean, no mocks. ruff and mypy resolve from the
    suite root's workspace environment — this package's `dev` extra declares only
    pytest and pytest-cov.
 
@@ -37,10 +37,11 @@ uv run python scripts/z_generate_manuscript_variables.py      # hydrate tokens
 uv run python scripts/pipeline/stage_03_render.py --project working/bond/bond-manuscript
 ```
 
-The renderer hydrates with this package's own `.venv` python; the
-`z_generate_manuscript_variables.py` script self-locates the template root
-(ancestor holding `infrastructure/rendering/`) so `infrastructure` imports
-under any interpreter.
+The template renderer hydrates with this package's own `.venv` Python and
+loads rendering infrastructure from the template ancestor. A standalone
+checkout hydrates with the rendering infrastructure bundled in
+`_template_resources/`. Both paths read `docs/manuscript/` and write
+`output/manuscript/`. The PDF command runs from the template root.
 
 ## Layer contract
 
@@ -58,5 +59,5 @@ under any interpreter.
   the suite's own `SCOPE.md` / `ROSTER.md` live in the suite checkout, not in
   this repository.
 - Source-of-truth inputs live outside this repository: every sibling package's
-  `docs/manuscript/` + `output/data/manuscript_variables.json`, resolved from
-  `--bond-root` (default `../..`, the suite root in the monorepo layout).
+  `manuscript/` + `output/data/manuscript_variables.json`, resolved from
+  `--bond-root` (default `..`, the suite root in the monorepo layout).

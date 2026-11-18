@@ -29,6 +29,8 @@ from collections import OrderedDict
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from .gate_manifest import read_gate_manifest
+
 __all__ = [
     "PackageInfo",
     "Reference",
@@ -102,7 +104,7 @@ def discover_packages(bond_root: Path) -> list[PackageInfo]:
     for film metadata); the 6 infrastructure packages are carried as data here.
     A package is included only if it has a ``manuscript/`` on disk.
     """
-    from bond_coordinator.registry import ROSTER  # type: ignore[import-not-found]  # lazy: suite layer 2
+    from bond_coordinator.registry import ROSTER  # type: ignore[import-untyped]  # lazy: suite layer 2
 
     infra = OrderedDict(
         [
@@ -694,7 +696,7 @@ def _brief_line(package_dir: Path, slug: str) -> str:
     if not (search / slug / "mission.py").is_file():
         return ""
     try:
-        from bond_api.discovery import load_provider  # type: ignore[import-not-found]
+        from bond_api.discovery import load_provider  # type: ignore[import-untyped]
 
         sys.path.insert(0, str(search))
         try:
@@ -797,20 +799,15 @@ def build_architecture_section(packages: list[PackageInfo], bond_root: Path) -> 
     for i, pkg in enumerate(packages, start=1):
         table.append(f"| {i} | `{pkg.slug}` — {pkg.title} | {pkg.codename} |")
     lines += table + [""]
-    gate = bond_root / "output" / "aggregate" / "gate_manifest.json"
-    if gate.is_file():
-        try:
-            import json
-
-            rows = json.loads(gate.read_text()).get("packages", [])
-            cov = {p["package"]: p["coverage"] for p in rows}
-        except (OSError, ValueError):
-            cov = {}
+    gate = read_gate_manifest(bond_root)
+    if gate is not None:
         lines += ["## Aggregate quality gate and coverage evidence", ""]
-        gate_rows = ["| Package | Coverage |", "| --- | --- |"]
+        gate_rows = ["| Package | Coverage | Gate outcome |", "| --- | --- | --- |"]
         for pkg in packages:
-            c = cov.get(pkg.slug)
-            gate_rows.append(f"| `{pkg.slug}` | {f'{c:.1f}%' if isinstance(c, (int, float)) else 'n/a'} |")
+            row = gate.get(pkg.slug)
+            coverage = f"{row.coverage:.1f}%" if row and row.coverage is not None else "n/a"
+            status = row.status if row else "No gate row"
+            gate_rows.append(f"| `{pkg.slug}` | {coverage} | {status} |")
         lines += gate_rows + [""]
     return "\n".join(lines)
 

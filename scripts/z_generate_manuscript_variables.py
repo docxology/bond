@@ -12,6 +12,7 @@ Usage (from this directory):
 
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -22,34 +23,31 @@ from bond_manuscript.manuscript_variables import generate_variables  # noqa: E40
 
 
 def main() -> int:
-    # Ensure suite deps are importable (path-deps from pyproject handle this in
-    # the venv; this guard also covers a bare/template-root invocation).
-    for _pkg in ("bond-api", "bond-utilities", "bond-coordinator"):
-        _p = REPO.parent / _pkg / "src"
-        if str(_p) not in sys.path:
-            sys.path.insert(0, str(_p))
+    parser = argparse.ArgumentParser(description="Hydrate the BOND compendium")
+    parser.add_argument("--bond-root", default=str(REPO.parent), help="PROJECT BOND workspace root")
+    args = parser.parse_args()
 
-    # The renderer may hydrate with this package's own .venv interpreter, which
-    # lacks ``infrastructure`` (the template's repo package). Locate the template
-    # root (the ancestor holding infrastructure/rendering/) and put it on path.
-    _ancestor = REPO
-    while _ancestor != _ancestor.parent and not (_ancestor / "infrastructure" / "rendering").is_dir():
-        _ancestor = _ancestor.parent
-    if (_ancestor / "infrastructure" / "rendering").is_dir() and str(_ancestor) not in sys.path:
-        sys.path.insert(0, str(_ancestor))
-
-    bond_root = REPO.parent
-    variables = generate_variables(bond_root=bond_root)
+    # Inside the template use its renderer. A standalone export carries the
+    # pinned copy of the same rendering infrastructure in _template_resources.
+    renderer_root = next(
+        (parent for parent in REPO.parents if (parent / "infrastructure" / "rendering").is_dir()),
+        REPO / "_template_resources",
+    )
+    sys.path.insert(0, str(renderer_root))
 
     try:
+        from infrastructure.core.project_paths import resolve_source_manuscript_dir
         from infrastructure.rendering.manuscript_injection import write_resolved_manuscript_tree
-    except ImportError:  # pragma: no cover - template infra guard
-        print("infrastructure not importable; tokens: " + str(variables), file=sys.stderr)
+    except ImportError as exc:  # pragma: no cover - renderer dependency guard
+        print(f"Cannot import manuscript renderer from {renderer_root}: {exc}", file=sys.stderr)
         return 2
 
-    root = REPO
-    write_resolved_manuscript_tree(root, variables)
-    print(f"[bond-manuscript] hydrated {len(variables)} tokens -> output/manuscript/")
+    if resolve_source_manuscript_dir(REPO) != REPO / "docs" / "manuscript":
+        print("Expected wrapper manuscript sources in docs/manuscript/", file=sys.stderr)
+        return 2
+    variables = generate_variables(bond_root=Path(args.bond_root).resolve())
+    output = write_resolved_manuscript_tree(REPO, variables)
+    print(f"[bond-manuscript] hydrated {len(variables)} tokens with {renderer_root} -> {output}")
     return 0
 
 

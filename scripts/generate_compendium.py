@@ -7,7 +7,7 @@ chapter, one imported chapter per package, closing, and a unified
 BibTeX bibliography merged from all 33 packages.
 
 Usage (from this directory):
-    uv run python scripts/generate_compendium.py [--bond-root ../..]
+    uv run python scripts/generate_compendium.py [--bond-root SUITE_ROOT]
 """
 
 from __future__ import annotations
@@ -19,14 +19,7 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]  # -> projects/working/bond/bond-manuscript
-sys_path_insert = __import__("sys")
-for _dir in (
-    REPO / "src",
-    REPO.parent / "bond-api" / "src",
-    REPO.parent / "bond-utilities" / "src",
-    REPO.parent / "bond-coordinator" / "src",
-):
-    sys_path_insert.path.insert(0, str(_dir))
+sys.path.insert(0, str(REPO / "src"))
 
 from bond_manuscript import (  # noqa: E402
     build_architecture_section,
@@ -56,17 +49,19 @@ def main() -> int:
     parser.add_argument("--bond-root", default=str(REPO.parent), help="PROJECT BOND workspace root")
     args = parser.parse_args()
     bond_root = Path(args.bond_root).resolve()
-    manuscript = REPO / "manuscript"
+    manuscript = REPO / "docs" / "manuscript"
 
     packages = discover_packages(bond_root)
-    _rm_owned(manuscript)
-
-    # 1) Unified bibliography first (chapters cite its keys).
+    architecture = build_architecture_section(packages, bond_root)
     bibtext, all_refs = build_references_bib(packages, bond_root)
+
+    manuscript.mkdir(parents=True, exist_ok=True)
+    _rm_owned(manuscript)
+    # 1) Unified bibliography first (chapters cite its keys).
     (manuscript / "references.bib").write_text(bibtext)
 
     # 2) Architecture + roster chapter.
-    (manuscript / "02_suite_architecture.md").write_text(build_architecture_section(packages, bond_root) + "\n")
+    (manuscript / "02_suite_architecture.md").write_text(architecture + "\n")
 
     # 3) One imported chapter per package (films 03_xx, infra 04_xx). Each
     #    chapter carries the package's FULL manuscript (abstract + every

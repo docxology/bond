@@ -8,6 +8,7 @@ deterministic regeneration, and the thin CLI.
 from __future__ import annotations
 
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -22,8 +23,9 @@ from bond_manuscript import (
 )
 from bond_manuscript.manuscript_variables import generate_variables
 
-BOND = Path(__file__).resolve().parents[2]
-MANUSCRIPT = BOND / "bond-manuscript" / "manuscript"
+WRAPPER = Path(__file__).resolve().parents[1]
+BOND = WRAPPER.parent
+MANUSCRIPT = WRAPPER / "docs" / "manuscript"
 N_FILMS = 27
 N_INFRA = 6
 
@@ -124,30 +126,49 @@ def test_degenerate_no_duplicate_abstract_content() -> None:
     assert g != d
 
 
-@pytest.mark.skipif(not (BOND / "output/aggregate/gate_manifest.json").is_file(), reason="gate manifest not present")
-def test_script_smoke_regen() -> None:
+def _regenerate(project: Path) -> None:
     result = subprocess.run(
-        [sys.executable, str(BOND / "bond-manuscript" / "scripts" / "generate_compendium.py")],
+        [sys.executable, str(project / "scripts" / "generate_compendium.py"), "--bond-root", str(BOND)],
         capture_output=True,
         text=True,
-        cwd=str(BOND / "bond-manuscript"),
+        cwd=project,
+        stdin=subprocess.DEVNULL,
         check=False,
     )
-    assert result.returncode == 0, result.stderr
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def _scratch_wrapper(tmp_path: Path) -> Path:
+    (tmp_path / "scripts").mkdir()
+    shutil.copy2(WRAPPER / "scripts" / "generate_compendium.py", tmp_path / "scripts")
+    return tmp_path
 
 
 @pytest.mark.skipif(not (BOND / "output/aggregate/gate_manifest.json").is_file(), reason="gate manifest not present")
-def test_regeneration_is_deterministic() -> None:
-    before = (MANUSCRIPT / "03_03_goldfinger.md").read_bytes()
-    bib_before = (MANUSCRIPT / "references.bib").read_bytes()
-    subprocess.run(
-        [sys.executable, str(BOND / "bond-manuscript" / "scripts" / "generate_compendium.py")],
-        capture_output=True,
-        cwd=str(BOND / "bond-manuscript"),
-        check=False,
-    )
-    assert (MANUSCRIPT / "03_03_goldfinger.md").read_bytes() == before
-    assert (MANUSCRIPT / "references.bib").read_bytes() == bib_before
+def test_script_smoke_regen(tmp_path: Path) -> None:
+    project = _scratch_wrapper(tmp_path)
+    _regenerate(project)
+    manuscript = project / "docs" / "manuscript"
+    assert len(list(manuscript.glob("03_*.md"))) == N_FILMS
+    assert len(list(manuscript.glob("04_*.md"))) == N_INFRA
+    assert _entry_count((manuscript / "references.bib").read_text()) >= 100
+
+
+@pytest.mark.skipif(not (BOND / "output/aggregate/gate_manifest.json").is_file(), reason="gate manifest not present")
+def test_regeneration_is_deterministic(tmp_path: Path) -> None:
+    project = _scratch_wrapper(tmp_path)
+    manuscript = project / "docs" / "manuscript"
+    figures = project / "output" / "figures"
+
+    _regenerate(project)
+    before = {file: file.read_bytes() for directory in (manuscript, figures) for file in directory.iterdir()}
+    assert manuscript / "03_03_goldfinger.md" in before
+    assert manuscript / "references.bib" in before
+    assert any(file.parent == figures for file in before)
+
+    _regenerate(project)
+    after = {file: file.read_bytes() for directory in (manuscript, figures) for file in directory.iterdir()}
+    assert after == before
 
 
 def test_parse_references_plain_and_bibtex() -> None:

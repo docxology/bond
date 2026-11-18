@@ -7,10 +7,10 @@ abstract/introduction/closing can reference them without drift.
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 from .compendium import discover_packages
+from .gate_manifest import read_gate_manifest
 
 __all__ = ["generate_variables"]
 
@@ -26,21 +26,14 @@ def generate_variables(*, bond_root: Path | None = None) -> dict[str, str]:
     packages = discover_packages(bond_root)
     films = [p for p in packages if p.kind == "film"]
     infra = [p for p in packages if p.kind == "infra"]
-    gate = bond_root / "output" / "aggregate" / "gate_manifest.json"
-    gate_ok = 0
-    try:
-        rows = json.loads(gate.read_text()).get("packages", [])
-        package_slugs = {p.slug for p in packages}
-        gate_ok = sum(
-            1 for row in rows if row.get("package") in package_slugs and isinstance(row.get("coverage"), (int, float))
-        )
-    except (OSError, ValueError):
-        rows = []
+    gate = read_gate_manifest(bond_root) or {}
+    package_slugs = {p.slug for p in packages}
+    gate_measured = sum(slug in package_slugs and row.coverage is not None for slug, row in gate.items())
     return {
         "SUITE_TITLE": "PROJECT BOND — The Special-Agent Operations Compendium",
         "SUITE_TITLE_SHORT": "PROJECT BOND Compendium",
         "N_FILMS": str(len(films)),
         "N_INFRA": str(len(infra)),
         "N_PACKAGES": str(len(packages)),
-        "N_GATE_MEASURED": str(gate_ok),
+        "N_GATE_MEASURED": str(gate_measured),
     }
