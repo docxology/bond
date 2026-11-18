@@ -139,7 +139,6 @@ def _regenerate(project: Path) -> None:
 
 
 def _scratch_wrapper(tmp_path: Path) -> Path:
-    (tmp_path / "docs" / "manuscript").mkdir(parents=True)
     (tmp_path / "scripts").mkdir()
     shutil.copy2(WRAPPER / "scripts" / "generate_compendium.py", tmp_path / "scripts")
     return tmp_path

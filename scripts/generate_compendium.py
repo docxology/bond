@@ -55,6 +55,7 @@ def main() -> int:
     architecture = build_architecture_section(packages, bond_root)
     bibtext, all_refs = build_references_bib(packages, bond_root)
 
+    manuscript.mkdir(parents=True, exist_ok=True)
     _rm_owned(manuscript)
     # 1) Unified bibliography first (chapters cite its keys).
     (manuscript / "references.bib").write_text(bibtext)
