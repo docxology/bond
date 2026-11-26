@@ -1,0 +1,30 @@
+# Maintain the bond-manuscript package
+
+[Project metadata](../pyproject.toml) declares the package identity and Python
+compatibility (`>=3.11`). [The lockfile](../uv.lock) records resolved
+dependencies. Compare these two files when checking package metadata.
+
+## Dependency provenance
+
+- `bond-coordinator` resolves to a sibling checkout at `../bond-coordinator`. The
+  lockfile records the relative path. A different checkout at that
+  path can supply different source bytes.
+- `bond-utilities` resolves to a sibling checkout at `../bond-utilities`. The
+  lockfile records the relative path. A different checkout at that
+  path can supply different source bytes.
+
+## Citation and release records
+
+The repository records package metadata in:
+
+- [Citation metadata](../CITATION.cff)
+- [CodeMeta](../codemeta.json)
+- [Zenodo metadata](../.zenodo.json)
+
+Check the
+version fields that are present against the project metadata. A repository
+metadata file does not establish that a release has been deposited.
+
+For a documentation review, run `git diff --check` and verify the relative
+links added by the change against the tracked checkout. These checks
+provide evidence about the documentation and package records.

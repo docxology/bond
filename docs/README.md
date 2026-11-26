@@ -1,5 +1,7 @@
 # docs/ — project documentation
 
+[Package maintenance](package-maintenance.md) covers dependency and release records.
+
 Operational documentation for `bond-manuscript`, the generator that assembles the
 PROJECT BOND compendium from the suite's 33 package manuscripts.
 

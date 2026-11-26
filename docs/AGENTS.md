@@ -1,5 +1,7 @@
 # docs/ — index
 
+[Package maintenance](package-maintenance.md) identifies the dependency and citation records.
+
 Documentation for `bond-manuscript`, the PROJECT BOND compendium generator.
 Start with [`agent_instructions.md`](agent_instructions.md); everything else is
 lookup.
