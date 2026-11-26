@@ -1,5 +1,7 @@
 # bond-manuscript — the PROJECT BOND compendium
 
+See [package maintenance](docs/package-maintenance.md) for dependency and citation records.
+
 The **top-level wrapper manuscript** for the 33-package BOND suite. This is the
 manuscript the template renders: one chapter imported from each package's own
 manuscript, framed by an introduction and a closing, with a **unified
