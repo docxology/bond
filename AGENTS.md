@@ -1,5 +1,8 @@
 # AGENTS.md — bond-manuscript (THE COMPENDIUM)
 
+The [package maintenance guide](docs/package-maintenance.md) records the
+distribution identity, Python selection, dependency provenance, and citation metadata.
+
 The PROJECT BOND **wrapper manuscript**. `bond-manuscript` is the project the
 template renders: a single top-level manuscript that imports one chapter per
 package and merges every package's references into one bibliography.
