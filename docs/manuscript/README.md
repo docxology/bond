@@ -49,5 +49,5 @@ cross-reference constraint.
 ## See also
 
 - [`../README.md`](../README.md) — what the compendium is
-- [`../docs/rendering_pipeline.md`](../docs/rendering_pipeline.md) — the three build steps
+- [Package maintenance](../package-maintenance.md) — dependency provenance and citation records
 - repository manuscript semantics (referenced guide `docs/guides/manuscript-semantics.md` not present in repo — needs owner input)

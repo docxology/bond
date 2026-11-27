@@ -8,7 +8,8 @@ type: "manuscript_guide"
 38 section files plus support files. Six of the sections are hand-authored; the
 other 32 are build output.
 
-Project-wide rules are in [`../docs/agent_instructions.md`](../docs/agent_instructions.md).
+For the package version, dependency sources, and release records, see
+[package maintenance](../package-maintenance.md).
 This file covers the manuscript directory specifically.
 
 ## What is hand-authored, and what is not
@@ -107,5 +108,5 @@ its chapter lost the mission brief line. Fix it before rendering.
 
 - [`README.md`](README.md) — orientation
 - [`SYNTAX.md`](SYNTAX.md) — citation, token, and cross-reference syntax
-- [`../docs/rendering_pipeline.md`](../docs/rendering_pipeline.md) — the three build steps
-- [`../src/AGENTS.md`](../src/AGENTS.md) — the builders behind the generated sections
+- [Citation metadata](../../CITATION.cff) — authorship and citation record
+- [Project metadata](../../pyproject.toml) — package identity and Python compatibility
