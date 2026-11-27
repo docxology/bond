@@ -1,8 +1,9 @@
 # Maintain the bond-manuscript package
 
-[Project metadata](../pyproject.toml) declares the package identity and Python
-compatibility (`>=3.11`). [The lockfile](../uv.lock) records resolved
-dependencies. Compare these two files when checking package metadata.
+The distribution at this revision is `bond-manuscript` 1.0.0, with
+Python compatibility `>=3.11`. This checkout selects Python 3.15 in [`.python-version`](../.python-version).
+[Project metadata](../pyproject.toml) declares the package and compatibility.
+[The lockfile](../uv.lock) records resolved dependency versions and sources.
 
 ## Dependency provenance
 
@@ -21,9 +22,10 @@ The repository records package metadata in:
 - [CodeMeta](../codemeta.json)
 - [Zenodo metadata](../.zenodo.json)
 
-Check the
-version fields that are present against the project metadata. A repository
-metadata file does not establish that a release has been deposited.
+Version 1.0.0 has a [GitHub release](https://github.com/docxology/bond/releases/tag/v1.0.0)
+and a [versioned Zenodo record](https://doi.org/10.5281/zenodo.21843802).
+The [concept DOI](https://doi.org/10.5281/zenodo.21843592) identifies the
+series. Use the versioned record when comparing the deposited files.
 
 For a documentation review, run `git diff --check` and verify the relative
 links added by the change against the tracked checkout. These checks
