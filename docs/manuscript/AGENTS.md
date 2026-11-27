@@ -86,7 +86,7 @@ No section embeds an image, and `output/` has no `figures/` directory. The
 architecture chapter is tables only. If you add a diagram, note that a
 ```mermaid``` block in a rendered section makes the combined PDF depend on `mmdc`
 and a pinned `chrome-headless-shell` — see
-[`../docs/troubleshooting.md`](../docs/troubleshooting.md).
+[`../troubleshooting.md`](../troubleshooting.md).
 
 ## Workflow
 
